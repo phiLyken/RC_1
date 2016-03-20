@@ -104,7 +104,8 @@ public class Tile : MonoBehaviour, IWayPoint
 
     void OnHover()
     {
-        TileSelecter.SetPositionMarker(this);
+        
+        TileSelecter.HoverTile(this);
     }
 
     void OnHoverEnd()

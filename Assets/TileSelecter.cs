@@ -5,6 +5,9 @@ using System.Collections;
 public delegate void TileEventHandler(Tile t);
 public class TileSelecter : MonoBehaviour {
 
+    public static TileEventHandler OnTileSelect;
+    public static TileEventHandler OnTileHover;
+
     static TileSelecter _instance;
         
     public static Tile SelectedTile;
@@ -27,7 +30,12 @@ public class TileSelecter : MonoBehaviour {
 
         if (OnTileSelect != null) OnTileSelect(t);
     }
-    public static TileEventHandler OnTileSelect;
+
+    public static void HoverTile(Tile t)
+    {
+        SetPositionMarker(t);
+        if (OnTileHover != null) OnTileHover(t);
+    }
 
     
 }

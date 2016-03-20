@@ -6,28 +6,38 @@ using System.Collections.Generic;
 public delegate void UnitEventHandler(Unit u);
 public class Unit : MonoBehaviour {
 
+    int AP_Used = 99;
+    int MaxAP = 3;
+
+    public UnitActionBase[] Actions;
+    UnitActionBase CurrentAction;
+
+    [HideInInspector]
+    public UnitStats Stats;
+    
     public static List<Unit> AllUnits = new List<Unit>();
     public static Unit SelectedUnit;
     public static UnitEventHandler OnUnitKilled;
 
     public GameObject SelectedEffect;
-
-    public  int MovementDistance;
-    bool HasMoved;
     
-    public float Speed;
     public int OwnerID;
 
-    Tile currentTile;
-
-   
+    [HideInInspector]
+    public Tile currentTile;
+    
     WaypointMover waypointMover;
-
+    public bool HasAP(int ap)
+    {
+        return (MaxAP - AP_Used) >= ap;
+    }
     void Awake()
     {
+        Stats = GetComponent<UnitStats>();
+       
         AllUnits.Add(this);
         waypointMover = GetComponent<WaypointMover>();
-      //  waypointMover.OnWayPointreached +=
+     
         SelectibleObjectBase b = GetComponent<SelectibleObjectBase>();
         if (b == null)
             b = gameObject.AddComponent<SelectibleObjectBase>();
@@ -35,12 +45,63 @@ public class Unit : MonoBehaviour {
         b.OnSelect += SelectUnit;
         if (SelectedEffect != null) SelectedEffect.SetActive(false);
 
+        Actions = GetComponentsInChildren<UnitActionBase>();
+        foreach (UnitActionBase action in Actions) action.SetOwner(this);
+
     }
     void WaypointReached(IWayPoint p)
     {
 
     }
 
+    void Update()
+    {
+        if (Input.GetKeyUp(KeyCode.Alpha1))
+        {
+            SelectAbility(0);
+        }
+        if (Input.GetKeyUp(KeyCode.Alpha2))
+        {
+            SelectAbility(1);
+        }
+        if (Input.GetKeyUp(KeyCode.Alpha3))
+        {
+            SelectAbility(2);
+        }
+        if (Input.GetKeyUp(KeyCode.Alpha4))
+        {
+            SelectAbility(3);
+        }
+    }
+    void SelectAbility(int index)
+    {
+        if (SelectedUnit != this) return;
+        UnsetCurrentAction();
+        if(Actions.Length <= index)
+        {
+            Debug.LogWarning("No ability #" + index);
+            return;
+        }
+
+        CurrentAction = Actions[index];
+        CurrentAction.OnExecuteAction += OnActionUsed;
+        CurrentAction.SelectAction();
+
+    }
+
+    private void UnsetCurrentAction()
+    {
+        if (CurrentAction == null) return;
+        CurrentAction.UnSelectAction();
+        CurrentAction.OnExecuteAction -= OnActionUsed;
+    }
+
+    void OnActionUsed(UnitActionBase action)
+    {
+
+        AP_Used += action.AP_Cost;
+        UnsetCurrentAction();
+    }
     void Start()
     {
         TurnSystem.Instance.OnTurnStart += OnStartTurn;
@@ -49,10 +110,18 @@ public class Unit : MonoBehaviour {
     }
     void SetTile(Tile t)
     {
-        if (currentTile != null) currentTile.OnDeactivate -= OnTileCurrentDeactivate;
+        if (currentTile != null)
+        {
+            currentTile.OnDeactivate -= OnTileCurrentDeactivate;
+            if(currentTile.Child == gameObject)
+            {
+                currentTile.Child = null;
+            }
+        }
         currentTile = t;
         currentTile.OnDeactivate += OnTileCurrentDeactivate;
     }
+   
     void OnTileCurrentDeactivate(Tile t)
     {
         Debug.Log("tile deactivate");
@@ -69,7 +138,7 @@ public class Unit : MonoBehaviour {
   
     void OnStartTurn(int turn)
     {
-        HasMoved = false;
+        AP_Used = 0;
     }
 
     void UnSelectCurrent()
@@ -82,55 +151,35 @@ public class Unit : MonoBehaviour {
     }
     void SelectUnit()
     {
-        bool selectedWasThis = SelectedUnit != null && SelectedUnit == this;
-
+   
         UnSelectCurrent();
-
-        if (selectedWasThis || HasEndedTurn()) return;
-
+       
         SelectedUnit = this;
         SelectedEffect.SetActive(true);
-        TileCollectionHighlight.SetHighlight(GetWalkableTiles(), "selected");
-        TileSelecter.OnTileSelect += SetMovementTile;
+       
     }        
 
-    public bool PathWalkable(List<Tile> p)
-    {
-        return p != null && p.Count - 1 <= MovementDistance && p.Count > 1;
+    public void SetMovementTile(Tile target, List<Tile> path)
+    {       
+        SetTile(target);
+        target.SetChild(this.gameObject);
+        waypointMover.MoveOnPath(path, 3);
     }
 
-    void SetMovementTile(Tile t)
-    {
-        List<Tile> path = TileManager.FindPath(TileManager.Instance, currentTile, t);
-        if (PathWalkable(path))
-        {
-            SetTile(t);
-            t.SetChild(this.gameObject);
-            waypointMover.MoveOnPath(path, Speed);
-            HasMoved = true;
-            UnSelectCurrent();
-        }
-    }
-     List<Tile> GetWalkableTiles()
-    {
-        return   TileManager.Instance.GetReachableTiles( currentTile, TileManager.Instance.GetTilesInRange(currentTile, MovementDistance), this);
-    }
     void UnselectUnit()
     {
+        UnsetCurrentAction();
         SelectedEffect.SetActive(false);
-        TileSelecter.OnTileSelect -= SetMovementTile;
-        TileCollectionHighlight.DisableHighlight();
+ 
     }
     public bool HasEndedTurn()
     {
-        return HasMoved && !waypointMover.Moving;
+       return AP_Used >= 2;
     }
 
     public void OnUnitSelected()
     {
-        if (TurnSystem.Instance.PlayerHasTurn(GetOwner())) {
-                TileManager.Instance.GetTilesInRange(currentTile, MovementDistance);
-        }
+
     }
 
     Player GetOwner()
@@ -143,6 +192,11 @@ public class Unit : MonoBehaviour {
         {
 
         }
+    }
+
+    public bool PathWalkable(List<Tile> p)
+    {
+        return p != null && p.Count - 1 <= Stats.GetStat(UnitStats.Stats.movement_range).current && p.Count > 1;
     }
 
     public void KillUnit()
