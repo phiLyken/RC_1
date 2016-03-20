@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-
+using System;
 
 public delegate void UnitEventHandler(Unit u);
-public class Unit : MonoBehaviour {
+public class Unit : MonoBehaviour, ITurn {
 
     int AP_Used = 99;
-    int MaxAP = 3;
+    int MaxAP = 1;
 
     public UnitActionBase[] Actions;
     UnitActionBase CurrentAction;
@@ -37,7 +37,7 @@ public class Unit : MonoBehaviour {
        
         AllUnits.Add(this);
         waypointMover = GetComponent<WaypointMover>();
-     
+        TurnSystem.Register(this);
         SelectibleObjectBase b = GetComponent<SelectibleObjectBase>();
         if (b == null)
             b = gameObject.AddComponent<SelectibleObjectBase>();
@@ -48,6 +48,7 @@ public class Unit : MonoBehaviour {
         Actions = GetComponentsInChildren<UnitActionBase>();
         foreach (UnitActionBase action in Actions) action.SetOwner(this);
 
+        RegisterTurn();
     }
     void WaypointReached(IWayPoint p)
     {
@@ -103,8 +104,7 @@ public class Unit : MonoBehaviour {
         UnsetCurrentAction();
     }
     void Start()
-    {
-        TurnSystem.Instance.OnTurnStart += OnStartTurn;
+    {       
         SetTile(TileManager.Instance.GetClosestTile(transform.position));
         transform.position = currentTile.GetPosition();
     }
@@ -131,15 +131,13 @@ public class Unit : MonoBehaviour {
     {
         SetOwner(player.PlayerID);
     }
+
     void SetOwner(int playerID)
     {
         OwnerID = playerID;
     }
   
-    void OnStartTurn(int turn)
-    {
-        AP_Used = 0;
-    }
+
 
     void UnSelectCurrent()
     {
@@ -172,27 +170,12 @@ public class Unit : MonoBehaviour {
         SelectedEffect.SetActive(false);
  
     }
-    public bool HasEndedTurn()
-    {
-       return AP_Used >= 2;
-    }
-
-    public void OnUnitSelected()
-    {
-
-    }
 
     Player GetOwner()
     {
-        return TurnSystem.Instance.GetPlayer(OwnerID)   ;
+        return PlayerManager.GetPlayer(OwnerID)   ;
     }
-    public void OnUnitDeselected()
-    {
-        if(TurnSystem.Instance.PlayerHasTurn(GetOwner()))
-        {
 
-        }
-    }
 
     public bool PathWalkable(List<Tile> p)
     {
@@ -203,9 +186,63 @@ public class Unit : MonoBehaviour {
     {
         if (OnUnitKilled != null) OnUnitKilled(this);
         GetOwner().RemoveUnit(this);
+        TurnSystem.Unregister(this);
         AllUnits.Remove(this);
 
         Destroy(this.gameObject);
         
+    }
+
+    int TurnTime;
+
+    public int GetTurnTimeCost()
+    {
+        return 2;
+    }
+
+    public int GetNextTurnTime()
+    {
+        return TurnTime ;
+    }
+   
+    public void SetNextTurnTime(int turns)
+    {
+        Debug.Log("Turn - setting next turn time " + turns);
+        TurnTime = turns;
+    }
+
+    public void StartTurn()
+    {
+        Debug.Log("Turn in unit start " + GetID());
+        UnSelectCurrent();
+        AP_Used = 0;
+        SelectedUnit = this;
+        SelectedEffect.SetActive(true);
+      
+    }
+
+    public void GlobalTurn()
+    {
+        TurnTime--;
+    }
+
+    public bool HasEndedTurn()
+    {
+        return AP_Used >= MaxAP;
+    }
+
+    public void RegisterTurn()
+    {
+        TurnSystem.Register(this);
+    }
+
+    public void UnRegisterTurn()
+    {
+        TurnSystem.Unregister(this);
+    }
+
+    public string GetID()
+    {
+        return gameObject.name;
     }
 }
