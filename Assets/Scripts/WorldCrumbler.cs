@@ -12,7 +12,7 @@ public class WorldCrumbler : MonoBehaviour {
     public float CrumbleChance;
     public static  WorldCrumbler Instance;
     public CrumbleEvent OnCrumble;
-    int currentTurn;
+   
     float currentCrumbleLine;
     int currentCrumbleRow
     {
@@ -27,8 +27,7 @@ public class WorldCrumbler : MonoBehaviour {
     {
         if(TurnSystem.Instance != null)
         {
-            TurnSystem.Instance.OnTurnEnd += Turn;
-            currentTurn = TurnSystem.Instance.GetCurrentTurn();
+            TurnSystem.Instance.OnTurnEnd += Turn;           
         }
         
     }

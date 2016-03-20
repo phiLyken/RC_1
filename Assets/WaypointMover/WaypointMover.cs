@@ -61,7 +61,7 @@ public class WaypointMover : MonoBehaviour {
 	IEnumerator PatrolWaypoints(List<WaypointInfo> CurrentMoveWaypoints)
     {
 
-        Debug.Log(CurrentMoveWaypoints.Count);
+       // Debug.Log(CurrentMoveWaypoints.Count);
 		int currentIndex = 0;
         Moving = true;
         while (currentIndex < CurrentMoveWaypoints.Count) {
@@ -86,10 +86,10 @@ public class WaypointMover : MonoBehaviour {
 		float startTime = Time.time - t;
 		Vector3 startPos = transform.position;
 		Vector3 targetPos = waypoint.Waypoint.GetPosition();
-		Vector3 dLastPosition = transform.position;
+		
       
         while (t < 1) {			
-			dLastPosition = transform.position;			
+			
 			t = (Time.time - startTime) / waypoint.TimeToWaypoint;
 			transform.position = Vector3.Lerp(startPos, targetPos,   waypoint.MovementCurve.Evaluate(t));			
 			yield return new WaitForFixedUpdate();			

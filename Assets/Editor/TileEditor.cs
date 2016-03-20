@@ -9,11 +9,11 @@ public class TileEditor : Editor {
 
    
     int selected = 0;
-    Tile m_tile;
+  //  Tile m_tile;
     public override void OnInspectorGUI()
     {
         base.OnInspectorGUI();
-        m_tile = (target as Tile);
+      //  m_tile = (target as Tile);
         if (GUILayout.Button("Toggle Blocked"))
         {
             foreach (Tile t in targets)

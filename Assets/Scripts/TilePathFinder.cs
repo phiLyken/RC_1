@@ -163,14 +163,10 @@ public class TilePathFinder
 
 			return Path;	
 		}
+			
 		
-		
-		//Debug.Log("The following path was found:");
 		while(n != null)
 		{
-			
-			string coord = string.Format("{0}, {1}", n.x, n.y);
-			//Debug.Log(coord);
 			Path.Add( manager.Tiles[n.x, n.y]);
 			n = n.parent;	
 		}

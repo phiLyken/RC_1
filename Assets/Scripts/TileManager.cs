@@ -115,14 +115,11 @@ public class TileManager : MonoBehaviour {
 
    
     public List<Tile> GetReachableTiles(Tile from, List<Tile> tiles, Unit unit)
-    {
-        int range = unit.MovementDistance;
-        List<Tile> reacheable = new List<Tile>();
-        Debug.Log(tiles.Count);
+    {      
+        List<Tile> reacheable = new List<Tile>();      
         foreach (Tile t in tiles)
         {
-            List<Tile> path = FindPath(from, t);
-            Debug.Log(path.Count);
+            List<Tile> path = FindPath(from, t);           
             if (unit.PathWalkable(path)) reacheable.Add(t);
         }
 
@@ -249,7 +246,7 @@ public class TileManager : MonoBehaviour {
         GridHeight += z;
         Tiles = new Tile[GridWidth, GridHeight];
 
-        Debug.Log("New Grid Size: " + GridWidth + "|" + GridHeight);
+        Debug.Log("Appending Grid: New Grid Size: " + GridWidth + "|" + GridHeight);
     }
 
 

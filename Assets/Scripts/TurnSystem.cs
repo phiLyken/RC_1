@@ -13,9 +13,8 @@ public class TurnSystem : MonoBehaviour {
     public TurnEvent OnTurnEnd;
     public TurnEvent OnTurnStart;
 
-    public 
-    int currentTurn;
-    bool TurnEnded;
+    public int currentTurn;
+
 
     public bool PlayerHasTurn(Player p)
     {
@@ -44,7 +43,7 @@ public class TurnSystem : MonoBehaviour {
     {
         while (true)
         {
-            TurnEnded = false;
+           
             if (OnTurnStart != null)
             {
                 OnTurnStart(currentTurn);
