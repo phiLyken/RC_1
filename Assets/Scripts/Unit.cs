@@ -27,13 +27,17 @@ public class Unit : MonoBehaviour {
     {
         AllUnits.Add(this);
         waypointMover = GetComponent<WaypointMover>();
-
+      //  waypointMover.OnWayPointreached +=
         SelectibleObjectBase b = GetComponent<SelectibleObjectBase>();
         if (b == null)
             b = gameObject.AddComponent<SelectibleObjectBase>();
        
         b.OnSelect += SelectUnit;
         if (SelectedEffect != null) SelectedEffect.SetActive(false);
+
+    }
+    void WaypointReached(IWayPoint p)
+    {
 
     }
 

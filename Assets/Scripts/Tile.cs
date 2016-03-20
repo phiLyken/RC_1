@@ -36,6 +36,7 @@ public class Tile : MonoBehaviour, IWayPoint
     public  GameObject Child;
     public List<Tile> AdjacentTiles;
 
+    public UnitEventHandler OnUnitTrespassing;
     public TileEventHandler OnDeactivate;
      
     public Vector3 GetPosition()
@@ -77,7 +78,10 @@ public class Tile : MonoBehaviour, IWayPoint
         return turnsInCrumbleZone - (CrumbleDelay + RandomOffset);
     }
 
+    void UnitPassing(Unit u)
+    {
 
+    }
     void OnCrumbleTurn(int crumble_row)
     {
         if (crumble_row <= TilePos.z) return;
