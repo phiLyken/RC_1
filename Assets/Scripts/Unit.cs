@@ -55,6 +55,7 @@ public class Unit : MonoBehaviour {
     }
     void OnTileCurrentDeactivate(Tile t)
     {
+        Debug.Log("tile deactivate");
         if (t == currentTile) KillUnit();
     }
     void SetOwner(Player player)
@@ -103,7 +104,7 @@ public class Unit : MonoBehaviour {
         List<Tile> path = TileManager.FindPath(TileManager.Instance, currentTile, t);
         if (PathWalkable(path))
         {
-            currentTile = t;
+            SetTile(t);
             t.SetChild(this.gameObject);
             waypointMover.MoveOnPath(path, Speed);
             HasMoved = true;
