@@ -203,8 +203,10 @@ public class TilePathFinder
             }
 
             //if tile is blocked we can not visit - unless it is the start tile
-			if(!manager.Tiles[x,y].IsFree && x != m_startx && y != m_starty)
-				return false;
+            if (!(x == m_startx && y == m_starty)){
+                if (!manager.Tiles[x, y].IsFree)
+                    return false;
+            }
 
 			//set tile to visted
 			m_visit[x,y] = true;
