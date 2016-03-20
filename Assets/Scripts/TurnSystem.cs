@@ -58,7 +58,7 @@ public class TurnSystem : MonoBehaviour {
 
 
             currentTurn++;
-            Debug.Log("turn ended");
+       //     Debug.Log("turn ended");
             if (OnTurnEnd != null)
             {
                 OnTurnEnd(currentTurn);
@@ -70,7 +70,7 @@ public class TurnSystem : MonoBehaviour {
 
     public void NextTurn()
     {
-        Debug.Log("Advance Turn");
+        //Debug.Log("Advance Turn");
         if (CurrentPlayer != null) CurrentPlayer.EndTurn();
     }
 }

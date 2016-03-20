@@ -200,7 +200,7 @@ public class Tile : MonoBehaviour, IWayPoint
             Gizmos.DrawCube(transform.position, new Vector3(transform.localScale.x, 0.1f, transform.localScale.z));
         }
 
-        //Debug.DrawRay(transform.position, Vector3.up * 0.3f, IsFree ? Color.green : Color.red);
+       Debug.DrawRay(transform.position, Vector3.up * 0.3f, IsFree ? Color.green : Color.red);
 
     }
 
