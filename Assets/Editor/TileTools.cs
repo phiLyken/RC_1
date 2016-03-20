@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 class TileTools : EditorWindow
 {
-    
+    List<Tile> CurrentTileSelection;
     TileManager Grid;
     PathFindingTest Pathing;
     TileManager main;
@@ -157,6 +157,9 @@ class TileTools : EditorWindow
 
             if (GUILayout.Button("Select Row"))
             {
+
+                Debug.Log(Grid.GetRow(selectedTile));
+
                 CurrentTileSelection.AddRange(Grid.GetRow(selectedTile));
                 SelectCurrentTilesInEditor();
                 SetVisualStateOnSelection("selected");
@@ -179,7 +182,7 @@ class TileTools : EditorWindow
             EditorGUILayout.EndHorizontal();
         }
     }
-    List<Tile> CurrentTileSelection;
+
 
     void OnSelectionChange()
     {

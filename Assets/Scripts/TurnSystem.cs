@@ -2,11 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine.UI;
 
 public delegate void TurnEvent(int turnId);
 
 public class TurnSystem : MonoBehaviour {
-
+    public Text TURNTF;
     public static TurnSystem Instance;
     bool forceNext;
 
@@ -68,13 +69,23 @@ public class TurnSystem : MonoBehaviour {
        
     }
 
+    
     void SortListByTime()
     {
        Turnables = Turnables.OrderBy(o => o.GetNextTurnTime()).ToList();
-        foreach (string str in GetTurnList()) Debug.Log(str + "\n");
+       UpdateUnitListUI();
     }
 
+    void UpdateUnitListUI()
+    {
+        string s = "";
+        foreach (string str in GetTurnList())
+        {
+           s+= str + "\n";
+        }
+        TURNTF.text = s;
 
+    }
     public static bool Register(ITurn new_turnable)
     {
         if (Instance.Turnables == null)
