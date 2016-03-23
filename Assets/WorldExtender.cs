@@ -6,7 +6,9 @@ public class WorldExtender : MonoBehaviour {
     /// Tiles left in the grid under consideration of the crumble-row when a new region is spawned
     /// </summary>
     public int MinTiles;
-
+    static  public int currentPhaseID;
+    public int TilesUntilCamp;
+    
     void Start()
     {
         if( WorldCrumbler.Instance != null)
@@ -25,7 +27,17 @@ public class WorldExtender : MonoBehaviour {
     {
         if(ShouldSpawnRegion(crumble_row))
         {
-            TileManager.Instance.AppendGrid(RegionLoader.GetRegion());
+            TileManager region = null;
+            if(TilesUntilCamp <= TileManager.Instance.GridHeight)
+            {
+                region = RegionLoader.GetCamp();
+                TilesUntilCamp += Random.Range(40, 80);
+            } else
+            {
+                region = RegionLoader.GetRegion();
+            }
+            currentPhaseID++;
+            TileManager.Instance.AppendGrid(region);
         }
     }
 
@@ -33,4 +45,6 @@ public class WorldExtender : MonoBehaviour {
     {
         return (TileManager.Instance.GridHeight - crumble_row) < MinTiles;
     }
+
+   
 }

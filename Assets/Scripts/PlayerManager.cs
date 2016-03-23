@@ -11,6 +11,7 @@ public class PlayerManager : MonoBehaviour {
     void Awake()
     {
         Players = GetComponents<Player>();
+        Instance = this;
     }
 
     public static Player GetPlayer(int index)

@@ -20,11 +20,12 @@ public struct TilePos
 [RequireComponent(typeof(BoxCollider), typeof(SelectibleObjectBase))]
 public class Tile : MonoBehaviour, IWayPoint
 {
-
+    public int zoneID;
     public int CrumbleDelay;
-
+   
     public int MinLifeTime;
 
+    bool isCamp;
     int RandomOffset;
     bool isAccessible = true;
     TileVisualizer DisplayState;
@@ -101,7 +102,11 @@ public class Tile : MonoBehaviour, IWayPoint
         }
 
     }
-
+    public void ToggleCamp()
+    {
+        isCamp = !isCamp;
+        SetVisualState("normal");
+    }
     void OnHover()
     {
         
@@ -182,6 +187,7 @@ public class Tile : MonoBehaviour, IWayPoint
         // Debug.Log("set visual");
         if (DisplayState == null) DisplayState = gameObject.GetComponent<TileVisualizer>();
         if (DisplayState == null) DisplayState = gameObject.AddComponent<TileVisualizer>();
+        if (id == "normal" && isCamp) id = "camp";
         DisplayState.SetState(id);
     }
 

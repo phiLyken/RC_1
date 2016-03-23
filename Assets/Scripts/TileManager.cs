@@ -5,10 +5,7 @@ using System.Collections.Generic;
 
 
 public class TileManager : MonoBehaviour {
-
-
     
-
     public static float HeighSteps = 0.5f;
     public Tile[,] Tiles;
 
@@ -196,11 +193,15 @@ public class TileManager : MonoBehaviour {
 
         AdjustGrid(newTiles.GetLength(0), newTiles.GetLength(1));
         OffsetTilePositions(newTiles, offset);
+        SetTilePhaseID(newTiles, WorldExtender.currentPhaseID);
         SetTilesPos(newTiles);       
         SetTiles(FetchTiles());
 
     }
-
+    void SetTilePhaseID(Tile[,] tiles, int id)
+    {
+        foreach (Tile t in tiles) t.zoneID = id;
+    }
     void OffsetTilePositions(Tile[,] tiles, TilePos offset)
     {
         foreach(Tile t in tiles)
