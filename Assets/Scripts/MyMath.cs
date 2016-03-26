@@ -65,4 +65,13 @@ public class MyMath : MonoBehaviour {
 		
 		
 	}
+
+    public static void DeleteChildren(GameObject obj)
+    {
+  
+        for(int i = obj.transform.childCount-1; i >= 0; i--)
+        {
+            Destroy(obj.transform.GetChild(i).gameObject);
+        }
+    }
 }

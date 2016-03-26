@@ -94,6 +94,17 @@ class TileTools : EditorWindow
             }
         }
 
+        if (GUILayout.Button("Spawn Camp Region"))
+        {
+
+            Grid.AppendGrid(RegionLoader.GetCamp());
+            SetVisualStateOnSelection("normal");
+            if (CurrentTileSelection != null)
+            {
+                CurrentTileSelection.Clear();
+            }
+        }
+
 
         if (GUILayout.Button(debugTime ? "Disable Crumble Debug" : "Enable Crumble Debug"))
         {

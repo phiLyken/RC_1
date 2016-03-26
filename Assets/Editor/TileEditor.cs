@@ -21,6 +21,13 @@ public class TileEditor : Editor {
                 t.ToggleBlocked();
             }
         }
+        if (GUILayout.Button("Toggle Camp"))
+        {
+            foreach (Tile t in targets)
+            {
+                t.ToggleCamp();
+            }
+        }
         if (GUILayout.Button("Up"))
         {
             foreach (Tile t in targets)

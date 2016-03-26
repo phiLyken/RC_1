@@ -6,11 +6,18 @@ using UnityEngine.UI;
 
 public delegate void TurnEvent(int turnId);
 
+
 public class TurnSystem : MonoBehaviour {
     public Text TURNTF;
     public static TurnSystem Instance;
     bool forceNext;
 
+    public ITurn Current;
+    public static bool HasTurn(ITurn t)
+    {
+        if (Instance.Current == null || Instance.Current != t) return false;
+        return true;
+    }
     public int GetCurrentTurn()
     {
         return currentTurn;

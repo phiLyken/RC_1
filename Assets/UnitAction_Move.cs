@@ -3,8 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class UnitAction_Move : UnitActionBase {
-
-
+    
     Tile currentTargetTile;
     List<Tile> currentPath;
 
@@ -22,18 +21,23 @@ public class UnitAction_Move : UnitActionBase {
         if (t == currentTargetTile) 
             AttemptExection();        
     }
+
+    PathDisplay pathpreview;
     void SetPreviewTile(Tile t)
     {
         List<Tile> pathToTile = TileManager.Instance.FindPath(Owner.currentTile, t);
         if(Owner.PathWalkable(pathToTile))
         {
+            Debug.Log("asdasd");
+            if(pathpreview != null)
+            {
+                Destroy(pathpreview.gameObject);
+            }
+
+            pathpreview = PathDisplay.MakePathDisplay();
+            pathpreview.UpdatePositions(pathToTile);
             currentTargetTile = t;
             currentPath = pathToTile;
-
-            foreach(Tile pt in pathToTile)
-            {
-                Debug.DrawRay(pt.transform.position, Vector3.up, Color.yellow, 2f);
-            }
         }
     }
     protected override void ActionExecuted()
@@ -44,11 +48,16 @@ public class UnitAction_Move : UnitActionBase {
     }
     public override void UnSelectAction()
     {
+        Debug.Log("asdasd");
         currentPath = null;
         currentTargetTile = null;
 
         TileSelecter.OnTileSelect -= SetMovementTile;
         TileSelecter.OnTileHover -= SetPreviewTile;
+        if (pathpreview != null)
+        {
+            Destroy(pathpreview.gameObject);
+        }
 
         TileCollectionHighlight.DisableHighlight();
     }

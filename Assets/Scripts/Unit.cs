@@ -8,6 +8,7 @@ public class Unit : MonoBehaviour, ITurn {
 
     int AP_Used = 99;
     int MaxAP = 1;
+    int TurnTime;
 
     public UnitActionBase[] Actions;
     UnitActionBase CurrentAction;
@@ -77,8 +78,14 @@ public class Unit : MonoBehaviour, ITurn {
     void SelectAbility(int index)
     {
         if (SelectedUnit != this) return;
+        if (CurrentAction != null && CurrentAction == Actions[index])
+        {
+            UnsetCurrentAction();
+            return;
+        }
+
         UnsetCurrentAction();
-        if(Actions.Length <= index)
+        if (Actions.Length <= index)
         {
             Debug.LogWarning("No ability #" + index);
             return;
@@ -93,8 +100,10 @@ public class Unit : MonoBehaviour, ITurn {
     private void UnsetCurrentAction()
     {
         if (CurrentAction == null) return;
+
         CurrentAction.UnSelectAction();
         CurrentAction.OnExecuteAction -= OnActionUsed;
+        CurrentAction = null;
     }
 
     void OnActionUsed(UnitActionBase action)
@@ -149,7 +158,7 @@ public class Unit : MonoBehaviour, ITurn {
     }
     void SelectUnit()
     {
-   
+        if (!TurnSystem.HasTurn(this)) return;
         UnSelectCurrent();
        
         SelectedUnit = this;
@@ -189,11 +198,8 @@ public class Unit : MonoBehaviour, ITurn {
         TurnSystem.Unregister(this);
         AllUnits.Remove(this);
 
-        Destroy(this.gameObject);
-        
+        Destroy(this.gameObject);        
     }
-
-    int TurnTime;
 
     public int GetTurnTimeCost()
     {
@@ -217,8 +223,7 @@ public class Unit : MonoBehaviour, ITurn {
         UnSelectCurrent();
         AP_Used = 0;
         SelectedUnit = this;
-        SelectedEffect.SetActive(true);
-      
+        SelectedEffect.SetActive(true);      
     }
 
     public void GlobalTurn()
@@ -243,6 +248,6 @@ public class Unit : MonoBehaviour, ITurn {
 
     public string GetID()
     {
-        return gameObject.name;
+        return gameObject.name+" ["+TurnTime+"]";
     }
 }

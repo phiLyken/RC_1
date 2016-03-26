@@ -10,6 +10,7 @@ public class RegionDefinition
 public class RegionLoader : MonoBehaviour {
 
     public RegionDefinition[] Regions;
+    public TileManager Camp;
 
     public static TileManager GetRegion()
     {
@@ -17,5 +18,10 @@ public class RegionLoader : MonoBehaviour {
         return Instantiate(rl.Regions[Random.Range(0, rl.Regions.Length)].Region ).GetComponent<TileManager>();
     }
 
-
+    public static TileManager GetCamp()
+    {
+        RegionLoader rl = (Resources.Load("RegionDefinitions") as GameObject).GetComponent<RegionLoader>();
+       
+        return Instantiate(rl.Camp).GetComponent<TileManager>();
+    }
 }

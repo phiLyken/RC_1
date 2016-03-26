@@ -88,6 +88,6 @@ public class WorldCrumbler : MonoBehaviour, ITurn {
 
     public string GetID()
     {
-        return "World Crumble" ;
+        return "World Crumble [" + TurnTime + "]" ;
     }
 }

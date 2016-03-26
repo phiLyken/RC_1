@@ -4,9 +4,8 @@ using System.Collections.Generic;
 
 public class TileCollectionHighlight  {
 
-    static   List<Tile> CurrentCollection;
-
-   
+    static  List<Tile> CurrentCollection;
+    
     public static void SetHighlight(List<Tile> tiles, string visual_state)
     {
         DisableHighlight();
