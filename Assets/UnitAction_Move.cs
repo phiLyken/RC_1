@@ -12,7 +12,7 @@ public class UnitAction_Move : UnitActionBase {
         TileCollectionHighlight.SetHighlight(GetWalkableTiles(Owner.currentTile), "selected");
         TileSelecter.OnTileSelect += SetMovementTile;
         TileSelecter.OnTileHover += SetPreviewTile;    
-     
+    
     }
 
     void SetMovementTile(Tile t)

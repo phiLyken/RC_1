@@ -64,20 +64,7 @@ public class TilePathFinder
        // Debug.Log("new path finder " + width + " " + height);
 	}
 	
-	
-	///////////////////////
-	//
-	// Add obstacles to the grid
-	//	
-	/*	public void SetObstacle(Tile t, bool blocked)
-	{
-		if(TestWidthBounds(t.TilePos.x) && TestHeightBounds(t.TilePos.y))
-			m_collisiongrid[t.TilePos.x,t.TilePos.y] = blocked;
-	}
-	
-	*/
-	
-	///////////////////////
+
 	//
 	// Find a path from (startx, starty) to (goalx, goaly)
 	//
@@ -153,17 +140,14 @@ public class TilePathFinder
 			//	Debug.Log("Check Diagonal");
 				Visit(n, n.x - 1,	n.y + 1);
 			}
-			
-			
+						
 			n = GetBest();  
 		}
 		
 		if(n == null)
 		{
-
 			return Path;	
-		}
-			
+		}			
 		
 		while(n != null)
 		{

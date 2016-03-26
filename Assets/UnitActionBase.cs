@@ -7,6 +7,8 @@ public class UnitActionBase : MonoBehaviour {
 
     public ActionEventHandler OnExecuteAction;
     public StatInfo[] Requirements;
+    public StatInfo[] Cost;
+
     public int AP_Cost;
 
     protected  Unit Owner;
@@ -47,11 +49,20 @@ public class UnitActionBase : MonoBehaviour {
     {
         if (CanExecAction())
         {
+            ApplyCost();
             ActionExecuted();
             if (OnExecuteAction != null) OnExecuteAction(this);          
         }
     }
 
+    void ApplyCost()
+    {
+        foreach (StatInfo s in Cost)
+        {
+            Owner.Stats.GetStat(s.Stat).ModifyStat(s.Amount);
+            Owner.UpdateUI();
+        }
+    }
      protected virtual void ActionExecuted()
     {
         

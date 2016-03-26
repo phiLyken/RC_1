@@ -26,7 +26,9 @@ public class Unit : MonoBehaviour, ITurn {
 
     [HideInInspector]
     public Tile currentTile;
-    
+
+    UI_Unit m_UI;
+
     WaypointMover waypointMover;
     public bool HasAP(int ap)
     {
@@ -44,13 +46,41 @@ public class Unit : MonoBehaviour, ITurn {
             b = gameObject.AddComponent<SelectibleObjectBase>();
        
         b.OnSelect += SelectUnit;
+        b.OnHover += OnHover;
+        b.OnHoverEnd += OnHoverEnd;
+
         if (SelectedEffect != null) SelectedEffect.SetActive(false);
 
         Actions = GetComponentsInChildren<UnitActionBase>();
         foreach (UnitActionBase action in Actions) action.SetOwner(this);
-
+        m_UI = UI_Unit.CreateUnitUI();
+        DisableUI();
         RegisterTurn();
     }
+
+    void DisableUI()
+    {
+        m_UI.gameObject.SetActive(false);
+    }
+    public void UpdateUI()
+    {
+        m_UI.SetUnitInfo(this);
+        m_UI.gameObject.SetActive(true);
+    }
+    void OnHover()
+    {
+          UpdateUI();
+    }
+
+    void OnHoverEnd()
+    {
+       
+        if (TurnSystem.HasTurn(this)) return;
+
+        Debug.Log("hover end");
+        DisableUI();
+    }
+
     void WaypointReached(IWayPoint p)
     {
 
@@ -111,6 +141,7 @@ public class Unit : MonoBehaviour, ITurn {
 
         AP_Used += action.AP_Cost;
         UnsetCurrentAction();
+
     }
     void Start()
     {       
@@ -159,8 +190,11 @@ public class Unit : MonoBehaviour, ITurn {
     void SelectUnit()
     {
         if (!TurnSystem.HasTurn(this)) return;
+
+
         UnSelectCurrent();
-       
+
+        UpdateUI();
         SelectedUnit = this;
         SelectedEffect.SetActive(true);
        
@@ -177,7 +211,7 @@ public class Unit : MonoBehaviour, ITurn {
     {
         UnsetCurrentAction();
         SelectedEffect.SetActive(false);
- 
+        DisableUI();
     }
 
     Player GetOwner()
@@ -194,6 +228,7 @@ public class Unit : MonoBehaviour, ITurn {
     public void KillUnit()
     {
         if (OnUnitKilled != null) OnUnitKilled(this);
+        Destroy(m_UI.gameObject);
         GetOwner().RemoveUnit(this);
         TurnSystem.Unregister(this);
         AllUnits.Remove(this);
@@ -223,7 +258,8 @@ public class Unit : MonoBehaviour, ITurn {
         UnSelectCurrent();
         AP_Used = 0;
         SelectedUnit = this;
-        SelectedEffect.SetActive(true);      
+        SelectedEffect.SetActive(true);
+        UpdateUI();    
     }
 
     public void GlobalTurn()

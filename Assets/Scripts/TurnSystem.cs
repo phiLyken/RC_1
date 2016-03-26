@@ -48,7 +48,7 @@ public class TurnSystem : MonoBehaviour {
         {
             Debug.Log("turn " + currentTurn);
             next.StartTurn();
-
+            Current = next;
             yield return StartCoroutine(WaitForTurn(next));
             
             currentTurn++;

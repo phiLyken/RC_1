@@ -25,7 +25,7 @@ public class Tile : MonoBehaviour, IWayPoint
    
     public int MinLifeTime;
 
-    bool isCamp;
+    public bool isCamp;
     int RandomOffset;
     bool isAccessible = true;
     TileVisualizer DisplayState;
