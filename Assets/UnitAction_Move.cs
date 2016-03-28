@@ -18,6 +18,7 @@ public class UnitAction_Move : UnitActionBase {
     void SetMovementTile(Tile t)
     {
 
+        Debug.Log("selected " + t);
         if (t == currentTargetTile) 
             AttemptExection();        
     }

@@ -55,6 +55,10 @@ public class Unit : MonoBehaviour, ITurn {
         foreach (UnitActionBase action in Actions) action.SetOwner(this);
         m_UI = UI_Unit.CreateUnitUI();
         DisableUI();
+
+        SetTile(TileManager.Instance.GetClosestTile(transform.position));
+        transform.position = currentTile.GetPosition();
+
         RegisterTurn();
     }
 
@@ -143,11 +147,7 @@ public class Unit : MonoBehaviour, ITurn {
         UnsetCurrentAction();
 
     }
-    void Start()
-    {       
-        SetTile(TileManager.Instance.GetClosestTile(transform.position));
-        transform.position = currentTile.GetPosition();
-    }
+
     void SetTile(Tile t)
     {
         if (currentTile != null)
@@ -256,6 +256,7 @@ public class Unit : MonoBehaviour, ITurn {
     {
         Debug.Log("Turn in unit start " + GetID());
         UnSelectCurrent();
+        PanCamera.FocusOnPlanePoint(currentTile.GetPosition());
         AP_Used = 0;
         SelectedUnit = this;
         SelectedEffect.SetActive(true);
@@ -269,7 +270,7 @@ public class Unit : MonoBehaviour, ITurn {
 
     public bool HasEndedTurn()
     {
-        return AP_Used >= MaxAP;
+        return AP_Used >= MaxAP && !waypointMover.Moving;
     }
 
     public void RegisterTurn()
