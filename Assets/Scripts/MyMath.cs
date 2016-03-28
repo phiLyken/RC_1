@@ -56,7 +56,10 @@ public class MyMath : MonoBehaviour {
 	public static Vector3 GetMouseWorldPos(){	
 		return GetPlaneIntersectionY(Camera.main.ScreenPointToRay(Input.mousePosition));		
 	}
-	
+	public static Vector3 GetCameraCenter()
+    {
+        return GetPlaneIntersectionY(new Ray(Camera.main.transform.position,Camera.main.transform.forward));
+    }
 	public static Vector3 GetPlaneIntersectionY(Ray ray){
 		
 		float dist = Vector3.Dot (Vector3.up, Vector3.zero - ray.origin) / Vector3.Dot (Vector3.up, ray.direction.normalized);

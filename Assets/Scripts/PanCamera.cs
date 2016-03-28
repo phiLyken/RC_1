@@ -9,11 +9,12 @@ public class PanCamera : MonoBehaviour {
 	int StopDragDelay = 4;
 	bool zooming;
 	bool inputEnabled;
-	
+    bool rotating;
+   
 	public GameObject CameraObj;
 	
 	public static bool CameraAction {
-		get { return Instance.drag || Instance.zooming; }
+		get { return Instance.drag || Instance.zooming || Instance.rotating; }
 	}
 	
 	public void DisableInput(){
@@ -101,8 +102,39 @@ public class PanCamera : MonoBehaviour {
 		yield break;
 		
 	}
+    public static void FocusOnPlanePoint(Vector3 point)
+    {
+        Instance.PanToPos(point);
+    }
+    public void PanToPos(Vector3 pos)
+    {
+        if (!CameraAction)
+        {
+            StartCoroutine(PanToWorldPos(pos,5));
+        }
+    }
+	IEnumerator PanToWorldPos(Vector3 pos, float speed)
+    {
+       
+        pos.y = 0;
+        drag = true;
+  
+        Vector3 delta = pos -MyMath.GetCameraCenter() ;
 
-	
+       
+
+        while ( delta.magnitude > 0.1f)
+        {
+            transform.Translate((pos - MyMath.GetCameraCenter()) * speed * Time.deltaTime, Space.World);
+                       
+            delta = pos - MyMath.GetCameraCenter();
+
+            Debug.DrawLine(MyMath.GetCameraCenter(), pos, Color.red);
+            yield return null;
+        }
+
+        drag = false;
+    }
 	IEnumerator Pan(){
 		drag = true;
     
@@ -127,14 +159,50 @@ public class PanCamera : MonoBehaviour {
 		yield break;
 		
 	}
-	// Update is called once per frame
+    void OnDrawGizmos()
+    {
+        Debug.DrawLine(transform.position, MyMath.GetCameraCenter());
+    }
+
+    IEnumerator Rotate(float step)
+    {
+        if (rotating) yield break;
+        rotating = true;
+        float rotated = 0;
+        float t = 0;
+
+        while (Mathf.Abs(rotated) < Mathf.Abs( step)) {
+
+            float target_rot = Mathf.Lerp(0, step, t);
+            float dr = target_rot - rotated;
+            rotated += dr;
+            t += Time.deltaTime * 3;
+            transform.RotateAround(MyMath.GetCameraCenter(), Vector3.up, dr);
+            yield return null;
+        }
+
+        transform.RotateAround(MyMath.GetCameraCenter(), Vector3.up, rotated- step);
+
+
+        rotating = false;
+    }
+   
 	void Update () {
 			
 		if (Input.GetKeyDown(KeyCode.Menu) || Input.GetKeyDown(KeyCode.Escape)){
 			SetCameraStart();	
 		}
-		
-        if( !CameraAction && ( Input.GetMouseButtonDown(0) || Input.touchCount > 0 || HasZoomInput() ) )
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            StartCoroutine(Rotate(-45));
+        }
+
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            StartCoroutine(Rotate(45));
+        }
+
+        if ( !CameraAction && ( Input.GetMouseButtonDown(0) || Input.touchCount > 0 || HasZoomInput() ) )
         {
             StartCoroutine(CamInputControl());
         }
