@@ -81,7 +81,7 @@ public class Unit : MonoBehaviour, ITurn {
        
         if (TurnSystem.HasTurn(this)) return;
 
-        Debug.Log("hover end");
+
         DisableUI();
     }
 
@@ -248,13 +248,13 @@ public class Unit : MonoBehaviour, ITurn {
    
     public void SetNextTurnTime(int turns)
     {
-        Debug.Log("Turn - setting next turn time " + turns);
+     //   Debug.Log("Turn - setting next turn time " + turns);
         TurnTime = turns;
     }
 
     public void StartTurn()
     {
-        Debug.Log("Turn in unit start " + GetID());
+      //  Debug.Log("Turn in unit start " + GetID());
         UnSelectCurrent();
         PanCamera.FocusOnPlanePoint(currentTile.GetPosition());
         AP_Used = 0;

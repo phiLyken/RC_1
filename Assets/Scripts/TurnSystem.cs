@@ -10,6 +10,8 @@ public delegate void TurnEvent(int turnId);
 public class TurnSystem : MonoBehaviour {
     public Text TURNTF;
     public static TurnSystem Instance;
+    public TurnEvent OnGlobalTurn;
+
     bool forceNext;
 
     public ITurn Current;
@@ -40,6 +42,11 @@ public class TurnSystem : MonoBehaviour {
         StartCoroutine(RunTurns());
     }
 
+    public void GlobalTurn(int t)
+    {
+        foreach (ITurn turnable in Turnables) turnable.GlobalTurn();
+        if (OnGlobalTurn != null) OnGlobalTurn(t);
+    }
     IEnumerator RunTurns()
     {
         ITurn next = GetNext();
@@ -53,8 +60,7 @@ public class TurnSystem : MonoBehaviour {
             
             currentTurn++;
 
-            foreach (ITurn t in Turnables) t.GlobalTurn();
-
+            GlobalTurn(currentTurn);
             next.SetNextTurnTime(next.GetTurnTimeCost());
 
             SortListByTime();

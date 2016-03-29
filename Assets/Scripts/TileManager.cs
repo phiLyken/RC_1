@@ -23,9 +23,35 @@ public class TileManager : MonoBehaviour {
     public int GridHeight = 0;
 
     float TileSize = 1;
+    
+    public Unit FindFirstUnit()
+    {
+        int highestRow = 0;
+        Unit highest = null;
 
-   
+        foreach (Unit u in Unit.AllUnits)
+        {
+            if (highest == null) highest = u;
+            int curr_row = u.currentTile.TilePos.z;
+            if (curr_row > highestRow)
+            {
+                highestRow = curr_row;
+                highest = u;
+            }
 
+        }
+
+        return highest;
+    }
+
+    public int FirstUnitRow()
+    {
+        Unit first = FindFirstUnit();
+        if(first != null)
+            return FindFirstUnit().currentTile.TilePos.z;
+
+        return -1;
+    }
 
 	public static TileManager Instance;
 
@@ -310,8 +336,7 @@ public class TileManager : MonoBehaviour {
 		//LEFT+RIGHT
 				//attemptLeft
 		if(col-1 >= 0){
-			AdjTiles.Add(Tiles[row,col-1]);
-			if(currentRange<range) SelectAdjactentTiles(Tiles[row,col-1], range, currentRange+1);
+			AdjTiles.Add(Tiles[row,col-1]);		
 		}		
 		//attemptRight
 		if(col+1 < GridWidth){
@@ -425,13 +450,8 @@ public class TileManager : MonoBehaviour {
 	bool TileInField(int x, int y){
 		return x >= 0 && y >= 0 &&
 			x < TileManager.Instance.GridWidth && y < TileManager.Instance.GridHeight;
-	}
-	
-	
-    public List<Tile> FindReachableTiles(Tile start, int range)
-    {
-        return null;
-    }
+	}	
+
 	
 	public List<Tile> GetEdgeTiles( List<Tile> tiles, int range){
 		List<Tile> baseTiles = new List<Tile>(tiles);
