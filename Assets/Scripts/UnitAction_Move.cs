@@ -18,7 +18,7 @@ public class UnitAction_Move : UnitActionBase {
     void SetMovementTile(Tile t)
     {
 
-        Debug.Log("selected " + t);
+      //  Debug.Log("selected " + t);
         if (t == currentTargetTile) 
             AttemptExection();        
     }
@@ -29,7 +29,7 @@ public class UnitAction_Move : UnitActionBase {
         List<Tile> pathToTile = TileManager.Instance.FindPath(Owner.currentTile, t);
         if(Owner.PathWalkable(pathToTile))
         {
-            Debug.Log("asdasd");
+
             if(pathpreview != null)
             {
                 Destroy(pathpreview.gameObject);
@@ -49,7 +49,7 @@ public class UnitAction_Move : UnitActionBase {
     }
     public override void UnSelectAction()
     {
-        Debug.Log("asdasd");
+
         currentPath = null;
         currentTargetTile = null;
 
