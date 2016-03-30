@@ -9,6 +9,7 @@ public class UnitAction_Move : UnitActionBase {
 
     public override void SelectAction()
     {
+        Debug.Log("movement selected");
         TileCollectionHighlight.SetHighlight(GetWalkableTiles(Owner.currentTile), "selected");
         TileSelecter.OnTileSelect += SetMovementTile;
         TileSelecter.OnTileHover += SetPreviewTile;    
@@ -73,7 +74,7 @@ public class UnitAction_Move : UnitActionBase {
         return base.CanExecAction() && CanWalkToTile(currentTargetTile);
     }
 
-    List<Tile> GetWalkableTiles(Tile t)
+    public List<Tile> GetWalkableTiles(Tile t)
     {
         return TileManager.Instance.
             GetReachableTiles(t, 

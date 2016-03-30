@@ -90,4 +90,9 @@ public class WorldCrumbler : MonoBehaviour, ITurn {
     {
         return "World Crumble [" + TurnTime + "]" ;
     }
+
+    public int GetTurnControllerID()
+    {
+        return -1;
+    }
 }

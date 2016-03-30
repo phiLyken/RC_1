@@ -107,7 +107,7 @@ public class Tile : MonoBehaviour, IWayPoint
         isCamp = !isCamp;
         SetVisualState("normal");
     }
-    void OnHover()
+    public void OnHover()
     {
         
         TileSelecter.HoverTile(this);

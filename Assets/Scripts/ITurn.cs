@@ -51,4 +51,11 @@ public interface ITurn {
     /// </summary>
     string GetID();
 
+    /// <summary>
+    /// Each turn needs to have a controller (e.g. player id) so the game can switch states
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    int GetTurnControllerID();
+
 }

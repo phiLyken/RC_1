@@ -20,6 +20,7 @@ public class Unit : MonoBehaviour, ITurn {
     public static Unit SelectedUnit;
     public static UnitEventHandler OnUnitKilled;
 
+    public UnitEventHandler OnTurnStart;
     public GameObject SelectedEffect;
     
     public int OwnerID;
@@ -92,6 +93,7 @@ public class Unit : MonoBehaviour, ITurn {
 
     void Update()
     {
+        if (OwnerID != 0) return;
         if (Input.GetKeyUp(KeyCode.Alpha1))
         {
             SelectAbility(0);
@@ -109,7 +111,7 @@ public class Unit : MonoBehaviour, ITurn {
             SelectAbility(3);
         }
     }
-    void SelectAbility(int index)
+    public void SelectAbility(int index)
     {
         if (SelectedUnit != this) return;
         if (CurrentAction != null && CurrentAction == Actions[index])
@@ -260,7 +262,8 @@ public class Unit : MonoBehaviour, ITurn {
         AP_Used = 0;
         SelectedUnit = this;
         SelectedEffect.SetActive(true);
-        UpdateUI();    
+        UpdateUI();
+        if (OnTurnStart != null) OnTurnStart(this);    
     }
 
     public void GlobalTurn()
@@ -286,5 +289,10 @@ public class Unit : MonoBehaviour, ITurn {
     public string GetID()
     {
         return gameObject.name+" ["+TurnTime+"]";
+    }
+
+    public int GetTurnControllerID()
+    {
+        return OwnerID;
     }
 }
