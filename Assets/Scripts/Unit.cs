@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System;
 
 public delegate void UnitEventHandler(Unit u);
-public class Unit : MonoBehaviour, ITurn {
+public class Unit : MonoBehaviour, ITurn, IDamageable {
 
     int AP_Used = 99;
     int MaxAP = 1;
@@ -19,6 +19,8 @@ public class Unit : MonoBehaviour, ITurn {
     public static List<Unit> AllUnits = new List<Unit>();
     public static Unit SelectedUnit;
     public static UnitEventHandler OnUnitKilled;
+    public static UnitEventHandler OnUnitHover;
+    public static UnitEventHandler OnUnitSelect;
 
     public UnitEventHandler OnTurnStart;
     public GameObject SelectedEffect;
@@ -31,10 +33,12 @@ public class Unit : MonoBehaviour, ITurn {
     UI_Unit m_UI;
 
     WaypointMover waypointMover;
+
     public bool HasAP(int ap)
     {
         return (MaxAP - AP_Used) >= ap;
     }
+
     void Awake()
     {
         Stats = GetComponent<UnitStats>();
@@ -46,7 +50,7 @@ public class Unit : MonoBehaviour, ITurn {
         if (b == null)
             b = gameObject.AddComponent<SelectibleObjectBase>();
        
-        b.OnSelect += SelectUnit;
+        b.OnSelect += UnitSelected;
         b.OnHover += OnHover;
         b.OnHoverEnd += OnHoverEnd;
 
@@ -74,6 +78,7 @@ public class Unit : MonoBehaviour, ITurn {
     }
     void OnHover()
     {
+        if (OnUnitHover != null) OnUnitHover(this);
           UpdateUI();
     }
 
@@ -180,7 +185,7 @@ public class Unit : MonoBehaviour, ITurn {
     }
   
 
-
+   //Unselects the currently selected (static) unit
     void UnSelectCurrent()
     {
         if(SelectedUnit != null)
@@ -189,17 +194,27 @@ public class Unit : MonoBehaviour, ITurn {
             SelectedUnit = null;
         }
     }
-    void SelectUnit()
+    void UnitSelected()
     {
+        //Fire Static event and let everyone know this unit has been selected/klicked
+      
+        /** Cheat && Debug**/
+        
+            ReceiveDamage(new Damage());
+        
+        if (OnUnitSelect != null) OnUnitSelect(this);
+
+        return;
+        /** Can probably be removed :
         if (!TurnSystem.HasTurn(this)) return;
 
-
+        //If this unit h
         UnSelectCurrent();
 
         UpdateUI();
         SelectedUnit = this;
         SelectedEffect.SetActive(true);
-       
+       **/
     }        
 
     public void SetMovementTile(Tile target, List<Tile> path)
@@ -256,7 +271,7 @@ public class Unit : MonoBehaviour, ITurn {
 
     public void StartTurn()
     {
-      //  Debug.Log("Turn in unit start " + GetID());
+      //  Debug.Log("Turn in unit start " + GetID());       
         UnSelectCurrent();
         PanCamera.FocusOnPlanePoint(currentTile.GetPosition());
         AP_Used = 0;
@@ -294,5 +309,15 @@ public class Unit : MonoBehaviour, ITurn {
     public int GetTurnControllerID()
     {
         return OwnerID;
+    }
+
+    public void ReceiveDamage(Damage dmg)
+    {
+       Stats.GetStat(UnitStats.Stats.will).ModifyStat(-dmg.amount);
+        Debug.Log(this.name + " rcv damge " + dmg.amount);
+       if( Stats.GetStat(UnitStats.Stats.will).current <= 0)
+        {
+            KillUnit();
+        }
     }
 }

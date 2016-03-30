@@ -77,8 +77,12 @@ public class TurnSystem : MonoBehaviour {
 
     IEnumerator WaitForTurn(ITurn t)
     {
-     
-        while (!forceNext && t != null && !t.HasEndedTurn() ) yield return null;
+
+        while (!forceNext && (t!=null && !t.Equals(null)) && !t.HasEndedTurn())
+        {
+            //Debug.Log(t.GetID());
+            yield return null;
+        }
        
     }
 

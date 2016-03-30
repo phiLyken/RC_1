@@ -18,15 +18,15 @@ public class UnitAction_Move : UnitActionBase {
 
     void SetMovementTile(Tile t)
     {
-
-      //  Debug.Log("selected " + t);
-        if (t == currentTargetTile) 
+      //  Debug.Log("selected " + t);   
+        
             AttemptExection();        
     }
 
     PathDisplay pathpreview;
     void SetPreviewTile(Tile t)
     {
+
         List<Tile> pathToTile = TileManager.Instance.FindPath(Owner.currentTile, t);
         if(Owner.PathWalkable(pathToTile))
         {
@@ -50,7 +50,6 @@ public class UnitAction_Move : UnitActionBase {
     }
     public override void UnSelectAction()
     {
-
         currentPath = null;
         currentTargetTile = null;
 

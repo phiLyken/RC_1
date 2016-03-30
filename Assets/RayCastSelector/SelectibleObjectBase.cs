@@ -16,8 +16,8 @@ public class SelectibleObjectBase : MonoBehaviour {
 
     void Update()
     {
-        if (TurnSystem.Instance.Current.GetTurnControllerID() != 0) return;
-        if(inFocus && !PanCamera.CameraAction && Input.GetButtonUp("Fire1"))
+        if (!HumanInput()) return;
+        if (inFocus && !PanCamera.CameraAction && Input.GetButtonUp("Fire1"))
         {
             Select();
         }
@@ -25,7 +25,7 @@ public class SelectibleObjectBase : MonoBehaviour {
     void OnMouseOver()
     {
 
-        if (TurnSystem.Instance.Current.GetTurnControllerID() != 0) return;
+        if (!HumanInput()) return;
         if (!inFocus)
         {
             if (OnHover != null) OnHover();
@@ -36,17 +36,22 @@ public class SelectibleObjectBase : MonoBehaviour {
     }
     void Select()
     {
-        if (TurnSystem.Instance.Current.GetTurnControllerID() != 0) return;
+        if (!HumanInput()) return;
         if (OnSelect != null) OnSelect(); 
     }
 
 
     void OnMouseExit()
     {
-        if (TurnSystem.Instance.Current.GetTurnControllerID() != 0) return;
+        if (!HumanInput()) return;
         inFocus = false;
         if (OnHoverEnd != null) OnHoverEnd();
        
+    }
+
+    bool HumanInput()
+    {
+        return TurnSystem.Instance.Current.GetTurnControllerID() == 0 || Input.GetKey(KeyCode.T);
     }
 
 }
