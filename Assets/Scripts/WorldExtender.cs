@@ -24,7 +24,7 @@ public class WorldExtender : MonoBehaviour {
 
     void OnGlobalTurn(int crumble_row)
     {
-        if (LastUnitCloseToEnd(TileManager.Instance.FirstUnitRow()))
+        if (LastUnitCloseToEnd(TileManager.Instance.FirstUnitRow(1)))
         {
             SpawnNext();
         }

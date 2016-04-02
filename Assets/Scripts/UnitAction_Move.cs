@@ -9,7 +9,7 @@ public class UnitAction_Move : UnitActionBase {
 
     public override void SelectAction()
     {
-        Debug.Log("movement selected");
+        base.SelectAction();
         TileCollectionHighlight.SetHighlight(GetWalkableTiles(Owner.currentTile), "selected");
         TileSelecter.OnTileSelect += SetMovementTile;
         TileSelecter.OnTileHover += SetPreviewTile;    
@@ -18,15 +18,13 @@ public class UnitAction_Move : UnitActionBase {
 
     void SetMovementTile(Tile t)
     {
-      //  Debug.Log("selected " + t);   
-        
+   
             AttemptExection();        
     }
 
     PathDisplay pathpreview;
     void SetPreviewTile(Tile t)
     {
-
         List<Tile> pathToTile = TileManager.Instance.FindPath(Owner.currentTile, t);
         if(Owner.PathWalkable(pathToTile))
         {
@@ -45,9 +43,9 @@ public class UnitAction_Move : UnitActionBase {
     protected override void ActionExecuted()
     {
         Owner.SetMovementTile(currentTargetTile, currentPath);
-
-
+        base.ActionExecuted();
     }
+
     public override void UnSelectAction()
     {
         currentPath = null;
@@ -62,16 +60,7 @@ public class UnitAction_Move : UnitActionBase {
 
         TileCollectionHighlight.DisableHighlight();
     }
-    
-    bool CanWalkToTile(Tile t)
-    {
-        return true;
-    }
 
-    protected override bool CanExecAction()
-    {
-        return base.CanExecAction() && CanWalkToTile(currentTargetTile);
-    }
 
     public List<Tile> GetWalkableTiles(Tile t)
     {

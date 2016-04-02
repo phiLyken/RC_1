@@ -118,6 +118,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     }
     public void SelectAbility(int index)
     {
+      //  if (index > Actions.Length) return;
         if (SelectedUnit != this) return;
         if (CurrentAction != null && CurrentAction == Actions[index])
         {
@@ -141,7 +142,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     private void UnsetCurrentAction()
     {
         if (CurrentAction == null) return;
-
+        UI_ActiveUnit.Instance.AbilityTF.text = GetActionInfos();
         CurrentAction.UnSelectAction();
         CurrentAction.OnExecuteAction -= OnActionUsed;
         CurrentAction = null;
@@ -197,10 +198,10 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     void UnitSelected()
     {
         //Fire Static event and let everyone know this unit has been selected/klicked
-      
+        Debug.Log("slct");
         /** Cheat && Debug**/
-        
-            ReceiveDamage(new Damage());
+        if(Input.GetKey(KeyCode.T))
+         ReceiveDamage(new Damage());
         
         if (OnUnitSelect != null) OnUnitSelect(this);
 
@@ -271,7 +272,8 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
 
     public void StartTurn()
     {
-      //  Debug.Log("Turn in unit start " + GetID());       
+        //  Debug.Log("Turn in unit start " + GetID());  7
+        UI_ActiveUnit.Instance.SelectedUnitTF.text = GetID();
         UnSelectCurrent();
         PanCamera.FocusOnPlanePoint(currentTile.GetPosition());
         AP_Used = 0;
@@ -319,5 +321,15 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
         {
             KillUnit();
         }
+    }
+
+    string GetActionInfos()
+    {
+        string s = "";
+        for (int i = 0; i < Actions.Length; i++)
+        {
+            s += (i+1).ToString() + ":" + Actions[i].ActionID + "\n" ;
+        }
+        return s;
     }
 }

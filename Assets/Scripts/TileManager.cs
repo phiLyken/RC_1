@@ -24,31 +24,40 @@ public class TileManager : MonoBehaviour {
 
     float TileSize = 1;
     
-    public Unit FindFirstUnit()
+    /// <summary>
+    /// Returns the furthest unit of the specified owner id ( -1 for any owner)
+    /// </summary>
+    /// <param name="OwnerID"></param>
+    /// <returns></returns>
+    public Unit FindFirstUnit(int OwnerID)
     {
         int highestRow = 0;
         Unit highest = null;
 
         foreach (Unit u in Unit.AllUnits)
         {
-            if (highest == null) highest = u;
-            int curr_row = u.currentTile.TilePos.z;
-            if (curr_row > highestRow)
-            {
-                highestRow = curr_row;
-                highest = u;
+             if (OwnerID == -1 || u.OwnerID == OwnerID) { 
+                if (highest == null) highest = u;
+                int curr_row = u.currentTile.TilePos.z;
+                if (curr_row > highestRow)
+                {
+                    highestRow = curr_row;
+                    highest = u;
+                }
             }
-
         }
 
         return highest;
     }
-
-    public int FirstUnitRow()
+    /// <summary>
+    /// Returns the highest row of a player owned unit
+    /// </summary>
+    /// <returns></returns>
+    public int FirstUnitRow(int Owner)
     {
-        Unit first = FindFirstUnit();
+        Unit first = FindFirstUnit(Owner);
         if(first != null)
-            return FindFirstUnit().currentTile.TilePos.z;
+            return first.currentTile.TilePos.z;
 
         return -1;
     }
@@ -159,13 +168,7 @@ public class TileManager : MonoBehaviour {
             );
 
     }
-    float GetDistance2D(Vector3 v1, Vector3 v2)
-    {
-        v1.y = 0;
-        v2.y = 0;
 
-        return (v1 - v2).magnitude;
-    }
 	public List<Tile> GetTilesForFootPrint(Tile startTile, int Size){
 		
 		int x = startTile.TilePos.x;
@@ -220,7 +223,7 @@ public class TileManager : MonoBehaviour {
         AdjustGrid(newTiles.GetLength(0), newTiles.GetLength(1));
         OffsetTilePositions(newTiles, offset);
         SetTilePhaseID(newTiles, WorldExtender.currentPhaseID);
-        SetTilesPos(newTiles);       
+        SetTilesToGridPosition(newTiles);       
         SetTiles(FetchTiles());
 
     }
@@ -228,6 +231,11 @@ public class TileManager : MonoBehaviour {
     {
         foreach (Tile t in tiles) t.zoneID = id;
     }
+    /// <summary>
+    /// Offsets all "TilePos" coordinates by the offset
+    /// </summary>
+    /// <param name="tiles"></param>
+    /// <param name="offset"></param>
     void OffsetTilePositions(Tile[,] tiles, TilePos offset)
     {
         foreach(Tile t in tiles)
@@ -261,11 +269,17 @@ public class TileManager : MonoBehaviour {
         return tiles;
     }
 
+
     void SetTiles(Tile[,] t)
     {
         Tiles = t;
     }
     
+    /// <summary>
+    /// Re-Definining the grid size (will empty Tiles array), should call "Fetch Tiles" afterwards)
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="z"></param>
     public void AdjustGrid(int x, int z)
     {
         int newWidth = x - GridWidth;
@@ -276,12 +290,25 @@ public class TileManager : MonoBehaviour {
         Debug.Log("Appending Grid: New Grid Size: " + GridWidth + "|" + GridHeight);
     }
 
-
+    /// <summary>
+    /// Get the height (actual coordninates) according to the tiles heighstep
+    /// </summary>
+    /// <param name="step"></param>
+    /// <returns></returns>
     float GetTileHeight(int step)
     {
         return step * HeighSteps;
     }
 
+    /// <summary>
+    /// Get the world position of a tile according to the grid settings
+    /// </summary>
+    /// <param name="t"></param>
+    /// <returns></returns>
+    public Vector3 GetTilePos2D(Tile t)
+    {
+        return GetTilePos2D(t.TilePos.x, t.TilePos.z);
+    }
     public Vector3 GetTilePos2D(int x, int y)
     {
        return new Vector3(x * TileSize, 0, y * TileSize)
@@ -292,7 +319,7 @@ public class TileManager : MonoBehaviour {
     /// <summary>
     /// Sets tiles to their horizontal position in the grid and makes them a child 
     /// </summary>
-    public void SetTilesPos(Tile[,] tiles)
+    public void SetTilesToGridPosition(Tile[,] tiles)
     {
 
         foreach ( Tile t in tiles)
@@ -305,7 +332,7 @@ public class TileManager : MonoBehaviour {
     }
     
     /// <summary>
-    /// Returns a list of tiles that are attached to the gameobject (ordered by their tilepos)
+    /// Returns a 2D Array of tiles that are childed to the gameobject (ordered by their tilepos)
     /// </summary>
     public Tile[,] FetchTiles()
     {
@@ -325,38 +352,6 @@ public class TileManager : MonoBehaviour {
         return tiles;
     }
 
-	
-	List<Tile> SelectAdjactentTiles(Tile center, int range, int currentRange){
-		
-		List<Tile> AdjTiles = new List<Tile>();
-		int row = center.TilePos.x;
-		int col =  center.TilePos.z;
-		
-		
-		//LEFT+RIGHT
-				//attemptLeft
-		if(col-1 >= 0){
-			AdjTiles.Add(Tiles[row,col-1]);		
-		}		
-		//attemptRight
-		if(col+1 < GridWidth){
-			AdjTiles.Add(Tiles[row,col+1]);
-		}
-		
-		
-		//TOP
-		if(row+1 < GridHeight){
-            AdjTiles.Add(Tiles[row+1,col]);	
-		}
-			
-		//Bottom
-		if(row-1 >= 0){
-            AdjTiles.Add(Tiles[row-1,col]);	
-		}
-	
-		return AdjTiles;
-	}
-	
 
 	
 	//Add Tiles top/right/bottom/left from the given tiles
@@ -374,7 +369,13 @@ public class TileManager : MonoBehaviour {
 		return tilesInDistance;
 	}
 	
-	public List<Tile> SelectTilesInRange(List<Tile> tiles, int range){	
+    /// <summary>
+    /// Returns list of tiles that are surrounding the passed list of tiles
+    /// </summary>
+    /// <param name="tiles"></param>
+    /// <param name="range"></param>
+    /// <returns></returns>
+	public List<Tile> GetSurroundingTiles(List<Tile> tiles, int range){	
 		
 		if (range <= 0) return tiles;
 		
@@ -396,12 +397,17 @@ public class TileManager : MonoBehaviour {
 		
 		range --;
 		if(range > 0) {
-			return SelectTilesInRange(tiles, range);	
+			return GetSurroundingTiles(tiles, range);	
 		} else {			
 			return tiles;
 		}
 	}
 	
+    /// <summary>
+    /// Returns List of tiles surrounding (vert, horiz, diagonal) around the passed tile
+    /// </summary>
+    /// <param name="t"></param>
+    /// <returns></returns>
 	public List<Tile> GetSurroundingTiles( Tile t){
 		List<Tile> surrounding = new List<Tile>();	
 		
@@ -443,10 +449,12 @@ public class TileManager : MonoBehaviour {
 		return surrounding;
 		
 	}
-	bool ValidTile(int row, int col, List<Tile> tiles){
-		return TileInField(row, col) && !tiles.Contains( TileManager.Instance.Tiles[row,col]);  
-	}
-	
+    /// <summary>
+    /// checks whether the passed tile is within the field
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    /// <returns></returns>
 	bool TileInField(int x, int y){
 		return x >= 0 && y >= 0 &&
 			x < TileManager.Instance.GridWidth && y < TileManager.Instance.GridHeight;
@@ -455,7 +463,7 @@ public class TileManager : MonoBehaviour {
 	
 	public List<Tile> GetEdgeTiles( List<Tile> tiles, int range){
 		List<Tile> baseTiles = new List<Tile>(tiles);
-		List<Tile> all = SelectTilesInRange(baseTiles, range);		
+		List<Tile> all = GetSurroundingTiles(baseTiles, range);		
 		
 		foreach(Tile t in all) Debug.DrawRay(t.transform.position, Vector3.up, Color.grey, 10);
 		

@@ -19,7 +19,7 @@ public class TileManagerEditor : Editor {
 		
 		if( GUILayout.Button("Reset Grid")) (target as TileManager).SpawnBaseGrid();
        // if (GUILayout.Button("Fetch Tiles Grid")) (target as TileManager).FetchTiles();
-        if (GUILayout.Button("Update Positions")) (target as TileManager).SetTilesPos( (target as TileManager).FetchTiles());
+        if (GUILayout.Button("Update Positions")) (target as TileManager).SetTilesToGridPosition( (target as TileManager).FetchTiles());
     }
 
 }

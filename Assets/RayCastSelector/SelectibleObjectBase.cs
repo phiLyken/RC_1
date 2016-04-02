@@ -14,12 +14,21 @@ public class SelectibleObjectBase : MonoBehaviour {
 
     bool inFocus;
 
+    bool Cheat;
+
     void Update()
     {
-        if (!HumanInput()) return;
-        if (inFocus && !PanCamera.CameraAction && Input.GetButtonUp("Fire1"))
+
+        if (Input.GetKeyUp(KeyCode.Alpha0))
         {
-            Select();
+            Cheat = !Cheat;
+        }
+        if (!HumanInput()) return;
+
+        if (inFocus && !PanCamera.CameraAction && Input.GetMouseButtonUp(0))
+        {
+            Debug.Log("foo");
+            Select(); 
         }
     }
     void OnMouseOver()
@@ -51,7 +60,7 @@ public class SelectibleObjectBase : MonoBehaviour {
 
     bool HumanInput()
     {
-        return TurnSystem.Instance.Current.GetTurnControllerID() == 0 || Input.GetKey(KeyCode.T);
+        return TurnSystem.Instance.Current.GetTurnControllerID() == 0 || Cheat;
     }
 
 }

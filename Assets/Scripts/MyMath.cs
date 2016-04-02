@@ -31,7 +31,15 @@ public class MyMath : MonoBehaviour {
 
 	}
 
-	public static Vector3 GetVectorInRange(Vector3 Vector, float _min, float _max){
+   static  float GetDistance2D(Vector3 v1, Vector3 v2)
+    {
+        v1.y = 0;
+        v2.y = 0;
+
+        return (v1 - v2).magnitude;
+    }
+
+    public static Vector3 GetVectorInRange(Vector3 Vector, float _min, float _max){
 		Debug.Log (GetPercentpointsOfValueInRange (Vector.magnitude, _min, _max));
 		return Vector.normalized * GetPercentpointsOfValueInRange(Vector.magnitude, _min, _max);
 	}

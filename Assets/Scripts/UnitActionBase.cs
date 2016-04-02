@@ -9,10 +9,12 @@ public class UnitActionBase : MonoBehaviour {
     public StatInfo[] Requirements;
     public StatInfo[] Cost;
 
+    public string Descr;
     public int AP_Cost;
 
     protected  Unit Owner;
 
+    public string ActionID = "void";
     public void SetOwner(Unit o)
     {
         Owner = o;
@@ -20,7 +22,7 @@ public class UnitActionBase : MonoBehaviour {
 
     public virtual void SelectAction()
     {
-
+        UI_ActiveUnit.Instance.AbilityTF.text = "Ability: " + ActionID+"\n"+Descr;
     }
 
     protected virtual bool CanExecAction()
@@ -51,7 +53,7 @@ public class UnitActionBase : MonoBehaviour {
         {
             ApplyCost();
             ActionExecuted();
-            if (OnExecuteAction != null) OnExecuteAction(this);          
+              
         }
     }
 
@@ -65,7 +67,7 @@ public class UnitActionBase : MonoBehaviour {
     }
      protected virtual void ActionExecuted()
     {
-        
+        if (OnExecuteAction != null) OnExecuteAction(this);
     }
 
 }

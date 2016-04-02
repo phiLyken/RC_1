@@ -7,6 +7,7 @@ public class UnitAction_Rest : UnitActionBase
 
     public override void SelectAction()
     {
+        base.SelectAction();
         StartCoroutine(WaitForConfirmation());
     }
     
