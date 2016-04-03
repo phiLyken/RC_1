@@ -49,6 +49,7 @@ public class TurnSystem : MonoBehaviour {
     }
     IEnumerator RunTurns()
     {
+        SortListByTime();
         ITurn next = GetNext();
         Debug.Log("Start Turn System " + Turnables.Count);
         while ( next != null)

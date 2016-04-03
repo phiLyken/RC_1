@@ -106,12 +106,20 @@ public class PanCamera : MonoBehaviour {
     {
         Instance.PanToPos(point);
     }
+
+    void Reset()
+    {
+        drag = false;
+        rotating = false;
+        zooming = false;
+        StopAllCoroutines();
+    }
     public void PanToPos(Vector3 pos)
     {
-        if (!CameraAction)
-        {
-            StartCoroutine(PanToWorldPos(pos,5));
-        }
+
+        Reset();    
+     StartCoroutine(PanToWorldPos(pos,5));
+        
     }
 	IEnumerator PanToWorldPos(Vector3 pos, float speed)
     {

@@ -7,8 +7,8 @@ public delegate void UnitEventHandler(Unit u);
 public class Unit : MonoBehaviour, ITurn, IDamageable {
 
     int AP_Used = 99;
-    int MaxAP = 1;
-    int TurnTime;
+    int MaxAP = 2;
+    public int TurnTime;
 
     public UnitActionBase[] Actions;
     UnitActionBase CurrentAction;
@@ -76,7 +76,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
         m_UI.SetUnitInfo(this);
         m_UI.gameObject.SetActive(true);
     }
-    void OnHover()
+    public void OnHover()
     {
         if (OnUnitHover != null) OnUnitHover(this);
           UpdateUI();
@@ -152,6 +152,9 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     {
 
         AP_Used += action.AP_Cost;
+        TurnTime += action.TurnTimeCost;
+        if(TurnSystem.HasTurn(this))
+            PanCamera.Instance.PanToPos(currentTile.GetPosition());
         UnsetCurrentAction();
 
     }
@@ -166,8 +169,10 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
                 currentTile.Child = null;
             }
         }
-        currentTile = t;
-        currentTile.OnDeactivate += OnTileCurrentDeactivate;
+        if(t != null) { 
+            currentTile = t;
+            currentTile.OnDeactivate += OnTileCurrentDeactivate;
+        }
     }
    
     void OnTileCurrentDeactivate(Tile t)
@@ -195,7 +200,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
             SelectedUnit = null;
         }
     }
-    void UnitSelected()
+    public void UnitSelected()
     {
         //Fire Static event and let everyone know this unit has been selected/klicked
         Debug.Log("slct");
@@ -332,4 +337,24 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
         }
         return s;
     }
+
+    #region
+    /// <summary>
+    /// Returns a list of all the units of the requested owner, -1 will select all
+    /// </summary>
+    /// <param name="owner"></param>
+    /// <returns></returns>
+    public static List<Unit> GetAllUnitsOfOwner(int owner)
+    {
+        List<Unit> list = new List<Unit>();
+        foreach(Unit u in AllUnits)
+        {
+            if (owner == -1 || u.OwnerID == owner) list.Add(u);
+        }
+
+        return list;
+    }
+
+
+    #endregion
 }

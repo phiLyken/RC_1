@@ -11,10 +11,6 @@ public class UnitAction_Rest : UnitActionBase
         StartCoroutine(WaitForConfirmation());
     }
     
-    protected override void ActionExecuted()
-    {
-      
-    }
 
     public override void UnSelectAction()
     {
@@ -23,7 +19,7 @@ public class UnitAction_Rest : UnitActionBase
 
     IEnumerator WaitForConfirmation()
     {
-        while (!Input.GetKeyUp(KeyCode.Return)) {
+        while (!Input.GetButtonUp("Jump")) {
             yield return null;
         }
 

@@ -18,8 +18,7 @@ public class UnitAction_Move : UnitActionBase {
 
     void SetMovementTile(Tile t)
     {
-   
-            AttemptExection();        
+        AttemptExection();        
     }
 
     PathDisplay pathpreview;
@@ -42,8 +41,10 @@ public class UnitAction_Move : UnitActionBase {
     }
     protected override void ActionExecuted()
     {
-        Owner.SetMovementTile(currentTargetTile, currentPath);
-        base.ActionExecuted();
+        if (currentTargetTile != null) { 
+            Owner.SetMovementTile(currentTargetTile, currentPath);
+            base.ActionExecuted();
+        }
     }
 
     public override void UnSelectAction()

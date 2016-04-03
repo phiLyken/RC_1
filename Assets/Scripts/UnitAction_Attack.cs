@@ -50,6 +50,7 @@ public class UnitAction_Attack : UnitActionBase {
 
     IEnumerator AttackSequence(Unit atk, Unit def, Damage dmg)
     {
+        ActionInProgress = true;
         PanCamera.Instance.PanToPos(atk.currentTile.GetPosition());
         yield return new WaitForSeconds(0.5f);
         SetLazer.MakeLazer(0.5f, new List<Vector3> { atk.transform.position, def.transform.position }, Color.red);
@@ -64,7 +65,7 @@ public class UnitAction_Attack : UnitActionBase {
     }
     void OnUnitHover(Unit unit)
     {
-        if (!isInRange(unit) || !canTarget(unit)) return;
+        if (!isInRange(this.Owner,unit,Range) || !canTarget(unit)) return;
 
         AimIndicator.SetActive(true);
         currentTarget = unit;
@@ -72,9 +73,9 @@ public class UnitAction_Attack : UnitActionBase {
     }
 
 
-    bool isInRange(Unit other)
+    static bool isInRange(Unit attacker, Unit other, int range)
     {
-        return (other.currentTile.GetPosition() - Owner.currentTile.GetPosition()).magnitude <= Range;
+        return (other.currentTile.GetPosition() - attacker.currentTile.GetPosition()).magnitude <= range;
     }
 
     bool canTarget(Unit other)
@@ -89,6 +90,24 @@ public class UnitAction_Attack : UnitActionBase {
     {
         Unit.OnUnitHover -= OnUnitHover;
         Unit.OnUnitSelect -= UnitSelected;
+    }
+
+    /// <summary>
+    /// Removes non-attackable units from the passed list
+    /// </summary>
+    /// <param name="list"></param>
+    /// <returns></returns>
+    public static List<Unit> GetAttackableUnits(List<Unit> list, Unit attacker, int range)
+    {
+        for(int i = list.Count-1; i >= 0; i--)
+        {
+            Unit u = list[i];
+            if (!isInRange(attacker, u, range)) list.Remove(u);
+
+           
+        }
+
+        return list;
     }
 
 }

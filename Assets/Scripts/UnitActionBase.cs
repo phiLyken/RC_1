@@ -5,15 +5,20 @@ public delegate void ActionEventHandler(UnitActionBase action);
 
 public class UnitActionBase : MonoBehaviour {
 
+    protected bool ActionInProgress;
     public ActionEventHandler OnExecuteAction;
     public StatInfo[] Requirements;
     public StatInfo[] Cost;
 
+    public int TurnTimeCost;
+
     public string Descr;
-    public int AP_Cost;
+
+    [HideInInspector]
+    public int AP_Cost = 1;
 
     protected  Unit Owner;
-
+    
     public string ActionID = "void";
     public void SetOwner(Unit o)
     {
@@ -28,7 +33,7 @@ public class UnitActionBase : MonoBehaviour {
     protected virtual bool CanExecAction()
     {
 
-        return HasRequirements();
+        return HasRequirements() && !ActionInProgress;
     }
 
     public bool HasRequirements()
@@ -67,6 +72,7 @@ public class UnitActionBase : MonoBehaviour {
     }
      protected virtual void ActionExecuted()
     {
+        ActionInProgress = false;
         if (OnExecuteAction != null) OnExecuteAction(this);
     }
 

@@ -39,7 +39,7 @@ public class WorldCrumbler : MonoBehaviour, ITurn {
         }
     }
 
-    int TurnTime;
+    public int TurnTime;
 
     public int GetTurnTimeCost()
     {
