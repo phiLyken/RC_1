@@ -18,12 +18,14 @@ public class UnitAction_Move : UnitActionBase {
 
     void SetMovementTile(Tile t)
     {
+        Debug.Log("set movement tile");
         AttemptExection();        
     }
 
     PathDisplay pathpreview;
     void SetPreviewTile(Tile t)
     {
+        Debug.Log("setpreview tile");
         List<Tile> pathToTile = TileManager.Instance.FindPath(Owner.currentTile, t);
         if(Owner.PathWalkable(pathToTile))
         {
@@ -37,16 +39,27 @@ public class UnitAction_Move : UnitActionBase {
             pathpreview.UpdatePositions(pathToTile);
             currentTargetTile = t;
             currentPath = pathToTile;
+        } else
+        {
+            currentPath = null;
+            currentTargetTile = null;
+            Debug.Log("cannot move to tile");
         }
     }
     protected override void ActionExecuted()
     {
-        if (currentTargetTile != null) { 
-            Owner.SetMovementTile(currentTargetTile, currentPath);
-            base.ActionExecuted();
-        }
+
+        Debug.Log("move executed");
+        Owner.SetMovementTile(currentTargetTile, currentPath);
+        base.ActionExecuted();
+        
     }
 
+    protected override bool CanExecAction()
+    {
+        Debug.Log("checking if can execute move");
+        return base.CanExecAction() && currentTargetTile != null && currentPath != null;
+    }
     public override void UnSelectAction()
     {
         currentPath = null;

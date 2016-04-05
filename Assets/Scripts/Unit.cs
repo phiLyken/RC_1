@@ -33,10 +33,14 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     UI_Unit m_UI;
 
     WaypointMover waypointMover;
-
+   
+    public int GetAPLeft()
+    {
+        return (MaxAP - AP_Used);
+    }
     public bool HasAP(int ap)
     {
-        return (MaxAP - AP_Used) >= ap;
+        return  GetAPLeft() >= ap;
     }
 
     void Awake()
@@ -149,10 +153,10 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     }
 
     void OnActionUsed(UnitActionBase action)
-    {
-
+    {        
         AP_Used += action.AP_Cost;
         TurnTime += action.TurnTimeCost;
+       // Debug.Log(TurnTime);
         if(TurnSystem.HasTurn(this))
             PanCamera.Instance.PanToPos(currentTile.GetPosition());
         UnsetCurrentAction();
@@ -203,7 +207,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     public void UnitSelected()
     {
         //Fire Static event and let everyone know this unit has been selected/klicked
-        Debug.Log("slct");
+        Debug.Log("unit selected");
         /** Cheat && Debug**/
         if(Input.GetKey(KeyCode.T))
          ReceiveDamage(new Damage());
@@ -224,7 +228,8 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     }        
 
     public void SetMovementTile(Tile target, List<Tile> path)
-    {       
+    {
+        Debug.Log("set movement tile");
         SetTile(target);
         target.SetChild(this.gameObject);
         waypointMover.MoveOnPath(path, 3);
@@ -261,23 +266,24 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
 
     public int GetTurnTimeCost()
     {
-        return 2;
+        return TurnTime;
     }
 
     public int GetNextTurnTime()
     {
-        return TurnTime ;
+     //   Debug.Log(TurnTime);
+        return TurnTime;
     }
    
     public void SetNextTurnTime(int turns)
     {
-     //   Debug.Log("Turn - setting next turn time " + turns);
+        Debug.Log("Turn - setting next turn time " + turns);
         TurnTime = turns;
     }
 
     public void StartTurn()
     {
-        //  Debug.Log("Turn in unit start " + GetID());  7
+        Debug.Log("NEW TURN:" + GetID());  
         UI_ActiveUnit.Instance.SelectedUnitTF.text = GetID();
         UnSelectCurrent();
         PanCamera.FocusOnPlanePoint(currentTile.GetPosition());

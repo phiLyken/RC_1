@@ -361,7 +361,7 @@ public class TileManager : MonoBehaviour {
 		List<Tile> tilesInDistance = new List<Tile>();
 		
 		foreach ( Tile t in TileManager.Instance.Tiles){
-			if( Vector3.Distance( center, t.transform.position) < range	){
+			if( Vector3.Distance( center, t.transform.position) <= range	){
 				tilesInDistance.Add(t);	
 			}
 		}

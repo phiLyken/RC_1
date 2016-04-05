@@ -6,7 +6,7 @@ public class UnitAction_Attack : UnitActionBase {
 
     GameObject AimIndicator;
 
-    public int Range;
+    public float Range;
     public bool CanTargetOwn;
     public bool CanTargetSelf;
 
@@ -25,6 +25,7 @@ public class UnitAction_Attack : UnitActionBase {
         base.SelectAction();
         Unit.OnUnitHover += OnUnitHover;
         Unit.OnUnitSelect += UnitSelected;
+        TileCollectionHighlight.SetHighlight(TileManager.Instance.GetTilesInDistance(Owner.currentTile.GetPosition(), Range), "attack_range");
     }
 
     public override void UnSelectAction()
@@ -32,6 +33,7 @@ public class UnitAction_Attack : UnitActionBase {
         AimIndicator.SetActive(false);
         Unit.OnUnitHover -= OnUnitHover;
         Unit.OnUnitSelect -= UnitSelected;
+        TileCollectionHighlight.DisableHighlight();
     }
 
     void UnitSelected(Unit u)
@@ -41,7 +43,7 @@ public class UnitAction_Attack : UnitActionBase {
             AttemptExection();
         }
     }
-
+    
     protected override void ActionExecuted()
     {
        
@@ -73,7 +75,7 @@ public class UnitAction_Attack : UnitActionBase {
     }
 
 
-    static bool isInRange(Unit attacker, Unit other, int range)
+    static bool isInRange(Unit attacker, Unit other, float range)
     {
         return (other.currentTile.GetPosition() - attacker.currentTile.GetPosition()).magnitude <= range;
     }
@@ -97,7 +99,7 @@ public class UnitAction_Attack : UnitActionBase {
     /// </summary>
     /// <param name="list"></param>
     /// <returns></returns>
-    public static List<Unit> GetAttackableUnits(List<Unit> list, Unit attacker, int range)
+    public static List<Unit> GetAttackableUnits(List<Unit> list, Unit attacker, float range)
     {
         for(int i = list.Count-1; i >= 0; i--)
         {

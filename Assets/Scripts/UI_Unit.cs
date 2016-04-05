@@ -14,7 +14,7 @@ public class UI_Unit : MonoBehaviour {
     public static UI_Unit CreateUnitUI()
     {
         GameObject obj = (Instantiate(Resources.Load("unit_ui")) as GameObject);
-        obj.transform.parent = GameObject.FindGameObjectWithTag("UI").transform;
+        obj.transform.SetParent(GameObject.FindGameObjectWithTag("UI").transform, false);
         return obj.GetComponent<UI_Unit>();
     }
 
@@ -32,14 +32,25 @@ public class UI_Unit : MonoBehaviour {
     public void SetUnitInfo(Unit u)
     {
         m_unit = u;
-        UnitName.text = m_unit.name;
+       // UnitName.text = m_unit.name;
         WillBar.SetProgress(m_unit.Stats.GetStat(UnitStats.Stats.will).GetProgress());
         WillBar.SetBarText(m_unit.Stats.GetStat(UnitStats.Stats.will).current + "/" + m_unit.Stats.GetStat(UnitStats.Stats.will).max);
 
         IntensityBar.SetProgress(m_unit.Stats.GetStat(UnitStats.Stats.intensity).GetProgress());
         IntensityBar.SetBarText(m_unit.Stats.GetStat(UnitStats.Stats.intensity).current + "/" + m_unit.Stats.GetStat(UnitStats.Stats.intensity).max);
-        MoveField.text = m_unit.HasAP(1).ToString();
+        MoveField.text = "";
+        for(int i = 0; i < u.GetAPLeft(); i++)
+        {
+            MoveField.text += "o";
+        }
 
+        if(u.OwnerID == 0)
+        {
+            WillBar.Bar.GetComponent<Image>().color = new Color(0f, 0.6f,0.8f , 1);
+        } else
+        {
+            WillBar.Bar.GetComponent<Image>().color = new Color(1, 0.5f, 0, 1);
+        }
        
     }
 

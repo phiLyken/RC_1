@@ -72,6 +72,7 @@ public class UnitActionBase : MonoBehaviour {
     }
      protected virtual void ActionExecuted()
     {
+        Debug.Log(ActionID + " done");
         ActionInProgress = false;
         if (OnExecuteAction != null) OnExecuteAction(this);
     }

@@ -5,7 +5,7 @@ public class WorldExtender : MonoBehaviour {
     /// <summary>
     /// Tiles left in the grid under consideration of the crumble-row when a new region is spawned
     /// </summary>
-    public int MintTilesCrumble;
+    public int MinTilesCrumble;
     public int MinTilesLastUnit;
 
     static  public int currentPhaseID;
@@ -24,7 +24,7 @@ public class WorldExtender : MonoBehaviour {
 
     void OnGlobalTurn(int crumble_row)
     {
-        if (LastUnitCloseToEnd(TileManager.Instance.FirstUnitRow(1)))
+        if (LastUnitCloseToEnd(TileManager.Instance.FirstUnitRow(0)))
         {
             SpawnNext();
         }
@@ -47,7 +47,7 @@ public class WorldExtender : MonoBehaviour {
 
     bool HasEnoughSpace(int crumble_row)
     {
-        return (TileManager.Instance.GridHeight - crumble_row) < MintTilesCrumble;
+        return (TileManager.Instance.GridHeight - crumble_row) < MinTilesCrumble;
     }
 
     bool LastUnitCloseToEnd(int last_unit_row)
