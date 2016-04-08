@@ -14,7 +14,7 @@ public class UnitAI : MonoBehaviour {
 
     void StartTurn(Unit u)
     {
-        Debug.Log("...well....");
+        Debug.Log(m_unit.GetID() + "...well....");
         StartCoroutine(AISequence());
     }
 
@@ -23,8 +23,12 @@ public class UnitAI : MonoBehaviour {
     {
        
         yield return null;
-        Debug.Log("Selecting atk");
-        m_unit.SelectAbility(2);
+        Debug.Log(m_unit.GetID() + " Selecting atk");
+        UnitAction_Attack Attack = m_unit.SelectAbility(2) as UnitAction_Attack;
+        if (Attack  == null || !Attack.HasRequirements())
+        {
+            yield break;
+        }
         yield return new WaitForSeconds(0.5f);
        
         target.OnHover();
@@ -35,16 +39,18 @@ public class UnitAI : MonoBehaviour {
     IEnumerator Move()
     {
         yield return null;
-        Debug.Log("Selecting move");
-        m_unit.SelectAbility(0);
+        Debug.Log(m_unit.GetID()+ "Selecting move");
+        UnitAction_Move move = (UnitAction_Move) m_unit.SelectAbility(0) ;
+        if (move == null || !move.HasRequirements()) yield break;
+
         yield return new WaitForSeconds(1);
-        Debug.Log("Getting targets");
-        List<Tile> walkable = (m_unit.Actions[0] as UnitAction_Move).GetWalkableTiles(m_unit.currentTile);
+        Debug.Log(m_unit.GetID() + " getting move targets");
+        List<Tile> walkable = move.GetWalkableTiles(m_unit.currentTile);
         Tile best = FindBestWalkableTile(walkable);
         best.OnHover();
         yield return new WaitForSeconds(1);
         
-        Debug.Log("Select tile");
+        Debug.Log(m_unit.GetID() + " Select tile to for move "+best.TilePos);
         TileSelecter.SelectTile(best);
         
         
@@ -52,12 +58,15 @@ public class UnitAI : MonoBehaviour {
     IEnumerator AISequence()
     {
         while( !(m_unit as ITurn).HasEndedTurn()){
+
             yield return StartCoroutine( Decide());
         }
 
     }
     IEnumerator Decide()
     {
+
+        Debug.Log(m_unit.GetID() + "decide");
         List<Unit> attackables = UnitAction_Attack.GetAttackableUnits(Unit.GetAllUnitsOfOwner(0), m_unit, (m_unit.Actions[2] as UnitAction_Attack).Range);
         Unit target = FindBestUnitToAttack(attackables);
 
@@ -65,6 +74,7 @@ public class UnitAI : MonoBehaviour {
             yield return StartCoroutine(Attack(target));
         } else
         {
+           
             yield return StartCoroutine(Move());
         }
     }

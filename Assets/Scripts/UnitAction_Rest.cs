@@ -14,6 +14,7 @@ public class UnitAction_Rest : UnitActionBase
 
     public override void UnSelectAction()
     {
+        base.UnSelectAction();
         StopAllCoroutines();
     }
 

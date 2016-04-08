@@ -13,7 +13,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     public UnitActionBase[] Actions;
     UnitActionBase CurrentAction;
 
-    [HideInInspector]
+  //  [HideInInspector]
     public UnitStats Stats;
     
     public static List<Unit> AllUnits = new List<Unit>();
@@ -27,7 +27,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     
     public int OwnerID;
 
-    [HideInInspector]
+  //  [HideInInspector]
     public Tile currentTile;
 
     UI_Unit m_UI;
@@ -77,6 +77,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     }
     public void UpdateUI()
     {
+        if (Stats.GetStat(UnitStats.Stats.will).current <= 0) return;
         m_UI.SetUnitInfo(this);
         m_UI.gameObject.SetActive(true);
     }
@@ -120,26 +121,28 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
             SelectAbility(3);
         }
     }
-    public void SelectAbility(int index)
+    public UnitActionBase SelectAbility(int index)
     {
+        Debug.Log("Select Ability " + index);
       //  if (index > Actions.Length) return;
-        if (SelectedUnit != this) return;
+        if (SelectedUnit != this) return null;
         if (CurrentAction != null && CurrentAction == Actions[index])
         {
             UnsetCurrentAction();
-            return;
+            return null;
         }
 
         UnsetCurrentAction();
         if (Actions.Length <= index)
         {
             Debug.LogWarning("No ability #" + index);
-            return;
+            return null;
         }
 
         CurrentAction = Actions[index];
         CurrentAction.OnExecuteAction += OnActionUsed;
         CurrentAction.SelectAction();
+        return CurrentAction;
 
     }
 
@@ -160,7 +163,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
         if(TurnSystem.HasTurn(this))
             PanCamera.Instance.PanToPos(currentTile.GetPosition());
         UnsetCurrentAction();
-
+        Debug.Log( GetID()+" Action used" + action.ActionID);
     }
 
     void SetTile(Tile t)

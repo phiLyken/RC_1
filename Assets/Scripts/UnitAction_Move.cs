@@ -9,7 +9,10 @@ public class UnitAction_Move : UnitActionBase {
 
     public override void SelectAction()
     {
+        
+
         base.SelectAction();
+        if (Owner.GetComponent<WaypointMover>().Moving) return;
         TileCollectionHighlight.SetHighlight(GetWalkableTiles(Owner.currentTile), "selected");
         TileSelecter.OnTileSelect += SetMovementTile;
         TileSelecter.OnTileHover += SetPreviewTile;    
@@ -29,7 +32,6 @@ public class UnitAction_Move : UnitActionBase {
         List<Tile> pathToTile = TileManager.Instance.FindPath(Owner.currentTile, t);
         if(Owner.PathWalkable(pathToTile))
         {
-
             if(pathpreview != null)
             {
                 Destroy(pathpreview.gameObject);
@@ -51,17 +53,18 @@ public class UnitAction_Move : UnitActionBase {
 
         Debug.Log("move executed");
         Owner.SetMovementTile(currentTargetTile, currentPath);
+ 
         base.ActionExecuted();
-        
+
     }
 
     protected override bool CanExecAction()
-    {
-        Debug.Log("checking if can execute move");
-        return base.CanExecAction() && currentTargetTile != null && currentPath != null;
+    {    
+        return base.CanExecAction() && !Owner.GetComponent<WaypointMover>().Moving && currentTargetTile != null && currentPath != null;
     }
     public override void UnSelectAction()
     {
+        base.UnSelectAction();
         currentPath = null;
         currentTargetTile = null;
 

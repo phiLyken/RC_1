@@ -31,6 +31,7 @@ public class UI_Unit : MonoBehaviour {
 
     public void SetUnitInfo(Unit u)
     {
+       
         m_unit = u;
        // UnitName.text = m_unit.name;
         WillBar.SetProgress(m_unit.Stats.GetStat(UnitStats.Stats.will).GetProgress());

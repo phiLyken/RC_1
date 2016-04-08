@@ -14,7 +14,7 @@ public class UnitActionBase : MonoBehaviour {
 
     public string Descr;
 
-    [HideInInspector]
+
     public int AP_Cost = 1;
 
     protected  Unit Owner;
@@ -40,11 +40,17 @@ public class UnitActionBase : MonoBehaviour {
     {
         if(!Owner.HasAP(AP_Cost))
         {
+            Debug.Log("not enough ap");
             return false;
         }
+
         foreach (StatInfo s in Requirements)
         {
-            if (Owner.Stats.GetStat(s.Stat).current < s.Amount) return false;
+            if (Owner.Stats.GetStat(s.Stat).current < s.Amount)
+            {
+                Debug.Log("not enough  " + Owner.Stats.GetStat(s.Stat).ToString());
+                return false;
+            }
         }
         return true;
     }
@@ -57,8 +63,10 @@ public class UnitActionBase : MonoBehaviour {
         if (CanExecAction())
         {
             ApplyCost();
-            ActionExecuted();
-              
+            ActionExecuted();              
+        } else
+        {
+            Debug.Log("Coudlnt execute "+ActionID +" ap cost:"+AP_Cost+" / "+Owner.GetAPLeft()  );
         }
     }
 
