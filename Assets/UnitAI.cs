@@ -2,12 +2,15 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class UnitAI : MonoBehaviour {
 
+public class UnitAI : MonoBehaviour, ITriggerable {
+    public GameObject Cover;
     Unit m_unit;
+    bool AttackingPlayer;
 
     void Awake()
     {
+        AttackingPlayer = false;
         m_unit = GetComponent<Unit>();
         m_unit.OnTurnStart += StartTurn;
     }
@@ -20,8 +23,7 @@ public class UnitAI : MonoBehaviour {
 
 
     IEnumerator Attack(Unit target)
-    {
-       
+    {       
         yield return null;
      //   Debug.Log(m_unit.GetID() + " Selecting atk");
         UnitAction_Attack Attack = m_unit.SelectAbility(2) as UnitAction_Attack;
@@ -66,15 +68,22 @@ public class UnitAI : MonoBehaviour {
     IEnumerator Decide()
     {
 
+        if (AttackingPlayer)
+        {
        // Debug.Log(m_unit.GetID() + "decide");
         List<Unit> attackables = UnitAction_Attack.GetAttackableUnits(Unit.GetAllUnitsOfOwner(0), m_unit, (m_unit.Actions[2] as UnitAction_Attack).Range);
         Unit target = FindBestUnitToAttack(attackables);
 
-        if(target != null)        {
-            yield return StartCoroutine(Attack(target));
+            if (target != null)
+            {
+                yield return StartCoroutine(Attack(target));
+            }
+            else
+            {
+                yield return StartCoroutine(Move());
+            }
         } else
         {
-           
             yield return StartCoroutine(Move());
         }
     }
@@ -88,5 +97,12 @@ public class UnitAI : MonoBehaviour {
         if (units.Count == 0) return null;
 
         return units[Random.Range(0, units.Count)];
+    }
+
+    public void OnTrigger()
+    {
+        Cover.SetActive(false);
+        Debug.Log(m_unit.GetID() + " now attacking");
+        AttackingPlayer = true;
     }
 }
