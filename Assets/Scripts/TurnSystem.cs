@@ -54,7 +54,7 @@ public class TurnSystem : MonoBehaviour {
         Debug.Log("Start Turn System " + Turnables.Count);
         while ( next != null)
         {
-            Debug.Log("turn " + currentTurn);
+            Debug.Log("Turn  no#" + currentTurn);
             next.StartTurn();
             Current = next;
             yield return StartCoroutine(WaitForTurn(next));

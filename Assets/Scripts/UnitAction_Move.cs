@@ -21,14 +21,14 @@ public class UnitAction_Move : UnitActionBase {
 
     void SetMovementTile(Tile t)
     {
-        Debug.Log("set movement tile");
+        //Debug.Log("set movement tile");
         AttemptExection();        
     }
 
     PathDisplay pathpreview;
     void SetPreviewTile(Tile t)
     {
-        Debug.Log("setpreview tile");
+       // Debug.Log("setpreview tile");
         List<Tile> pathToTile = TileManager.Instance.FindPath(Owner.currentTile, t);
         if(Owner.PathWalkable(pathToTile))
         {
@@ -45,13 +45,13 @@ public class UnitAction_Move : UnitActionBase {
         {
             currentPath = null;
             currentTargetTile = null;
-            Debug.Log("cannot move to tile");
+          //  Debug.Log("cannot move to tile");
         }
     }
     protected override void ActionExecuted()
     {
 
-        Debug.Log("move executed");
+       // Debug.Log("move executed");
         Owner.SetMovementTile(currentTargetTile, currentPath);
  
         base.ActionExecuted();

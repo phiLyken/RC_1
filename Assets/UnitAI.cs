@@ -14,7 +14,7 @@ public class UnitAI : MonoBehaviour {
 
     void StartTurn(Unit u)
     {
-        Debug.Log(m_unit.GetID() + "...well....");
+      //  Debug.Log(m_unit.GetID() + "...well....");
         StartCoroutine(AISequence());
     }
 
@@ -23,7 +23,7 @@ public class UnitAI : MonoBehaviour {
     {
        
         yield return null;
-        Debug.Log(m_unit.GetID() + " Selecting atk");
+     //   Debug.Log(m_unit.GetID() + " Selecting atk");
         UnitAction_Attack Attack = m_unit.SelectAbility(2) as UnitAction_Attack;
         if (Attack  == null || !Attack.HasRequirements())
         {
@@ -39,18 +39,18 @@ public class UnitAI : MonoBehaviour {
     IEnumerator Move()
     {
         yield return null;
-        Debug.Log(m_unit.GetID()+ "Selecting move");
+       // Debug.Log(m_unit.GetID()+ "Selecting move");
         UnitAction_Move move = (UnitAction_Move) m_unit.SelectAbility(0) ;
         if (move == null || !move.HasRequirements()) yield break;
 
         yield return new WaitForSeconds(1);
-        Debug.Log(m_unit.GetID() + " getting move targets");
+      //  Debug.Log(m_unit.GetID() + " getting move targets");
         List<Tile> walkable = move.GetWalkableTiles(m_unit.currentTile);
         Tile best = FindBestWalkableTile(walkable);
         best.OnHover();
         yield return new WaitForSeconds(1);
         
-        Debug.Log(m_unit.GetID() + " Select tile to for move "+best.TilePos);
+       // Debug.Log(m_unit.GetID() + " Select tile to for move "+best.TilePos);
         TileSelecter.SelectTile(best);
         
         
@@ -66,7 +66,7 @@ public class UnitAI : MonoBehaviour {
     IEnumerator Decide()
     {
 
-        Debug.Log(m_unit.GetID() + "decide");
+       // Debug.Log(m_unit.GetID() + "decide");
         List<Unit> attackables = UnitAction_Attack.GetAttackableUnits(Unit.GetAllUnitsOfOwner(0), m_unit, (m_unit.Actions[2] as UnitAction_Attack).Range);
         Unit target = FindBestUnitToAttack(attackables);
 

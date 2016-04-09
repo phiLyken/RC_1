@@ -9,4 +9,5 @@ public class Damage
 public interface IDamageable {
 
     void ReceiveDamage(Damage dmg);
+    bool isDead();
 }

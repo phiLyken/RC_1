@@ -213,6 +213,11 @@ public class TileManager : MonoBehaviour {
     {
 
         AppendGrid(manager.FetchTiles());
+        UnitSpawnManager spawner = manager.gameObject.GetComponent <UnitSpawnManager>();
+        if(spawner != null)
+        {
+            spawner.SpawnUnits();
+        }
         DestroyImmediate(manager.gameObject);
        
     }
@@ -226,6 +231,7 @@ public class TileManager : MonoBehaviour {
         SetTilesToGridPosition(newTiles);       
         SetTiles(FetchTiles());
 
+        
     }
     void SetTilePhaseID(Tile[,] tiles, int id)
     {

@@ -5,7 +5,7 @@ using System;
 
 public delegate void UnitEventHandler(Unit u);
 public class Unit : MonoBehaviour, ITurn, IDamageable {
-
+    
     int AP_Used = 99;
     int MaxAP = 2;
     public int TurnTime;
@@ -27,6 +27,8 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     
     public int OwnerID;
 
+    public bool PrePlaced = true;
+
   //  [HideInInspector]
     public Tile currentTile;
 
@@ -34,6 +36,10 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
 
     WaypointMover waypointMover;
    
+    public bool isDead()
+    {
+        return Stats.GetStat(UnitStats.Stats.will).current <= 0;
+    }
     public int GetAPLeft()
     {
         return (MaxAP - AP_Used);
@@ -65,8 +71,10 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
         m_UI = UI_Unit.CreateUnitUI();
         DisableUI();
 
-        SetTile(TileManager.Instance.GetClosestTile(transform.position));
-        transform.position = currentTile.GetPosition();
+        if(PrePlaced)
+            SetTile(TileManager.Instance.GetClosestTile(transform.position), true);
+
+       // transform.position = currentTile.GetPosition();
 
         RegisterTurn();
     }
@@ -123,7 +131,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     }
     public UnitActionBase SelectAbility(int index)
     {
-        Debug.Log("Select Ability " + index);
+      //  Debug.Log("Select Ability " + index);
       //  if (index > Actions.Length) return;
         if (SelectedUnit != this) return null;
         if (CurrentAction != null && CurrentAction == Actions[index])
@@ -166,12 +174,13 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
         Debug.Log( GetID()+" Action used" + action.ActionID);
     }
 
-    void SetTile(Tile t)
+
+    public void SetTile(Tile t, bool updatePosition )
     {
         if (currentTile != null)
         {
             currentTile.OnDeactivate -= OnTileCurrentDeactivate;
-            if(currentTile.Child == gameObject)
+            if(currentTile.Child == this.gameObject)
             {
                 currentTile.Child = null;
             }
@@ -179,12 +188,18 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
         if(t != null) { 
             currentTile = t;
             currentTile.OnDeactivate += OnTileCurrentDeactivate;
+            t.SetChild(this.gameObject);
+        }
+
+        if (updatePosition)
+        {
+            transform.position = t.GetPosition();
         }
     }
    
     void OnTileCurrentDeactivate(Tile t)
     {
-        Debug.Log("tile deactivate");
+      //  Debug.Log("tile deactivate");
         if (t == currentTile) KillUnit();
     }
     void SetOwner(Player player)
@@ -210,7 +225,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     public void UnitSelected()
     {
         //Fire Static event and let everyone know this unit has been selected/klicked
-        Debug.Log("unit selected");
+        //Debug.Log("unit selected");
         /** Cheat && Debug**/
         if(Input.GetKey(KeyCode.T))
          ReceiveDamage(new Damage());
@@ -233,8 +248,8 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     public void SetMovementTile(Tile target, List<Tile> path)
     {
         Debug.Log("set movement tile");
-        SetTile(target);
-        target.SetChild(this.gameObject);
+        SetTile(target, false);
+
         waypointMover.MoveOnPath(path, 3);
     }
 
@@ -280,7 +295,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
    
     public void SetNextTurnTime(int turns)
     {
-        Debug.Log("Turn - setting next turn time " + turns);
+      //  Debug.Log("Turn - setting next turn time " + turns);
         TurnTime = turns;
     }
 
@@ -330,7 +345,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     public void ReceiveDamage(Damage dmg)
     {
        Stats.GetStat(UnitStats.Stats.will).ModifyStat(-dmg.amount);
-        Debug.Log(this.name + " rcv damge " + dmg.amount);
+     //   Debug.Log(this.name + " rcv damge " + dmg.amount);
        if( Stats.GetStat(UnitStats.Stats.will).current <= 0)
         {
             KillUnit();

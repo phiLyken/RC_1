@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using UnityEngine.UI;
+
 
 public class MyMath : MonoBehaviour {
 	
@@ -85,4 +88,239 @@ public class MyMath : MonoBehaviour {
             Destroy(obj.transform.GetChild(i).gameObject);
         }
     }
+
+
+    public static int FloatDirection(float f)
+    {
+        return (int)(f / Mathf.Abs(f));
+    }
+
+
+
+    public static int GetSecondsNow()
+    {
+        return ConvertToUnixTimestamp(System.DateTime.Now);
+    }
+
+    public static System.DateTime ConvertFromUnixTimestamp(double timestamp)
+    {
+        System.DateTime origin = new System.DateTime(1970, 1, 1, 0, 0, 0, 0);
+        return origin.AddSeconds(timestamp);
+    }
+
+    public static int ConvertToUnixTimestamp(System.DateTime date)
+    {
+        System.DateTime origin = new System.DateTime(1970, 1, 1, 0, 0, 0, 0);
+        System.TimeSpan diff = date.ToUniversalTime() - origin;
+        return (int)(diff.TotalSeconds);
+    }
+
+
+    public static Vector3 GetInputPosToPlane()
+    {
+
+        if (Application.isEditor)
+        {
+            return GetMouseWorldPos();
+        }
+        else
+        {
+            return GetTouchWorldPos();
+        }
+    }
+
+    public static Vector2 GetTouchMousePos()
+    {
+        if (Application.isEditor)
+        {
+            return Input.mousePosition;
+        }
+        else
+        {
+            return Input.touches[0].position;
+        }
+    }
+
+
+
+
+    public static string GetStringFromSeconds(int seconds)
+    {
+
+        System.TimeSpan t = System.TimeSpan.FromSeconds(seconds);
+        string timeText;
+        int days = seconds / 86400;
+
+        if (days >= 1)
+        {
+            string dayText = days > 1 ? "DAYS" : "DAY";
+            timeText = string.Format("{0:D1} " + dayText + " - {1:D2}:{2:D2}:{3:D2}", t.Days, t.Hours, t.Minutes, t.Seconds);
+        }
+        else
+        {
+            timeText = string.Format("{0:D2}:{1:D2}:{2:D2}", t.Hours, t.Minutes, t.Seconds);
+        }
+        return timeText;
+
+    }
+
+
+    public static bool StringArContains(string[] ar, string s)
+    {
+        for (int i = 0; i < ar.Length; i++) if (ar[i] == s) return true;
+
+        return false;
+    }
+
+    public static float VectorDot01(Vector3 _in, Vector3 _out)
+    {
+        return (Vector3.Dot(_in, _out) * 0.5f) + 0.5f;
+    }
+
+    public static Vector2 Get2DForward(Transform tr)
+    {
+        return new Vector2(tr.forward.x, tr.forward.y);
+    }
+
+    public static Vector2 Get2DUP(Transform tr)
+    {
+        return new Vector2(tr.up.x, tr.up.y);
+    }
+
+    public static List<Transform> AddChildrenToList(Transform parent)
+    {
+        List<Transform> children = new List<Transform>();
+        for (int i = 0; i < parent.childCount; i++)
+        {
+            children.Add(parent.GetChild(i));
+
+        }
+
+        return children;
+    }
+
+    public static T GetRandomObject<T>(List<T> objects)
+    {
+        return objects[Random.Range(0, objects.Count - 1)];
+    }
+
+    public static T GetRandomObject<T>(T[] objects)
+    {
+        return objects[Random.Range(0, objects.Length)];
+    }
+
+    /// <summary>
+    /// Returns a certain amount of items randomly from a list
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="list"></param>
+    /// <param name="num"></param>
+    /// <returns></returns>
+    public static List<T> GetRandomObjects<T>(List<T> list, int num)
+    {
+        int count = Mathf.Min(num, list.Count);
+        List<T> ret = new List<T>();
+        List<T> copy = new List<T>(list);
+
+        for(int i = 0; i < count; i++)
+        {
+            T item = GetRandomObject(copy);
+            copy.Remove(item);
+            ret.Add(item);
+        }
+
+        return ret;
+    }
+
+
+    public static void FadeText(Text t, int cycles, Color Color1, Color Color2, float time1, float time2)
+    {
+        t.StartCoroutine(FadeTextSequence(t, cycles, Color1, Color2, time1, time2));
+    }
+    static IEnumerator FadeTextSequence(Text t, int cycles, Color Color1, Color Color2, float time1, float time2)
+    {
+        int m_cycles = cycles;
+        while (cycles <= 0 || m_cycles >= 0)
+        {
+
+            yield return t.StartCoroutine(FadeTextOnce(t, Color1, time1));
+            m_cycles--;
+            if (cycles <= 0 || m_cycles > 0)
+            {
+                yield return t.StartCoroutine(FadeTextOnce(t, Color2, time2));
+            }
+            m_cycles--;
+            yield return null;
+        }
+    }
+
+    static IEnumerator FadeTextOnce(Text tf, Color targetColor, float t)
+    {
+        Color startcolor = tf.color;
+        float time = 0;
+        while (time < t)
+        {
+            Color newColor = Color.Lerp(startcolor, targetColor, time / t);
+            tf.color = newColor;
+            time += Time.deltaTime;
+            yield return null;
+        }
+        yield break;
+    }
+
+    public static float OrthogonalStrength(Vector2 _ref, Vector2 _in)
+    {
+        Vector2 perp = Vector3.Cross(_ref, new Vector3(0, 0, 1));
+        return Vector2.Dot(perp, _in);
+
+    }
+
+    public static bool MouseTouchUp()
+    {
+
+        if (Application.isEditor)
+        {
+            return Input.GetMouseButtonUp(0);
+        }
+        else
+        {
+            return Input.touchCount > 0 && (Input.touches[0].phase == TouchPhase.Canceled || Input.touches[0].phase == TouchPhase.Ended);
+        }
+    }
+
+    public static bool MouseTouchDown()
+    {
+
+
+        if (Application.isEditor)
+        {
+            return Input.GetMouseButtonDown(0);
+        }
+        else
+        {
+            return Input.touchCount > 0 && (Input.touches[0].phase == TouchPhase.Began);
+        }
+    }
+
+    public static bool MouseTouchHold()
+    {
+
+        if (Application.isEditor)
+        {
+            return Input.GetMouseButton(0);
+        }
+        else
+        {
+            return Input.touchCount > 0;
+        }
+    }
+
+    public static void CopyTransform(Transform from, Transform to)
+    {
+        to.position = from.position;
+        to.rotation = from.rotation;
+        to.localScale = from.localScale;
+
+    }
+
 }
