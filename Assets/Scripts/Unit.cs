@@ -44,14 +44,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
         }
     }
 
-    public float Multiplier_DamageReceived
-    {
-        get
-        {
-            float current_int = Stats.GetStat(UnitStats.Stats.will).current;
-            return 1 + (current_int / 100f) * Constants.INT_TO_DMG_RCV;
-        }
-    }
+
 
     public bool isDead()
     {
@@ -378,11 +371,12 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     }
 
     public void ReceiveDamage(Damage dmg)
-    {  
+    {
+        float mod = Constants.IncomingDamageModifier(Stats.GetStat(UnitStats.Stats.intensity).current);
 
-        float dmg_received = -dmg.amount * Multiplier_DamageReceived;
-        float int_received = dmg_received * Constants.RCV_DMG_TO_INT;
-        Debug.Log(this.name + " rcv damge " + dmg_received + "  rcvd multiplier:"+Multiplier_DamageReceived+"  +int="+int_received);
+        float dmg_received = - (dmg.amount + mod);
+        float int_received = Mathf.Abs( dmg_received ) * Constants.RCV_DMG_TO_INT;
+        Debug.Log(this.name + " rcv damge " + dmg_received + "  rcvd multiplier:"+ mod + "  +int="+int_received);
 
 
         Stats.GetStat(UnitStats.Stats.will).ModifyStat(dmg_received);

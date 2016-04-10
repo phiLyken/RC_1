@@ -4,9 +4,9 @@ using System.Collections;
 public class Constants : MonoBehaviour {
     
     /// <summary>
-    /// multliplier is calculated by 1 + INT(damage receiver) * INT_TO_DMG;
+    /// for each intensity point, nore damage is received
     /// </summary>
-    public static float INT_TO_DMG_RCV = 1;
+    public static float DAMAGE_RECEIVED_PER_INT = 0.25f;
 
     /// <summary>
     /// How close a player unit must come before the an enemy AI is activated and added to the turn system
@@ -28,5 +28,10 @@ public class Constants : MonoBehaviour {
     /// </summary>
     public static float INT_TO_HEAL = 0.5f;
 
-   
+
+    public static float IncomingDamageModifier(float intensity)
+    {
+        return 1 + intensity * DAMAGE_RECEIVED_PER_INT;
+    }
+
 }

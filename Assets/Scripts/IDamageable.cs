@@ -9,6 +9,6 @@ public class Damage
 public interface IDamageable {
 
     void ReceiveDamage(Damage dmg);
-    float Multiplier_DamageReceived { get; }
-    bool isDead();
+   
+
 }
