@@ -27,7 +27,7 @@ public class SelectibleObjectBase : MonoBehaviour {
 
         if (inFocus && !PanCamera.CameraAction && Input.GetMouseButtonUp(0))
         {
-            Debug.Log("foo");
+
             Select(); 
         }
     }

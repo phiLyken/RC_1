@@ -34,7 +34,7 @@ public interface ITurn {
     /// <summary>
     /// Called for each turn of any item (use to decrement time of each item)
     /// </summary>
-    void GlobalTurn();
+    void GlobalTurn(int turn);
 
     /// <summary>
     /// When spawned, turnable should register to TurnSystem.Register
@@ -59,6 +59,11 @@ public interface ITurn {
     int GetTurnControllerID();
 
 
-   
+    bool IsActive
+    {
+        get ;
+    }
+
+    void SkipTurn();
 
 }

@@ -8,7 +8,7 @@ public class UnitActionBase : MonoBehaviour {
     protected bool ActionInProgress;
     public ActionEventHandler OnExecuteAction;
     public StatInfo[] Requirements;
-    public StatInfo[] Cost;
+   
 
     public int TurnTimeCost;
 
@@ -61,8 +61,7 @@ public class UnitActionBase : MonoBehaviour {
     public  void AttemptExection()
     {
         if (CanExecAction())
-        {
-            ApplyCost();
+        { 
             ActionExecuted();              
         } else
         {
@@ -70,14 +69,6 @@ public class UnitActionBase : MonoBehaviour {
         }
     }
 
-    void ApplyCost()
-    {
-        foreach (StatInfo s in Cost)
-        {
-            Owner.Stats.GetStat(s.Stat).ModifyStat(s.Amount);
-            Owner.UpdateUI();
-        }
-    }
      protected virtual void ActionExecuted()
     {
         Debug.Log(ActionID + " done");

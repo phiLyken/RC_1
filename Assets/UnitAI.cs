@@ -23,7 +23,8 @@ public class UnitAI : MonoBehaviour, ITriggerable {
 
 
     IEnumerator Attack(Unit target)
-    {       
+    {
+        Debug.Log("ai: attack");
         yield return null;
      //   Debug.Log(m_unit.GetID() + " Selecting atk");
         UnitAction_Attack Attack = m_unit.SelectAbility(2) as UnitAction_Attack;
@@ -31,31 +32,75 @@ public class UnitAI : MonoBehaviour, ITriggerable {
         {
             yield break;
         }
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.25f);
        
         target.OnHover();
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.25f);
         target.UnitSelected();
     }
 
-    IEnumerator Move()
+    IEnumerator MoveRandom()
     {
+        Debug.Log("ai: random");
+        UnitAction_Move move = (m_unit.Actions[0] as UnitAction_Move);
+        Tile randomDest = GetRandomWalkableTile(move);
+        if(randomDest != null)
+        {
+            yield return StartCoroutine(Move(randomDest));
+        } else
+        {
+            SkipTurn();
+        }
+
+
+    }
+    IEnumerator Move(Tile t)
+    {
+        Debug.Log("ai: move");
         yield return null;
-       // Debug.Log(m_unit.GetID()+ "Selecting move");
-        UnitAction_Move move = (UnitAction_Move) m_unit.SelectAbility(0) ;
+        // Debug.Log(m_unit.GetID()+ "Selecting move");
+        UnitAction_Move move = (UnitAction_Move)m_unit.SelectAbility(0);
+       
         if (move == null || !move.HasRequirements()) yield break;
 
-        yield return new WaitForSeconds(1);
-      //  Debug.Log(m_unit.GetID() + " getting move targets");
-        List<Tile> walkable = move.GetWalkableTiles(m_unit.currentTile);
-        Tile best = FindBestWalkableTile(walkable);
-        best.OnHover();
-        yield return new WaitForSeconds(1);
-        
-       // Debug.Log(m_unit.GetID() + " Select tile to for move "+best.TilePos);
-        TileSelecter.SelectTile(best);
-        
-        
+        yield return new WaitForSeconds(0.5f);
+        //  Debug.Log(m_unit.GetID() + " getting move targets");
+
+        t.OnHover();
+        yield return new WaitForSeconds(0.5f);
+
+        // Debug.Log(m_unit.GetID() + " Select tile to for move "+best.TilePos);
+        TileSelecter.SelectTile(t);
+    }
+    IEnumerator MoveToAttackPosition()
+    {
+        Debug.Log("ai: move to attack position");
+        UnitAction_Attack atk = (m_unit.Actions[2] as UnitAction_Attack);
+        UnitAction_Move  move = (m_unit.Actions[0] as UnitAction_Move);
+        List<Tile> walkables = move.GetWalkableTiles(m_unit.currentTile);
+        List<Unit> all_enemies = Unit.GetAllUnitsOfOwner(0);
+
+        foreach(Tile t in walkables)
+        {
+            foreach(Unit u in all_enemies)
+            {
+                if (UnitAction_Attack.isInRange(m_unit, u, atk.Range, t)){
+                    yield return StartCoroutine(Move(t));
+                    yield break;
+                }
+            }
+        }
+
+        yield return StartCoroutine( MoveRandom());
+
+    }
+    List<Tile> GetWalkableTiles(UnitAction_Move m)
+    {
+        return m.GetWalkableTiles(m_unit.currentTile); 
+    }
+    Tile GetRandomWalkableTile(UnitAction_Move m)
+    {
+        return FindBestWalkableTile(GetWalkableTiles(m) );
     }
     IEnumerator AISequence()
     {
@@ -80,12 +125,23 @@ public class UnitAI : MonoBehaviour, ITriggerable {
             }
             else
             {
-                yield return StartCoroutine(Move());
+                yield return StartCoroutine( MoveToAttackPosition());
             }
         } else
         {
-            yield return StartCoroutine(Move());
+            yield return StartCoroutine(MoveRandom());
         }
+
+       
+    }
+    void SkipTurn()
+    {
+        Debug.Log("ai skip turn");
+        m_unit.SkipTurn();
+    }
+    Tile GetAttackTile()
+    {
+        return null;
     }
     Tile FindBestWalkableTile(List<Tile> tiles)
     {

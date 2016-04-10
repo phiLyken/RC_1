@@ -5,6 +5,8 @@ using System.Collections.Generic;
 public class UnitAction_Rest : UnitActionBase
 {
 
+   
+
     public override void SelectAction()
     {
         base.SelectAction();
@@ -15,7 +17,7 @@ public class UnitAction_Rest : UnitActionBase
     public override void UnSelectAction()
     {
         base.UnSelectAction();
-        StopAllCoroutines();
+        StopAllCoroutines(); 
     }
 
     IEnumerator WaitForConfirmation()
@@ -28,6 +30,18 @@ public class UnitAction_Rest : UnitActionBase
 
     }
 
+    protected override void ActionExecuted()
+    {
+        float current_int = Owner.Stats.GetStat(UnitStats.Stats.intensity).current;
+        float heal_amount = current_int * Constants.INT_TO_HEAL;
 
+        //Empties Intensity
+        Owner.Stats.GetStat(UnitStats.Stats.intensity).ModifyStat(current_int);
+
+        Owner.Stats.GetStat(UnitStats.Stats.will).ModifyStat(heal_amount);
+
+        Owner.UpdateUI();
+        base.ActionExecuted();
+    }
 
 }

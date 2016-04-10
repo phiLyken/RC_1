@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using System;
+
 
 public delegate void UnitEventHandler(Unit u);
 public class Unit : MonoBehaviour, ITurn, IDamageable {
@@ -35,7 +35,24 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     UI_Unit m_UI;
 
     WaypointMover waypointMover;
-   
+
+    public bool IsActive
+    {
+        get
+        {
+            return (OwnerID == 0 || ActiveRangeToPlayerUnits(this));
+        }
+    }
+
+    public float Multiplier_DamageReceived
+    {
+        get
+        {
+            float current_int = Stats.GetStat(UnitStats.Stats.will).current;
+            return 1 + (current_int / 100f) * Constants.INT_TO_DMG;
+        }
+    }
+
     public bool isDead()
     {
         return Stats.GetStat(UnitStats.Stats.will).current <= 0;
@@ -55,7 +72,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
        
         AllUnits.Add(this);
         waypointMover = GetComponent<WaypointMover>();
-        TurnSystem.Register(this);
+      //  TurnSystem.Register(this);
         SelectibleObjectBase b = GetComponent<SelectibleObjectBase>();
         if (b == null)
             b = gameObject.AddComponent<SelectibleObjectBase>();
@@ -75,10 +92,17 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
             SetTile(TileManager.Instance.GetClosestTile(transform.position), true);
 
        // transform.position = currentTile.GetPosition();
-
-        RegisterTurn();
+       
     }
-
+    void Start()
+    {
+        if (IsActive) { 
+            RegisterTurn();
+        } else
+        {
+            TurnSystem.Instance.OnGlobalTurn += GlobalTurn;
+        }
+    }
     void DisableUI()
     {
         m_UI.gameObject.SetActive(false);
@@ -112,6 +136,11 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     void Update()
     {
         if (OwnerID != 0) return;
+
+        if (Input.GetKeyDown(KeyCode.Backspace))
+        {
+            SkipTurn();
+        }
         if (Input.GetKeyUp(KeyCode.Alpha1))
         {
             SelectAbility(0);
@@ -312,9 +341,14 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
         if (OnTurnStart != null) OnTurnStart(this);    
     }
 
-    public void GlobalTurn()
+    public void GlobalTurn(int turn)
     {
-        TurnTime--;
+        if (IsActive)
+        {
+            RegisterTurn();
+            TurnTime--;
+        }
+       
     }
 
     public bool HasEndedTurn()
@@ -343,8 +377,13 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     }
 
     public void ReceiveDamage(Damage dmg)
-    {
-       Stats.GetStat(UnitStats.Stats.will).ModifyStat(-dmg.amount);
+    {  
+
+        float dmg_received = -dmg.amount * Multiplier_DamageReceived;
+        float int_received = dmg_received * Constants.RCV_DMG_TO_INT ;
+
+        Stats.GetStat(UnitStats.Stats.will).ModifyStat(dmg_received);
+
      //   Debug.Log(this.name + " rcv damge " + dmg.amount);
        if( Stats.GetStat(UnitStats.Stats.will).current <= 0)
         {
@@ -352,6 +391,25 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
         }
     }
 
+    public void ModifyInt(float raw)
+    {
+        float received = raw;
+        if(raw > 0) { 
+          received = raw * Multiplier_IntReceived;        
+        }
+
+        Stats.GetStat(UnitStats.Stats.intensity).ModifyStat(received);
+    }
+
+    
+    float Multiplier_IntReceived
+    {
+        get
+        {
+            float current_will = Stats.GetStat(UnitStats.Stats.will).current;
+            return Mathf.Max(0,1 - (current_will * Constants.WILL_TO_INT));
+        }
+    }
     string GetActionInfos()
     {
         string s = "";
@@ -379,6 +437,24 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
         return list;
     }
 
+    /// <summary>
+    /// Returns whether this unit is within a certain Z range to a players unit
+    /// </summary>
+    /// <param name="enemyUnit"></param>
+    /// <returns></returns>
+    static bool ActiveRangeToPlayerUnits(Unit enemyUnit)
+    {
+        int firstPlayerUnit = TileManager.Instance.FindFirstUnit(0).currentTile.TilePos.z;
+        int enemyPos = enemyUnit.currentTile.TilePos.z;
+        Debug.Log(firstPlayerUnit+ " - "+enemyPos);
+        return Mathf.Abs(firstPlayerUnit - enemyPos) <= 8;
+    }
+
+    public void SkipTurn()
+    {
+        AP_Used = MaxAP;
+        TurnTime += 4;
+    }
 
     #endregion
 }

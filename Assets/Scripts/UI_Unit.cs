@@ -35,10 +35,10 @@ public class UI_Unit : MonoBehaviour {
         m_unit = u;
        // UnitName.text = m_unit.name;
         WillBar.SetProgress(m_unit.Stats.GetStat(UnitStats.Stats.will).GetProgress());
-        WillBar.SetBarText(m_unit.Stats.GetStat(UnitStats.Stats.will).current + "/" + m_unit.Stats.GetStat(UnitStats.Stats.will).max);
+        WillBar.SetBarText(m_unit.Stats.GetStat(UnitStats.Stats.will).current + "/" + m_unit.Stats.GetStat(UnitStats.Stats.will).current_max);
 
         IntensityBar.SetProgress(m_unit.Stats.GetStat(UnitStats.Stats.intensity).GetProgress());
-        IntensityBar.SetBarText(m_unit.Stats.GetStat(UnitStats.Stats.intensity).current + "/" + m_unit.Stats.GetStat(UnitStats.Stats.intensity).max);
+        IntensityBar.SetBarText(m_unit.Stats.GetStat(UnitStats.Stats.intensity).current + "/" + m_unit.Stats.GetStat(UnitStats.Stats.intensity).current_max);
         MoveField.text = "";
         for(int i = 0; i < u.GetAPLeft(); i++)
         {

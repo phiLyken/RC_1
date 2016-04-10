@@ -27,7 +27,7 @@ public class TurnSystem : MonoBehaviour {
 
     public void NextTurn()
     {
-        forceNext = true;
+        Current.SkipTurn(); 
     }
     int currentTurn;
     List<ITurn> Turnables;
@@ -44,7 +44,7 @@ public class TurnSystem : MonoBehaviour {
 
     public void GlobalTurn(int t)
     {
-        foreach (ITurn turnable in Turnables) turnable.GlobalTurn();
+        foreach (ITurn turnable in Turnables) turnable.GlobalTurn(t);
         if (OnGlobalTurn != null) OnGlobalTurn(t);
     }
     IEnumerator RunTurns()

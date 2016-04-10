@@ -14,15 +14,16 @@ public class StatConfig
 {
     public UnitStats.Stats Stat;
     public float max;
+    public float current_max;
     public float current;
     public float start;
     public float GetProgress()
     {
-        return current / max;
+        return current / current_max;
     }
     public void ModifyStat(float val)
     {
-        current = Mathf.Clamp(current + val, 0, max);
+        current = Mathf.Clamp(current + val, 0, current_max);
     }
 }
 

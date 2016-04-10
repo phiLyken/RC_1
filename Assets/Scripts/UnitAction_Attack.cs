@@ -5,7 +5,9 @@ using System.Collections.Generic;
 public class UnitAction_Attack : UnitActionBase {
 
     GameObject AimIndicator;
-
+     
+    public int IntUsageForAttack;
+    public float IntToDamage = 0;
     public float Range;
     public bool CanTargetOwn;
     public bool CanTargetSelf;
@@ -46,10 +48,21 @@ public class UnitAction_Attack : UnitActionBase {
     
     protected override void ActionExecuted()
     {
-       
+
+        Owner.ModifyInt(IntUsageForAttack);
+
+        Damage newd = new Damage();
+        newd.amount = (int)( DMG.amount * GetIntMod());
+
         StartCoroutine(AttackSequence(Owner, currentTarget, DMG));
+
+
     }
 
+    float GetIntMod()
+    {
+        return 1 + Owner.Stats.GetStat(UnitStats.Stats.intensity).current * IntToDamage;
+    }
     IEnumerator AttackSequence(Unit atk, Unit def, Damage dmg)
     {
         ActionInProgress = true;
@@ -59,7 +72,9 @@ public class UnitAction_Attack : UnitActionBase {
        
         PanCamera.Instance.PanToPos(def.currentTile.GetPosition());
         yield return new WaitForSeconds(0.75f);
+
         def.ReceiveDamage(dmg);
+
         Instantiate(Resources.Load("simple_explosion"), def.transform.position, Quaternion.identity);
         yield return new WaitForSeconds(0.25f);
         base.ActionExecuted();
@@ -75,11 +90,14 @@ public class UnitAction_Attack : UnitActionBase {
     }
 
 
-    static bool isInRange(Unit attacker, Unit other, float range)
+    public static bool isInRange(Unit attacker, Unit other, float range)
     {
         return (other.currentTile.GetPosition() - attacker.currentTile.GetPosition()).magnitude <= range;
     }
-
+    public static bool isInRange(Unit attacker, Unit other, float range, Tile origin)
+    {
+        return (other.currentTile.GetPosition() - origin.GetPosition()).magnitude <= range;
+    }
     bool canTarget(Unit other)
     {
         if (other == Owner && !CanTargetSelf) return false;
@@ -111,5 +129,12 @@ public class UnitAction_Attack : UnitActionBase {
 
         return list;
     }
+
+    public static bool CanAttackFromTile(Unit target, Unit attacker, Tile t, float range)
+    {
+        return isInRange(attacker, target, range, t);
+    }
+
+
 
 }

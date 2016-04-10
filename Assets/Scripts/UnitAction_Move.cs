@@ -3,7 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class UnitAction_Move : UnitActionBase {
-    
+
+    public int IntGrowthPerMove;
+
     Tile currentTargetTile;
     List<Tile> currentPath;
 
@@ -53,7 +55,8 @@ public class UnitAction_Move : UnitActionBase {
 
        // Debug.Log("move executed");
         Owner.SetMovementTile(currentTargetTile, currentPath);
- 
+        Owner.ModifyInt(IntGrowthPerMove);
+
         base.ActionExecuted();
 
     }
@@ -79,11 +82,11 @@ public class UnitAction_Move : UnitActionBase {
     }
 
 
-    public List<Tile> GetWalkableTiles(Tile t)
+    public List<Tile> GetWalkableTiles(Tile origin)
     {
         return TileManager.Instance.
-            GetReachableTiles(t, 
-            TileManager.Instance.GetTilesInRange(t, (int) Owner.Stats.GetStat(UnitStats.Stats.movement_range).current),
+            GetReachableTiles(origin, 
+            TileManager.Instance.GetTilesInRange(origin, (int) Owner.Stats.GetStat(UnitStats.Stats.movement_range).current),
             Owner);
     }
 

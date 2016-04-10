@@ -7,17 +7,25 @@ public class WorldCrumbler : MonoBehaviour, ITurn {
 
     //Speed: Rows per turn the crumble progresses
     //Every Row < than the crumble row will get 1 crumbleturn
-    public int CrumbleSpeed;
+    public int CrumbleDistancePerTurn;
     public int CrumblingRows;
     public int RandomCrumbleOffset;
     public float CrumbleChance;
     public static  WorldCrumbler Instance;
     public CrumbleEvent OnCrumble;
-   
+    public int CrumbleSpeed;
     float currentCrumbleLine;
     int currentCrumbleRow
     {
         get { return (int)currentCrumbleLine; }
+    }
+
+    public bool IsActive
+    {
+        get
+        {
+            return true;
+        }
     }
 
     void Awake()
@@ -43,7 +51,7 @@ public class WorldCrumbler : MonoBehaviour, ITurn {
 
     public int GetTurnTimeCost()
     {
-        return 10;
+        return CrumbleSpeed;
     }
 
     public int GetNextTurnTime()
@@ -64,14 +72,14 @@ public class WorldCrumbler : MonoBehaviour, ITurn {
     public void StartTurn()
     {
         Debug.Log("Crumble Turn");
-        currentCrumbleLine += CrumbleSpeed;
+        currentCrumbleLine += CrumbleDistancePerTurn;
         if (OnCrumble != null)
         {
             OnCrumble(currentCrumbleRow);
         }
     }
 
-    public void GlobalTurn()
+    public void GlobalTurn(int turn)
     {
         TurnTime--;
     }
@@ -94,5 +102,10 @@ public class WorldCrumbler : MonoBehaviour, ITurn {
     public int GetTurnControllerID()
     {
         return -1;
+    }
+
+    public void SkipTurn()
+    {
+        throw new NotImplementedException();
     }
 }
