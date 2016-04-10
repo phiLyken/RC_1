@@ -6,7 +6,7 @@ public class Constants : MonoBehaviour {
     /// <summary>
     /// multliplier is calculated by 1 + INT(damage receiver) * INT_TO_DMG;
     /// </summary>
-    public static float INT_TO_DMG = 1;
+    public static float INT_TO_DMG_RCV = 1;
 
     /// <summary>
     /// How close a player unit must come before the an enemy AI is activated and added to the turn system

@@ -49,7 +49,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
         get
         {
             float current_int = Stats.GetStat(UnitStats.Stats.will).current;
-            return 1 + (current_int / 100f) * Constants.INT_TO_DMG;
+            return 1 + (current_int / 100f) * Constants.INT_TO_DMG_RCV;
         }
     }
 
@@ -381,7 +381,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     {  
 
         float dmg_received = -dmg.amount * Multiplier_DamageReceived;
-        float int_received = dmg_received * Constants.RCV_DMG_TO_INT ;
+        float int_received = dmg_received * Constants.RCV_DMG_TO_INT;
         Debug.Log(this.name + " rcv damge " + dmg_received + "  rcvd multiplier:"+Multiplier_DamageReceived+"  +int="+int_received);
 
 
@@ -460,7 +460,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     public void SkipTurn()
     {
         AP_Used = MaxAP;
-        TurnTime += 4;
+        TurnCost = 15;    
     }
 
     #endregion
