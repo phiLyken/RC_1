@@ -49,6 +49,7 @@ public class TurnSystem : MonoBehaviour {
     }
     IEnumerator RunTurns()
     {
+        yield return null;
         SortListByTime();
         ITurn next = GetNext();
         Debug.Log("Start Turn System " + Turnables.Count);
@@ -57,13 +58,14 @@ public class TurnSystem : MonoBehaviour {
             Debug.Log("Turn  no#" + currentTurn);
             next.StartTurn();
             Current = next;
+
             yield return StartCoroutine(WaitForTurn(next));
-            
-            currentTurn++;
-
-            GlobalTurn(currentTurn);
             next.SetNextTurnTime(next.GetTurnTimeCost());
+            currentTurn++;
+            GlobalTurn(currentTurn);
+            
 
+            NormalizeList();
             SortListByTime();
 
             next = GetNext();
@@ -84,8 +86,30 @@ public class TurnSystem : MonoBehaviour {
             yield return null;
         }       
     }
+    int getLowestTurnTime()
+    {
+        int lowest = 999;
+        foreach (ITurn t in Turnables)
+        {
+            if (t.GetNextTurnTime() <= lowest)
+            {
+                lowest = t.GetNextTurnTime();
+            }
+        }
 
-    
+        return lowest;
+    }
+
+    void NormalizeList()
+    {
+        int lowest = getLowestTurnTime();
+        Debug.Log("normalizing list lowest time " + lowest);
+        foreach(ITurn t in Turnables)
+        {
+            t.SetNextTurnTime(t.GetNextTurnTime() - lowest);
+        }
+    }
+
     void SortListByTime()
     {
        Turnables = Turnables.OrderBy(o => o.GetNextTurnTime()).ToList();

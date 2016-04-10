@@ -14,6 +14,7 @@ public class UnitAction_Move : UnitActionBase {
         
 
         base.SelectAction();
+
         if (Owner.GetComponent<WaypointMover>().Moving) return;
         TileCollectionHighlight.SetHighlight(GetWalkableTiles(Owner.currentTile), "selected");
         TileSelecter.OnTileSelect += SetMovementTile;

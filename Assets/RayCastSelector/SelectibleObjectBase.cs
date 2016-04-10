@@ -60,7 +60,7 @@ public class SelectibleObjectBase : MonoBehaviour {
 
     bool HumanInput()
     {
-        return TurnSystem.Instance.Current.GetTurnControllerID() == 0 || Cheat;
+        return TurnSystem.Instance == null || TurnSystem.Instance.Current == null || TurnSystem.Instance.Current.GetTurnControllerID() == 0 || Cheat;
     }
 
 }

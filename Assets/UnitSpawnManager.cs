@@ -14,6 +14,8 @@ public class UnitSpawnManager : MonoBehaviour {
 
     public  void SpawnUnits()
     {
+        int unitCount = GetUnitSpawnCount();
+        Debug.Log(gameObject.name+" Spawning Units " + unitCount);
         SpawnUnits(GetUnitSpawnCount());
     }
 

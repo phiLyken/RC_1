@@ -49,20 +49,17 @@ public class UnitAction_Attack : UnitActionBase {
     protected override void ActionExecuted()
     {
 
-        Owner.ModifyInt(IntUsageForAttack);
-
+        Owner.ModifyInt(-IntUsageForAttack);
         Damage newd = new Damage();
         newd.amount = (int)( DMG.amount * GetIntMod());
-
         StartCoroutine(AttackSequence(Owner, currentTarget, DMG));
-
-
     }
 
     float GetIntMod()
     {
         return 1 + Owner.Stats.GetStat(UnitStats.Stats.intensity).current * IntToDamage;
     }
+
     IEnumerator AttackSequence(Unit atk, Unit def, Damage dmg)
     {
         ActionInProgress = true;
@@ -98,6 +95,8 @@ public class UnitAction_Attack : UnitActionBase {
     {
         return (other.currentTile.GetPosition() - origin.GetPosition()).magnitude <= range;
     }
+
+
     bool canTarget(Unit other)
     {
         if (other == Owner && !CanTargetSelf) return false;

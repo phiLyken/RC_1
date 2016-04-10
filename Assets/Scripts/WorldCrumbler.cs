@@ -61,6 +61,7 @@ public class WorldCrumbler : MonoBehaviour, ITurn {
 
     public void SetNextTurnTime(int turns)
     {
+        Debug.Log("set adsadsd");
         TurnTime = turns;
     }
 
@@ -81,6 +82,7 @@ public class WorldCrumbler : MonoBehaviour, ITurn {
 
     public void GlobalTurn(int turn)
     {
+        Debug.Log("Global turn in crumble " + TurnTime);
         TurnTime--;
     }
 

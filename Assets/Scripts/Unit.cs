@@ -33,7 +33,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     public Tile currentTile;
 
     UI_Unit m_UI;
-
+    int TurnCost;
     WaypointMover waypointMover;
 
     public bool IsActive
@@ -195,7 +195,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     void OnActionUsed(UnitActionBase action)
     {        
         AP_Used += action.AP_Cost;
-        TurnTime += action.TurnTimeCost;
+        TurnCost += action.TurnTimeCost;
        // Debug.Log(TurnTime);
         if(TurnSystem.HasTurn(this))
             PanCamera.Instance.PanToPos(currentTile.GetPosition());
@@ -313,7 +313,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
 
     public int GetTurnTimeCost()
     {
-        return TurnTime;
+        return TurnCost;
     }
 
     public int GetNextTurnTime()
@@ -335,6 +335,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
         UnSelectCurrent();
         PanCamera.FocusOnPlanePoint(currentTile.GetPosition());
         AP_Used = 0;
+        TurnCost = 0;
         SelectedUnit = this;
         SelectedEffect.SetActive(true);
         UpdateUI();
@@ -381,11 +382,15 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
 
         float dmg_received = -dmg.amount * Multiplier_DamageReceived;
         float int_received = dmg_received * Constants.RCV_DMG_TO_INT ;
+        Debug.Log(this.name + " rcv damge " + dmg_received + "  rcvd multiplier:"+Multiplier_DamageReceived+"  +int="+int_received);
+
 
         Stats.GetStat(UnitStats.Stats.will).ModifyStat(dmg_received);
+        ModifyInt(int_received);
 
-     //   Debug.Log(this.name + " rcv damge " + dmg.amount);
-       if( Stats.GetStat(UnitStats.Stats.will).current <= 0)
+        UpdateUI();
+         
+        if ( Stats.GetStat(UnitStats.Stats.will).current <= 0)
         {
             KillUnit();
         }
@@ -394,20 +399,22 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     public void ModifyInt(float raw)
     {
         float received = raw;
+     
         if(raw > 0) { 
-          received = raw * Multiplier_IntReceived;        
+            received = raw + IntModifier;        
         }
-
+        Debug.Log("int received raw:" + raw.ToString() + " modified:" + received);
         Stats.GetStat(UnitStats.Stats.intensity).ModifyStat(received);
+        UpdateUI();
     }
 
     
-    float Multiplier_IntReceived
+    float IntModifier
     {
         get
         {
             float current_will = Stats.GetStat(UnitStats.Stats.will).current;
-            return Mathf.Max(0,1 - (current_will * Constants.WILL_TO_INT));
+            return current_will * Constants.WILL_TO_INT;
         }
     }
     string GetActionInfos()
@@ -446,7 +453,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     {
         int firstPlayerUnit = TileManager.Instance.FindFirstUnit(0).currentTile.TilePos.z;
         int enemyPos = enemyUnit.currentTile.TilePos.z;
-        Debug.Log(firstPlayerUnit+ " - "+enemyPos);
+      //  Debug.Log(firstPlayerUnit+ " - "+enemyPos);
         return Mathf.Abs(firstPlayerUnit - enemyPos) <= 8;
     }
 
