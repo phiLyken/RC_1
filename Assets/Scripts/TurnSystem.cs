@@ -5,7 +5,7 @@ using System.Linq;
 using UnityEngine.UI;
 
 public delegate void TurnEvent(int turnId);
-
+public delegate void TurnableEvent(ITurn turn);
 
 public class TurnSystem : MonoBehaviour {
     public Text TURNTF;
@@ -55,11 +55,14 @@ public class TurnSystem : MonoBehaviour {
         Debug.Log("Start Turn System " + Turnables.Count);
         while ( next != null)
         {
+			next.OnTurnPreview +=OnTurnPreview;
             Debug.Log("Turn  no#" + currentTurn);
-            next.StartTurn();
+            next.StartTurn(); 
             Current = next;
 
             yield return StartCoroutine(WaitForTurn(next));
+
+			next.OnTurnPreview -= OnTurnPreview;
             next.SetNextTurnTime(next.GetTurnTimeCost());
             currentTurn++;
             GlobalTurn(currentTurn);
@@ -68,12 +71,16 @@ public class TurnSystem : MonoBehaviour {
             NormalizeList();
             SortListByTime();
 
+
             next = GetNext();
 
             forceNext = false;
         }
     }
-
+	void OnTurnPreview(ITurn t){
+		Debug.Log("Resorting list for preview");
+		SortListByTime();
+	}
     ITurn GetNext()    {        
         return Turnables[0];
     }
@@ -100,6 +107,9 @@ public class TurnSystem : MonoBehaviour {
         return lowest;
     }
 
+	/// <summary>
+	/// places all turnables around 0 - the first one starting on 0
+	/// </summary>
     void NormalizeList()
     {
         int lowest = getLowestTurnTime();
@@ -112,7 +122,7 @@ public class TurnSystem : MonoBehaviour {
 
     void SortListByTime()
     {
-       Turnables = Turnables.OrderBy(o => o.GetNextTurnTime()).ToList();
+		Turnables = Turnables.OrderBy(o => o.GetNextTurnTime()).ThenBy(o => o.StartOrderID).ToList();
        UpdateUnitListUI();
     }
 
@@ -126,7 +136,7 @@ public class TurnSystem : MonoBehaviour {
         TURNTF.text = s;
 
     }
-    public static bool Register(ITurn new_turnable)
+    public static int Register(ITurn new_turnable)
     {
         if (Instance.Turnables == null)
         {
@@ -137,10 +147,10 @@ public class TurnSystem : MonoBehaviour {
         {
             Debug.Log("TURNABLE: register " + new_turnable.GetID());
             Instance.Turnables.Add(new_turnable);
-            return true;
+			return Instance.Turnables.Count;
         }
 
-        return false;
+        return -1;
     }
 
     public static void Unregister(ITurn turnable)

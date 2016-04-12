@@ -1,7 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+
 public interface ITurn {
+
+	/// <summary>
+	/// This event should be called when the turnable is changing the turnorder
+	/// </summary>
+	TurnableEvent OnTurnPreview{
+		get;
+		set;
+	}
 
     /// <summary>
     /// Each turn has a certain cost, that determines when the the next turn happens - the cost will be applied to the time
@@ -66,4 +75,8 @@ public interface ITurn {
 
     void SkipTurn();
 
+	int StartOrderID{
+		get;
+		set;
+	}
 }

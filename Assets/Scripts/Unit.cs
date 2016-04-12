@@ -5,7 +5,10 @@ using System.Collections.Generic;
 
 public delegate void UnitEventHandler(Unit u);
 public class Unit : MonoBehaviour, ITurn, IDamageable {
-    
+
+
+
+
     int AP_Used = 99;
     int MaxAP = 2;
     public int TurnTime;
@@ -23,6 +26,9 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     public static UnitEventHandler OnUnitSelect;
 
     public UnitEventHandler OnTurnStart;
+
+	TurnableEvent UpdateCostPreview;
+
     public GameObject SelectedEffect;
     
     public int OwnerID;
@@ -169,9 +175,12 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
             return null;
         }
 
+
+
         CurrentAction = Actions[index];
         CurrentAction.OnExecuteAction += OnActionUsed;
         CurrentAction.SelectAction();
+		if(UpdateCostPreview!=null)UpdateCostPreview(this);
         return CurrentAction;
 
     }
@@ -179,10 +188,14 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     private void UnsetCurrentAction()
     {
         if (CurrentAction == null) return;
+
         UI_ActiveUnit.Instance.AbilityTF.text = GetActionInfos();
         CurrentAction.UnSelectAction();
         CurrentAction.OnExecuteAction -= OnActionUsed;
+
         CurrentAction = null;
+
+		if(UpdateCostPreview!=null)UpdateCostPreview(this);
     }
 
     void OnActionUsed(UnitActionBase action)
@@ -312,7 +325,15 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     public int GetNextTurnTime()
     {
      //   Debug.Log(TurnTime);
-        return TurnTime;
+
+		int time = TurnTime;
+		if(CurrentAction != null){
+			time+= CurrentAction.TurnTimeCost;
+			Debug.Log(CurrentAction.ActionID+ " "+CurrentAction.TurnTimeCost);
+		}
+		time += TurnCost;
+		Debug.Log("ID "+GetID()+" "+time+ "  "+time);
+		return time;
     }
    
     public void SetNextTurnTime(int turns)
@@ -350,10 +371,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
         return AP_Used >= MaxAP && !waypointMover.Moving;
     }
 
-    public void RegisterTurn()
-    {
-        TurnSystem.Register(this);
-    }
+
 
     public void UnRegisterTurn()
     {
@@ -457,5 +475,30 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
         TurnCost = 15;    
     }
 
+
+	public TurnableEvent OnTurnPreview 
+	{
+		get { return UpdateCostPreview;}
+		set {
+			UpdateCostPreview=value;
+		}
+	}
     #endregion
+
+
+	public int StartOrderID {
+		get {
+			return	starting_order;
+		}
+		set {
+			starting_order = value;
+		}
+	}
+
+	public void RegisterTurn()
+	{
+		starting_order =   TurnSystem.Register(this);
+	}
+
+	int starting_order;
 }

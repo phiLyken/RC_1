@@ -86,10 +86,6 @@ public class WorldCrumbler : MonoBehaviour, ITurn {
         TurnTime--;
     }
 
-    public void RegisterTurn()
-    {
-        TurnSystem.Register(this);
-    }
 
     public void UnRegisterTurn()
     {
@@ -110,4 +106,26 @@ public class WorldCrumbler : MonoBehaviour, ITurn {
     {
         throw new NotImplementedException();
     }
+
+	public TurnableEvent OnTurnPreview 
+	{
+		get { return null;}
+		set{}
+	}
+
+	public int StartOrderID {
+		get {
+			return	starting_order;
+		}
+		set {
+			starting_order = value;
+		}
+	}
+
+	public void RegisterTurn()
+	{
+		starting_order =   TurnSystem.Register(this);
+	}
+
+	int starting_order;
 }
