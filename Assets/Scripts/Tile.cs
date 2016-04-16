@@ -27,7 +27,10 @@ public class Tile : MonoBehaviour, IWayPoint
 
     public bool isCamp;
     int RandomOffset;
+
+    [SerializeField]
     bool isAccessible = true;
+
     TileVisualizer DisplayState;
 
     public GameObject Mesh;

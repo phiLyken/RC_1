@@ -5,12 +5,13 @@ public class WorldExtender : MonoBehaviour {
     /// <summary>
     /// Tiles left in the grid under consideration of the crumble-row when a new region is spawned
     /// </summary>
-    public int MinTilesCrumble;
+
     public int MinTilesLastUnit;
 
     static  public int currentPhaseID;
     public int TilesUntilCamp;
-    
+    public int CampRangeIncreaseMin;
+    public int CampRangeIncreaseMax;
     void Start()
     {
         TurnSystem.Instance.OnGlobalTurn += OnGlobalTurn;
@@ -35,7 +36,7 @@ public class WorldExtender : MonoBehaviour {
         if (TilesUntilCamp <= TileManager.Instance.GridHeight)
         {
             region = RegionLoader.GetCamp();
-            TilesUntilCamp += Random.Range(40, 80);
+            TilesUntilCamp += Random.Range(CampRangeIncreaseMin, CampRangeIncreaseMax);
         }
         else
         {
@@ -43,11 +44,6 @@ public class WorldExtender : MonoBehaviour {
         }
         currentPhaseID++;
         TileManager.Instance.AppendGrid(region);
-    }
-
-    bool HasEnoughSpace(int crumble_row)
-    {
-        return (TileManager.Instance.GridHeight - crumble_row) < MinTilesCrumble;
     }
 
     bool LastUnitCloseToEnd(int last_unit_row)

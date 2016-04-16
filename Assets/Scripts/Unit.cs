@@ -229,11 +229,14 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
 
     public void EndTurn()
     {
+
         if (OnTurnEnded != null) OnTurnEnded(this);
     }
 
     public void StartTurn()
     {
+        starting_order++;
+
         Debug.Log("NEW TURN:" + GetID());  
         UI_ActiveUnit.Instance.SelectedUnitTF.text = GetID();
         UnSelectCurrent();
