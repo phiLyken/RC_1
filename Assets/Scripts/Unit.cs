@@ -251,9 +251,26 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
         {
             RegisterTurn();
             TurnTime--;
+
+            if (currentTile.isCamp)
+                BaseCampTurn();
+            
         }       
     }
 
+    void BaseCampTurn()
+    {
+
+        Actions.RestCharges();
+
+        StatConfig intensity = Stats.GetStat(UnitStats.Stats.intensity);
+        intensity.ModifyStat(-intensity.current);
+
+        StatConfig will = Stats.GetStat(UnitStats.Stats.will);
+        will.ModifyStat(will.max);
+
+
+    }
     public bool HasEndedTurn()
     {
         if (Actions.HasAP()) return false;
@@ -326,18 +343,19 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
         }
     }
 
+    
     #region
     /// <summary>
     /// Returns a list of all the units of the requested owner, -1 will select all
     /// </summary>
     /// <param name="owner"></param>
     /// <returns></returns>
-    public static List<Unit> GetAllUnitsOfOwner(int owner)
+    public static List<Unit> GetAllUnitsOfOwner(int owner, bool ignoreBaseCamp)
     {
         List<Unit> list = new List<Unit>();
         foreach(Unit u in AllUnits)
         {
-            if (owner == -1 || u.OwnerID == owner) list.Add(u);
+            if ( (owner == -1 || u.OwnerID == owner) && (ignoreBaseCamp || !u.currentTile.isCamp)) list.Add(u);
         }
 
         return list;

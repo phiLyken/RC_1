@@ -74,6 +74,7 @@ public class Tile : MonoBehaviour, IWayPoint
         b.OnSelect += delegate { TileSelecter.SelectTile(this); };
     }
     int turnsInCrumbleZone;
+
     int GetTurnsCrumbled()
     {
         return turnsInCrumbleZone - (CrumbleDelay + RandomOffset);

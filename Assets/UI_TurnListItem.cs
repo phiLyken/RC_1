@@ -17,7 +17,7 @@ public class UI_TurnListItem : MonoBehaviour {
     public void SetTurnItem(ITurn turn)
     {
         Image.color = turn.GetColor();
-        Debug.Log(turn.HasEndedTurn());
+     //   Debug.Log(turn.HasEndedTurn());
         Frame.enabled = TurnSystem.HasTurn(turn);
        // Frame.enabled = false;
         TF.text = turn.GetID();

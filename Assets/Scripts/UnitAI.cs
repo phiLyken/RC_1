@@ -98,7 +98,7 @@ public class UnitAI : MonoBehaviour, ITriggerable {
         UnitAction_Move  move = getMove();
 
         List<Tile> walkables = move.GetWalkableTiles(m_unit.currentTile);
-        List<Unit> all_enemies = Unit.GetAllUnitsOfOwner(0);
+        List<Unit> all_enemies = Unit.GetAllUnitsOfOwner(0, false);
 
         foreach(Tile t in walkables)
         {
@@ -140,7 +140,7 @@ public class UnitAI : MonoBehaviour, ITriggerable {
         if (AttackingPlayer)
         {
              Debug.Log(m_unit.GetID() + "decide");
-             List<Unit> attackables = UnitAction_Attack.GetAttackableUnits(Unit.GetAllUnitsOfOwner(0), m_unit, getAttack().Range);
+             List<Unit> attackables = UnitAction_Attack.GetAttackableUnits(Unit.GetAllUnitsOfOwner(0, false), m_unit, getAttack().Range);
              Unit target = FindBestUnitToAttack(attackables);
 
             if (target != null)

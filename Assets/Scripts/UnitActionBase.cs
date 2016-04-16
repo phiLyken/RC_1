@@ -9,6 +9,8 @@ public class UnitActionBase : MonoBehaviour {
     public ActionEventHandler OnExecuteAction;
     public StatInfo[] Requirements;
 
+    public bool UsableInBaseCamp;
+
     public bool UseCharges;
     public int Charges;
     public int ChargeMax;
@@ -28,6 +30,7 @@ public class UnitActionBase : MonoBehaviour {
         Owner = o;
     }
 
+   
     public virtual void SelectAction()
     {
         string charges = "";
@@ -38,9 +41,15 @@ public class UnitActionBase : MonoBehaviour {
     protected virtual bool CanExecAction()
     {
 
-        return HasRequirements() && !ActionInProgress;
+        return Owner.Actions.HasAP(AP_Cost) && HasRequirements() && !ActionInProgress && HasCharges() && !BlockedByCamp();
     }
-
+    bool BlockedByCamp()
+    {
+        bool r = !UsableInBaseCamp && Owner.currentTile.isCamp;
+       
+        if (r) Debug.Log("Can not use in camp");
+        return r;
+    }
     void Start()
     {
         if (UseCharges) Charges = ChargeMax;
@@ -48,11 +57,7 @@ public class UnitActionBase : MonoBehaviour {
   
     public bool HasRequirements()
     {
-        if(!Owner.Actions.HasAP(AP_Cost))
-        {
-            Debug.Log("not enough ap");
-            return false;
-        }
+
 
         foreach (StatInfo s in Requirements)
         {
@@ -81,7 +86,9 @@ public class UnitActionBase : MonoBehaviour {
 
     public bool HasCharges()
     {
-        return !UseCharges || Charges > 0;
+        bool r = !UseCharges || Charges > 0;
+        if (!r) Debug.Log("No Charges");
+        return r;
     }
     protected void ActionCompleted()
     {

@@ -10,7 +10,14 @@ public class ActionManager : MonoBehaviour {
     public int AP_Used = 99;
     public  int MaxAP = 2;
     public int CurrentTurnCost = 0;
-
+    
+    public void RestCharges()
+    {
+        foreach(UnitActionBase action in Actions)
+        {
+            action.Charges = action.ChargeMax;
+        }
+    }   
 
     public UnitActionBase[] Actions;
     UnitActionBase currentAction;
@@ -71,7 +78,12 @@ public class ActionManager : MonoBehaviour {
     }
     public bool HasAP(int ap)
     {
-        return GetAPLeft() >= ap;
+        bool r = GetAPLeft() >= ap;
+        if (!r)
+        {
+            Debug.Log("not enough AP");
+        }
+        return r;
     }
 
     public void SkipTurn()
