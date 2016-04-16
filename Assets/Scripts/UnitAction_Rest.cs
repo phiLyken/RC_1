@@ -4,8 +4,7 @@ using System.Collections.Generic;
 
 public class UnitAction_Rest : UnitActionBase
 {
-
-   
+    TurnableEventHandler UpdateCostPreview;
 
     public override void SelectAction()
     {
@@ -44,6 +43,7 @@ public class UnitAction_Rest : UnitActionBase
 
         Owner.UpdateUI();
         base.ActionExecuted();
+        ActionCompleted();
     }
 
 }

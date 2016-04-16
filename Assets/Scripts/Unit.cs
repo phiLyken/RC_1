@@ -6,42 +6,38 @@ using System.Collections.Generic;
 public delegate void UnitEventHandler(Unit u);
 public class Unit : MonoBehaviour, ITurn, IDamageable {
 
-
-
-
-    int AP_Used = 99;
-    int MaxAP = 2;
     public int TurnTime;
+    int starting_order;
+    public int OwnerID;
 
-    public UnitActionBase[] Actions;
-    UnitActionBase CurrentAction;
-
-  //  [HideInInspector]
     public UnitStats Stats;
-    
+    public ActionManager Actions;
+
     public static List<Unit> AllUnits = new List<Unit>();
     public static Unit SelectedUnit;
     public static UnitEventHandler OnUnitKilled;
     public static UnitEventHandler OnUnitHover;
     public static UnitEventHandler OnUnitSelect;
 
-    public UnitEventHandler OnTurnStart;
+    public UnitEventHandler OnActionSelectedInUnit;
 
-	TurnableEvent UpdateCostPreview;
+    public TurnableEventHandler OnUpdateTurnTime; 
+
+    public UnitEventHandler OnTurnStart;
+    public UnitEventHandler OnTurnEnded;
 
     public GameObject SelectedEffect;
     
-    public int OwnerID;
-
     public bool PrePlaced = true;
 
-  //  [HideInInspector]
+  // [HideInInspector]
     public Tile currentTile;
 
-    UI_Unit m_UI;
-    int TurnCost;
-    WaypointMover waypointMover;
+    int AccCostCurrentturn;
 
+    UI_Unit m_UI;
+   
+    
     public bool IsActive
     {
         get
@@ -50,28 +46,21 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
         }
     }
 
-
-
     public bool isDead()
     {
         return Stats.GetStat(UnitStats.Stats.will).current <= 0;
     }
-    public int GetAPLeft()
-    {
-        return (MaxAP - AP_Used);
-    }
-    public bool HasAP(int ap)
-    {
-        return  GetAPLeft() >= ap;
-    }
-
+    
     void Awake()
     {
         Stats = GetComponent<UnitStats>();
-       
+
+        Actions = GetComponent<ActionManager>();
+        Actions.OnActionSelected += ActionChanged;
+        Actions.OnActionUnselected += ActionChanged;
+
         AllUnits.Add(this);
-        waypointMover = GetComponent<WaypointMover>();
-      //  TurnSystem.Register(this);
+
         SelectibleObjectBase b = GetComponent<SelectibleObjectBase>();
         if (b == null)
             b = gameObject.AddComponent<SelectibleObjectBase>();
@@ -82,17 +71,20 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
 
         if (SelectedEffect != null) SelectedEffect.SetActive(false);
 
-        Actions = GetComponentsInChildren<UnitActionBase>();
-        foreach (UnitActionBase action in Actions) action.SetOwner(this);
+      
         m_UI = UI_Unit.CreateUnitUI();
         DisableUI();
 
         if(PrePlaced)
             SetTile(TileManager.Instance.GetClosestTile(transform.position), true);
-
-       // transform.position = currentTile.GetPosition();
-       
     }
+
+    void ActionChanged(UnitActionBase b)
+    {
+        if (OnUpdateTurnTime != null)
+            OnUpdateTurnTime(this);
+    }
+
     void Start()
     {
         if (IsActive) { 
@@ -102,6 +94,8 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
             TurnSystem.Instance.OnGlobalTurn += GlobalTurn;
         }
     }
+
+    
     void DisableUI()
     {
         m_UI.gameObject.SetActive(false);
@@ -119,96 +113,10 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     }
 
     void OnHoverEnd()
-    {
-       
+    {       
         if (TurnSystem.HasTurn(this)) return;
-
-
         DisableUI();
     }
-
-    void WaypointReached(IWayPoint p)
-    {
-
-    }
-
-    void Update()
-    {
-        if (OwnerID != 0) return;
-
-        if (Input.GetKeyDown(KeyCode.Backspace))
-        {
-            SkipTurn();
-        }
-        if (Input.GetKeyUp(KeyCode.Alpha1))
-        {
-            SelectAbility(0);
-        }
-        if (Input.GetKeyUp(KeyCode.Alpha2))
-        {
-            SelectAbility(1);
-        }
-        if (Input.GetKeyUp(KeyCode.Alpha3))
-        {
-            SelectAbility(2);
-        }
-        if (Input.GetKeyUp(KeyCode.Alpha4))
-        {
-            SelectAbility(3);
-        }
-    }
-    public UnitActionBase SelectAbility(int index)
-    {
-      //  Debug.Log("Select Ability " + index);
-      //  if (index > Actions.Length) return;
-        if (SelectedUnit != this) return null;
-        if (CurrentAction != null && CurrentAction == Actions[index])
-        {
-            UnsetCurrentAction();
-            return null;
-        }
-
-        UnsetCurrentAction();
-        if (Actions.Length <= index)
-        {
-            Debug.LogWarning("No ability #" + index);
-            return null;
-        }
-
-
-
-        CurrentAction = Actions[index];
-        CurrentAction.OnExecuteAction += OnActionUsed;
-        CurrentAction.SelectAction();
-		if(UpdateCostPreview!=null)UpdateCostPreview(this);
-        return CurrentAction;
-
-    }
-
-    private void UnsetCurrentAction()
-    {
-        if (CurrentAction == null) return;
-
-        UI_ActiveUnit.Instance.AbilityTF.text = GetActionInfos();
-        CurrentAction.UnSelectAction();
-        CurrentAction.OnExecuteAction -= OnActionUsed;
-
-        CurrentAction = null;
-
-		if(UpdateCostPreview!=null)UpdateCostPreview(this);
-    }
-
-    void OnActionUsed(UnitActionBase action)
-    {        
-        AP_Used += action.AP_Cost;
-        TurnCost += action.TurnTimeCost;
-       // Debug.Log(TurnTime);
-        if(TurnSystem.HasTurn(this))
-            PanCamera.Instance.PanToPos(currentTile.GetPosition());
-        UnsetCurrentAction();
-        Debug.Log( GetID()+" Action used" + action.ActionID);
-    }
-
 
     public void SetTile(Tile t, bool updatePosition )
     {
@@ -245,8 +153,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     void SetOwner(int playerID)
     {
         OwnerID = playerID;
-    }
-  
+    }  
 
    //Unselects the currently selected (static) unit
     void UnSelectCurrent()
@@ -257,6 +164,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
             SelectedUnit = null;
         }
     }
+
     public void UnitSelected()
     {
         //Fire Static event and let everyone know this unit has been selected/klicked
@@ -268,29 +176,11 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
         if (OnUnitSelect != null) OnUnitSelect(this);
 
         return;
-        /** Can probably be removed :
-        if (!TurnSystem.HasTurn(this)) return;
 
-        //If this unit h
-        UnSelectCurrent();
-
-        UpdateUI();
-        SelectedUnit = this;
-        SelectedEffect.SetActive(true);
-       **/
     }        
-
-    public void SetMovementTile(Tile target, List<Tile> path)
-    {
-        Debug.Log("set movement tile");
-        SetTile(target, false);
-
-        waypointMover.MoveOnPath(path, 3);
-    }
 
     void UnselectUnit()
     {
-        UnsetCurrentAction();
         SelectedEffect.SetActive(false);
         DisableUI();
     }
@@ -299,12 +189,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     {
         return PlayerManager.GetPlayer(OwnerID)   ;
     }
-
-
-    public bool PathWalkable(List<Tile> p)
-    {
-        return p != null && p.Count - 1 <= Stats.GetStat(UnitStats.Stats.movement_range).current && p.Count > 1;
-    }
+    
 
     public void KillUnit()
     {
@@ -317,29 +202,34 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
         Destroy(this.gameObject);        
     }
 
-    public int GetTurnTimeCost()
+
+    public int GetCurrentTurnCost()
     {
-        return TurnCost;
+        int turncost = 0;
+        var _currentAction = Actions.GetCurrentAction();
+
+        if (_currentAction != null)
+        {
+            turncost += _currentAction.TurnTimeCost;
+            //Debug.Log(_currentAction.ActionID+ " "+ _currentAction.TurnTimeCost);
+        }
+        return  turncost + Actions.CurrentTurnCost;
     }
 
-    public int GetNextTurnTime()
+    public int GetTurnTime()
     {
-     //   Debug.Log(TurnTime);
-
-		int time = TurnTime;
-		if(CurrentAction != null){
-			time+= CurrentAction.TurnTimeCost;
-			Debug.Log(CurrentAction.ActionID+ " "+CurrentAction.TurnTimeCost);
-		}
-		time += TurnCost;
-		Debug.Log("ID "+GetID()+" "+time+ "  "+time);
-		return time;
+        //Debug.Log("ID "+GetID()+" "+time+ "  "+time);
+        return TurnTime;
     }
    
     public void SetNextTurnTime(int turns)
-    {
-      //  Debug.Log("Turn - setting next turn time " + turns);
+    {     
         TurnTime = turns;
+    }
+
+    public void EndTurn()
+    {
+        if (OnTurnEnded != null) OnTurnEnded(this);
     }
 
     public void StartTurn()
@@ -348,8 +238,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
         UI_ActiveUnit.Instance.SelectedUnitTF.text = GetID();
         UnSelectCurrent();
         PanCamera.FocusOnPlanePoint(currentTile.GetPosition());
-        AP_Used = 0;
-        TurnCost = 0;
+       
         SelectedUnit = this;
         SelectedEffect.SetActive(true);
         UpdateUI();
@@ -362,16 +251,20 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
         {
             RegisterTurn();
             TurnTime--;
-        }
-       
+        }       
     }
 
     public bool HasEndedTurn()
     {
-        return AP_Used >= MaxAP && !waypointMover.Moving;
+        if (Actions.HasAP()) return false;
+        if (Actions.IsActionInProgress) return false;
+
+       // Debug.Log("turn ended ");
+
+        //Debug.Break();
+        return true;
     }
-
-
+    
 
     public void UnRegisterTurn()
     {
@@ -380,9 +273,13 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
 
     public string GetID()
     {
-        return gameObject.name+" ["+TurnTime+"]";
+        return gameObject.name+" ["+(GetTurnTime()+GetCurrentTurnCost()).ToString()+"]";
     }
 
+    public Color GetColor()
+    {
+        return OwnerID == 0 ? Color.blue : Color.red;
+    }
     public int GetTurnControllerID()
     {
         return OwnerID;
@@ -419,8 +316,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
         Stats.GetStat(UnitStats.Stats.intensity).ModifyStat(received);
         UpdateUI();
     }
-
-    
+        
     float IntModifier
     {
         get
@@ -428,15 +324,6 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
             float current_will = Stats.GetStat(UnitStats.Stats.will).current;
             return current_will * Constants.WILL_TO_INT;
         }
-    }
-    string GetActionInfos()
-    {
-        string s = "";
-        for (int i = 0; i < Actions.Length; i++)
-        {
-            s += (i+1).ToString() + ":" + Actions[i].ActionID + "\n" ;
-        }
-        return s;
     }
 
     #region
@@ -463,7 +350,10 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     /// <returns></returns>
     static bool ActiveRangeToPlayerUnits(Unit enemyUnit)
     {
-        int firstPlayerUnit = TileManager.Instance.FindFirstUnit(0).currentTile.TilePos.z;
+        Unit firstPlayer = TileManager.Instance.FindFirstUnit(0);
+        if (firstPlayer == null) return true;
+
+        int firstPlayerUnit = firstPlayer.currentTile.TilePos.z;
         int enemyPos = enemyUnit.currentTile.TilePos.z;
       //  Debug.Log(firstPlayerUnit+ " - "+enemyPos);
         return Mathf.Abs(firstPlayerUnit - enemyPos) <= 8;
@@ -471,18 +361,16 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
 
     public void SkipTurn()
     {
-        AP_Used = MaxAP;
-        TurnCost = 15;    
+        Actions.SkipTurn();
+    }
+     
+
+    public TurnableEventHandler TurnTimeUpdated
+    {
+        get { return OnUpdateTurnTime; }
+       set { OnUpdateTurnTime = value; }
     }
 
-
-	public TurnableEvent OnTurnPreview 
-	{
-		get { return UpdateCostPreview;}
-		set {
-			UpdateCostPreview=value;
-		}
-	}
     #endregion
 
 
@@ -500,5 +388,5 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
 		starting_order =   TurnSystem.Register(this);
 	}
 
-	int starting_order;
+
 }

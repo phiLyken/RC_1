@@ -146,17 +146,7 @@ public class TileManager : MonoBehaviour {
     }
 
    
-    public List<Tile> GetReachableTiles(Tile from, List<Tile> tiles, Unit unit)
-    {      
-        List<Tile> reacheable = new List<Tile>();      
-        foreach (Tile t in tiles)
-        {
-            List<Tile> path = FindPath(from, t);           
-            if (unit.PathWalkable(path)) reacheable.Add(t);
-        }
 
-        return reacheable;
-    }
 
     
     float GetTileDistance(Tile t1, Tile t2)

@@ -4,19 +4,23 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.UI;
 
-public delegate void TurnEvent(int turnId);
-public delegate void TurnableEvent(ITurn turn);
+public delegate void IntEventHandler(int turnId);
+public delegate void TurnableEventHandler(ITurn turn);
+public delegate void TurnListEventHandler(List<ITurn> turnables);
 
 public class TurnSystem : MonoBehaviour {
     public Text TURNTF;
     public static TurnSystem Instance;
-    public TurnEvent OnGlobalTurn;
+    public IntEventHandler OnGlobalTurn;
+    public TurnListEventHandler OnListUpdated;
 
+    public 
     bool forceNext;
 
     public ITurn Current;
     public static bool HasTurn(ITurn t)
     {
+     //   Debug.Log("t " + t.GetID() + "  current" + Instance.Current.GetID());
         if (Instance.Current == null || Instance.Current != t) return false;
         return true;
     }
@@ -30,7 +34,7 @@ public class TurnSystem : MonoBehaviour {
         Current.SkipTurn(); 
     }
     int currentTurn;
-    List<ITurn> Turnables;
+    public List<ITurn> Turnables;
 
     void Awake()
     {
@@ -47,34 +51,41 @@ public class TurnSystem : MonoBehaviour {
         foreach (ITurn turnable in Turnables) turnable.GlobalTurn(t);
         if (OnGlobalTurn != null) OnGlobalTurn(t);
     }
+
     IEnumerator RunTurns()
     {
+        //Skip first frame to give time to register
         yield return null;
         SortListByTime();
-        ITurn next = GetNext();
+
+        Current = GetNext();
         Debug.Log("Start Turn System " + Turnables.Count);
-        while ( next != null)
+
+        while ( Current != null)
         {
-			next.OnTurnPreview +=OnTurnPreview;
-            Debug.Log("Turn  no#" + currentTurn);
-            next.StartTurn(); 
-            Current = next;
+            if (OnListUpdated != null) OnListUpdated(Turnables);
+            Current.TurnTimeUpdated +=OnTurnPreview;
 
-            yield return StartCoroutine(WaitForTurn(next));
+            Current.StartTurn();           
 
-			next.OnTurnPreview -= OnTurnPreview;
-            next.SetNextTurnTime(next.GetTurnTimeCost());
+            yield return StartCoroutine(WaitForTurn(Current));
+
+            Current.TurnTimeUpdated -= OnTurnPreview;
+            Current.SetNextTurnTime(Current.GetTurnTime()+Current.GetCurrentTurnCost());
+
+            Current.EndTurn();
             currentTurn++;
+                        
             GlobalTurn(currentTurn);
-            
 
-            NormalizeList();
+            yield return new WaitForSeconds(0.1f);
+          NormalizeList();
             SortListByTime();
 
-
-            next = GetNext();
+            Current = GetNext();
 
             forceNext = false;
+            
         }
     }
 	void OnTurnPreview(ITurn t){
@@ -87,20 +98,27 @@ public class TurnSystem : MonoBehaviour {
 
     IEnumerator WaitForTurn(ITurn t)
     {
+
+        ///Double null check because we are checking an interface
         while (!forceNext && (t!=null && !t.Equals(null)) && !t.HasEndedTurn())
         {
             //Debug.Log(t.GetID());
             yield return null;
         }       
     }
+
+   /// <summary>
+   /// Gets the lowest turn time from the current turnables
+   /// </summary>
+   /// <returns></returns>
     int getLowestTurnTime()
     {
         int lowest = 999;
         foreach (ITurn t in Turnables)
         {
-            if (t.GetNextTurnTime() <= lowest)
+            if (t.GetTurnTime() <= lowest)
             {
-                lowest = t.GetNextTurnTime();
+                lowest = t.GetTurnTime();
             }
         }
 
@@ -112,18 +130,18 @@ public class TurnSystem : MonoBehaviour {
 	/// </summary>
     void NormalizeList()
     {
-        int lowest = getLowestTurnTime();
-        Debug.Log("normalizing list lowest time " + lowest);
+        int lowest = Mathf.Max(0, getLowestTurnTime());
+   //     Debug.Log("normalizing list lowest time " + lowest);
         foreach(ITurn t in Turnables)
         {
-            t.SetNextTurnTime(t.GetNextTurnTime() - lowest);
+            t.SetNextTurnTime(t.GetTurnTime() - lowest);
         }
     }
 
     void SortListByTime()
     {
-		Turnables = Turnables.OrderBy(o => o.GetNextTurnTime()).ThenBy(o => o.StartOrderID).ToList();
-       UpdateUnitListUI();
+	    Turnables = Turnables.OrderBy(o => o.GetTurnTime()+o.GetCurrentTurnCost()).ThenBy(o => o.StartOrderID).ToList();
+        if (OnListUpdated != null) OnListUpdated(Turnables);
     }
 
     void UpdateUnitListUI()
@@ -136,6 +154,7 @@ public class TurnSystem : MonoBehaviour {
         TURNTF.text = s;
 
     }
+
     public static int Register(ITurn new_turnable)
     {
         if (Instance.Turnables == null)
@@ -149,7 +168,7 @@ public class TurnSystem : MonoBehaviour {
             Instance.Turnables.Add(new_turnable);
 			return Instance.Turnables.Count;
         }
-
+        Instance.SortListByTime();
         return -1;
     }
 

@@ -13,7 +13,7 @@ public class WorldCrumbler : MonoBehaviour, ITurn {
     public float CrumbleChance;
     public static  WorldCrumbler Instance;
     public CrumbleEvent OnCrumble;
-    public int CrumbleSpeed;
+    public int CrumbleTurnCost;
     float currentCrumbleLine;
     int currentCrumbleRow
     {
@@ -33,7 +33,10 @@ public class WorldCrumbler : MonoBehaviour, ITurn {
         Instance = this;
         RegisterTurn();
     }
+    public void EndTurn()
+    {
 
+    }
 
     void OnDrawGizmos()
     {
@@ -47,21 +50,24 @@ public class WorldCrumbler : MonoBehaviour, ITurn {
         }
     }
 
+    public Color GetColor()
+    {
+        return Color.grey;
+    }
     public int TurnTime;
 
-    public int GetTurnTimeCost()
+    public int GetCurrentTurnCost()
     {
-        return CrumbleSpeed;
+        return TurnSystem.HasTurn(this)? CrumbleTurnCost : 0;
     }
-
-    public int GetNextTurnTime()
+    public int GetTurnTime()
     {
         return TurnTime;
     }
 
     public void SetNextTurnTime(int turns)
     {
-        Debug.Log("set adsadsd");
+       
         TurnTime = turns;
     }
 
@@ -82,7 +88,7 @@ public class WorldCrumbler : MonoBehaviour, ITurn {
 
     public void GlobalTurn(int turn)
     {
-        Debug.Log("Global turn in crumble " + TurnTime);
+      
         TurnTime--;
     }
 
@@ -107,7 +113,7 @@ public class WorldCrumbler : MonoBehaviour, ITurn {
         throw new NotImplementedException();
     }
 
-	public TurnableEvent OnTurnPreview 
+	public TurnableEventHandler TurnTimeUpdated 
 	{
 		get { return null;}
 		set{}

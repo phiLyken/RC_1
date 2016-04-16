@@ -53,6 +53,7 @@ public class UnitAction_Attack : UnitActionBase {
         Damage newd = new Damage();
         newd.amount = (int)( DMG.amount * GetIntMod());
         StartCoroutine(AttackSequence(Owner, currentTarget, DMG));
+        base.ActionExecuted();
     }
 
     float GetIntMod()
@@ -74,7 +75,7 @@ public class UnitAction_Attack : UnitActionBase {
 
         Instantiate(Resources.Load("simple_explosion"), def.transform.position, Quaternion.identity);
         yield return new WaitForSeconds(0.25f);
-        base.ActionExecuted();
+        ActionCompleted();
 
     }
     void OnUnitHover(Unit unit)

@@ -5,17 +5,18 @@ using System.Collections.Generic;
 public class UnitAction_Move : UnitActionBase {
 
     public int IntGrowthPerMove;
+    public int MoveRange;
 
     Tile currentTargetTile;
     List<Tile> currentPath;
+    PathDisplay pathpreview;
 
     public override void SelectAction()
-    {
-        
-
+    {       
         base.SelectAction();
 
         if (Owner.GetComponent<WaypointMover>().Moving) return;
+      
         TileCollectionHighlight.SetHighlight(GetWalkableTiles(Owner.currentTile), "selected");
         TileSelecter.OnTileSelect += SetMovementTile;
         TileSelecter.OnTileHover += SetPreviewTile;    
@@ -24,16 +25,16 @@ public class UnitAction_Move : UnitActionBase {
 
     void SetMovementTile(Tile t)
     {
-        //Debug.Log("set movement tile");
+        Debug.Log("set movement tile");
         AttemptExection();        
     }
 
-    PathDisplay pathpreview;
+    
     void SetPreviewTile(Tile t)
     {
        // Debug.Log("setpreview tile");
         List<Tile> pathToTile = TileManager.Instance.FindPath(Owner.currentTile, t);
-        if(Owner.PathWalkable(pathToTile))
+        if(PathWalkable(pathToTile))
         {
             if(pathpreview != null)
             {
@@ -54,12 +55,43 @@ public class UnitAction_Move : UnitActionBase {
     protected override void ActionExecuted()
     {
 
-       // Debug.Log("move executed");
-        Owner.SetMovementTile(currentTargetTile, currentPath);
+        // Debug.Log("move executed");
+        ActionInProgress = true;
+        SetMovementTile(currentTargetTile, currentPath);
         Owner.ModifyInt(IntGrowthPerMove);
-
+      
         base.ActionExecuted();
+        UnSelectAction();
+        // ActionCompleted();
 
+    }
+    public bool PathWalkable(List<Tile> p)
+    {
+        return p != null && p.Count - 1 <= MoveRange && p.Count > 1;
+    }
+
+    public void SetMovementTile(Tile target, List<Tile> path)
+    {
+        Debug.Log("set movement tile");
+        Owner.SetTile(target, false);
+
+        WaypointMover mover = Owner.GetComponent<WaypointMover>();
+        mover.MoveOnPath(path, 3);
+
+        mover.OnMovementEnd += Waypoint => { ActionCompleted(); };
+
+    }
+
+    public List<Tile> GetReachableTiles(Tile from, List<Tile> tiles, Unit unit)
+    {
+        List<Tile> reacheable = new List<Tile>();
+        foreach (Tile t in tiles)
+        {
+            List<Tile> path = TileManager.Instance.FindPath(from, t);
+            if (PathWalkable(path)) reacheable.Add(t);
+        }
+
+        return reacheable;
     }
 
     protected override bool CanExecAction()
@@ -85,9 +117,8 @@ public class UnitAction_Move : UnitActionBase {
 
     public List<Tile> GetWalkableTiles(Tile origin)
     {
-        return TileManager.Instance.
-            GetReachableTiles(origin, 
-            TileManager.Instance.GetTilesInRange(origin, (int) Owner.Stats.GetStat(UnitStats.Stats.movement_range).current),
+        return  GetReachableTiles(origin, 
+            TileManager.Instance.GetTilesInRange(origin,MoveRange),
             Owner);
     }
 

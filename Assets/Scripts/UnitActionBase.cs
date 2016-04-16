@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public delegate void ActionEventHandler(UnitActionBase action);
+
 
 public class UnitActionBase : MonoBehaviour {
 
-    protected bool ActionInProgress;
+    public bool ActionInProgress;
     public ActionEventHandler OnExecuteAction;
     public StatInfo[] Requirements;
    
@@ -38,7 +38,7 @@ public class UnitActionBase : MonoBehaviour {
 
     public bool HasRequirements()
     {
-        if(!Owner.HasAP(AP_Cost))
+        if(!Owner.Actions.HasAP(AP_Cost))
         {
             Debug.Log("not enough ap");
             return false;
@@ -65,14 +65,18 @@ public class UnitActionBase : MonoBehaviour {
             ActionExecuted();              
         } else
         {
-            Debug.Log("Coudlnt execute "+ActionID +" ap cost:"+AP_Cost+" / "+Owner.GetAPLeft()  );
+           // Debug.Log("Coudlnt execute "+ActionID +" ap cost:"+AP_Cost+" / "+Owner.GetAPLeft()  );
         }
     }
-
+    protected void ActionCompleted()
+    {
+        Debug.Log("action completed ");
+        ActionInProgress = false;
+    }
      protected virtual void ActionExecuted()
     {
         Debug.Log(ActionID + " done");
-        ActionInProgress = false;
+       
         if (OnExecuteAction != null) OnExecuteAction(this);
     }
 

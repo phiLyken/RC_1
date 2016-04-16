@@ -8,7 +8,7 @@ public class TurnTest : MonoBehaviour, ITurn {
 	public int[] ActionCost;
 	int selectedAction = -1;
 
-	TurnableEvent UpdateCostPreview;
+	TurnableEventHandler UpdateCostPreview;
 
 	int currentTurnTime;
 	int actionsMade;
@@ -19,6 +19,7 @@ public class TurnTest : MonoBehaviour, ITurn {
 	// Use this for initialization
 	void Start () {
 		RegisterTurn();
+        actionsMade = 2;
 	}
 
 	// Update is called once per frame
@@ -43,26 +44,31 @@ public class TurnTest : MonoBehaviour, ITurn {
 			if(Input.GetKeyUp(KeyCode.Alpha5)){
 				SelectAction(4);
 			}
-
 		}
 	}
 
 	#region ITurn implementation
 
-	public TurnableEvent OnTurnPreview 
+	public TurnableEventHandler TurnTimeUpdated 
 	{
 		get { return UpdateCostPreview;}
 		set { UpdateCostPreview = value;}
 	}
 
-	public int GetTurnTimeCost ()
-	{
-		int cost = currentTurnCost;
-		Debug.Log(GetID()+" get turn time cost"+cost.ToString());
-		return cost;
-	}
 
+    public int GetCurrentTurnCost()
+    {
+        int turnTime = 0;
 
+        if (selectedAction >= 0)
+        {
+         
+            turnTime += ActionCost[selectedAction];
+        }
+        turnTime += currentTurnCost;
+      
+        return turnTime;
+    }
 	void SelectAction	(int id){
 		
 		Debug.Log("attempt select "+id  +" length"+ActionCost.Length);
@@ -85,17 +91,10 @@ public class TurnTest : MonoBehaviour, ITurn {
 		if(UpdateCostPreview != null) UpdateCostPreview(this);
 
 	}
-	public int GetNextTurnTime ()
-	{
-		int turnTime = currentTurnTime;
+	public int GetTurnTime() { 
 
-		if(selectedAction >=0){
-			Debug.Log(selectedAction+" "+ActionCost.Length+ " "+GetID());
-			turnTime += ActionCost[selectedAction];
-		}
-		turnTime += currentTurnCost;
-		Debug.Log("    Next Turn Time "+GetID()+": "+turnTime +"    selected:"+selectedAction);
-		return turnTime;
+        return   currentTurnTime;
+       
 	}
 
 	public void SetNextTurnTime (int turns)
@@ -108,6 +107,10 @@ public class TurnTest : MonoBehaviour, ITurn {
 		return actionsMade == 2;
 	}
 
+    public Color GetColor()
+    {
+        return Color.magenta;
+    }
 	public void StartTurn ()
 	{
 		Debug.Log("Start Turn "+GetID());
@@ -115,7 +118,10 @@ public class TurnTest : MonoBehaviour, ITurn {
 		actionsMade = 0;
 		currentTurnCost = 0;
 	}
-
+    public void EndTurn()
+    {
+        currentTurnCost = 0;
+    }
 	public void GlobalTurn (int turn)
 	{
 		currentTurnTime--;
@@ -129,7 +135,7 @@ public class TurnTest : MonoBehaviour, ITurn {
 
 	public string GetID ()
 	{
-		return id;
+		return id+" time:"+GetTurnTime()+"  current:"+GetCurrentTurnCost();
 	}
 
 	public int GetTurnControllerID ()
@@ -142,7 +148,8 @@ public class TurnTest : MonoBehaviour, ITurn {
 		actionsMade = 2;
 	}
 
-	public bool IsActive {
+
+    public bool IsActive {
 		get {
 			return active;
 		}

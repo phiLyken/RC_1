@@ -5,9 +5,9 @@ using System.Collections;
 public interface ITurn {
 
 	/// <summary>
-	/// This event should be called when the turnable is changing the turnorder
+	/// This event should be called when the turnable wants to resort the turn list
 	/// </summary>
-	TurnableEvent OnTurnPreview{
+	TurnableEventHandler TurnTimeUpdated{
 		get;
 		set;
 	}
@@ -16,13 +16,18 @@ public interface ITurn {
     /// Each turn has a certain cost, that determines when the the next turn happens - the cost will be applied to the time
     /// </summary>
     /// <returns></returns>
-    int GetTurnTimeCost();
+  //  int GetTurnTimeCost();
 
     /// <summary>
     /// Time used for sorting of all turn items
     /// </summary>
     /// <returns></returns>
-    int GetNextTurnTime();
+    int GetTurnTime();
+
+
+
+    int GetCurrentTurnCost();
+
 
     /// <summary>
     /// When a turn has ended, the turnsystem uses this to determine the next turn time
@@ -39,6 +44,11 @@ public interface ITurn {
     /// Called when the turn for THIS item has started
     /// </summary>
     void StartTurn();
+
+    /// <summary>
+    /// Called when the turn for THIS item has ended (from the turnsystem)
+    /// </summary>
+    void EndTurn();
 
     /// <summary>
     /// Called for each turn of any item (use to decrement time of each item)
@@ -67,16 +77,26 @@ public interface ITurn {
     /// <returns></returns>
     int GetTurnControllerID();
 
-
+    /// <summary>
+    /// Will receive global turns, but should not be registed until active
+    /// </summary>
     bool IsActive
     {
         get ;
     }
-
+    /// <summary>
+    /// Turnables should have be able to skip a turn
+    /// </summary>
     void SkipTurn();
 
+    /// <summary>
+    /// This ID is is used for secondary sorting, best use the ID that is received when registering
+    /// </summary>
 	int StartOrderID{
 		get;
 		set;
 	}
+
+    Color GetColor();
+
 }

@@ -6,34 +6,49 @@ using System.Collections.Generic;
 public class UnitAI : MonoBehaviour, ITriggerable {
     public GameObject Cover;
     Unit m_unit;
+    ActionManager m_Actions;
     bool AttackingPlayer;
 
     void Awake()
     {
         AttackingPlayer = false;
         m_unit = GetComponent<Unit>();
+        m_Actions = GetComponent<ActionManager>();
         m_unit.OnTurnStart += StartTurn;
     }
 
     void StartTurn(Unit u)
     {
-      //  Debug.Log(m_unit.GetID() + "...well....");
+        Debug.Log(m_unit.GetID() + "...well....");
         StartCoroutine(AISequence());
     }
 
+    UnitAction_Attack getAttack()
+    {
+      return   (m_unit.Actions.GetAction("Attack") as UnitAction_Attack);
+    }
 
+    UnitAction_Move getMove()
+    {
+        return (m_unit.Actions.GetAction("Move") as UnitAction_Move);
+    }
     IEnumerator Attack(Unit target)
     {
         Debug.Log("ai: attack");
+       
         yield return null;
-     //   Debug.Log(m_unit.GetID() + " Selecting atk");
-        UnitAction_Attack Attack = m_unit.SelectAbility(2) as UnitAction_Attack;
+        //   Debug.Log(m_unit.GetID() + " Selecting atk");
+        UnitAction_Attack Attack = getAttack();
+        Debug.Log(target);
         if (Attack  == null || !Attack.HasRequirements())
         {
+          
             yield break;
         }
-        yield return new WaitForSeconds(0.25f);
        
+        m_Actions.SelectAbility(Attack);
+        yield return new WaitForSeconds(0.25f);
+
         target.OnHover();
         yield return new WaitForSeconds(0.25f);
         target.UnitSelected();
@@ -42,7 +57,8 @@ public class UnitAI : MonoBehaviour, ITriggerable {
     IEnumerator MoveRandom()
     {
         Debug.Log("ai: random");
-        UnitAction_Move move = (m_unit.Actions[0] as UnitAction_Move);
+        UnitAction_Move move = getMove();
+        move.SelectAction();
         Tile randomDest = GetRandomWalkableTile(move);
         if(randomDest != null)
         {
@@ -56,27 +72,31 @@ public class UnitAI : MonoBehaviour, ITriggerable {
     }
     IEnumerator Move(Tile t)
     {
+
         Debug.Log("ai: move");
         yield return null;
-        // Debug.Log(m_unit.GetID()+ "Selecting move");
-        UnitAction_Move move = (UnitAction_Move)m_unit.SelectAbility(0);
-       
+        Debug.Log(m_unit.GetID()+ "Selecting move");
+        UnitAction_Move move = getMove();
+        m_Actions.SelectAbility(move);
+
         if (move == null || !move.HasRequirements()) yield break;
 
         yield return new WaitForSeconds(0.5f);
-        //  Debug.Log(m_unit.GetID() + " getting move targets");
+        Debug.Log(m_unit.GetID() + " getting move targets");
 
         t.OnHover();
         yield return new WaitForSeconds(0.5f);
 
-        // Debug.Log(m_unit.GetID() + " Select tile to for move "+best.TilePos);
+        Debug.Log(m_unit.GetID() + " Select tile to for move ");
         TileSelecter.SelectTile(t);
+        
     }
     IEnumerator MoveToAttackPosition()
     {
         Debug.Log("ai: move to attack position");
-        UnitAction_Attack atk = (m_unit.Actions[2] as UnitAction_Attack);
-        UnitAction_Move  move = (m_unit.Actions[0] as UnitAction_Move);
+        UnitAction_Attack atk = getAttack();
+        UnitAction_Move  move = getMove();
+
         List<Tile> walkables = move.GetWalkableTiles(m_unit.currentTile);
         List<Unit> all_enemies = Unit.GetAllUnitsOfOwner(0);
 
@@ -104,20 +124,24 @@ public class UnitAI : MonoBehaviour, ITriggerable {
     }
     IEnumerator AISequence()
     {
-        while( !(m_unit as ITurn).HasEndedTurn()){
-
+        ///We need to wait a frame because the Action system needs to reset first, and both listen to "onstart" of the unit
+        yield return null;
+        while ( !(m_unit).HasEndedTurn()){
+            Debug.Log("13123");
             yield return StartCoroutine( Decide());
         }
+        Debug.Log("Ai ended");
 
     }
     IEnumerator Decide()
     {
+        if (m_Actions.IsActionInProgress) yield return null;
 
         if (AttackingPlayer)
         {
-       // Debug.Log(m_unit.GetID() + "decide");
-        List<Unit> attackables = UnitAction_Attack.GetAttackableUnits(Unit.GetAllUnitsOfOwner(0), m_unit, (m_unit.Actions[2] as UnitAction_Attack).Range);
-        Unit target = FindBestUnitToAttack(attackables);
+             Debug.Log(m_unit.GetID() + "decide");
+             List<Unit> attackables = UnitAction_Attack.GetAttackableUnits(Unit.GetAllUnitsOfOwner(0), m_unit, getAttack().Range);
+             Unit target = FindBestUnitToAttack(attackables);
 
             if (target != null)
             {
@@ -131,8 +155,6 @@ public class UnitAI : MonoBehaviour, ITriggerable {
         {
             yield return StartCoroutine(MoveRandom());
         }
-
-       
     }
     void SkipTurn()
     {

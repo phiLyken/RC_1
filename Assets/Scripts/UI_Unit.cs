@@ -40,7 +40,7 @@ public class UI_Unit : MonoBehaviour {
         IntensityBar.SetProgress(m_unit.Stats.GetStat(UnitStats.Stats.intensity).GetProgress());
         IntensityBar.SetBarText(m_unit.Stats.GetStat(UnitStats.Stats.intensity).current + "/" + m_unit.Stats.GetStat(UnitStats.Stats.intensity).current_max);
         MoveField.text = "";
-        for(int i = 0; i < u.GetAPLeft(); i++)
+        for(int i = 0; i < u.Actions.GetAPLeft(); i++)
         {
             MoveField.text += "o";
         }
