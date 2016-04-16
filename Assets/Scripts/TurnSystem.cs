@@ -79,7 +79,7 @@ public class TurnSystem : MonoBehaviour {
             GlobalTurn(currentTurn);
 
             yield return new WaitForSeconds(0.1f);
-          NormalizeList();
+            NormalizeList();
             SortListByTime();
 
             Current = GetNext();

@@ -169,7 +169,9 @@ public class ActionManager : MonoBehaviour {
         string s = "";
         for (int i = 0; i < Actions.Length; i++)
         {
-            s += (i + 1).ToString() + ":" + Actions[i].ActionID + "\n";
+            string charges = "";
+            if (Actions[i].UseCharges) charges = Actions[i].Charges.ToString();
+            s += (i + 1).ToString() + ":" + Actions[i].ActionID + "["+charges+"]\n";
         }
         return s;
     }

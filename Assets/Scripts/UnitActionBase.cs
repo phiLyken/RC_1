@@ -8,7 +8,10 @@ public class UnitActionBase : MonoBehaviour {
     public bool ActionInProgress;
     public ActionEventHandler OnExecuteAction;
     public StatInfo[] Requirements;
-   
+
+    public bool UseCharges;
+    public int Charges;
+    public int ChargeMax;
 
     public int TurnTimeCost;
 
@@ -27,7 +30,9 @@ public class UnitActionBase : MonoBehaviour {
 
     public virtual void SelectAction()
     {
-        UI_ActiveUnit.Instance.AbilityTF.text = "Ability: " + ActionID+"\n"+Descr;
+        string charges = "";
+        if (UseCharges) charges = Charges.ToString();
+        UI_ActiveUnit.Instance.AbilityTF.text = "Ability: " + ActionID+"("+charges+")\n"+Descr;
     }
 
     protected virtual bool CanExecAction()
@@ -36,6 +41,11 @@ public class UnitActionBase : MonoBehaviour {
         return HasRequirements() && !ActionInProgress;
     }
 
+    void Start()
+    {
+        if (UseCharges) Charges = ChargeMax;
+    }
+  
     public bool HasRequirements()
     {
         if(!Owner.Actions.HasAP(AP_Cost))
@@ -68,9 +78,15 @@ public class UnitActionBase : MonoBehaviour {
            // Debug.Log("Coudlnt execute "+ActionID +" ap cost:"+AP_Cost+" / "+Owner.GetAPLeft()  );
         }
     }
+
+    public bool HasCharges()
+    {
+        return !UseCharges || Charges > 0;
+    }
     protected void ActionCompleted()
     {
         Debug.Log("action completed ");
+        Charges--;
         ActionInProgress = false;
     }
      protected virtual void ActionExecuted()
