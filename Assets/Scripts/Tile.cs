@@ -113,8 +113,8 @@ public class Tile : MonoBehaviour, IWayPoint
     }
     public void OnHover()
     {
-        
-        TileSelecter.HoverTile(this);
+       
+            TileSelecter.HoverTile(this);
     }
 
     void OnHoverEnd()
@@ -159,6 +159,8 @@ public class Tile : MonoBehaviour, IWayPoint
 
             isAccessible = !isAccessible;
         }
+
+        SetVisualState("normal");
     }
 
     public void MoveTileUp()
@@ -191,7 +193,14 @@ public class Tile : MonoBehaviour, IWayPoint
         // Debug.Log("set visual");
         if (DisplayState == null) DisplayState = gameObject.GetComponent<TileVisualizer>();
         if (DisplayState == null) DisplayState = gameObject.AddComponent<TileVisualizer>();
-        if (id == "normal" && isCamp) id = "camp";
+        if (id == "normal" )
+        {
+            if(isCamp)
+                 id = "camp";
+
+            if (!isAccessible)
+                id = "blocked";
+        }
         DisplayState.SetState(id);
     }
 
