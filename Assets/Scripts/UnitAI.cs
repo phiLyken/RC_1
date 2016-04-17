@@ -25,12 +25,23 @@ public class UnitAI : MonoBehaviour, ITriggerable {
 
     UnitAction_Attack getAttack()
     {
-      return   (m_unit.Actions.GetAction("Attack") as UnitAction_Attack);
+        UnitAction_Attack atk = (m_unit.Actions.GetAction("Attack") as UnitAction_Attack); 
+        if(atk == null)
+        {
+            Debug.LogWarning(" could not find Attack ability for " + m_unit.GetID());
+        }
+        return atk;
     }
 
     UnitAction_Move getMove()
     {
-        return (m_unit.Actions.GetAction("Move") as UnitAction_Move);
+
+        UnitAction_Move move = (m_unit.Actions.GetAction("Move") as UnitAction_Move);
+        if (move == null)
+        {
+            Debug.LogWarning(" could not find Move ability for " + m_unit.GetID());
+        }
+        return move;
     }
     IEnumerator Attack(Unit target)
     {
