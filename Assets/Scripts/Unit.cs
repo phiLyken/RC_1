@@ -42,7 +42,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     {
         get
         {
-            return (OwnerID == 0 || ActiveRangeToPlayerUnits(this));
+            return !isDead() && (OwnerID == 0 || ActiveRangeToPlayerUnits(this));
         }
     }
 

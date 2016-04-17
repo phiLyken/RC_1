@@ -38,4 +38,14 @@ public class UnitSpawnManager : MonoBehaviour {
         Unit newUnit = (Instantiate(u.gameObject) as GameObject).GetComponent<Unit>();
         newUnit.SetTile(tile, true);
     }
+
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red * 0.8f;
+        foreach(Tile t in SpawnTiles)
+        {
+            Gizmos.DrawCube(t.GetPosition(), Vector3.one);
+        }
+    }
 }
