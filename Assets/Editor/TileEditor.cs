@@ -50,12 +50,45 @@ public class TileEditor : Editor {
         {
             foreach (Tile t in targets) SpawnSelected(t);
         }
+
+        if (GUILayout.Button("Toggle Enemy Spawn"))
+        {
+            foreach (Tile t in targets)
+            {
+                MakeEnemySpawnTile(t);
+            }
+        }
+
         if (newSelected != selected)
         {      
             selected = newSelected;
         }
        
     }
+
+    void MakeEnemySpawnTile(Tile t)
+    {
+        Debug.Log("asds");
+        UnitSpawnManager manager = t.transform.parent.GetComponent<UnitSpawnManager>();
+        if(manager == null)
+        {
+            Debug.LogWarning("No UnitSpawn Manager Found in parent of this tile");
+
+        }
+        if (!manager.SpawnTiles.Contains(t))
+        {
+            Debug.LogWarning("Tile added");
+            manager.SpawnTiles.Add(t);
+        } else
+        {
+            manager.SpawnTiles.Remove(t);
+            Debug.LogWarning("Tile removed");
+        }
+
+        EditorUtility.SetDirty(target);
+
+    }
+
 
     void SpawnSelected(Tile t)
     {
