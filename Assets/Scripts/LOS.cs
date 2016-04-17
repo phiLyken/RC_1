@@ -1,16 +1,83 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using System;
 
+
+public class LOSCheck
+{
+    Tile m_startTile;
+    TileManager m_manager;
+
+    List<Tile> in_range;
+
+    public LOSCheck(Tile start, TileManager region)
+    {
+        in_range = new List<Tile>();
+        m_startTile = start;
+        m_manager = region;
+    }
+
+    public static List<Tile> GetTilesVisibleTileInRange(Tile origin, int range)
+    {
+        return new LOSCheck(origin, TileManager.Instance).GetTilesVisibleTileInRange(range);
+    }
+    public List<Tile> GetTilesVisibleTileInRange(int range)
+    {
+        new MyVisibility(blockslight, TileVisible, LOSCheck.getdist).Compute(m_startTile.TilePos, range);
+        return in_range;
+    }
+
+   
+    void TileVisible(int x, int z)
+    {
+        int max_x = m_manager.Tiles.GetLength(0) - 1;
+        int max_z = m_manager.Tiles.GetLength(1) - 1;
+
+        x = Mathf.Clamp(x, 0, max_x);
+        z = Mathf.Clamp(z, 0, max_z);
+
+        AddToRange(m_manager.Tiles[x, z]);      
+    }
+
+    bool blockslight(int x, int z)
+    {
+        int max_x = m_manager.Tiles.GetLength(0) - 1;
+        int max_z = m_manager.Tiles.GetLength(1) - 1;
+        x = Mathf.Clamp(x, 0, max_x);
+        z = Mathf.Clamp(z, 0, max_z);
+  
+        return !m_manager.Tiles[x, z].isAccessible;
+
+    }
+
+    void AddToRange(Tile t)
+    {
+        if (!in_range.Contains(t) && t.isAccessible)
+        {
+           
+            in_range.Add(t);
+        }
+    }
+
+    public  static int getdist(int x, int z)
+    {
+        int result = (int)Mathf.Sqrt((float)Math.Pow((float)x, 2f) + (float)Math.Pow((float)z, 2f));
+
+        return result;
+    }
+
+}
 
 public class LOS : MonoBehaviour
 {
     public TilePos start;
     public TilePos end;
 
+
     public void Test()
     {
-        new MyVisibility(blockslight, SetVisible, getdist).Compute(start, 5);
+        new MyVisibility(blockslight, SetVisible, LOSCheck.getdist).Compute(start, 5);
         
     }
 
@@ -19,12 +86,7 @@ public class LOS : MonoBehaviour
         if(TileManager.Instance != null)
         Gizmos.DrawCube(TileManager.Instance.Tiles[start.x, start.z].transform.position, Vector3.one);
     }
-    int getdist(int x, int z)
-    {
-        int result = (int)Mathf.Sqrt((float)Math.Pow((float)x, 2f) + (float)Math.Pow((float)z, 2f));
-       
-        return result;
-    }
+
     bool blockslight(int x, int z)
     {
         int max_x = TileManager.Instance.Tiles.GetLength(0)-1;

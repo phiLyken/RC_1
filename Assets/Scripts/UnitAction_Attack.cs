@@ -27,7 +27,10 @@ public class UnitAction_Attack : UnitActionBase {
         base.SelectAction();
         Unit.OnUnitHover += OnUnitHover;
         Unit.OnUnitSelect += UnitSelected;
-        TileCollectionHighlight.SetHighlight(TileManager.Instance.GetTilesInDistance(Owner.currentTile.GetPosition(), Range), "attack_range");
+        List<Tile> AttackableTiles = new LOSCheck(Owner.currentTile, TileManager.Instance).GetTilesVisibleTileInRange((int) Range);
+
+        //  TileCollectionHighlight.SetHighlight(TileManager.Instance.GetTilesInDistance(Owner.currentTile.GetPosition(), Range), "attack_range");
+        TileCollectionHighlight.SetHighlight(AttackableTiles, "attack_range");
     }
 
     public override void UnSelectAction()
@@ -48,7 +51,6 @@ public class UnitAction_Attack : UnitActionBase {
     
     protected override void ActionExecuted()
     {
-
         Owner.ModifyInt(-IntUsageForAttack);
         Damage newd = new Damage();
         newd.amount = (int)( DMG.amount * GetIntMod());
@@ -90,13 +92,16 @@ public class UnitAction_Attack : UnitActionBase {
 
     public static bool isInRange(Unit attacker, Unit other, float range)
     {
-        return (other.currentTile.GetPosition() - attacker.currentTile.GetPosition()).magnitude <= range;
+        return isInRange(attacker, other, range, attacker.currentTile);
+        
     }
     public static bool isInRange(Unit attacker, Unit other, float range, Tile origin)
     {
-        return (other.currentTile.GetPosition() - origin.GetPosition()).magnitude <= range;
-    }
+        List<Tile> in_range = LOSCheck.GetTilesVisibleTileInRange(origin, (int) range);
 
+        return in_range.Contains(other.currentTile);
+    }
+   
 
     bool canTarget(Unit other)
     {

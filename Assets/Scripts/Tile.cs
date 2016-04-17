@@ -29,7 +29,7 @@ public class Tile : MonoBehaviour, IWayPoint
     int RandomOffset;
 
     [SerializeField]
-    bool isAccessible = true;
+    public bool isAccessible = true;
 
     TileVisualizer DisplayState;
 
@@ -47,7 +47,7 @@ public class Tile : MonoBehaviour, IWayPoint
     {
         return transform.position;
     }
-
+    
     public bool IsFree
     {
         get
