@@ -59,6 +59,26 @@ public class TileEditor : Editor {
             }
         }
 
+        if (GUILayout.Button("Add/Remove Loot"))
+        {
+            foreach (Tile t in targets)
+            {
+                Tile_Loot l = t.GetComponent<Tile_Loot>();
+                if(l == null)
+                {
+                    l = t.gameObject.AddComponent<Tile_Loot>();
+                    GameObject lootobj = (Instantiate(Resources.Load("Loot"), t.GetPosition(), Quaternion.identity) as GameObject );
+                    lootobj.transform.SetParent(t.transform, true);
+                    l.LootObject = lootobj;
+                } else
+                {
+                    DestroyImmediate(l.LootObject.gameObject);
+                    DestroyImmediate(l);
+                }
+            }
+        }
+
+
         if (newSelected != selected)
         {      
             selected = newSelected;

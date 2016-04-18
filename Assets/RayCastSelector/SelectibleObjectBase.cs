@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+using UnityEngine.EventSystems;
+using System;
 
 public delegate void EventHandler();
-public class SelectibleObjectBase : MonoBehaviour {
+public class SelectibleObjectBase : MonoBehaviour, IPointerClickHandler {
 
     
 	protected bool bTouchHold;
@@ -16,21 +17,7 @@ public class SelectibleObjectBase : MonoBehaviour {
 
     bool Cheat;
 
-    void Update()
-    {
 
-        if (Input.GetKeyUp(KeyCode.Alpha0))
-        {
-            Cheat = !Cheat;
-        }
-        if (!HumanInput()) return;
-
-        if (inFocus && !PanCamera.CameraAction && Input.GetMouseButtonUp(0))
-        {
-
-            Select(); 
-        }
-    }
     void OnMouseOver()
     {
 
@@ -63,4 +50,18 @@ public class SelectibleObjectBase : MonoBehaviour {
         return TurnSystem.Instance == null || TurnSystem.Instance.Current == null || TurnSystem.Instance.Current.GetTurnControllerID() == 0 || Cheat;
     }
 
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (Input.GetKeyUp(KeyCode.Alpha0))
+        {
+            Cheat = !Cheat;
+        }
+        if (!HumanInput()) return;
+
+        if (inFocus && !PanCamera.CameraAction && Input.GetMouseButtonUp(0))
+        {
+
+            Select();
+        }
+    }
 }

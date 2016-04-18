@@ -20,6 +20,7 @@ public struct TilePos
 [RequireComponent(typeof(BoxCollider), typeof(SelectibleObjectBase))]
 public class Tile : MonoBehaviour, IWayPoint
 {
+    
     public int zoneID;
     public int CrumbleDelay;
    
@@ -42,7 +43,8 @@ public class Tile : MonoBehaviour, IWayPoint
 
     public UnitEventHandler OnUnitTrespassing;
     public TileEventHandler OnDeactivate;
-     
+    public TileEventHandler OnSetChild;
+
     public Vector3 GetPosition()
     {
         return transform.position;
@@ -129,12 +131,12 @@ public class Tile : MonoBehaviour, IWayPoint
         GetComponent<MeshRenderer>().enabled = false;
         isAccessible = false;
 
-
     }
 
     public void SetChild(GameObject obj)
     {
         Child = obj;
+        if (OnSetChild != null) OnSetChild(this);
     }
 
     public void SetMesh(GameObject newMesh)
