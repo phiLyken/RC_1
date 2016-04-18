@@ -83,6 +83,7 @@ public interface ITurn {
     bool IsActive
     {
         get ;
+        set;
     }
     /// <summary>
     /// Turnables should have be able to skip a turn

@@ -22,10 +22,7 @@ public class WorldCrumbler : MonoBehaviour, ITurn {
 
     public bool IsActive
     {
-        get
-        {
-            return true;
-        }
+        get{return true; } set { }
     }
 
     void Awake()

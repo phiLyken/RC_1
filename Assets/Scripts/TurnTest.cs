@@ -153,6 +153,10 @@ public class TurnTest : MonoBehaviour, ITurn {
 		get {
 			return active;
 		}
+        set
+        {
+            active = value;
+        }
 	}
 
 	public void RemoveEntity(){

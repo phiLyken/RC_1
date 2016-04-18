@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+public delegate void DamageEventHandler(Damage dmg);
 [System.Serializable]
 public class Damage
 {

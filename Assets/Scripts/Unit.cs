@@ -19,6 +19,8 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     public static UnitEventHandler OnUnitHover;
     public static UnitEventHandler OnUnitSelect;
 
+    public DamageEventHandler OnDamageReceived;
+  
     public UnitEventHandler OnActionSelectedInUnit;
 
     public TurnableEventHandler OnUpdateTurnTime; 
@@ -38,13 +40,15 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     UI_Unit m_UI;
    
     
+    public bool CanBeActivated()
+    {
+        return !isDead() && (OwnerID == 0 || ActiveRangeToPlayerUnits(this));
+    }
     public bool IsActive
     {
-        get
-        {
-            return !isDead() && (OwnerID == 0 || ActiveRangeToPlayerUnits(this));
-        }
+        get { return _isActive; } set { _isActive = value; }
     }
+    bool _isActive;
 
     public bool isDead()
     {
@@ -84,15 +88,25 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
         if (OnUpdateTurnTime != null)
             OnUpdateTurnTime(this);
     }
+    void ActivationCheck()
+    {
+        if (!IsActive && CanBeActivated())
+        {
+            Activate();
+        }
+    }
 
+    public void Activate()
+    {
+        _isActive = true;
+        RegisterTurn();
+    }
     void Start()
     {
-        if (IsActive) { 
-            RegisterTurn();
-        } else
-        {
+
+        ActivationCheck();
             TurnSystem.Instance.OnGlobalTurn += GlobalTurn;
-        }
+        
     }
 
     
@@ -250,15 +264,16 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
 
     public void GlobalTurn(int turn)
     {
+        ActivationCheck();
+
         if (IsActive)
-        {
-            RegisterTurn();
+        {            
             TurnTime--;
 
             if (currentTile.isCamp)
                 BaseCampTurn();
             
-        }       
+        }      
     }
 
     void BaseCampTurn()
@@ -317,6 +332,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
         Stats.GetStat(UnitStats.Stats.will).ModifyStat(dmg_received);
         ModifyInt(int_received);
 
+        if (OnDamageReceived != null) OnDamageReceived(dmg);
         UpdateUI();
          
         if ( Stats.GetStat(UnitStats.Stats.will).current <= 0)
