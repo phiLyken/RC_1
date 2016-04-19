@@ -31,6 +31,7 @@ public class UnitAction_Attack : UnitActionBase {
 
         //  TileCollectionHighlight.SetHighlight(TileManager.Instance.GetTilesInDistance(Owner.currentTile.GetPosition(), Range), "attack_range");
         TileCollectionHighlight.SetHighlight(AttackableTiles, "attack_range");
+        if (Unit.HoveredUnit != null) OnUnitHover(Unit.HoveredUnit);
     }
 
     public override void UnSelectAction()

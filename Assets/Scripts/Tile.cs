@@ -223,7 +223,8 @@ public class Tile : MonoBehaviour, IWayPoint
         }
 
        Debug.DrawRay(transform.position, Vector3.up * 0.3f, IsFree ? Color.green : Color.red);
-
+    
+       
     }
 
     

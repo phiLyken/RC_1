@@ -15,6 +15,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
 
     public static List<Unit> AllUnits = new List<Unit>();
     public static Unit SelectedUnit;
+    public static Unit HoveredUnit;
     public static UnitEventHandler OnUnitKilled;
     public static UnitEventHandler OnUnitHover;
     public static UnitEventHandler OnUnitSelect;
@@ -123,7 +124,8 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     public void OnHover()
     {
         if (OnUnitHover != null) OnUnitHover(this);
-          UpdateUI();
+        HoveredUnit = this;
+        UpdateUI();
     }
 
     void OnHoverEnd()

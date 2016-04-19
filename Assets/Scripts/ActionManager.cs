@@ -104,6 +104,8 @@ public class ActionManager : MonoBehaviour {
         {
             SkipTurn();
         }
+        
+
         if (Input.GetKeyUp(KeyCode.Alpha1))
         {
             SelectAbility(0);
@@ -119,6 +121,10 @@ public class ActionManager : MonoBehaviour {
         if (Input.GetKeyUp(KeyCode.Alpha4))
         {
             SelectAbility(3);
+        }
+        if (Input.GetKeyUp(KeyCode.Alpha5))
+        {
+            SelectAbility(4);
         }
     }
 

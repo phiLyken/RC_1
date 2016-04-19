@@ -11,6 +11,8 @@ public class TileSelecter : MonoBehaviour {
     static TileSelecter _instance;
         
     public static Tile SelectedTile;
+    public static Tile HoveredTile;
+
     public GameObject PositionMarker;
     
     void Awake()
@@ -24,7 +26,7 @@ public class TileSelecter : MonoBehaviour {
     }
     public static void SelectTile(Tile t)
     { 
-       // Debug.Log("select tile");
+       Debug.Log("select tile");
 
         SelectedTile = t;
        // Debug.Log("selected tile");
@@ -33,7 +35,7 @@ public class TileSelecter : MonoBehaviour {
 
     public static void HoverTile(Tile t)
     {
-        
+        HoveredTile = t;
         SetPositionMarker(t);
         if (OnTileHover != null) OnTileHover(t);
     }

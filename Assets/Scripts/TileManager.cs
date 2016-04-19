@@ -62,6 +62,7 @@ public class TileManager : MonoBehaviour {
         return -1;
     }
 
+
 	public static TileManager Instance;
 
 	public Vector3 GridCenter{

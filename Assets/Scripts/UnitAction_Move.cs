@@ -19,8 +19,13 @@ public class UnitAction_Move : UnitActionBase {
       
         TileCollectionHighlight.SetHighlight(GetWalkableTiles(Owner.currentTile), "selected");
         TileSelecter.OnTileSelect += SetMovementTile;
-        TileSelecter.OnTileHover += SetPreviewTile;    
-    
+        TileSelecter.OnTileHover += SetPreviewTile;
+
+        Debug.Log(TileSelecter.HoveredTile);  
+        if(TileSelecter.HoveredTile != null)
+        {
+            SetPreviewTile(TileSelecter.HoveredTile);
+        }
     }
 
     void SetMovementTile(Tile t)

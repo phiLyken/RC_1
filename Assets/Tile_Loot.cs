@@ -12,6 +12,8 @@ public class Tile_Loot : TileComponent {
     void Awake()
     {
         Type = TileComponents.loot;
+
+        /*
         GetComponent<Tile>().OnSetChild += tile =>
         {
             Unit u = GetComponent<Tile>().Child.GetComponent<Unit>();
@@ -19,7 +21,7 @@ public class Tile_Loot : TileComponent {
             {
                 OnLoot(u);
             }
-        };
+        };*/
     }
 
     public void RemoveLoot()
@@ -75,8 +77,5 @@ public class Tile_Loot : TileComponent {
 
         RemoveLoot();
     }
-
-
-    
 
 }
