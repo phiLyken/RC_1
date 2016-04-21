@@ -4,6 +4,7 @@ using System.Collections;
 public class UI_WorldPos : MonoBehaviour {
     public Vector2 WorldPositionOffset;
     public Transform worldPosAnchor;
+    Vector3 worldPos;
 
     public void SetWorldPosition(Vector3 pos)
     {
@@ -19,7 +20,12 @@ public class UI_WorldPos : MonoBehaviour {
 
     public void UpdatePos()
     {
-        SetWorldPosition(worldPosAnchor.position);
+        if(worldPosAnchor != null)
+        {
+            worldPos = worldPosAnchor.position;
+        }
+
+        SetWorldPosition(worldPos);
     }
     private Vector2 WorldToCanvasPosition(RectTransform canvas, Camera camera, Vector3 position, Vector2 pixelOffset)
     {
