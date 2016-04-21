@@ -143,7 +143,7 @@ public class UnitAI : MonoBehaviour, ITriggerable {
         ///We need to wait a frame because the Action system needs to reset first, and both listen to "onstart" of the unit
         yield return null;
         while ( !(m_unit).HasEndedTurn()){
-            Debug.Log("13123");
+            
             yield return StartCoroutine( Decide());
         }
         Debug.Log("Ai ended");

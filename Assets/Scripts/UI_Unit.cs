@@ -1,12 +1,22 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 public class UI_Unit : MonoBehaviour {
 
+    public delegate void UpdatedValue(int val);
     public Text UnitName;
-    public UI_Bar WillBar;
-    public UI_Bar IntensityBar;
+
+    public Counter IntensityCurrentCounter;
+   // public Counter IntensityMaxCounter;
+
+
+    public Counter WillCurrentCounter;
+    public Counter WillMaxCounter;
+
+    public event UpdatedValue OnWillCurrentUpdate;
+
     public Text MoveField;
 
     Unit m_unit;
@@ -33,12 +43,17 @@ public class UI_Unit : MonoBehaviour {
     {
        
         m_unit = u;
-       // UnitName.text = m_unit.name;
-        WillBar.SetProgress(m_unit.Stats.GetStat(UnitStats.Stats.will).GetProgress());
-        WillBar.SetBarText(m_unit.Stats.GetStat(UnitStats.Stats.will).current + "/" + m_unit.Stats.GetStat(UnitStats.Stats.will).current_max);
+        // UnitName.text = m_unit.name;
+        // WillBar.SetProgress(m_unit.Stats.GetStat(UnitStats.Stats.will).GetProgress());
+        // WillBar.SetBarText(m_unit.Stats.GetStat(UnitStats.Stats.will).current + "/" + m_unit.Stats.GetStat(UnitStats.Stats.will).current_max);
 
-        IntensityBar.SetProgress(m_unit.Stats.GetStat(UnitStats.Stats.intensity).GetProgress());
-        IntensityBar.SetBarText(m_unit.Stats.GetStat(UnitStats.Stats.intensity).current + "/" + m_unit.Stats.GetStat(UnitStats.Stats.intensity).current_max);
+        //IntensityBar.SetProgress(m_unit.Stats.GetStat(UnitStats.Stats.intensity).GetProgress());
+        //  IntensityBar.SetBarText(m_unit.Stats.GetStat(UnitStats.Stats.intensity).current + "/" + m_unit.Stats.GetStat(UnitStats.Stats.intensity).current_max);
+
+        UpdateWill((int)m_unit.Stats.GetStat(UnitStats.Stats.will).current);
+        UpdateWillMax((int)m_unit.Stats.GetStat(UnitStats.Stats.will).current_max);
+        UpdateIntensity( (int) m_unit.Stats.GetStat(UnitStats.Stats.intensity).current);
+
         MoveField.text = "";
         for(int i = 0; i < u.Actions.GetAPLeft(); i++)
         {
@@ -47,14 +62,29 @@ public class UI_Unit : MonoBehaviour {
 
         if(u.OwnerID == 0)
         {
-            WillBar.Bar.GetComponent<Image>().color = new Color(0f, 0.6f,0.8f , 1);
+          //  WillBar.Bar.GetComponent<Image>().color = new Color(0f, 0.6f,0.8f , 1);
         } else
         {
-            WillBar.Bar.GetComponent<Image>().color = new Color(1, 0.5f, 0, 1);
+           // WillBar.Bar.GetComponent<Image>().color = new Color(1, 0.5f, 0, 1);
         }
        
     }
 
+    void UpdateIntensity(int value  )
+    {
+        IntensityCurrentCounter.SetNumber(value);
+    }
    
+
+    void UpdateWill(int value)
+    {
+        WillCurrentCounter.SetNumber(value);
+    }
+
+
+    void UpdateWillMax(int value)
+    {
+        WillMaxCounter.SetNumber(value);
+    }
 
 }

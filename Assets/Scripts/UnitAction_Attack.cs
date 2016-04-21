@@ -54,8 +54,16 @@ public class UnitAction_Attack : UnitActionBase {
     {
         Owner.ModifyInt(-IntUsageForAttack);
         Damage newd = new Damage();
+      
+     
+       
         newd.amount = (int)( DMG.amount * GetIntMod());
-        StartCoroutine(AttackSequence(Owner, currentTarget, DMG));
+
+        newd.bonus_damage = newd.amount - DMG.amount;
+        newd.base_damge = DMG.amount;
+        
+
+        StartCoroutine(AttackSequence(Owner, currentTarget, newd));
         base.ActionExecuted();
     }
 
@@ -80,9 +88,13 @@ public class UnitAction_Attack : UnitActionBase {
 
         yield return new WaitForSeconds(0.75f);
 
-        def.ReceiveDamage(dmg);
+       
 
         Instantiate(Resources.Load("simple_explosion"), def.transform.position, Quaternion.identity);
+        yield return new WaitForSeconds(0.25f);
+
+        DamageNotification.Spawn(def.transform, dmg);
+        def.ReceiveDamage(dmg);
         yield return new WaitForSeconds(0.25f);
         ActionCompleted();
 

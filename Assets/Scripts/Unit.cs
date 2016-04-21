@@ -190,7 +190,6 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
          ReceiveDamage(new Damage());
         
         if (OnUnitSelect != null) OnUnitSelect(this);
-
         return;
 
     }        
