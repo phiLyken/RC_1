@@ -22,6 +22,7 @@ public class TileSelecter : MonoBehaviour {
 
     public static void SetPositionMarker(Tile t)
     {
+        if (_instance == null) return;
         if (_instance.PositionMarker != null) _instance.PositionMarker.transform.position = t.GetPosition();
     }
     public static void SelectTile(Tile t)

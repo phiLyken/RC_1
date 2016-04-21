@@ -14,7 +14,7 @@ public class PanCamera : MonoBehaviour {
 	public GameObject CameraObj;
 	
 	public static bool CameraAction {
-		get { return Instance.drag || Instance.zooming || Instance.rotating; }
+		get { return Instance != null &&( Instance.drag || Instance.zooming || Instance.rotating); }
 	}
 	
 	public void DisableInput(){
@@ -104,7 +104,8 @@ public class PanCamera : MonoBehaviour {
 	}
     public static void FocusOnPlanePoint(Vector3 point)
     {
-        Instance.PanToPos(point);
+        if(Instance != null)
+         Instance.PanToPos(point);
     }
 
     void Reset()

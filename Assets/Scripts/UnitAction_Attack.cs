@@ -67,11 +67,17 @@ public class UnitAction_Attack : UnitActionBase {
     IEnumerator AttackSequence(Unit atk, Unit def, Damage dmg)
     {
         ActionInProgress = true;
-        PanCamera.Instance.PanToPos(atk.currentTile.GetPosition());
+
+        if(PanCamera.Instance != null)
+         PanCamera.Instance.PanToPos(atk.currentTile.GetPosition());
+
         yield return new WaitForSeconds(0.5f);
+
         SetLazer.MakeLazer(0.5f, new List<Vector3> { atk.transform.position, def.transform.position }, Color.red);
-       
-        PanCamera.Instance.PanToPos(def.currentTile.GetPosition());
+
+        if (PanCamera.Instance != null)
+            PanCamera.Instance.PanToPos(def.currentTile.GetPosition());
+
         yield return new WaitForSeconds(0.75f);
 
         def.ReceiveDamage(dmg);

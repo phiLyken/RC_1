@@ -210,6 +210,9 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     public void KillUnit()
     {
         if (OnUnitKilled != null) OnUnitKilled(this);
+
+        currentTile.OnDeactivate -= OnTileCurrentDeactivate;
+
         Destroy(m_UI.gameObject);
         GetOwner().RemoveUnit(this);
         TurnSystem.Unregister(this);
@@ -254,7 +257,8 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
         starting_order++;
 
         Debug.Log("NEW TURN:" + GetID());  
-        UI_ActiveUnit.Instance.SelectedUnitTF.text = GetID();
+        if(UI_ActiveUnit.Instance != null)
+             UI_ActiveUnit.Instance.SelectedUnitTF.text = GetID();
         UnSelectCurrent();
         PanCamera.FocusOnPlanePoint(currentTile.GetPosition());
        

@@ -163,7 +163,8 @@ public class ActionManager : MonoBehaviour {
     {
         if (currentAction == null) return;
 
-        UI_ActiveUnit.Instance.AbilityTF.text = GetActionInfos();
+        if (UI_ActiveUnit.Instance != null) 
+            UI_ActiveUnit.Instance.AbilityTF.text = GetActionInfos();
         currentAction.UnSelectAction();
         currentAction.OnExecuteAction -= OnActionUsed;       
         currentAction = null;
@@ -177,7 +178,7 @@ public class ActionManager : MonoBehaviour {
         AP_Used += action.AP_Cost;
         CurrentTurnCost += action.TurnTimeCost;
         // Debug.Log(TurnTime);
-        if (TurnSystem.HasTurn(Owner))
+        if (TurnSystem.HasTurn(Owner) && PanCamera.Instance != null)
             PanCamera.Instance.PanToPos(Owner.currentTile.GetPosition());
         UnsetCurrentAction();
         Debug.Log(Owner.GetID() + " Action used" + action.ActionID);

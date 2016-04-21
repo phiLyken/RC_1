@@ -85,11 +85,7 @@ public class Tile : MonoBehaviour, IWayPoint
         return turnsInCrumbleZone - (CrumbleDelay + RandomOffset);
     }
 
-    void UnitPassing(Unit u)
-    {
-
-    }
-    void OnCrumbleTurn(int crumble_row)
+    public void OnCrumbleTurn(int crumble_row)
     {
         if (crumble_row <= TilePos.z) return;
         // Debug.Log("cruble turn in tile " + crumble_row);

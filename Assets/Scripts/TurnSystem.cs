@@ -92,7 +92,8 @@ public class TurnSystem : MonoBehaviour {
 		Debug.Log("Resorting list for preview");
 		SortListByTime();
 	}
-    ITurn GetNext()    {        
+    ITurn GetNext()    {     
+           
         return Turnables[0];
     }
 
@@ -140,6 +141,7 @@ public class TurnSystem : MonoBehaviour {
 
     void SortListByTime()
     {
+        if (Turnables == null) return;
 	    Turnables = Turnables.OrderBy(o => o.GetTurnTime()+o.GetCurrentTurnCost()).ThenBy(o => o.StartOrderID).ToList();
         if (OnListUpdated != null) OnListUpdated(Turnables);
     }

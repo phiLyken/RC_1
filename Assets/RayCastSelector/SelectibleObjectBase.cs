@@ -17,21 +17,24 @@ public class SelectibleObjectBase : MonoBehaviour, IPointerClickHandler {
 
     bool Cheat;
 
-
     void OnMouseOver()
     {
 
         if (!HumanInput()) return;
+      
         if (!inFocus)
         {
+          //  Debug.Log(gameObject.name + " focus");
             if (OnHover != null) OnHover();
         }
+    
         inFocus = true;
-       
-      
+
+
     }
     void Select()
     {
+       
         if (!HumanInput()) return;
         if (OnSelect != null) OnSelect(); 
     }
@@ -39,8 +42,11 @@ public class SelectibleObjectBase : MonoBehaviour, IPointerClickHandler {
 
     void OnMouseExit()
     {
+       
         if (!HumanInput()) return;
+      //  Debug.Log(gameObject.name + " unfocus");
         inFocus = false;
+      
         if (OnHoverEnd != null) OnHoverEnd();
        
     }
@@ -52,15 +58,16 @@ public class SelectibleObjectBase : MonoBehaviour, IPointerClickHandler {
 
     public void OnPointerClick(PointerEventData eventData)
     {
+
+        //Debug.Log(gameObject.name+" focus "+inFocus);
         if (Input.GetKeyUp(KeyCode.Alpha0))
         {
             Cheat = !Cheat;
         }
         if (!HumanInput()) return;
 
-        if (inFocus && !PanCamera.CameraAction && Input.GetMouseButtonUp(0))
+        if (inFocus && !PanCamera.CameraAction)
         {
-
             Select();
         }
     }

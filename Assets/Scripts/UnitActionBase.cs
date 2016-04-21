@@ -35,6 +35,7 @@ public class UnitActionBase : MonoBehaviour {
     {
         string charges = "";
         if (UseCharges) charges = Charges.ToString();
+        if(UI_ActiveUnit.Instance !=null )
         UI_ActiveUnit.Instance.AbilityTF.text = "Ability: " + ActionID+"("+charges+")\n"+Descr;
     }
 
