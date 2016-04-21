@@ -21,7 +21,7 @@ class TileTools : EditorWindow
 
     void GetObjects()
     {
-        SceneView.onSceneGUIDelegate += OnSceneGUI;
+       
         main = (TileManager)EditorGUILayout.ObjectField("Current Grid", main, typeof(TileManager), true, GUILayout.Width(position.width - 20), GUILayout.Height(20));
 
         if (main == null )
@@ -48,7 +48,6 @@ class TileTools : EditorWindow
     }
     void OnGUI()
     {
-
         GetObjects();
         DisplayPrefabOptions();
         SetPathingTile(selectedTile);      
@@ -246,18 +245,6 @@ class TileTools : EditorWindow
 
     }
 
-    public void OnSceneGUI(SceneView scnView)
-    {
-        Gizmos.DrawCube(Vector3.zero, Vector3.one);
-        if (main == null) return;
-
-        Gizmos.color = Color.blue;
-        foreach(Tile t in main.Tiles)
-        {
-
-            Gizmos.DrawWireCube(t.GetPosition(), t.transform.localScale);
-        }
-    }
     void SetVisualStateOnSelection(string state)
     {
         if(CurrentTileSelection != null)
