@@ -53,6 +53,7 @@ public class ActionManager : MonoBehaviour {
         Owner.OnTurnStart += unit =>
         {
             AP_Used = 0;
+            UpateActionUI();
         };
 
         Actions = GetComponentsInChildren<UnitActionBase>();
@@ -92,6 +93,7 @@ public class ActionManager : MonoBehaviour {
         AP_Used = MaxAP;
         CurrentTurnCost = 15;
     }
+
     void Update()
     {
 
@@ -158,16 +160,21 @@ public class ActionManager : MonoBehaviour {
         return currentAction;
 
     }
-
+    private void UpateActionUI()
+    {
+        if (UI_ActiveUnit.Instance != null)
+            UI_ActiveUnit.Instance.AbilityTF.text = GetActionInfos();
+    }
     private void UnsetCurrentAction()
     {
         if (currentAction == null) return;
 
-        if (UI_ActiveUnit.Instance != null) 
-            UI_ActiveUnit.Instance.AbilityTF.text = GetActionInfos();
+        
+       
         currentAction.UnSelectAction();
         currentAction.OnExecuteAction -= OnActionUsed;       
         currentAction = null;
+        UpateActionUI();
 
         if (OnActionUnselected != null) OnActionUnselected(currentAction);
 
