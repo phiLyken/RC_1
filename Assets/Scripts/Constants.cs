@@ -16,7 +16,7 @@ public class Constants : MonoBehaviour {
     /// <summary>
     /// For each point of will, intensity received is decreased by _x_ points
     /// </summary>
-    public static float WILL_TO_INT = -0.25f;
+    public static float WILL_TO_INT = 0.0f;
 
     /// <summary>
     /// Foreach point of damage a unit gets, it will receive some _x_ points of int
@@ -26,12 +26,12 @@ public class Constants : MonoBehaviour {
     /// <summary>
     /// Amount of will restored per int when using rest ability
     /// </summary>
-    public static float INT_TO_HEAL = 0.5f;
+    public static float INT_TO_HEAL = 1f;
 
     /// <summary>
     /// Amount of Extra Damage Dealt per Point of Intensity
     /// </summary>
-    public static float INT_TO_DMG = 1f;
+    public static float INT_TO_DMG = 1.0f;
 
 
     public static float IncomingDamageModifier(float intensity)
