@@ -130,6 +130,10 @@ public class ActionManager : MonoBehaviour {
         {
             SelectAbility(4);
         }
+        if (Input.GetKeyUp(KeyCode.Alpha6))
+        {
+            SelectAbility(5);
+        }
     }
 
     public UnitActionBase SelectAbility(int index)
@@ -187,7 +191,8 @@ public class ActionManager : MonoBehaviour {
 
     void OnActionUsed(UnitActionBase action)
     {
-        AP_Used += action.AP_Cost;
+        AP_Used += action.EndTurnOnUse ? MaxAP : action.AP_Cost;
+
         CurrentTurnCost += action.TurnTimeCost;
         // Debug.Log(TurnTime);
         if (TurnSystem.HasTurn(Owner) && PanCamera.Instance != null)

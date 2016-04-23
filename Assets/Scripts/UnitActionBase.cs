@@ -11,6 +11,8 @@ public class UnitActionBase : MonoBehaviour {
 
     public bool UsableInBaseCamp;
     public bool UseCharges;
+    public bool EndTurnOnUse;
+
     public int Charges;
     public int ChargeMax;
     public int IntChangeOnUse;

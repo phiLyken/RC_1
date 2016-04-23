@@ -17,7 +17,7 @@ public class Counter : MonoBehaviour {
     }
     public void SetNumber(int newcount)
     {
-        if (newcount >= 0 && newcount <= Enabled_States.Length)
+        if (newcount >= 0)
         {
             for(int i = 0; i < Enabled_States.Length; i++)
             {

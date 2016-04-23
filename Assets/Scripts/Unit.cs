@@ -89,6 +89,8 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
         if (OnUpdateTurnTime != null)
             OnUpdateTurnTime(this);
     }
+
+
     void ActivationCheck()
     {
         if (!IsActive && CanBeActivated())
@@ -106,7 +108,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     {
 
         ActivationCheck();
-            TurnSystem.Instance.OnGlobalTurn += GlobalTurn;
+        TurnSystem.Instance.OnGlobalTurn += GlobalTurn;
         
     }
 
@@ -138,7 +140,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     {
         if (currentTile != null)
         {
-            currentTile.OnDeactivate -= OnTileCurrentDeactivate;
+            currentTile.OnDeactivate -= OnCurrentTileDeactivate;
             if(currentTile.Child == this.gameObject)
             {
                 currentTile.Child = null;
@@ -146,7 +148,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
         }
         if(t != null) { 
             currentTile = t;
-            currentTile.OnDeactivate += OnTileCurrentDeactivate;
+            currentTile.OnDeactivate += OnCurrentTileDeactivate;
             t.SetChild(this.gameObject);
         }
 
@@ -156,7 +158,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
         }
     }
    
-    void OnTileCurrentDeactivate(Tile t)
+    void OnCurrentTileDeactivate(Tile t)
     {
       //  Debug.Log("tile deactivate");
         if (t == currentTile) KillUnit();
@@ -210,7 +212,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     {
         if (OnUnitKilled != null) OnUnitKilled(this);
 
-        currentTile.OnDeactivate -= OnTileCurrentDeactivate;
+        currentTile.OnDeactivate -= OnCurrentTileDeactivate;
 
         Destroy(m_UI.gameObject);
         GetOwner().RemoveUnit(this);
@@ -283,7 +285,6 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
 
     void BaseCampTurn()
     {
-
         Actions.RestCharges();
 
         StatConfig intensity = Stats.GetStat(UnitStats.Stats.intensity);
