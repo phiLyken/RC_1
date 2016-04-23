@@ -200,8 +200,8 @@ public class MyMath : MonoBehaviour {
     }
 
     public static T GetRandomObject<T>(List<T> objects)
-    {
-        return objects[Random.Range(0, objects.Count - 1)];
+    {      
+        return objects[Random.Range(0, objects.Count)];
     }
 
     public static T GetRandomObject<T>(T[] objects)
