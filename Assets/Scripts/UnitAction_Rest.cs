@@ -6,6 +6,11 @@ public class UnitAction_Rest : UnitActionBase
 {
     TurnableEventHandler UpdateCostPreview;
 
+    void Awake()
+    {
+        orderID = 3;
+    }
+
     public override void SelectAction()
     {
         base.SelectAction();

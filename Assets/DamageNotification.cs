@@ -9,7 +9,7 @@ public class DamageNotification : MonoBehaviour {
 
     public Text DamageTF;
 
-    public static void Spawn(Transform obj, Damage damage)
+    public static void SpawnDamageNotification(Transform obj, Damage damage)
     {
         GameObject new_obj = Instantiate(Resources.Load("damagenotif")) as GameObject;
         DamageNotification dmg_notif = new_obj.GetComponent<DamageNotification>();

@@ -4,7 +4,10 @@ using System.Collections.Generic;
 
 public class UnitAction_Loot : UnitActionBase
 {
-    
+    void Awake()
+    {
+        orderID = 10;
+    }
     public override void SelectAction()
     {
         base.SelectAction();
@@ -27,10 +30,17 @@ public class UnitAction_Loot : UnitActionBase
         AttemptExection();
 
     }
-    protected override bool CanExecAction()
+    public override bool CanExecAction()
     {
         Tile_Loot l = Owner.currentTile.GetComponent<Tile_Loot>();
-        return l != null && base.CanExecAction();
+
+        if(l == null)
+        {
+            ToastNotification.SetToastMessage2("No Loot Nearby");
+            return false;
+        }
+
+        return base.CanExecAction();
     }
 
     protected override void ActionExecuted()

@@ -5,9 +5,7 @@ using System.Collections.Generic;
 public class UnitAction_Attack : UnitActionBase {
 
     GameObject AimIndicator;
-     
-    public int IntUsageForAttack;
-    public float IntToDamage = 0;
+
     public float Range;
     public bool CanTargetOwn;
     public bool CanTargetSelf;
@@ -15,7 +13,10 @@ public class UnitAction_Attack : UnitActionBase {
     public Damage DMG;
     Unit currentTarget;
 
-
+    void Awake()
+    {
+        orderID = 1;
+    }
     void Start()
     {
         GameObject pref = Resources.Load("target_indicator") as GameObject;
@@ -52,24 +53,22 @@ public class UnitAction_Attack : UnitActionBase {
     
     protected override void ActionExecuted()
     {
-        Owner.ModifyInt(-IntUsageForAttack);
-        Damage newd = new Damage();
-      
-     
-       
-        newd.amount = (int)( DMG.amount * GetIntMod());
+   
 
-        newd.bonus_damage = newd.amount - DMG.amount;
-        newd.base_damge = DMG.amount;
-        
+        Damage damage_dealt = new Damage();
 
-        StartCoroutine(AttackSequence(Owner, currentTarget, newd));
+        ///this is what will be passed to the target as receiving damage
+        damage_dealt.amount = (int)( DMG.amount + GetIntMod());
+        damage_dealt.bonus_damage = damage_dealt.amount - DMG.amount;
+        damage_dealt.base_damge = DMG.amount;        
+
+        StartCoroutine(AttackSequence(Owner, currentTarget, damage_dealt));
         base.ActionExecuted();
     }
 
     float GetIntMod()
     {
-        return 1 + Owner.Stats.GetStat(UnitStats.Stats.intensity).current * IntToDamage;
+        return Owner.Stats.GetStat(UnitStats.Stats.intensity).current * Constants.INT_TO_DMG;
     }
 
     IEnumerator AttackSequence(Unit atk, Unit def, Damage dmg)
@@ -93,7 +92,7 @@ public class UnitAction_Attack : UnitActionBase {
         Instantiate(Resources.Load("simple_explosion"), def.transform.position, Quaternion.identity);
         yield return new WaitForSeconds(0.25f);
 
-        DamageNotification.Spawn(def.transform, dmg);
+        DamageNotification.SpawnDamageNotification(def.transform, dmg);
         def.ReceiveDamage(dmg);
         yield return new WaitForSeconds(0.25f);
         ActionCompleted();

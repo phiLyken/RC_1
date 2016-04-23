@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Linq;
 
 public delegate void ActionEventHandler(UnitActionBase action);
 
@@ -57,6 +58,7 @@ public class ActionManager : MonoBehaviour {
         };
 
         Actions = GetComponentsInChildren<UnitActionBase>();
+        Actions = Actions.OrderBy(o => o.orderID).ToArray();
         foreach (UnitActionBase action in Actions) action.SetOwner(Owner);
     }
 
@@ -104,7 +106,7 @@ public class ActionManager : MonoBehaviour {
      
         if (Input.GetKeyDown(KeyCode.Backspace))
         {
-            SkipTurn();
+          //  SkipTurn();
         }
         
 
@@ -152,7 +154,12 @@ public class ActionManager : MonoBehaviour {
         }
 
         UnsetCurrentAction();
-        
+        if (!ability.CanExecAction())
+        {
+            return null;
+        }
+        ToastNotification.StopToast();
+
         currentAction = ability;
         currentAction.OnExecuteAction += OnActionUsed;
         currentAction.SelectAction();
@@ -169,8 +176,6 @@ public class ActionManager : MonoBehaviour {
     {
         if (currentAction == null) return;
 
-        
-       
         currentAction.UnSelectAction();
         currentAction.OnExecuteAction -= OnActionUsed;       
         currentAction = null;

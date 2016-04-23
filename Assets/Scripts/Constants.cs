@@ -28,10 +28,17 @@ public class Constants : MonoBehaviour {
     /// </summary>
     public static float INT_TO_HEAL = 0.5f;
 
+    /// <summary>
+    /// Amount of Extra Damage Dealt per Point of Intensity
+    /// </summary>
+    public static float INT_TO_DMG = 1f;
+
 
     public static float IncomingDamageModifier(float intensity)
     {
         return 1 + intensity * DAMAGE_RECEIVED_PER_INT;
     }
+
+
 
 }

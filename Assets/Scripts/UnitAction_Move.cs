@@ -4,12 +4,16 @@ using System.Collections.Generic;
 
 public class UnitAction_Move : UnitActionBase {
 
-    public int IntGrowthPerMove;
     public int MoveRange;
 
     Tile currentTargetTile;
     List<Tile> currentPath;
     PathDisplay pathpreview;
+
+    void Awake()
+    {
+        orderID = 0;
+    }
 
     public override void SelectAction()
     {       
@@ -30,8 +34,14 @@ public class UnitAction_Move : UnitActionBase {
 
     void SetMovementTile(Tile t)
     {
-        Debug.Log("set movement tile");
-        AttemptExection();        
+        if (!Owner.GetComponent<WaypointMover>().Moving && currentTargetTile != null && currentPath != null)
+        {
+            Debug.Log("set movement tile");
+            AttemptExection();
+        } else
+        {
+            Debug.LogWarning("Something prevented the move ability to execute");
+        }
     }
 
     
@@ -63,7 +73,7 @@ public class UnitAction_Move : UnitActionBase {
         // Debug.Log("move executed");
         ActionInProgress = true;
         SetMovementTile(currentTargetTile, currentPath);
-        Owner.ModifyInt(IntGrowthPerMove);
+       
       
         base.ActionExecuted();
         UnSelectAction();
@@ -99,10 +109,7 @@ public class UnitAction_Move : UnitActionBase {
         return reacheable;
     }
 
-    protected override bool CanExecAction()
-    {    
-        return base.CanExecAction() && !Owner.GetComponent<WaypointMover>().Moving && currentTargetTile != null && currentPath != null;
-    }
+
     public override void UnSelectAction()
     {
         base.UnSelectAction();
