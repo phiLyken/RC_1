@@ -71,7 +71,7 @@ public class TurnSystem : MonoBehaviour {
             yield return StartCoroutine(WaitForTurn(Current));
 
             Current.TurnTimeUpdated -= OnTurnPreview;
-            Current.SetNextTurnTime(Current.GetTurnTime()+Current.GetCurrentTurnCost());
+            Current.SetNextTurnTime(Current.GetCurrentTurnCost());
 
             Current.EndTurn();
             currentTurn++;
