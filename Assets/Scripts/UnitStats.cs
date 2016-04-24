@@ -23,6 +23,7 @@ public class StatConfig
     }
     public void ModifyStat(float val)
     {
+
         current = Mathf.Clamp(current + val, 0, current_max);
     }
 }

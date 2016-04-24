@@ -39,7 +39,8 @@ public class Tile_Loot : TileComponent {
 
     void BuffDmg(Unit _u)
     {
-        (u.Actions.GetAction("Attack") as UnitAction_Attack).DMG.amount += 1;
+        (u.Actions.GetAction("Attack") as UnitAction_Attack).DMG.max += 1;
+        (u.Actions.GetAction("Attack") as UnitAction_Attack).DMG.min += 1;
     }
     
     void BuffWalkRange(Unit _u)

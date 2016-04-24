@@ -48,7 +48,7 @@ public class TurnSystem : MonoBehaviour {
 
     public void GlobalTurn(int t)
     {
-        foreach (ITurn turnable in Turnables) turnable.GlobalTurn(t);
+      
         if (OnGlobalTurn != null) OnGlobalTurn(t);
     }
 
@@ -79,7 +79,7 @@ public class TurnSystem : MonoBehaviour {
             GlobalTurn(currentTurn);
 
             yield return new WaitForSeconds(0.1f);
-            NormalizeList();
+           // NormalizeList();
             SortListByTime();
 
             Current = GetNext();
@@ -143,6 +143,8 @@ public class TurnSystem : MonoBehaviour {
     {
         if (Turnables == null) return;
 	    Turnables = Turnables.OrderBy(o => o.GetTurnTime()+o.GetCurrentTurnCost()).ThenBy(o => o.StartOrderID).ToList();
+        UpdateUnitListUI();
+
         if (OnListUpdated != null) OnListUpdated(Turnables);
     }
 

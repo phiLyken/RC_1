@@ -22,6 +22,11 @@ public class UnitAction_Attack : UnitActionBase {
         GameObject pref = Resources.Load("target_indicator") as GameObject;
         AimIndicator = Instantiate(pref);
         AimIndicator.SetActive(false);
+
+        if (UI_DmgPreview.Instance != null)
+        {
+            UI_DmgPreview.Instance.gameObject.SetActive(false);
+        }
     }
     public override void SelectAction()
     {
@@ -38,6 +43,12 @@ public class UnitAction_Attack : UnitActionBase {
     public override void UnSelectAction()
     {
         AimIndicator.SetActive(false);
+
+        if (UI_DmgPreview.Instance != null)
+        {
+            UI_DmgPreview.Instance.Disable();
+        }
+
         Unit.OnUnitHover -= OnUnitHover;
         Unit.OnUnitSelect -= UnitSelected;
         TileCollectionHighlight.DisableHighlight();
@@ -54,13 +65,13 @@ public class UnitAction_Attack : UnitActionBase {
     protected override void ActionExecuted()
     {
    
-
         Damage damage_dealt = new Damage();
 
+        int damage = DMG.GetDamage();
         ///this is what will be passed to the target as receiving damage
-        damage_dealt.amount = (int)( DMG.amount + GetIntMod());
-        damage_dealt.bonus_damage = damage_dealt.amount - DMG.amount;
-        damage_dealt.base_damge = DMG.amount;        
+        damage_dealt.amount = (int)(damage + GetIntMod());
+        damage_dealt.bonus_damage = damage_dealt.amount - damage;
+        damage_dealt.base_damge = damage;        
 
         StartCoroutine(AttackSequence(Owner, currentTarget, damage_dealt));
         base.ActionExecuted();
@@ -87,8 +98,6 @@ public class UnitAction_Attack : UnitActionBase {
 
         yield return new WaitForSeconds(0.75f);
 
-       
-
         Instantiate(Resources.Load("simple_explosion"), def.transform.position, Quaternion.identity);
         yield return new WaitForSeconds(0.25f);
 
@@ -100,13 +109,26 @@ public class UnitAction_Attack : UnitActionBase {
     }
     void OnUnitHover(Unit unit)
     {
-        if (!isInRange(this.Owner,unit,Range) || !canTarget(unit)) return;
+        if (unit == null || !isInRange(this.Owner, unit, Range) || !canTarget(unit))
+        {
+            if (UI_DmgPreview.Instance != null)
+            {
+                UI_DmgPreview.Instance.Disable();
+            }
+            AimIndicator.SetActive(false);
+            return;
+        }
 
-        AimIndicator.SetActive(true);
         currentTarget = unit;
-        AimIndicator.transform.position = unit.currentTile.GetPosition();
-    }
+        AimIndicator.transform.position = unit.transform.position;
+        AimIndicator.SetActive(true);
 
+        if(UI_DmgPreview.Instance != null)
+        {
+            DMG.bonus_damage = (int) GetIntMod();
+            UI_DmgPreview.Instance.SetDamage(unit, DMG);
+        }
+    }
 
     public static bool isInRange(Unit attacker, Unit other, float range)
     {
@@ -147,7 +169,6 @@ public class UnitAction_Attack : UnitActionBase {
             Unit u = list[i];
             if (!isInRange(attacker, u, range)) list.Remove(u);
 
-           
         }
 
         return list;
@@ -157,7 +178,5 @@ public class UnitAction_Attack : UnitActionBase {
     {
         return isInRange(attacker, target, range, t);
     }
-
-
 
 }

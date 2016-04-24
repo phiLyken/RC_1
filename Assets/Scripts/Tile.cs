@@ -90,14 +90,14 @@ public class Tile : MonoBehaviour, IWayPoint
         if (crumble_row <= TilePos.z) return;
         // Debug.Log("cruble turn in tile " + crumble_row);
         turnsInCrumbleZone++;
-        // Debug.Log(turnsInCrumbleZone);
+    //   Debug.Log(turnsInCrumbleZone);
 
         if (GetTurnsCrumbled() > 0)
         {
             SetVisualState("crumbling");
         }
 
-        if ((GetTurnsCrumbled() > MinLifeTime && Random.value < WorldCrumbler.Instance.CrumbleChance)
+        if (turnsInCrumbleZone > 1 && (GetTurnsCrumbled() > MinLifeTime && Random.value < WorldCrumbler.Instance.CrumbleChance)
             || GetTurnsCrumbled() > WorldCrumbler.Instance.CrumblingRows)
         {
             DeactivateTile();

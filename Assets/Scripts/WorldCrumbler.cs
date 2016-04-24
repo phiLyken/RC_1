@@ -28,6 +28,7 @@ public class WorldCrumbler : MonoBehaviour, ITurn {
     void Awake()
     {
         Instance = this;
+        TurnSystem.Instance.OnGlobalTurn += GlobalTurn;
         RegisterTurn();
     }
     public void EndTurn()
@@ -59,6 +60,7 @@ public class WorldCrumbler : MonoBehaviour, ITurn {
     }
     public int GetTurnTime()
     {
+        if (TurnSystem.HasTurn(this)) return 0;
         return TurnTime;
     }
 
@@ -75,7 +77,7 @@ public class WorldCrumbler : MonoBehaviour, ITurn {
 
     public void StartTurn()
     {
-        Debug.Log("Crumble Turn");
+
         currentCrumbleLine += CrumbleDistancePerTurn;
         if (OnCrumble != null)
         {
@@ -85,7 +87,7 @@ public class WorldCrumbler : MonoBehaviour, ITurn {
 
     public void GlobalTurn(int turn)
     {
-      
+
         TurnTime--;
     }
 

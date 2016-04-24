@@ -98,8 +98,7 @@ public class ActionManager : MonoBehaviour {
 
     void Update()
     {
-
-       
+        
         if (!TurnSystem.HasTurn(Owner as ITurn)) return;
       //  Debug.Log(Owner.GetID() + "has  turn");
         if (Owner.OwnerID != 0) return;

@@ -63,6 +63,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
         Actions = GetComponent<ActionManager>();
         Actions.OnActionSelected += ActionChanged;
         Actions.OnActionUnselected += ActionChanged;
+     //   TurnSystem.Instance.OnGlobalTurn += GlobalTurn;
 
         AllUnits.Add(this);
 
@@ -111,7 +112,6 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
         TurnSystem.Instance.OnGlobalTurn += GlobalTurn;
         
     }
-
     
     void DisableUI()
     {
@@ -133,6 +133,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     void OnHoverEnd()
     {       
         if (TurnSystem.HasTurn(this)) return;
+        if (OnUnitHover != null) OnUnitHover(null);
         DisableUI();
     }
 
@@ -213,7 +214,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
         if (OnUnitKilled != null) OnUnitKilled(this);
 
         currentTile.OnDeactivate -= OnCurrentTileDeactivate;
-
+        TurnSystem.Instance.OnGlobalTurn -= GlobalTurn;
         Destroy(m_UI.gameObject);
         GetOwner().RemoveUnit(this);
         TurnSystem.Unregister(this);
@@ -239,17 +240,20 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     public int GetTurnTime()
     {
         //Debug.Log("ID "+GetID()+" "+time+ "  "+time);
+        if (TurnSystem.HasTurn(this)) return 0;
         return TurnTime;
     }
    
     public void SetNextTurnTime(int turns)
-    {     
+    {
+
+        Debug.Log("next turn time " + turns);
         TurnTime = turns;
     }
 
     public void EndTurn()
     {
-
+        Actions.Reset();
         if (OnTurnEnded != null) OnTurnEnded(this);
     }
 
