@@ -11,7 +11,7 @@ public class Constants : MonoBehaviour {
     /// <summary>
     /// How close a player unit must come before the an enemy AI is activated and added to the turn system
     /// </summary>
-    public static float UNIT_ACTIVATION_RANGE = 8;
+    public static float UNIT_ACTIVATION_RANGE = 10;
 
     /// <summary>
     /// For each point of will, intensity received is decreased by _x_ points
@@ -21,7 +21,7 @@ public class Constants : MonoBehaviour {
     /// <summary>
     /// Foreach point of damage a unit gets, it will receive some _x_ points of int
     /// </summary>
-    public static float RCV_DMG_TO_INT = 1;
+    public static float RCV_DMG_TO_INT = 0.5f;
 
     /// <summary>
     /// Amount of will restored per int when using rest ability
@@ -31,7 +31,7 @@ public class Constants : MonoBehaviour {
     /// <summary>
     /// Amount of Extra Damage Dealt per Point of Intensity
     /// </summary>
-    public static float INT_TO_DMG = 1.0f;
+    public static float INT_TO_DMG = 0.50f;
 
 
     public static float IncomingDamageModifier(float intensity)
