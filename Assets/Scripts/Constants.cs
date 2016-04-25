@@ -6,7 +6,7 @@ public class Constants : MonoBehaviour {
     /// <summary>
     /// for each intensity point, nore damage is received
     /// </summary>
-    public static float DAMAGE_RECEIVED_PER_INT = 0.0f;
+    public static float DAMAGE_RECEIVED_PER_INT = 0.125f;
 
     /// <summary>
     /// How close a player unit must come before the an enemy AI is activated and added to the turn system
@@ -31,7 +31,7 @@ public class Constants : MonoBehaviour {
     /// <summary>
     /// Amount of Extra Damage Dealt per Point of Intensity
     /// </summary>
-    public static float INT_TO_DMG = 0.50f;
+    public static float INT_TO_DMG = 1.0f;
 
 
     public static float IncomingDamageModifier(float intensity)
