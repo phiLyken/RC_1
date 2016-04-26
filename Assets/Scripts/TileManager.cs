@@ -104,19 +104,19 @@ public class TileManager : MonoBehaviour {
 				bestTile = t;	
 			}
 		}
-		
+
 		return bestTile;
 	}
 
-    public static List<Tile> FindPath(TileManager manager, Tile startTile, Tile endTile)
+	public static List<Tile> FindPath(TileManager manager, Tile startTile, Tile endTile, Unit requester)
     {
         if(manager.Tiles == null) manager.SetTiles(manager.FetchTiles());
-        return new TilePathFinder(manager, manager.GridWidth, manager.GridHeight).FindPath(startTile, endTile);
+        return new TilePathFinder(manager, manager.GridWidth, manager.GridHeight).FindPath(startTile, endTile, requester);
     }
 
-    public List<Tile> FindPath(Tile startTile, Tile endTile){
+	public List<Tile> FindPath(Tile startTile, Tile endTile, Unit requester){
 	
-		return new TilePathFinder(Instance, Instance.GridWidth, Instance.GridHeight).FindPath(startTile, endTile);	
+		return new TilePathFinder(Instance, Instance.GridWidth, Instance.GridHeight).FindPath(startTile, endTile, requester);	
 	}
 	
 	void Awake () {

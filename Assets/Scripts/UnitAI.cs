@@ -183,6 +183,7 @@ public class UnitAI : MonoBehaviour, ITriggerable {
     }
     Tile FindBestWalkableTile(List<Tile> tiles)
     {
+		if(tiles.Count == 0) return null;
         return tiles[Random.Range(0, tiles.Count)];
     }
 

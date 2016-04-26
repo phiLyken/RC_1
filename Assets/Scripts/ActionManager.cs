@@ -105,7 +105,7 @@ public class ActionManager : MonoBehaviour {
      
         if (Input.GetKeyDown(KeyCode.Backspace))
         {
-          //  SkipTurn();
+         SkipTurn();
         }
         
 

@@ -22,7 +22,7 @@ public class PathFindingTest : MonoBehaviour {
       //  Debug.Log("calc path");
         if( startTile != null && endTile !=null)
         {
-            CurrentPath = TileManager.FindPath(GetComponent<TileManager>(),startTile, endTile);
+            CurrentPath = TileManager.FindPath(GetComponent<TileManager>(),startTile, endTile, null);
 
           //  Debug.Log("waypoints " + CurrentPath.Count);
             foo = CurrentPath.Count; 

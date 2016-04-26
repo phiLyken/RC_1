@@ -48,7 +48,8 @@ public class UnitAction_Move : UnitActionBase {
     void SetPreviewTile(Tile t)
     {
        // Debug.Log("setpreview tile");
-        List<Tile> pathToTile = TileManager.Instance.FindPath(Owner.currentTile, t);
+		//TODO: Send a filter list custom to the unit e.g. Enemies should walk on camp tiles, Tiles need properties as components
+        List<Tile> pathToTile = TileManager.Instance.FindPath(Owner.currentTile, t, Owner);
         if(PathWalkable(pathToTile))
         {
             if(pathpreview != null)
@@ -102,7 +103,7 @@ public class UnitAction_Move : UnitActionBase {
         List<Tile> reacheable = new List<Tile>();
         foreach (Tile t in tiles)
         {
-            List<Tile> path = TileManager.Instance.FindPath(from, t);
+			List<Tile> path = TileManager.Instance.FindPath(from, t,unit );
             if (PathWalkable(path)) reacheable.Add(t);
         }
 

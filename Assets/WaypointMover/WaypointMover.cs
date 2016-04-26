@@ -28,7 +28,7 @@ public class WaypointMover : MonoBehaviour {
     public void MoveToDestination(IWayPoint start_waypoint, IWayPoint target_waypoint, float speed)
     {
         StopAllCoroutines();
-        List<IWayPoint> waypoints = TileManager.Instance.FindPath( (Tile) start_waypoint, (Tile)target_waypoint).Cast<IWayPoint>().ToList();
+        List<IWayPoint> waypoints = TileManager.Instance.FindPath( (Tile) start_waypoint, (Tile)target_waypoint, null).Cast<IWayPoint>().ToList();
         StartCoroutine(PatrolWaypoints( CreateWaypoints(waypoints, speed)));
     }
 

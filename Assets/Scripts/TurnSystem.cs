@@ -155,6 +155,8 @@ public class TurnSystem : MonoBehaviour {
         {
            s+= str + "\n";
         }
+
+		if(TURNTF != null)
         TURNTF.text = s;
 
     }

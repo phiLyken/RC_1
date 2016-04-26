@@ -26,9 +26,9 @@ public class UnitEditor : EditorWindow {
 
 	void OnEnable(){
 		if(Units == null) LoadUnitConfigs();
-
 		state = State.BLANK;
 	}
+
 	void OnGUI(){
 		EditorGUILayout.BeginHorizontal(GUILayout.ExpandWidth(true));
 		if(GUILayout.Button("Add")){

@@ -68,7 +68,7 @@ public class TilePathFinder
 	//
 	// Find a path from (startx, starty) to (goalx, goaly)
 	//
-	public List<Tile> FindPath(Tile startTile, Tile endTile)
+	public List<Tile> FindPath(Tile startTile, Tile endTile, Unit u)
 	{
 		List<Tile> Path = new List<Tile>();
      
@@ -115,30 +115,30 @@ public class TilePathFinder
             }
 
             // visit the neighbors
-            bool top = Visit(n, n.x, 		n.y + 1);
-			bool right = Visit(n, n.x + 1,	n.y);
-			bool bottom = 	Visit(n, n.x,		n.y - 1);
-			bool left = Visit(n, n.x - 1,	n.y);			
+			bool top = Visit(n, n.x, 		n.y + 1, u);
+			bool right = Visit(n, n.x + 1,	n.y, u);
+			bool bottom = 	Visit(n, n.x,		n.y - 1,u);
+			bool left = Visit(n, n.x - 1,	n.y,u);			
 
 			
 			if(top && right){	
 				//Debug.Log("Check Diagonal");
-				Visit(n, n.x + 1,	n.y + 1);
+				Visit(n, n.x + 1,	n.y + 1, u);
 			}
 			
 			if(right && bottom){
 			//	Debug.Log("Check Diagonal");
-				Visit(n, n.x + 1,	n.y - 1);
+				Visit(n, n.x + 1,	n.y - 1, u);
 			}
 			
 			if(bottom && left){
 			//	Debug.Log("Check Diagonal");
-				Visit(n, n.x - 1,	n.y - 1);
+				Visit(n, n.x - 1,	n.y - 1, u);
 			}
 			
 			if(left && top){
 			//	Debug.Log("Check Diagonal");
-				Visit(n, n.x - 1,	n.y + 1);
+				Visit(n, n.x - 1,	n.y + 1, u);
 			}
 						
 			n = GetBest();  
@@ -163,12 +163,15 @@ public class TilePathFinder
 	//
 	// Visit a neighboring nTileode and insert it into the OPEN list if it is valid
 	//	
-	bool Visit(Node parent, int x, int y)
+	bool Visit(Node parent, int x, int y, Unit u)
 	{
 		if(TestWidthBounds(x) && TestHeightBounds(y))
 		{
             //if it is already visted, skip
 			if(m_visit[x,y])
+				return false;
+			//if Only players can walk on camps
+			if(u != null && manager.Tiles[parent.x,parent.y].isCamp && u.OwnerID== 1)
 				return false;
 
             //if the height difference is too high, we can not visit
