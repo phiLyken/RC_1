@@ -28,7 +28,7 @@ public class UnitActionBase : MonoBehaviour {
     /// <summary>
     /// used for ordering the abilities in lists
     /// </summary>
-    [HideInInspector]
+   // [HideInInspector]
     public int orderID;
 
     public string ActionID = "void";

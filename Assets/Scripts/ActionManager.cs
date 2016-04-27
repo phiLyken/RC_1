@@ -42,7 +42,17 @@ public class ActionManager : MonoBehaviour {
     }
            
     }
+	void Start(){
 
+		UnitActionBase[] raw_actions = GetComponentsInChildren<UnitActionBase>();
+
+
+		foreach (UnitActionBase action in raw_actions) action.SetOwner(Owner);
+
+	
+		Actions = raw_actions.OrderBy(o => o.orderID).ThenBy(o => o.ActionID).ToArray();
+
+	}
     void Awake()
     {
         Owner = gameObject.GetComponent<Unit>();
@@ -57,9 +67,7 @@ public class ActionManager : MonoBehaviour {
             UpateActionUI();
         };
 
-        Actions = GetComponentsInChildren<UnitActionBase>();
-        Actions = Actions.OrderBy(o => o.orderID).ToArray();
-        foreach (UnitActionBase action in Actions) action.SetOwner(Owner);
+
     }
 
     public int GetAPLeft()
@@ -93,7 +101,7 @@ public class ActionManager : MonoBehaviour {
     {
         Debug.Log("skip");
         AP_Used = MaxAP;
-        CurrentTurnCost = 15;
+        CurrentTurnCost = 5;
     }
 
     void Update()
@@ -173,7 +181,7 @@ public class ActionManager : MonoBehaviour {
     private void UpateActionUI()
     {
         if (UI_ActiveUnit.Instance != null)
-            UI_ActiveUnit.Instance.AbilityTF.text = GetActionInfos();
+			UI_ActiveUnit.Instance.AbilityTF.text = GetActionInfos(Actions);
     }
     private void UnsetCurrentAction()
     {
@@ -199,14 +207,16 @@ public class ActionManager : MonoBehaviour {
         UnsetCurrentAction();
         Debug.Log(Owner.GetID() + " Action used" + action.ActionID);
     }
-    string GetActionInfos()
+
+	string GetActionInfos(UnitActionBase[] actions)
     {
         string s = "";
-        for (int i = 0; i < Actions.Length; i++)
+		for (int i = 0; i < actions.Length; i++)
         {
             string charges = "";
-            if (Actions[i].UseCharges) charges = Actions[i].Charges.ToString();
-            s += (i + 1).ToString() + ":" + Actions[i].ActionID + "["+charges+"]\n";
+			if (actions[i].UseCharges) charges = "   ["+actions[i].Charges.ToString()+"]";
+
+			s += (i + 1).ToString() + ": " + actions[i].ActionID + charges+"\n";
         }
         return s;
     }
