@@ -46,7 +46,6 @@ public class UnitAction_Rest : UnitActionBase
 
         Owner.Stats.GetStat(UnitStats.Stats.will).ModifyStat(heal_amount);
 
-        Owner.UpdateUI();
         base.ActionExecuted();
         ActionCompleted();
     }

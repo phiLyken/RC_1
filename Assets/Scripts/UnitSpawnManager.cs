@@ -24,7 +24,7 @@ public class UnitSpawnManager : MonoBehaviour {
         List<Tile> tilesToSpawn = MyMath.GetRandomObjects(SpawnTiles, count);
         foreach(Tile t in tilesToSpawn)
         {
-            SpawnUnit(EnemyConfig.GetUnitPrefab(), t);
+            SpawnUnit(EnemyConfigs.GetUnitPrefab(), t);
         }
     }
 

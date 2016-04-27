@@ -2,6 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 
+
+public delegate void TargetEvent(Unit instigator, Unit target, Damage dmg);
+
 public class UnitAction_Attack : UnitActionBase {
 
     GameObject AimIndicator;
@@ -10,9 +13,11 @@ public class UnitAction_Attack : UnitActionBase {
     public bool CanTargetOwn;
     public bool CanTargetSelf;
 
+    public static event TargetEvent OnTarget;
+
     public Damage DMG;
     Unit currentTarget;
-
+    
     void Awake()
     {
         orderID = 1;
@@ -22,12 +27,8 @@ public class UnitAction_Attack : UnitActionBase {
         GameObject pref = Resources.Load("target_indicator") as GameObject;
         AimIndicator = Instantiate(pref);
         AimIndicator.SetActive(false);
-
-        if (UI_DmgPreview.Instance != null)
-        {
-            UI_DmgPreview.Instance.gameObject.SetActive(false);
-        }
     }
+
     public override void SelectAction()
     {
         base.SelectAction();
@@ -35,8 +36,8 @@ public class UnitAction_Attack : UnitActionBase {
         Unit.OnUnitSelect += UnitSelected;
         List<Tile> AttackableTiles = new LOSCheck(Owner.currentTile, TileManager.Instance).GetTilesVisibleTileInRange((int) Range);
 
-        //  TileCollectionHighlight.SetHighlight(TileManager.Instance.GetTilesInDistance(Owner.currentTile.GetPosition(), Range), "attack_range");
         TileCollectionHighlight.SetHighlight(AttackableTiles, "attack_range");
+
         if (Unit.HoveredUnit != null) OnUnitHover(Unit.HoveredUnit);
     }
 
@@ -63,10 +64,8 @@ public class UnitAction_Attack : UnitActionBase {
     }
     
     protected override void ActionExecuted()
-    {
-   
+    {   
         Damage damage_dealt = new Damage();
-
         int damage = DMG.GetDamage();
         ///this is what will be passed to the target as receiving damage
         damage_dealt.amount = (int)(damage + GetIntMod());
@@ -107,6 +106,7 @@ public class UnitAction_Attack : UnitActionBase {
         ActionCompleted();
 
     }
+
     void OnUnitHover(Unit unit)
     {
         if (unit == null || !isInRange(this.Owner, unit, Range) || !canTarget(unit))
@@ -122,12 +122,10 @@ public class UnitAction_Attack : UnitActionBase {
         currentTarget = unit;
         AimIndicator.transform.position = unit.transform.position;
         AimIndicator.SetActive(true);
+        DMG.bonus_damage = (int)GetIntMod();
 
-        if(UI_DmgPreview.Instance != null)
-        {
-            DMG.bonus_damage = (int) GetIntMod();
-            UI_DmgPreview.Instance.SetDamage(unit, DMG);
-        }
+
+        if (OnTarget != null) OnTarget(Owner, currentTarget, DMG);
     }
 
     public static bool isInRange(Unit attacker, Unit other, float range)

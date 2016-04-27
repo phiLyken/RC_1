@@ -21,13 +21,16 @@ public class UI_Unit : MonoBehaviour {
 
     Unit m_unit;
    
-    public static UI_Unit CreateUnitUI()
+    public static void CreateUnitUI(Unit u)
     {
         GameObject obj = (Instantiate(Resources.Load("unit_ui")) as GameObject);
         obj.transform.SetParent(GameObject.FindGameObjectWithTag("UI").transform, false);
-        return obj.GetComponent<UI_Unit>();
+        obj.GetComponent<UI_Unit>().SetUnitInfo(u);
     }
-
+    public void Toggle(bool active)
+    {
+        gameObject.SetActive(active);
+    }
     void Update()
     {
         if (m_unit != null) UpdatePosition();
@@ -40,36 +43,81 @@ public class UI_Unit : MonoBehaviour {
     }
 
     public void SetUnitInfo(Unit u)
-    {
-       
+    {       
         m_unit = u;
-        // UnitName.text = m_unit.name;
-        // WillBar.SetProgress(m_unit.Stats.GetStat(UnitStats.Stats.will).GetProgress());
-        // WillBar.SetBarText(m_unit.Stats.GetStat(UnitStats.Stats.will).current + "/" + m_unit.Stats.GetStat(UnitStats.Stats.will).current_max);
+        u.Stats.OnStatUpdated += OnUpdateStat;
+        u.OnTurnStart += UpdateUI;
 
-        //IntensityBar.SetProgress(m_unit.Stats.GetStat(UnitStats.Stats.intensity).GetProgress());
-        //  IntensityBar.SetBarText(m_unit.Stats.GetStat(UnitStats.Stats.intensity).current + "/" + m_unit.Stats.GetStat(UnitStats.Stats.intensity).current_max);
+        u.OnTurnEnded += TurnEnd;
+
+        Unit.OnUnitHover += CheckHovered;
+        Unit.OnUnitHoverEnd += CheckHoverEnd;
+        Unit.OnUnitKilled += CheckKilled;
+
+        UpdateUI(u);
+    }
+    void TurnEnd(Unit u)
+    {
+        Toggle(false);
+    }
+    void OnUpdateStat()
+    {
+        UpdateUI(m_unit);
+    }
+    void CheckKilled(Unit u)
+    {
+        Debug.Log("asdsad");
+        if(u == m_unit) {
+            Unit.OnUnitKilled -= CheckKilled;
+            m_unit.Stats.OnStatUpdated -= OnUpdateStat;
+            Unit.OnUnitHover -= CheckHovered;
+            Unit.OnUnitHoverEnd -= CheckHoverEnd;
+            u.OnTurnEnded -= TurnEnd;
+            Destroy(this.gameObject);
+        }
+        
+    }
+
+    void CheckHoverEnd(Unit _hovered)
+    {
+        if (_hovered == m_unit && !TurnSystem.HasTurn(m_unit))
+        {
+            Toggle(false);
+        }
+
+    }
+    void CheckHovered(Unit _hovered)
+    {
+        if (_hovered == m_unit && m_unit.IsActive)
+        {
+            UpdateUI(m_unit);
+            Toggle(true);
+        }
+    }
+    void UpdateUI(Unit u)
+    {
+
 
         UpdateWill((int)m_unit.Stats.GetStat(UnitStats.Stats.will).current);
         UpdateWillMax((int)m_unit.Stats.GetStat(UnitStats.Stats.will).current_max);
-        UpdateIntensity( (int) m_unit.Stats.GetStat(UnitStats.Stats.intensity).current);
+        UpdateIntensity((int)m_unit.Stats.GetStat(UnitStats.Stats.intensity).current);
 
         MoveField.text = "";
-        for(int i = 0; i < u.Actions.GetAPLeft(); i++)
+        for (int i = 0; i < m_unit.Actions.GetAPLeft(); i++)
         {
             MoveField.text += "o";
         }
 
-        if(u.OwnerID == 0)
+        if (TurnSystem.HasTurn(m_unit))
         {
-          //  WillBar.Bar.GetComponent<Image>().color = new Color(0f, 0.6f,0.8f , 1);
-        } else
-        {
-           // WillBar.Bar.GetComponent<Image>().color = new Color(1, 0.5f, 0, 1);
+            Toggle(true);
         }
-       
+        else
+        {
+            Toggle(false);
+            return;
+        }
     }
-
     void UpdateIntensity(int value  )
     {
         IntensityCurrentCounter.SetNumber(value);

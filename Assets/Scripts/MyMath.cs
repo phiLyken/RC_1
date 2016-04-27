@@ -46,13 +46,13 @@ public class MyMath : MonoBehaviour {
 		Debug.Log (GetPercentpointsOfValueInRange (Vector.magnitude, _min, _max));
 		return Vector.normalized * GetPercentpointsOfValueInRange(Vector.magnitude, _min, _max);
 	}
+
 	public static Vector3 GetInputPos(){
-		
-		if(Application.isEditor){
-			return GetMouseWorldPos();	
-		} else {
-			return GetTouchWorldPos();
-		}
+
+     
+                 return GetMouseWorldPos();
+    
+
 		
 	}
 	public static Vector3 GetTouchWorldPos(){

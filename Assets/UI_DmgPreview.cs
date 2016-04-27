@@ -14,13 +14,19 @@ public class UI_DmgPreview : MonoBehaviour {
     public void Awake()
     {
         Instance = this;
+
+    }
+
+    void Start()
+    {
+        UnitAction_Attack.OnTarget += SetDamage;
         Disable();
     }
     public void Disable()
     {
         gameObject.SetActive(false);
     }
-    public void SetDamage(Unit target, Damage dmg)
+    public void SetDamage(Unit instigator, Unit target, Damage dmg)
     {
         Debug.Log("assad");
         gameObject.SetActive(true);

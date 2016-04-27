@@ -18,6 +18,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     public static Unit HoveredUnit;
     public static UnitEventHandler OnUnitKilled;
     public static UnitEventHandler OnUnitHover;
+    public static UnitEventHandler OnUnitHoverEnd;
     public static UnitEventHandler OnUnitSelect;
 
     public DamageEventHandler OnDamageReceived;
@@ -28,19 +29,12 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
 
     public UnitEventHandler OnTurnStart;
     public UnitEventHandler OnTurnEnded;
-
-    public GameObject SelectedEffect;
     
     public bool PrePlaced = true;
 
-  // [HideInInspector]
+    [HideInInspector]
     public Tile currentTile;
-
-    int AccCostCurrentturn;
-
-    UI_Unit m_UI;
-   
-    
+        
     public bool CanBeActivated()
     {
         return !isDead() && (OwnerID == 0 || ActiveRangeToPlayerUnits(this));
@@ -60,6 +54,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     {
         Stats = GetComponent<UnitStats>();
 
+
         Actions = GetComponent<ActionManager>();
         Actions.OnActionSelected += ActionChanged;
         Actions.OnActionUnselected += ActionChanged;
@@ -74,13 +69,12 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
         b.OnSelect += UnitSelected;
         b.OnHover += OnHover;
         b.OnHoverEnd += OnHoverEnd;
+              
+        UI_Unit.CreateUnitUI(this);
 
-        if (SelectedEffect != null) SelectedEffect.SetActive(false);
-
-      
-        m_UI = UI_Unit.CreateUnitUI();
-        DisableUI();
-
+        GameObject obj = (Instantiate(Resources.Load("selected_effect"))) as GameObject;
+        obj.GetComponent<ToggleActiveOnTurn>().SetUnit(this);
+        
         if(PrePlaced)
             SetTile(TileManager.Instance.GetClosestTile(transform.position), true);
     }
@@ -90,7 +84,6 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
         if (OnUpdateTurnTime != null)
             OnUpdateTurnTime(this);
     }
-
 
     void ActivationCheck()
     {
@@ -105,36 +98,22 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
         _isActive = true;
         RegisterTurn();
     }
+
     void Start()
     {
-
         ActivationCheck();
-        TurnSystem.Instance.OnGlobalTurn += GlobalTurn;
-        
-    }
-    
-    void DisableUI()
-    {
-        m_UI.gameObject.SetActive(false);
-    }
-    public void UpdateUI()
-    {
-        if (Stats.GetStat(UnitStats.Stats.will).current <= 0) return;
-        m_UI.SetUnitInfo(this);
-        m_UI.gameObject.SetActive(true);
-    }
+        TurnSystem.Instance.OnGlobalTurn += GlobalTurn;        
+    }    
+
     public void OnHover()
     {
         if (OnUnitHover != null) OnUnitHover(this);
-        HoveredUnit = this;
-        UpdateUI();
+        HoveredUnit = this;    
     }
 
     void OnHoverEnd()
-    {       
-        if (TurnSystem.HasTurn(this)) return;
-        if (OnUnitHover != null) OnUnitHover(null);
-        DisableUI();
+    {
+        if (OnUnitHoverEnd != null) OnUnitHoverEnd(this);
     }
 
     public void SetTile(Tile t, bool updatePosition )
@@ -160,14 +139,10 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     }
    
     void OnCurrentTileDeactivate(Tile t)
-    {
-      //  Debug.Log("tile deactivate");
+    { 
         if (t == currentTile) KillUnit();
     }
-    void SetOwner(Player player)
-    {
-        SetOwner(player.PlayerID);
-    }
+
 
     void SetOwner(int playerID)
     {
@@ -186,28 +161,20 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
 
     public void UnitSelected()
     {
-        //Fire Static event and let everyone know this unit has been selected/klicked
-        //Debug.Log("unit selected");
-        /** Cheat && Debug**/
         if(Input.GetKey(KeyCode.T))
          ReceiveDamage(new Damage());
         
         if (OnUnitSelect != null) OnUnitSelect(this);
         return;
-
     }        
 
     void UnselectUnit()
-    {
-        SelectedEffect.SetActive(false);
-        DisableUI();
-    }
+    {    }
 
     Player GetOwner()
     {
         return PlayerManager.GetPlayer(OwnerID)   ;
-    }
-    
+    }    
 
     public void KillUnit()
     {
@@ -215,7 +182,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
 
         currentTile.OnDeactivate -= OnCurrentTileDeactivate;
         TurnSystem.Instance.OnGlobalTurn -= GlobalTurn;
-        Destroy(m_UI.gameObject);
+        
         GetOwner().RemoveUnit(this);
         TurnSystem.Unregister(this);
         AllUnits.Remove(this);
@@ -268,8 +235,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
         PanCamera.FocusOnPlanePoint(currentTile.GetPosition());
        
         SelectedUnit = this;
-        SelectedEffect.SetActive(true);
-        UpdateUI();
+
         if (OnTurnStart != null) OnTurnStart(this);    
     }
 
@@ -282,8 +248,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
             TurnTime--;
 
             if (currentTile.isCamp)
-                BaseCampTurn();
-            
+                BaseCampTurn();            
         }      
     }
 
@@ -297,7 +262,6 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
         StatConfig will = Stats.GetStat(UnitStats.Stats.will);
         will.ModifyStat(will.max);
 
-
     }
     public bool HasEndedTurn()
     {
@@ -308,8 +272,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
 
         //Debug.Break();
         return true;
-    }
-    
+    }    
 
     public void UnRegisterTurn()
     {
@@ -318,7 +281,8 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
 
     public string GetID()
     {
-        return gameObject.name+" ["+(GetTurnTime()+GetCurrentTurnCost()).ToString()+"]";
+        return gameObject.name;
+        //return gameObject.name+" ["+(GetTurnTime()+GetCurrentTurnCost()).ToString()+"]";
     }
 
     public Color GetColor()
@@ -343,7 +307,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
         ModifyInt(int_received);
 
         if (OnDamageReceived != null) OnDamageReceived(dmg);
-        UpdateUI();
+       
          
         if ( Stats.GetStat(UnitStats.Stats.will).current <= 0)
         {
@@ -359,8 +323,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
             received = raw + IntModifier;        
         }
         Debug.Log("int received raw:" + raw.ToString() + " modified:" + received);
-        Stats.GetStat(UnitStats.Stats.intensity).ModifyStat(received);
-        UpdateUI();
+        Stats.GetStat(UnitStats.Stats.intensity).ModifyStat(received);       
     }
         
     float IntModifier
@@ -409,8 +372,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     public void SkipTurn()
     {
         Actions.SkipTurn();
-    }
-     
+    }     
 
     public TurnableEventHandler TurnTimeUpdated
     {
@@ -434,6 +396,5 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
 	{
 		starting_order =   TurnSystem.Register(this);
 	}
-
 
 }
