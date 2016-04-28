@@ -45,6 +45,7 @@ public class UnitAction_Loot : UnitActionBase
 
     protected override void ActionExecuted()
     {
+        base.ActionExecuted();
         Tile_Loot l = Owner.currentTile.GetComponent<Tile_Loot>();
         l.OnLoot(Owner);
     }
