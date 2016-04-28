@@ -85,6 +85,7 @@ public class Tile : MonoBehaviour, IWayPoint
         return turnsInCrumbleZone - (CrumbleDelay + RandomOffset);
     }
 
+    GameObject crumble_effect;
     public void OnCrumbleTurn(int crumble_row)
     {
         if (crumble_row <= TilePos.z) return;
@@ -94,6 +95,12 @@ public class Tile : MonoBehaviour, IWayPoint
 
         if (GetTurnsCrumbled() > 0)
         {
+            if(crumble_effect == null)
+            {
+                crumble_effect = Instantiate(Resources.Load("crumble_prefab")) as GameObject;
+                crumble_effect.transform.SetParent(transform);
+                crumble_effect.transform.localPosition = Vector3.zero;
+            }
             SetVisualState("crumbling");
         }
 
@@ -126,6 +133,11 @@ public class Tile : MonoBehaviour, IWayPoint
         WorldCrumbler.Instance.OnCrumble -= OnCrumbleTurn;
         GetComponent<MeshRenderer>().enabled = false;
         isAccessible = false;
+
+        if(crumble_effect != null)
+        {
+            Destroy(crumble_effect.gameObject);
+        }
 
     }
 
