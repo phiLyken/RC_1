@@ -101,7 +101,7 @@ public class Tile : MonoBehaviour, IWayPoint
                 crumble_effect.transform.SetParent(transform);
                 crumble_effect.transform.localPosition = Vector3.zero;
             }
-            SetVisualState("crumbling");
+          //  SetVisualState("crumbling");
         }
 
         if (turnsInCrumbleZone > 1 && (GetTurnsCrumbled() > MinLifeTime && Random.value < WorldCrumbler.Instance.CrumbleChance)
