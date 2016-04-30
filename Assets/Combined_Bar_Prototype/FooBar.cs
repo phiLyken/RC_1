@@ -37,11 +37,16 @@ public class FooBar : MonoBehaviour {
         UpdateBar();
     }
 
-    public void AddInt(int amount, bool canKill)
+    public void AddInt(int amount, bool canKill, bool consumeWill)
     {
         Debug.Log(amount);
-        Intensity_Current = Mathf.Min( Mathf.Max(Intensity_Current + amount, 0), Max);
-
+        int trunced = amount;
+        if (!consumeWill)
+        {
+            trunced = Mathf.Min(amount, Max - (Will_Current + Intensity_Current));
+        }
+        Intensity_Current = Mathf.Min( Mathf.Max(Intensity_Current + trunced, 0), Max);
+        
         Will_Current = Mathf.Min(Will_Current, Max - Intensity_Current);
         if (!canKill) Will_Current = Mathf.Max(Will_Current, 1);
         
@@ -51,15 +56,16 @@ public class FooBar : MonoBehaviour {
     public void ReceiveDamage(int amount)
     {
         //  AddInt(  (int)(ReceiveDamageIntAddChance * amount * Random.value) );
-        AddInt(1,true);
-        AddWill(-amount);
-       
-       
+        
+        AddWill(-1);
+        AddInt(2, true, false);
+
+
     }
     public void Attack()
     {
         int toAdd = Random.value < AttackIntAddChance ? 1 : 0;
-        AddInt(toAdd,false);
+        AddInt(toAdd,false, false);
     }
 	
 	// Update is called once per frame
@@ -115,7 +121,7 @@ public class FooBar : MonoBehaviour {
             RestsLeft.text = Rests_Current.ToString();
             int amount = Intensity_Current;
 
-            AddInt(-amount,false);
+            AddInt(-amount,false,false);
             AddWill(amount);
         }
 
@@ -126,13 +132,13 @@ public class FooBar : MonoBehaviour {
     {
         if(Intensity_Current > 2)
         {
-            AddInt(-Intensity_Current, false);
+            AddInt(-Intensity_Current, false, false);
         }
     }
 
     public void Rage()
     {
-        AddInt(1,false);
+        AddInt(1,false, true);
     }
 
     void Start()
