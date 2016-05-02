@@ -45,17 +45,13 @@ public class ActionManager : MonoBehaviour {
 	void Start(){
 
 		UnitActionBase[] raw_actions = GetComponentsInChildren<UnitActionBase>();
-
-
-		foreach (UnitActionBase action in raw_actions) action.SetOwner(Owner);
-
-	
+		foreach (UnitActionBase action in raw_actions) action.SetOwner(Owner);	
 		Actions = raw_actions.OrderBy(o => o.orderID).ThenBy(o => o.ActionID).ToArray();
 
 	}
-    void Awake()
+    public void SetOwner(Unit owner)
     {
-        Owner = gameObject.GetComponent<Unit>();
+        Owner = owner;
         Owner.OnTurnEnded += unit =>
         {
             Reset();
@@ -66,9 +62,8 @@ public class ActionManager : MonoBehaviour {
             AP_Used = 0;
             UpateActionUI();
         };
-
-
     }
+
 
     public int GetAPLeft()
     {
@@ -78,7 +73,7 @@ public class ActionManager : MonoBehaviour {
 
     public void Reset()
     {
-        Debug.Log("Resetting action manager");
+     //   Debug.Log("Resetting action manager");
         UnsetCurrentAction();
        
         CurrentTurnCost = 0;
@@ -92,7 +87,7 @@ public class ActionManager : MonoBehaviour {
         bool r = GetAPLeft() >= ap;
         if (!r)
         {
-            Debug.Log("not enough AP");
+          //  Debug.Log("not enough AP");
         }
         return r;
     }
@@ -205,7 +200,7 @@ public class ActionManager : MonoBehaviour {
         if (TurnSystem.HasTurn(Owner) && PanCamera.Instance != null)
             PanCamera.Instance.PanToPos(Owner.currentTile.GetPosition());
         UnsetCurrentAction();
-        Debug.Log(Owner.GetID() + " Action used" + action.ActionID);
+       // Debug.Log(Owner.GetID() + " Action used" + action.ActionID);
     }
 
 	string GetActionInfos(UnitActionBase[] actions)

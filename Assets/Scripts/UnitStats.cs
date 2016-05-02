@@ -6,52 +6,41 @@ using System.Collections.Generic;
 [System.Serializable]
 public class StatInfo
 {
-    public UnitStats.Stats Stat;
+    public UnitStats.StatType Stat;
     public float Amount;
 }
 
-[System.Serializable]
-public class StatConfig
+public class UnitStats : MonoBehaviour
 {
     public EventHandler OnStatUpdated;
+    public EventHandler OnHPDepleted;
 
-    public UnitStats.Stats Stat;
-    public float max;
-    public float current_max;
-    public float current;
-    public float start;
-    public float GetProgress()
+    public StatInfo[] Stats;
+    public virtual void ReceiveDamage(Damage dmg)
     {
-        return current / current_max;
+
     }
-    public void ModifyStat(float val)
+    public enum StatType
     {
+        will, intensity, max, HP
+    }
 
-        current = Mathf.Clamp(current + val, 0, current_max);
+    public StatInfo GetStat(StatType type)
+    {
+        foreach (StatInfo s in Stats) if (s.Stat == type) return s;
+        // Debug.LogWarning("Stat not found " + type);
+        StatInfo si = new StatInfo();
+        si.Amount = 0;
+        return si;
+    }
+
+    protected void Updated()
+    {
         if (OnStatUpdated != null) OnStatUpdated();
+     
+        
     }
+
+
 }
 
-
-public class UnitStats : MonoBehaviour {
-    public EventHandler OnStatUpdated;
-    public StatConfig[] m_Stats;
-
-    void Awake()
-    {
-        foreach (StatConfig c in m_Stats) {
-            c.OnStatUpdated += OnStatUpdated;
-        }
-    }
-
-    public StatConfig GetStat(Stats stat)
-    {
-        foreach(StatConfig c in m_Stats) { if (c.Stat == stat) return c; }
-        return null;
-    }
-
-    public enum Stats
-    {
-        will, intensity, movement_range
-    }    
-}

@@ -4,9 +4,10 @@ using System.Collections.Generic;
 
 public class UnitAction_Rage : UnitActionBase
 {
+    public int IntensityGain;
 
-    public float[] WillLoseChances;
-    public float[] IntensityGainChance;
+     float[] WillLoseChances;
+     float[] IntensityGainChance;
     void Awake()
     {
         orderID = 11;
@@ -36,14 +37,8 @@ public class UnitAction_Rage : UnitActionBase
     }
     protected override void ActionExecuted()
     {
-        int current_will = (int) Owner.Stats.GetStat(UnitStats.Stats.will).current;
-        if (GetLooseWillOnRage(current_will))
-        {
-            Owner.ModifyInt(-1);
-        }
 
-        Owner.Stats.GetStat(UnitStats.Stats.intensity).ModifyStat(IntensityGained());
-
+        (Owner.Stats as PlayerUnitStats).AddInt(IntensityGain, true);
         base.ActionExecuted();  
     }
     public int IntensityGained()

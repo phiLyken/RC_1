@@ -9,6 +9,9 @@ public class UnitAction_Attack : UnitActionBase {
 
     GameObject AimIndicator;
 
+    public int IntChangeOnUse;
+    public float ChanceForIntChangeTrigger;
+
     public float Range;
     public bool CanTargetOwn;
     public bool CanTargetSelf;
@@ -73,12 +76,24 @@ public class UnitAction_Attack : UnitActionBase {
         damage_dealt.base_damge = damage;        
 
         StartCoroutine(AttackSequence(Owner, currentTarget, damage_dealt));
+
+        if( (Owner.Stats as PlayerUnitStats != null) && Random.value < ChanceForIntChangeTrigger)
+        {
+            (Owner.Stats as PlayerUnitStats).AddInt(IntChangeOnUse, false);
+        }
+
         base.ActionExecuted();
     }
 
     float GetIntMod()
     {
-        return Owner.Stats.GetStat(UnitStats.Stats.intensity).current * Constants.INT_TO_DMG;
+        PlayerUnitStats stats = (Owner.Stats as PlayerUnitStats);
+
+        if(stats != null)
+        {
+            return  stats.Int * Constants.INT_TO_DMG;
+        }
+        return 0;
     }
 
     IEnumerator AttackSequence(Unit atk, Unit def, Damage dmg)

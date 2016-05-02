@@ -25,7 +25,7 @@ public class UnitAction_Move : UnitActionBase {
         TileSelecter.OnTileSelect += SetMovementTile;
         TileSelecter.OnTileHover += SetPreviewTile;
 
-        Debug.Log(TileSelecter.HoveredTile);  
+       // Debug.Log(TileSelecter.HoveredTile);  
         if(TileSelecter.HoveredTile != null)
         {
             SetPreviewTile(TileSelecter.HoveredTile);
@@ -36,7 +36,7 @@ public class UnitAction_Move : UnitActionBase {
     {
         if (!Owner.GetComponent<WaypointMover>().Moving && currentTargetTile != null && currentPath != null)
         {
-            Debug.Log("set movement tile");
+         //   Debug.Log("set movement tile");
             AttemptExection();
         } else
         {
@@ -81,6 +81,13 @@ public class UnitAction_Move : UnitActionBase {
         // ActionCompleted();
 
     }
+
+    void OnMoveEnd(IWayPoint wp)
+    {
+        ActionCompleted();
+        Owner.GetComponent<WaypointMover>().OnMovementEnd -= OnMoveEnd;
+
+    }
     public bool PathWalkable(List<Tile> p)
     {
         return p != null && p.Count - 1 <= MoveRange && p.Count > 1;
@@ -88,13 +95,13 @@ public class UnitAction_Move : UnitActionBase {
 
     public void SetMovementTile(Tile target, List<Tile> path)
     {
-        Debug.Log("set movement tile");
+     //   Debug.Log("set movement tile");
         Owner.SetTile(target, false);
 
         WaypointMover mover = Owner.GetComponent<WaypointMover>();
         mover.MoveOnPath(path, 3);
 
-        mover.OnMovementEnd += Waypoint => { ActionCompleted(); };
+        mover.OnMovementEnd += OnMoveEnd;
 
     }
 

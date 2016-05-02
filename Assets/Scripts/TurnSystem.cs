@@ -71,15 +71,16 @@ public class TurnSystem : MonoBehaviour {
             yield return StartCoroutine(WaitForTurn(Current));
 
             Current.TurnTimeUpdated -= OnTurnPreview;
-            Current.SetNextTurnTime(Current.GetCurrentTurnCost());
-
             Current.EndTurn();
+
+            Current = null;
+   
             currentTurn++;
                         
             GlobalTurn(currentTurn);
 
             yield return new WaitForSeconds(0.1f);
-           // NormalizeList();
+            NormalizeList();
             SortListByTime();
 
             Current = GetNext();
@@ -89,7 +90,7 @@ public class TurnSystem : MonoBehaviour {
         }
     }
 	void OnTurnPreview(ITurn t){
-		Debug.Log("Resorting list for preview");
+		//Debug.Log("Resorting list for preview");
 		SortListByTime();
 	}
     ITurn GetNext()    {     
@@ -135,7 +136,7 @@ public class TurnSystem : MonoBehaviour {
    //     Debug.Log("normalizing list lowest time " + lowest);
         foreach(ITurn t in Turnables)
         {
-            t.SetNextTurnTime(t.GetTurnTime() - lowest);
+            t.SetNextTurnTime(-lowest);
         }
     }
 
@@ -180,7 +181,16 @@ public class TurnSystem : MonoBehaviour {
 
     public static void Unregister(ITurn turnable)
     {
-        if (Instance.Turnables.Contains(turnable)) Instance.Turnables.Remove(turnable);
+        if(turnable == Instance.Current)
+        {
+            Instance.Current = null;
+        }
+        if (Instance.Turnables.Contains(turnable))
+        {
+            Debug.Log("REMOVE " + turnable.GetID());
+        
+            Instance.Turnables.Remove(turnable);
+        }
     }
 
     public string[] GetTurnList()

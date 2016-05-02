@@ -37,25 +37,22 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
         
     public bool CanBeActivated()
     {
-        return !isDead() && (OwnerID == 0 || ActiveRangeToPlayerUnits(this));
+        return  (OwnerID == 0 || ActiveRangeToPlayerUnits(this));
     }
     public bool IsActive
     {
-        get { return _isActive; } set { _isActive = value; }
+        get {  return _isActive; } set { _isActive = value; }
     }
     bool _isActive;
+    bool _isDead;
 
-    public bool isDead()
-    {
-        return Stats.GetStat(UnitStats.Stats.will).current <= 0;
-    }
-    
     void Awake()
     {
         Stats = GetComponent<UnitStats>();
-
+        Stats.OnHPDepleted += KillUnit;
 
         Actions = GetComponent<ActionManager>();
+        Actions.SetOwner(this);
         Actions.OnActionSelected += ActionChanged;
         Actions.OnActionUnselected += ActionChanged;
      //   TurnSystem.Instance.OnGlobalTurn += GlobalTurn;
@@ -95,6 +92,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
 
     public void Activate()
     {
+        if (_isDead) return;
         _isActive = true;
         RegisterTurn();
     }
@@ -178,6 +176,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
 
     public void KillUnit()
     {
+        _isDead = true;
         if (OnUnitKilled != null) OnUnitKilled(this);
 
         currentTile.OnDeactivate -= OnCurrentTileDeactivate;
@@ -193,34 +192,41 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
 
     public int GetCurrentTurnCost()
     {
+       // if (!TurnSystem.HasTurn(this)) return 0;
+
         int turncost = 0;
         var _currentAction = Actions.GetCurrentAction();
-
+       // Debug.Log(_currentAction);
         if (_currentAction != null)
         {
             turncost += _currentAction.TurnTimeCost;
-            //Debug.Log(_currentAction.ActionID+ " "+ _currentAction.TurnTimeCost);
+           // Debug.Log(_currentAction.ActionID+ " "+ _currentAction.TurnTimeCost);
         }
-        return  turncost + Actions.CurrentTurnCost;
+        int cost = turncost + Actions.CurrentTurnCost;
+       // Debug.Log("Current turn cost " + gameObject.name + " :" + cost);
+        return cost;
     }
 
     public int GetTurnTime()
     {
         //Debug.Log("ID "+GetID()+" "+time+ "  "+time);
-        if (TurnSystem.HasTurn(this)) return 0;
+       // if (TurnSystem.HasTurn(this)) return 0;
         return TurnTime;
     }
    
     public void SetNextTurnTime(int turns)
     {
-
-        Debug.Log("next turn time " + turns);
-        TurnTime = turns;
+        if (_isDead) return;
+        Debug.Log(gameObject.name+" next turn time " + turns);
+        TurnTime += turns;
     }
 
     public void EndTurn()
     {
+        SetNextTurnTime(GetCurrentTurnCost());
         Actions.Reset();
+       
+       
         if (OnTurnEnded != null) OnTurnEnded(this);
     }
 
@@ -249,18 +255,15 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
 
             if (currentTile.isCamp)
                 BaseCampTurn();            
-        }      
+        }
+
+        Debug.Log(gameObject.name + " global turn new time:" + TurnTime);   
     }
 
     void BaseCampTurn()
     {
         Actions.RestCharges();
 
-        StatConfig intensity = Stats.GetStat(UnitStats.Stats.intensity);
-        intensity.ModifyStat(-intensity.current);
-
-        StatConfig will = Stats.GetStat(UnitStats.Stats.will);
-        will.ModifyStat(will.max);
 
     }
     public bool HasEndedTurn()
@@ -281,8 +284,8 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
 
     public string GetID()
     {
-        return gameObject.name;
-        //return gameObject.name+" ["+(GetTurnTime()+GetCurrentTurnCost()).ToString()+"]";
+       // return gameObject.name;
+        return gameObject.name+" ["+(GetTurnTime()+GetCurrentTurnCost()).ToString()+"]";
     }
 
     public Color GetColor()
@@ -296,45 +299,12 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
 
     public void ReceiveDamage(Damage dmg)
     {
-        float mod = Constants.IncomingDamageModifier(Stats.GetStat(UnitStats.Stats.intensity).current);
-
-        float dmg_received = - (dmg.amount + mod);
-        float int_received = Mathf.Abs( dmg_received ) * Constants.RCV_DMG_TO_INT;
-        Debug.Log(this.name + " rcv damge " + dmg_received + "  rcvd multiplier:"+ mod + "  +int="+int_received);
-
-
-        Stats.GetStat(UnitStats.Stats.will).ModifyStat(dmg_received);
-        ModifyInt(int_received);
-
-        if (OnDamageReceived != null) OnDamageReceived(dmg);
-       
-         
-        if ( Stats.GetStat(UnitStats.Stats.will).current <= 0)
-        {
-            KillUnit();
-        }
-    }
-
-    public void ModifyInt(float raw)
-    {
-        float received = raw;
-     
-        if(raw > 0) { 
-            received = raw + IntModifier;        
-        }
-        Debug.Log("int received raw:" + raw.ToString() + " modified:" + received);
-        Stats.GetStat(UnitStats.Stats.intensity).ModifyStat(received);       
-    }
         
-    float IntModifier
-    {
-        get
-        {
-            float current_will = Stats.GetStat(UnitStats.Stats.will).current;
-            return current_will * Constants.WILL_TO_INT;
-        }
-    }
+        Stats.ReceiveDamage(dmg);
+        if (OnDamageReceived != null) OnDamageReceived(dmg);     
 
+    }
+    
     
     #region
     /// <summary>

@@ -27,7 +27,7 @@ public class TileSelecter : MonoBehaviour {
     }
     public static void SelectTile(Tile t)
     { 
-       Debug.Log("select tile");
+      // Debug.Log("select tile");
 
         SelectedTile = t;
        // Debug.Log("selected tile");

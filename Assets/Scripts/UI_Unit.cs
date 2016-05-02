@@ -4,20 +4,10 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 
 public class UI_Unit : MonoBehaviour {
-
-    public delegate void UpdatedValue(int val);
+       
     public Text UnitName;
-
-    public Counter IntensityCurrentCounter;
-   // public Counter IntensityMaxCounter;
-
-
-    public Counter WillCurrentCounter;
-    public Counter WillMaxCounter;
-
-    public event UpdatedValue OnWillCurrentUpdate;
-
     public Text MoveField;
+    public  UnitBar StatBar;
 
     Unit m_unit;
    
@@ -66,7 +56,7 @@ public class UI_Unit : MonoBehaviour {
     }
     void CheckKilled(Unit u)
     {
-        Debug.Log("asdsad");
+
         if(u == m_unit) {
             Unit.OnUnitKilled -= CheckKilled;
             m_unit.Stats.OnStatUpdated -= OnUpdateStat;
@@ -97,10 +87,19 @@ public class UI_Unit : MonoBehaviour {
     void UpdateUI(Unit u)
     {
 
+        PlayerUnitStats p_stats = u.Stats as PlayerUnitStats;
+        if(p_stats != null)
+        {
+            StatBar.SetBarValues( p_stats.Will, p_stats.Int, p_stats.Max);
+            
+        } else
+        {
+            StatBar.SetBarValues(
+                (int) u.Stats.GetStat(UnitStats.StatType.HP).Amount, 0,
+                (int) u.Stats.GetStat(UnitStats.StatType.max).Amount
+                );
+        }
 
-        UpdateWill((int)m_unit.Stats.GetStat(UnitStats.Stats.will).current);
-        UpdateWillMax((int)m_unit.Stats.GetStat(UnitStats.Stats.will).current_max);
-        UpdateIntensity((int)m_unit.Stats.GetStat(UnitStats.Stats.intensity).current);
 
         MoveField.text = "";
         for (int i = 0; i < m_unit.Actions.GetAPLeft(); i++)
@@ -118,21 +117,6 @@ public class UI_Unit : MonoBehaviour {
             return;
         }
     }
-    void UpdateIntensity(int value  )
-    {
-        IntensityCurrentCounter.SetNumber(value);
-    }
-   
 
-    void UpdateWill(int value)
-    {
-        WillCurrentCounter.SetNumber(value);
-    }
-
-
-    void UpdateWillMax(int value)
-    {
-        WillMaxCounter.SetNumber(value);
-    }
 
 }

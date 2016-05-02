@@ -196,6 +196,7 @@ public class UnitAI : MonoBehaviour, ITriggerable {
 
     public void OnTrigger()
     {
+        
         m_unit.Activate();
         Cover.SetActive(false);
         Debug.Log(m_unit.GetID() + " now attacking");

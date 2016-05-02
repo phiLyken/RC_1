@@ -8,14 +8,14 @@ public class UnitActionBase : MonoBehaviour {
     public bool ActionInProgress;
     public ActionEventHandler OnExecuteAction;
     public StatInfo[] Requirements;
-
+    
     public bool UsableInBaseCamp;
     public bool UseCharges;
     public bool EndTurnOnUse;
 
     public int Charges;
     public int ChargeMax;
-    public int IntChangeOnUse;
+
     public int TurnTimeCost;
 
     public string Descr;
@@ -28,7 +28,7 @@ public class UnitActionBase : MonoBehaviour {
     /// <summary>
     /// used for ordering the abilities in lists
     /// </summary>
-   // [HideInInspector]
+    [HideInInspector]
     public int orderID;
 
     public string ActionID = "void";
@@ -91,7 +91,7 @@ public class UnitActionBase : MonoBehaviour {
     {
         foreach (StatInfo s in Requirements)
         {
-            if (Owner.Stats.GetStat(s.Stat).current < s.Amount)
+            if (Owner.Stats.GetStat(s.Stat).Amount < s.Amount)
             {
                 Debug.Log("Not enough  " + s.ToString());
                 ToastNotification.SetToastMessage2("Not enough " + s.Stat.ToString());
@@ -121,18 +121,16 @@ public class UnitActionBase : MonoBehaviour {
         if (!r) Debug.Log("No Charges");
         return r;
     }
-    protected void ActionCompleted()
+    protected virtual void ActionCompleted()
     {
-        Debug.Log("action completed ");
+      //  Debug.Log("action completed ");
         Charges--;
-       
-
         ActionInProgress = false;
     }
      protected virtual void ActionExecuted()
     {
-        Debug.Log(ActionID + " done");
-        Owner.ModifyInt(IntChangeOnUse);
+       // Debug.Log(ActionID + " done");
+
         if (OnExecuteAction != null) OnExecuteAction(this);
     }
 

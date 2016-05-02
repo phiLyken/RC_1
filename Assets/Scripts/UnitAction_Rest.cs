@@ -36,16 +36,15 @@ public class UnitAction_Rest : UnitActionBase
 
     protected override void ActionExecuted()
     {
+        PlayerUnitStats stats = Owner.Stats as PlayerUnitStats;
 
-        //Get Current amount of int
-        float current_int = Owner.Stats.GetStat(UnitStats.Stats.intensity).current;
-        float heal_amount = current_int * Constants.INT_TO_HEAL;
+        if(stats != null) { 
 
-        //Empties Intensity
-        Owner.Stats.GetStat(UnitStats.Stats.intensity).ModifyStat(-current_int);
+            int to_heal = (int) (stats.Int * Constants.INT_TO_HEAL);
+            stats.AddInt(-stats.Int, false);
+            stats.AddWill(to_heal);
 
-        Owner.Stats.GetStat(UnitStats.Stats.will).ModifyStat(heal_amount);
-
+        }
         base.ActionExecuted();
         ActionCompleted();
     }

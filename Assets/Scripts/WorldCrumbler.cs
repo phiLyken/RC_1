@@ -33,7 +33,7 @@ public class WorldCrumbler : MonoBehaviour, ITurn {
     }
     public void EndTurn()
     {
-
+        SetNextTurnTime(CrumbleTurnCost);
     }
 
     void OnDrawGizmos()
@@ -56,18 +56,22 @@ public class WorldCrumbler : MonoBehaviour, ITurn {
 
     public int GetCurrentTurnCost()
     {
-        return  CrumbleTurnCost ;
+        if (TurnSystem.HasTurn(this)) {
+            return CrumbleTurnCost;
+        }
+
+        return 0;
     }
     public int GetTurnTime()
     {
-        if (TurnSystem.HasTurn(this)) return 0;
+       
         return TurnTime;
     }
 
     public void SetNextTurnTime(int turns)
     {
 		Debug.Log("set turns: "+turns);
-        TurnTime = turns;
+        TurnTime += turns;
     }
 
     public bool HasEndedTurn()
@@ -78,7 +82,7 @@ public class WorldCrumbler : MonoBehaviour, ITurn {
     public void StartTurn()
     {
 		Debug.Log("Crumble");
-
+        ToastNotification.SetToastMessage1("Crumbling");
         currentCrumbleLine += CrumbleDistancePerTurn;
         if (OnCrumble != null)
         {
