@@ -48,6 +48,7 @@ public class FooBar : MonoBehaviour {
         Intensity_Current = Mathf.Min( Mathf.Max(Intensity_Current + trunced, 0), Max);
         
         Will_Current = Mathf.Min(Will_Current, Max - Intensity_Current);
+
         if (!canKill) Will_Current = Mathf.Max(Will_Current, 1);
         
 
@@ -58,7 +59,7 @@ public class FooBar : MonoBehaviour {
         //  AddInt(  (int)(ReceiveDamageIntAddChance * amount * Random.value) );
         
         AddWill(-1);
-        AddInt(2, true, false);
+        AddInt(2, false, false);
 
 
     }

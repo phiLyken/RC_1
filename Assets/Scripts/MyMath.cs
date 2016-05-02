@@ -47,12 +47,27 @@ public class MyMath : MonoBehaviour {
 		return Vector.normalized * GetPercentpointsOfValueInRange(Vector.magnitude, _min, _max);
 	}
 
-	public static Vector3 GetInputPos(){
+    public static T CloneMono<T>(T item)
+    {
+        return Instantiate((item as MonoBehaviour).gameObject).GetComponent<T>();
+    }
+
+
+    public static List<T> SpawnFromList<T>(List<T> list)
+    {
+        List<T> ret = new List<T>();
+        foreach(var item in list)
+        {
+            ret.Add(CloneMono(item));
+        }
+
+        return ret;
+       
+    }
+    public static Vector3 GetInputPos(){
 
      
                  return GetMouseWorldPos();
-    
-
 		
 	}
 	public static Vector3 GetTouchWorldPos(){
@@ -287,7 +302,13 @@ public class MyMath : MonoBehaviour {
             return Input.touchCount > 0 && (Input.touches[0].phase == TouchPhase.Canceled || Input.touches[0].phase == TouchPhase.Ended);
         }
     }
-
+    public static void SetListAsChild<T>(List<T> objects, Transform transform)
+    {
+        foreach (var item in objects)
+        {
+            (item as MonoBehaviour).transform.SetParent(transform);
+        }
+    }
     public static bool MouseTouchDown()
     {
 

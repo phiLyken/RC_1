@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Unity WebGL Player | %UNITY_WEB_NAME%</title>
+    <link rel="stylesheet" href="TemplateData/style.css">
+    <link rel="shortcut icon" href="TemplateData/favicon.ico" />
+    <script src="TemplateData/UnityProgress.js"></script>
+  </head>
+  <body class="template">
+
+    <p class="header"><span>Unity WebGL Player | </span>%UNITY_WEB_NAME%</p>
+<div style="margin:100px;margin-top:850px;position:relative">
+	<h1>REDCLIFF CHRONICLES</h1>
+	
+	Welcome!  Your are been handpicked selected and invited to the first User Test of Redcliff Chronicles.
+	
+	<h2>Goal</h2>
+You control a 4-men strong squad, which tries to surviving on the deadly MARS. An all destroying Sandstorm is hunting your squad, try to survive by reaching the next basecamps.
+
+<h2>Controls</h2>
+When your turn starts, you see a list of abilities in the bottom<br>
+Press the according Number on your keyboard to select an ability<br>
+Press the same Number to cancel your action.<br>
+Press Left/Right Mouse button to select tiles or enemies.<br>
+
+<h2>Gameplay</h2>
+Every Unit has two actions per turn, with different Action costs, which influence the unit order.
+
+
+<ol type="1">
+  <li>Move the unit inside their movement range.</li>
+  <li>Attack a enemy inside the combat range.</li>
+  <li>IntAttack: Use your Intensity for your powerful attack.</li>
+  <li>Rest: Convert your Intensity to Will.</li>
+  <li>Loot: Loot items from the ground.</li>
+  <li>Rage: Sacrifice Will to gain Intensity.</li>
+</ol>
+<br>
+</div>
+    <div class="template-wrap clear">
+    <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" height="%UNITY_HEIGHT%px" width="%UNITY_WIDTH%px"></canvas>
+      <div class="logo"></div>
+      <div class="fullscreen"><img src="TemplateData/fullscreen.png" width="38" height="38" alt="Fullscreen" title="Fullscreen" onclick="SetFullscreen(1);" /></div>
+      <div class="title">%UNITY_WEB_NAME%</div>
+    </div>
+    <p class="footer">&laquo; created with <a href="http://unity3d.com/" title="Go to unity3d.com">Unity</a> &raquo;</p>
+    %UNITY_WEBGL_LOADER_GLUE%
+  </body>
+</html>

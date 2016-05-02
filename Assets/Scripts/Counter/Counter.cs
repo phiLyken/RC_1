@@ -4,7 +4,6 @@ using UnityEngine.Events;
 
 public class Counter : MonoBehaviour {
 
-    public UnityEvent<int> OnUpdate;
     public GameObject[] Enabled_States;
     public GameObject[] Disabled_States;
 
