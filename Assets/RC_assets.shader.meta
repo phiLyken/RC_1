@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: a34504e0b265d9440afd44fc4e4a085d
-timeCreated: 1462209990
+guid: ae5e1b70f4c2af44ca6acc8fe7b50d6f
+timeCreated: 1462208479
 licenseType: Free
 ShaderImporter:
   defaultTextures:
@@ -8,6 +8,8 @@ ShaderImporter:
   - _DissolvePattern: {fileID: 2800000, guid: 3b5cb736a5c870a46b3f9e629e2e0e09, type: 3}
   - _Normal: {fileID: 2800000, guid: 74d03a97f9b9a1b4d8210e81c0fddd90, type: 3}
   - _DissolveRamp: {fileID: 2800000, guid: 02077c4992aa0344195b669796beb23f, type: 3}
+  - _ZClamp: {fileID: 2800000, guid: 21b741e63499ef34d9606c384504a8c7, type: 3}
+  - _XClamp: {fileID: 2800000, guid: 44ed9630c10f0ce44812e8d2beae58fa, type: 3}
   userData: 
   assetBundleName: 
   assetBundleVariant: 
