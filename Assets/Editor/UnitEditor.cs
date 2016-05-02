@@ -15,7 +15,7 @@ public class UnitEditor : EditorWindow {
 	private State state;
 
 	private const string PATH = @"Assets/Units/unit_config.asset";
-	private UnitConfigs Units;
+	private UnitConfigsDatabase Units;
 
 	[MenuItem("Foo/UnitEditor %#w")]
 	public static void Init(){
@@ -39,7 +39,7 @@ public class UnitEditor : EditorWindow {
 	}
 
 	void LoadUnitConfigs(){
-		Units = (UnitConfigs) AssetDatabase.LoadAssetAtPath(PATH, typeof(UnitConfigs));
+		Units = (UnitConfigsDatabase) AssetDatabase.LoadAssetAtPath(PATH, typeof(UnitConfigsDatabase));
 
 		if(Units == null){
 			CreateUnitConfig();
@@ -47,7 +47,7 @@ public class UnitEditor : EditorWindow {
 	}
 
 	void CreateUnitConfig(){
-		Units = ScriptableObject.CreateInstance<UnitConfigs>();
+		Units = ScriptableObject.CreateInstance<UnitConfigsDatabase>();
 
 		AssetDatabase.CreateAsset(Units, PATH);
 		AssetDatabase.SaveAssets();

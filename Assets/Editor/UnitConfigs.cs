@@ -2,15 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 
-[System.Serializable]
-public class UnitConfig {
 
-	public UnitConfig(string id){
-		ID = id;
-	}
-	public string ID;
-}
-public class UnitConfigs : ScriptableObject {
+public class UnitConfigsDatabase : ScriptableObject {
 
 	[SerializeField]
 	private List<UnitConfig> configs;
