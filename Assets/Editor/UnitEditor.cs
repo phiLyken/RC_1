@@ -14,7 +14,7 @@ public class UnitEditor : EditorWindow {
 
 	private State state;
 
-	private const string PATH = @"Assets/Units/unit_config.asset";
+	public const string PATH = @"Assets/Prefabs/Units/Resources/unit_configs.prefab";
 	private UnitConfigsDatabase Units;
 
 	[MenuItem("Foo/UnitEditor %#w")]
@@ -37,6 +37,7 @@ public class UnitEditor : EditorWindow {
 
 		EditorGUILayout.EndHorizontal();
 	}
+
 
 	void LoadUnitConfigs(){
 		Units = (UnitConfigsDatabase) AssetDatabase.LoadAssetAtPath(PATH, typeof(UnitConfigsDatabase));

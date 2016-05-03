@@ -11,11 +11,9 @@ public enum StatType
 [System.Serializable]
 public class UnitConfig
 {
-    public StatType StatType;
-
-    public StatInfo[] stats;
-
     public string ID;
+    public StatType StatType;
+    public StatInfo[] stats;   
     public int Owner;
     public UnitActionBase[] Actions;
    
@@ -32,13 +30,15 @@ public class UnitSpawnManager : MonoBehaviour {
 
     
     public List<Tile> SpawnTiles;
-
+    public string[] UnitIds;
     public int MinSpawn;
     public int MaxSpawn;
 
     public static Unit CreateUnit(UnitConfig data)
     {
         GameObject base_unit = Instantiate(Resources.Load("base_unit")) as GameObject;
+        base_unit.name = data.ID;
+
         UnitActionBase[] Actions = MyMath.SpawnFromList(data.Actions.ToList()).ToArray() ;
         MyMath.SetListAsChild(Actions.ToList(), base_unit.transform);
         base_unit.AddComponent<ActionManager>();
@@ -51,6 +51,8 @@ public class UnitSpawnManager : MonoBehaviour {
         addStats(base_unit, data);
 
         Unit m_unit = base_unit.AddComponent<Unit>();
+        m_unit.OwnerID = data.Owner;
+       
         return m_unit;
     }
 
@@ -87,7 +89,8 @@ public class UnitSpawnManager : MonoBehaviour {
         List<Tile> tilesToSpawn = MyMath.GetRandomObjects(SpawnTiles, count);
         foreach(Tile t in tilesToSpawn)
         {
-            SpawnUnit(EnemyConfigs.GetUnitPrefab(), t);
+         
+            SpawnUnit( CreateUnit( UnitConfigsDatabase.GetConfig( MyMath.GetRandomObject(UnitIds.ToList()))), t);
         }
     }
 

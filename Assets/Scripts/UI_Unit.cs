@@ -90,10 +90,12 @@ public class UI_Unit : MonoBehaviour {
         PlayerUnitStats p_stats = u.Stats as PlayerUnitStats;
         if(p_stats != null)
         {
+           
             StatBar.SetBarValues( p_stats.Will, p_stats.Int, p_stats.Max);
             
         } else
         {
+            
             StatBar.SetBarValues(
                 (int) u.Stats.GetStat(UnitStats.StatType.HP).Amount, 0,
                 (int) u.Stats.GetStat(UnitStats.StatType.max).Amount

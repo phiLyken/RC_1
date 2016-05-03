@@ -15,7 +15,7 @@ public class UnitBar : MonoBehaviour {
     void UpdateMax(int max)
     {
         Max = max;
-
+        Debug.Log("Update max " + max);
         if (Bar_Steps != null)
         {
             for (int i = Bar_Steps.Count - 1; i >= 0; i--)
@@ -39,6 +39,7 @@ public class UnitBar : MonoBehaviour {
 
     public  void SetBarValues(int _will, int _intensity, int _max)
     {
+        Debug.Log(_will + "  " + _intensity + " " + _max);
         if(_max != Max)
         {
             UpdateMax(_max);

@@ -55,7 +55,7 @@ public class TurnSystem : MonoBehaviour {
     IEnumerator RunTurns()
     {
         //Skip first frame to give time to register
-        yield return null;
+        yield return new WaitForSeconds(0.25f);
         SortListByTime();
 
         Current = GetNext();

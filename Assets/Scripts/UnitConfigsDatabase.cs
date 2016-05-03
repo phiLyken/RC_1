@@ -8,6 +8,7 @@ public class UnitConfigsDatabase : ScriptableObject {
 	[SerializeField]
 	private List<UnitConfig> configs;
 
+    
 	void OnEnable(){
 		if(configs == null){
 			configs = new List<UnitConfig>();
@@ -30,10 +31,21 @@ public class UnitConfigsDatabase : ScriptableObject {
 		return configs[index];
 	}
 
-	public UnitConfig GetConfig(string id){
-		foreach(UnitConfig c in configs) if(c.ID == id) return c;
+	public static UnitConfig GetConfig(string id){
+        UnitConfigsDatabase db = Resources.Load("unit_configs") as UnitConfigsDatabase;
+        foreach (UnitConfig c in db.configs) if(c.ID == id) return c;
 
 		Debug.LogWarning("CONFIG NOT FOUND "+id);
 		return null;
 	}
+
+    public static List<UnitConfig> GetConfigForOwner(int id)
+    {
+        List<UnitConfig> ret = new List<UnitConfig>();
+
+        UnitConfigsDatabase db = Resources.Load("unit_stats") as UnitConfigsDatabase;
+        foreach (UnitConfig c in db.configs) if (c.Owner == id) ret.Add(c);
+        return ret;
+    }
+
 }
