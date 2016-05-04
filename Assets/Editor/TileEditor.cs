@@ -7,7 +7,12 @@ using UnityEditor;
 [CanEditMultipleObjects]
 public class TileEditor : Editor {
 
-   
+	Tile m_tile;
+
+	void OnEnable () {
+		m_tile = target as Tile;
+	}
+
     int selected = 0;
   //  Tile m_tile;
     public override void OnInspectorGUI()

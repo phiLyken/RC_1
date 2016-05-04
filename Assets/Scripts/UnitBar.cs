@@ -30,8 +30,10 @@ public class UnitBar : MonoBehaviour {
         for (int i = 0; i < Max; i++)
         {
             GameObject obj = (Instantiate(BarStep.gameObject) as GameObject);
-            obj.transform.SetParent(transform);
+
+            obj.transform.SetParent(transform, false);
             Bar_Steps.Add(obj.GetComponent<Image>());
+		//	obj.GetComponent<RectTransform>().sizeDelta = new Vector2(10,10);
         }
 
         BarStep.gameObject.SetActive(false);
@@ -44,7 +46,7 @@ public class UnitBar : MonoBehaviour {
         {
             UpdateMax(_max);
         }
-
+		Debug.Log(Bar_Steps.Count);
         for (int i = 0; i < Bar_Steps.Count; i++)
         {
             Color color = Color.magenta;

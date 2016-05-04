@@ -51,8 +51,12 @@ public class UnitSpawnManager : MonoBehaviour {
         addStats(base_unit, data);
 
         Unit m_unit = base_unit.AddComponent<Unit>();
+
+
         m_unit.OwnerID = data.Owner;
-       
+		if(data.Owner == 1){
+			m_unit.gameObject.AddComponent<UnitAI>();
+		}
         return m_unit;
     }
 
@@ -81,14 +85,23 @@ public class UnitSpawnManager : MonoBehaviour {
     {
         int unitCount = GetUnitSpawnCount();
         Debug.Log(gameObject.name+" Spawning Units " + unitCount);
-        SpawnUnits(GetUnitSpawnCount());
+
+		if(unitCount>0){
+        	SpawnUnits(GetUnitSpawnCount());
+		} else {
+			Debug.LogWarning("Spawner attached but no units configured");
+		}
     }
 
     void SpawnUnits(int count)
     {       
+		if(UnitIds.Length == 0){
+			Debug.LogWarning("No units configured to spawn");
+			return;
+		}
         List<Tile> tilesToSpawn = MyMath.GetRandomObjects(SpawnTiles, count);
-        foreach(Tile t in tilesToSpawn)
-        {
+
+        foreach(Tile t in tilesToSpawn)        {
          
             SpawnUnit( CreateUnit( UnitConfigsDatabase.GetConfig( MyMath.GetRandomObject(UnitIds.ToList()))), t);
         }
