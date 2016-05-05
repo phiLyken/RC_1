@@ -16,6 +16,12 @@ public class UnitAI : MonoBehaviour, ITriggerable {
         m_Actions = GetComponent<ActionManager>();
         m_unit.OnTurnStart += StartTurn;
 
+		Cover = Instantiate(Resources.Load("enemy_unit_cover")) as GameObject;
+		Cover.transform.SetParent(m_unit.transform, true);
+		Cover.transform.localPosition = Vector3.zero;
+
+		Cover.GetComponent<UnitTrigger>().Target = this.gameObject;
+		Cover.GetComponent<BoxCollider>().size = new Vector3(5,5,5);
         m_unit.OnDamageReceived += dmg =>
         {
             OnTrigger();

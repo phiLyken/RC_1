@@ -234,7 +234,7 @@ public class MyMath : MonoBehaviour {
     public static List<T> GetRandomObjects<T>(List<T> list, int num)
     {
         int count = Mathf.Min(num, list.Count);
-        List<T> ret = new List<T>();
+        List<T> ret = new List<T>();	
         List<T> copy = new List<T>(list);
 
         for(int i = 0; i < count; i++)
