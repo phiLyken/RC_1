@@ -51,6 +51,7 @@ public class ToastNotification : MonoBehaviour {
 
     protected static void SetToastMessageInInstance(string text, Color bgcolor, Color textcolor)
     {
+        if(Instance != null)
           Instance.ShowToastMessage(text, bgcolor, textcolor);      
     }
 

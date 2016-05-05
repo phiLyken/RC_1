@@ -28,7 +28,7 @@ public class UI_DmgPreview : MonoBehaviour {
     }
     public void SetDamage(Unit instigator, Unit target, Damage dmg)
     {
-        Debug.Log("assad");
+      //  Debug.Log("assad");
         gameObject.SetActive(true);
 
         DamageTF.text = dmg.min + "-" + dmg.max;

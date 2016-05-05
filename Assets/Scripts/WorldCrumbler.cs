@@ -70,7 +70,7 @@ public class WorldCrumbler : MonoBehaviour, ITurn {
 
     public void SetNextTurnTime(int turns)
     {
-		Debug.Log("set turns: "+turns);
+		//Debug.Log("set turns: "+turns);
         TurnTime += turns;
     }
 
