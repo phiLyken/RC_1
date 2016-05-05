@@ -339,6 +339,8 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
         return Mathf.Abs(firstPlayerUnit - enemyPos) <= 8;
     }
 
+ 
+
     public void SkipTurn()
     {
         Actions.SkipTurn();

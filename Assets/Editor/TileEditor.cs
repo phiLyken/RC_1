@@ -106,7 +106,7 @@ public class TileEditor : Editor {
             s = t.gameObject.AddComponent<UnitSpawner>();
         } else
         {
-            Destroy(s);
+            DestroyImmediate(s);
         }
        
 

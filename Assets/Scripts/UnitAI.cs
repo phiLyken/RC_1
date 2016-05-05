@@ -1,17 +1,20 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 
 public class UnitAI : MonoBehaviour, ITriggerable {
+
+    public int group_id;
     public GameObject Cover;
     Unit m_unit;
     ActionManager m_Actions;
-    bool AttackingPlayer;
+    bool Triggered;
 
     void Awake()
     {
-        AttackingPlayer = false;
+        Triggered = false;
         m_unit = GetComponent<Unit>();
         m_Actions = GetComponent<ActionManager>();
         m_unit.OnTurnStart += StartTurn;
@@ -159,7 +162,7 @@ public class UnitAI : MonoBehaviour, ITriggerable {
     {
         if (m_Actions.IsActionInProgress) yield return null;
 
-        if (AttackingPlayer)
+        if (Triggered)
         {
              Debug.Log(m_unit.GetID() + "decide");
              List<Unit> attackables = UnitAction_Attack.GetAttackableUnits(Unit.GetAllUnitsOfOwner(0, false), m_unit, getAttack().Range);
@@ -202,10 +205,36 @@ public class UnitAI : MonoBehaviour, ITriggerable {
 
     public void OnTrigger()
     {
-        
+
         m_unit.Activate();
         Cover.SetActive(false);
         Debug.Log(m_unit.GetID() + " now attacking");
-        AttackingPlayer = true;
+        Triggered = true;
+
+        //var q = (from u in Unit.AllUnits    select u)
+
+        TriggerUnitsForGroup(this);
+
+
+
+    }
+
+    public static void TriggerUnitsForGroup(UnitAI unit)
+    {
+        int id = unit.group_id;
+
+        Unit.AllUnits.ForEach(u =>
+        {
+            if (
+                 u.OwnerID == 1 &&
+                 !u.gameObject.GetComponent<UnitAI>().Triggered &&
+                 u.gameObject.GetComponent<UnitAI>().group_id == id &&
+                 u != unit
+            )
+            {
+                u.GetComponent<UnitAI>().OnTrigger();
+            }
+            }
+        );
     }
 }

@@ -11,8 +11,13 @@ public class UnitFactory : MonoBehaviour
     /// </summary>
     /// <param name="data">Unit Config to determine unit type, stats, actions</param>
     /// <returns></returns>
-    public static Unit CreateUnit(UnitConfig data)
+    public static Unit CreateUnit(UnitConfig data, int group)
     {
+        if(data == null)
+        {
+            Debug.LogWarning("cant create unit, data == null");
+            return null;
+        }
         GameObject base_unit = Instantiate(Resources.Load("base_unit")) as GameObject;
         base_unit.name = data.ID;
 
@@ -32,7 +37,8 @@ public class UnitFactory : MonoBehaviour
 
         if(data.Owner == 1)
         {
-            m_unit.gameObject.AddComponent<UnitAI>();
+           UnitAI ai = m_unit.gameObject.AddComponent<UnitAI>();
+            ai.group_id = group;
         }
         return m_unit;
     }

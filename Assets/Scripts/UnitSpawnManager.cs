@@ -14,15 +14,14 @@ public class UnitConfig
     public string ID;
     public StatType StatType;
     public StatInfo[] stats;   
-    public int Owner;
+
     public UnitActionBase[] Actions;
-   
+
+    public int Owner;
+    public int TriggerRange;
     public int TurnTimeOffset;
     public GameObject Mesh;
-    public UnitConfig(string id)
-    {
-        ID = id;
-    }
+
 
 }
 
@@ -35,7 +34,10 @@ public class UnitSpawnManager : MonoBehaviour {
     
     void Awake()
     {
-        Spawners = GetComponentsInChildren<UnitSpawner>().ToList();
+
+        //Select all spawners that have spawnOnawke disabled
+        Spawners = (from c in GetComponentsInChildren<UnitSpawner>() where !c.SpawnOnAwake select c).ToList();
+        SpawnUnits();
     }
 
     public void SpawnUnits()
@@ -47,12 +49,7 @@ public class UnitSpawnManager : MonoBehaviour {
 
     void SpawnUnits(int count)
     {
-        List<UnitSpawner> tilesToSpawn = MyMath.GetRandomObjects(Spawners, count);
-
-        foreach(var t in tilesToSpawn)
-        {         
-           t.SpawnUnit();
-        }
+        MyMath.GetRandomObjects(Spawners, count).ForEach( spawner => spawner.SpawnUnit()) ;
     }
 
     int GetUnitSpawnCount()

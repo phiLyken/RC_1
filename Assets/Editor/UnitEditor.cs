@@ -32,7 +32,7 @@ public class UnitEditor : EditorWindow {
 	void OnGUI(){
 		EditorGUILayout.BeginHorizontal(GUILayout.ExpandWidth(true));
 		if(GUILayout.Button("Add")){
-			Units.Add( new UnitConfig("Bla "+UnityEngine.Random.Range(0,100000)));
+			Units.Add( new UnitConfig());
 		}
 
 		EditorGUILayout.EndHorizontal();
