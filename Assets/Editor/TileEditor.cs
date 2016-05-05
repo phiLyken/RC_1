@@ -88,22 +88,22 @@ public class TileEditor : Editor {
 
     void MakeEnemySpawnTile(Tile t)
     {
-        Debug.Log("asds");
+        
         UnitSpawnManager manager = t.transform.parent.GetComponent<UnitSpawnManager>();
         if(manager == null)
         {
             Debug.LogWarning("No UnitSpawn Manager Found in parent of this tile");
 
         }
-        if (!manager.SpawnTiles.Contains(t))
+        UnitSpawner s = t.GetComponent<UnitSpawner>();
+        if (s == null)
         {
-            Debug.LogWarning("Tile added");
-            manager.SpawnTiles.Add(t);
+            s = t.gameObject.AddComponent<UnitSpawner>();
         } else
         {
-            manager.SpawnTiles.Remove(t);
-            Debug.LogWarning("Tile removed");
+            Destroy(s);
         }
+       
 
         EditorUtility.SetDirty(target);
 

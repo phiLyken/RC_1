@@ -344,4 +344,30 @@ public class MyMath : MonoBehaviour {
 
     }
 
+    /*https://gist.github.com/Arakade/9dd844c2f9c10e97e3d0*/
+
+    public static void SceneViewText(string text, Vector3 worldPos, Color? colour = null)
+    {
+        UnityEditor.Handles.BeginGUI();
+
+        var view = UnityEditor.SceneView.currentDrawingSceneView;
+        Vector3 screenPos = view.camera.WorldToScreenPoint(worldPos);
+        Vector2 size = GUI.skin.label.CalcSize(new GUIContent(text))*2;
+        GUI.Box(new Rect(screenPos.x - (size.x / 2), -screenPos.y + view.position.height + 4, size.x, size.y),"", GUI.skin.box );
+
+        if (colour.HasValue) GUI.color = colour.Value;
+        GUI.Label(new Rect(screenPos.x - (size.x / 2), -screenPos.y + view.position.height + 4, size.x, size.y), text, UnityEditor.EditorStyles.whiteBoldLabel );
+        UnityEditor.Handles.EndGUI();
+
+        GUI.color = Color.white;
+    }
+
+    public static string StringArrToLines(string[] str)
+    {
+        if (str == null || str.Length == 0) return "";
+        string ret = "";
+        foreach (string s in str) ret += s + "\n";
+        return ret;
+    }
+
 }

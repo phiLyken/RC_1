@@ -27,57 +27,18 @@ public class UnitConfig
 }
 
 public class UnitSpawnManager : MonoBehaviour {
-
     
-    public List<Tile> SpawnTiles;
-    public string[] UnitIds;
     public int MinSpawn;
     public int MaxSpawn;
 
-    public static Unit CreateUnit(UnitConfig data)
+    List<UnitSpawner> Spawners;
+    
+    void Awake()
     {
-        GameObject base_unit = Instantiate(Resources.Load("base_unit")) as GameObject;
-        base_unit.name = data.ID;
-
-        UnitActionBase[] Actions = MyMath.SpawnFromList(data.Actions.ToList()).ToArray() ;
-        MyMath.SetListAsChild(Actions.ToList(), base_unit.transform);
-        base_unit.AddComponent<ActionManager>();
-
-        GameObject mesh = Instantiate(data.Mesh);
-        mesh.transform.SetParent(base_unit.transform, false);
-        mesh.transform.localPosition = Vector3.zero + Vector3.up *0.5f;
-        mesh.transform.localScale = Vector3.one;
-
-        addStats(base_unit, data);
-
-        Unit m_unit = base_unit.AddComponent<Unit>();
-        m_unit.OwnerID = data.Owner;
-       
-        return m_unit;
+        Spawners = GetComponentsInChildren<UnitSpawner>().ToList();
     }
 
-    static void addStats(GameObject target, UnitConfig conf)
-    {
-        UnitStats stats;
-        if (conf.StatType == StatType.simple)
-        {
-            stats = target.AddComponent<EnemyUnitStats>();            
-        } else
-        {
-            stats = target.AddComponent<PlayerUnitStats>();
-           
-        }
-        stats.Stats = new StatInfo[conf.stats.Length];
-        for (int i = 0; i < stats.Stats.Length; i++)
-        {
-            StatInfo inf = new StatInfo();
-            inf.Stat = conf.stats[i].Stat;
-            inf.Amount = conf.stats[i].Amount;
-            stats.Stats[i] = inf;
-        }
-    }
-
-    public  void SpawnUnits()
+    public void SpawnUnits()
     {
         int unitCount = GetUnitSpawnCount();
         Debug.Log(gameObject.name+" Spawning Units " + unitCount);
@@ -85,33 +46,23 @@ public class UnitSpawnManager : MonoBehaviour {
     }
 
     void SpawnUnits(int count)
-    {       
-        List<Tile> tilesToSpawn = MyMath.GetRandomObjects(SpawnTiles, count);
-        foreach(Tile t in tilesToSpawn)
-        {
-         
-            SpawnUnit( CreateUnit( UnitConfigsDatabase.GetConfig( MyMath.GetRandomObject(UnitIds.ToList()))), t);
+    {
+        List<UnitSpawner> tilesToSpawn = MyMath.GetRandomObjects(Spawners, count);
+
+        foreach(var t in tilesToSpawn)
+        {         
+           t.SpawnUnit();
         }
     }
 
     int GetUnitSpawnCount()
     {
-        return Mathf.Min( Random.Range(MinSpawn, MaxSpawn+1  ), SpawnTiles.Count);
-    }
-
-    void SpawnUnit(Unit u, Tile tile)
-    {
-        Unit newUnit = (Instantiate(u.gameObject) as GameObject).GetComponent<Unit>();
-        newUnit.SetTile(tile, true);
+        return Mathf.Min( Random.Range(MinSpawn, MaxSpawn+1  ), Spawners.Count);
     }
 
 
-    void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red * 0.8f;
-        foreach(Tile t in SpawnTiles)
-        {
-            Gizmos.DrawCube(t.GetPosition(), Vector3.one);
-        }
-    }
+
+
+
+   
 }

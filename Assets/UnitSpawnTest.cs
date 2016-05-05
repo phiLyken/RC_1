@@ -7,8 +7,8 @@ public class UnitSpawnTest : MonoBehaviour {
 
     void Start()
     {
-        Unit u =  UnitSpawnManager.CreateUnit(Config);
+        Unit u = UnitFactory.CreateUnit(Config);
 
-        u.SetTile(GetComponent<Tile>(), true);
+        UnitFactory.SpawnUnit(u, (GetComponent<Tile>()));
     }
 }
