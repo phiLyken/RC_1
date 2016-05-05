@@ -30,6 +30,10 @@ public class UnitFactory : MonoBehaviour
         Unit m_unit = base_unit.AddComponent<Unit>();
         m_unit.OwnerID = data.Owner;
 
+        if(data.Owner == 1)
+        {
+            m_unit.gameObject.AddComponent<UnitAI>();
+        }
         return m_unit;
     }
 
