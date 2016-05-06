@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using System.Collections.Generic;
 
 public delegate void CrumbleEvent(int row);
 public class WorldCrumbler : MonoBehaviour, ITurn {
@@ -15,6 +16,7 @@ public class WorldCrumbler : MonoBehaviour, ITurn {
     public CrumbleEvent OnCrumble;
     public int CrumbleTurnCost;
     float currentCrumbleLine;
+	int starting_order;
     int currentCrumbleRow
     {
         get { return (int)currentCrumbleLine; }
@@ -81,7 +83,6 @@ public class WorldCrumbler : MonoBehaviour, ITurn {
 
     public void StartTurn()
     {
-		Debug.Log("Crumble");
         ToastNotification.SetToastMessage1("Crumbling");
         currentCrumbleLine += CrumbleDistancePerTurn;
         if (OnCrumble != null)
@@ -137,5 +138,5 @@ public class WorldCrumbler : MonoBehaviour, ITurn {
 		starting_order =   TurnSystem.Register(this);
 	}
 
-	int starting_order;
+
 }

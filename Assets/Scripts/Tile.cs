@@ -23,7 +23,8 @@ public class Tile : MonoBehaviour, IWayPoint
     
     public int zoneID;
     public int CrumbleDelay;
-   
+	public int CrumbleStage;
+
     public int MinLifeTime;
 
     public bool isCamp;
@@ -53,8 +54,7 @@ public class Tile : MonoBehaviour, IWayPoint
     public bool IsFree
     {
         get
-        {
-           
+        {           
             return isAccessible && !isOccupied;
         }
     }
