@@ -540,4 +540,17 @@ public class TileManager : MonoBehaviour {
 
         return l;
     }
+
+	/// <summary>
+	/// gets the first row# that has at least 1 active tile
+	/// </summary>
+	/// <returns>The last active row.</returns>
+	public int GetLastActiveRow(){
+		for(int i = 0 ; i < GridHeight; i++){
+			for(int j = 0; j < GridWidth; j++){
+				if(Tiles[i,j].isAccessible) return i;
+			}
+		}
+		return -1;
+	}
  }
