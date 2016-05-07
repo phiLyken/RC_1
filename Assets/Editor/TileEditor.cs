@@ -37,7 +37,7 @@ public class TileEditor : Editor {
         {
             foreach (Tile t in targets)
             {
-                t.MoveTileUp();
+                t.MoveTileUp(1);
             }
         }
         
@@ -45,7 +45,7 @@ public class TileEditor : Editor {
         {
             foreach (Tile t in targets)
             {
-                t.MoveTileDown();
+                t.MoveTileDown(1);
             }
         }
 

@@ -1,43 +1,85 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
-public class TileWeighted  {
+public class TileWeighted : IWeightable {
 
 	public float weight;
-	TilePos tile;
+	public TilePos tilePos;
+
+    public static List<Tile> GetCrumbleTiles(int count, TileManager region)
+    {
+        return (from wt 
+                in WeightableFactory.GetWeighted( GetWeightedTiles(region).Cast<IWeightable>().ToList() , count)
+                select region.Tiles[ (wt as TileWeighted).tilePos.x, (wt as TileWeighted).tilePos.z]).ToList();
+
+    }
+
+    public static List<TileWeighted> GetWeightedTiles(TileManager region)
+    {
+        List<TileWeighted> weightedTiles = new List<TileWeighted>();
+        foreach (Tile t in region.GetTileList())
+        {
+            weightedTiles.Add(new TileWeighted(t, region));
+        }
+
+        return weightedTiles;
+    }
 
 	public TileWeighted(Tile tile, TileManager region){
 
-		//If the tile is already crumbling it should be considered
-		if(tile.CrumbleStage > 0 || !tile.isAccessible) weight = 0;
-
-
+		tilePos = tile.TilePos; 
 		weight = 0;
 
-		//Apply weight based on distance to last row (the closer the more weight)
-		int lastRow = region.GetLastActiveRow();
-		int max_rows = 5;
+        if (tile.isCrumbling || !tile.isAccessible) return;
+
+        //Apply weight based on distance to last row (the closer the more weight)
+        int lastRow = region.GetLastActiveRow();
+		int max_rows = 7;
+
 		int distance = Mathf.Max(0, max_rows - ( tile.TilePos.z - lastRow)) ;
-		weight = distance * 1;
+        float prev_weight = 0;
+        float neighbours_weight = 0;
 
 		//apply weight if exposed to previous row
-		if(tile.TilePos.z > 0){	
-			weight += GetNeighbourWeight(region.Tiles[ tile.TilePos.z-1, tile.TilePos.x], 5);
-		}
+		if(tile.TilePos.z > 0){
+            prev_weight = GetNeighbourWeight(region.Tiles[ tile.TilePos.x, tile.TilePos.z-1], 2);
+		} else
+        {
+            prev_weight = 15;
+        }
 
 		//apply weight for left/right neighbours
 		if(tile.TilePos.x > 0){
-			weight += GetNeighbourWeight(region.Tiles[tile.TilePos.x -1, tile.TilePos.z], 1);
+            neighbours_weight += GetNeighbourWeight(region.Tiles[tile.TilePos.x -1, tile.TilePos.z], 0.5f);
 		}
-		if(tile.TilePos.x < region.Tiles.GetLength(1) -1){
-			weight += GetNeighbourWeight(region.Tiles[tile.TilePos.x +1, tile.TilePos.z], 1);
+		if(tile.TilePos.x < region.Tiles.GetLength(0) -1){
+            neighbours_weight += GetNeighbourWeight(region.Tiles[tile.TilePos.x +1, tile.TilePos.z], 0.5f);
 		}
+
+        weight = distance * (neighbours_weight + prev_weight);
 	
 	}
 
-	float GetNeighbourWeight(Tile t, float multiplier){
+    public float Weight
+    {
+        get   {  return weight; }
+
+        set  {
+        }
+    }
+
+    public string WeightableID
+    {
+        get
+        { return tilePos.x+" "+tilePos.z; }
+    }
+
+    float GetNeighbourWeight(Tile t, float multiplier){
 		return (!t.isAccessible ? 15 : (t.CrumbleStage * 5)) * multiplier;
 	}
 
+    
 
 }

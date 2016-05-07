@@ -352,11 +352,11 @@ public class MyMath : MonoBehaviour {
 
         var view = UnityEditor.SceneView.currentDrawingSceneView;
         Vector3 screenPos = view.camera.WorldToScreenPoint(worldPos);
-        Vector2 size = GUI.skin.label.CalcSize(new GUIContent(text))*2;
-        GUI.Box(new Rect(screenPos.x - (size.x / 2), -screenPos.y + view.position.height + 4, size.x, size.y),"", GUI.skin.box );
+        Vector2 size = GUI.skin.label.CalcSize(new GUIContent(text)) * 1.5f;
+        GUI.Box(new Rect(screenPos.x - (size.x / 2), -screenPos.y + view.position.height, size.x, size.y),"", GUI.skin.box );
 
         if (colour.HasValue) GUI.color = colour.Value;
-        GUI.Label(new Rect(screenPos.x - (size.x / 2), -screenPos.y + view.position.height + 4, size.x, size.y), text, UnityEditor.EditorStyles.whiteBoldLabel );
+        GUI.Label(new Rect(screenPos.x - (size.x / 2), -screenPos.y + view.position.height , size.x, size.y), text, UnityEditor.EditorStyles.whiteBoldLabel );
         UnityEditor.Handles.EndGUI();
 
         GUI.color = Color.white;
@@ -368,6 +368,38 @@ public class MyMath : MonoBehaviour {
         string ret = "";
         foreach (string s in str) ret += s + "\n";
         return ret;
+    }
+
+    [System.Serializable]
+    public class R_Range
+    {
+        public float min;
+        public float max;
+        public bool asInt;
+
+        public float Value()
+        {
+            if (asInt)
+            {
+                return Random.Range((int)min, (int)max);
+            } else { 
+                return Random.Range(min, max);
+            }
+        }
+
+        public R_Range(float _min, float _max)
+        {
+            asInt = false;
+            min = _min;
+            max = _max;
+        }
+
+        public R_Range(int _min, int _max)
+        {
+            asInt = true;
+            min = _min;
+            max = _max;
+        }
     }
 
 }

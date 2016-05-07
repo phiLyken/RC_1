@@ -11,7 +11,7 @@ public class UnitFactory : MonoBehaviour
     /// </summary>
     /// <param name="data">Unit Config to determine unit type, stats, actions</param>
     /// <returns></returns>
-    public static Unit CreateUnit(UnitConfig data, int group)
+    public static Unit CreateUnit(UnitConfig data, int group, int turntime)
     {
         if(data == null)
         {
@@ -34,6 +34,7 @@ public class UnitFactory : MonoBehaviour
 
         Unit m_unit = base_unit.AddComponent<Unit>();
         m_unit.OwnerID = data.Owner;
+        m_unit.TurnTime = turntime;
 
         if(data.Owner == 1)
         {

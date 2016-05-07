@@ -41,7 +41,7 @@ public class UnitBar : MonoBehaviour {
 
     public  void SetBarValues(int _will, int _intensity, int _max)
     {
-        Debug.Log(_will + "  " + _intensity + " " + _max);
+      //  Debug.Log(_will + "  " + _intensity + " " + _max);
         if(_max != Max)
         {
             UpdateMax(_max);

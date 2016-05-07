@@ -211,12 +211,7 @@ public class UnitAI : MonoBehaviour, ITriggerable {
         Debug.Log(m_unit.GetID() + " now attacking");
         Triggered = true;
 
-        //var q = (from u in Unit.AllUnits    select u)
-
         TriggerUnitsForGroup(this);
-
-
-
     }
 
     public static void TriggerUnitsForGroup(UnitAI unit)

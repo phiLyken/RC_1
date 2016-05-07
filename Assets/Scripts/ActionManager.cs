@@ -42,8 +42,18 @@ public class ActionManager : MonoBehaviour {
     }
            
     }
+
+    void CheckOwnerKilled(Unit u)
+    {
+        if(u == Owner)
+        {
+            Reset();
+            Unit.OnUnitKilled -= CheckOwnerKilled;
+        }
+    }
 	void Start(){
 
+        Unit.OnUnitKilled += CheckOwnerKilled;
 		UnitActionBase[] raw_actions = GetComponentsInChildren<UnitActionBase>();
 		foreach (UnitActionBase action in raw_actions) action.SetOwner(Owner);	
 		Actions = raw_actions.OrderBy(o => o.orderID).ThenBy(o => o.ActionID).ToArray();

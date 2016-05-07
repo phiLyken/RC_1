@@ -8,6 +8,7 @@ public class UnitSpawner : MonoBehaviour {
 
     public string[] Unit_Ids;
     public int group;
+    public MyMath.R_Range TurnTimeOnSpawn;
 
     Color[] group_color =
     {
@@ -26,7 +27,7 @@ public class UnitSpawner : MonoBehaviour {
     }
     public void SpawnUnit()
     {
-        Unit u = UnitFactory.CreateUnit(UnitConfigsDatabase.GetConfig(MyMath.GetRandomObject(Unit_Ids.ToList())), group);
+        Unit u = UnitFactory.CreateUnit(UnitConfigsDatabase.GetConfig(MyMath.GetRandomObject(Unit_Ids.ToList())), group, (int) TurnTimeOnSpawn.Value());
 
         if(u != null)
             UnitFactory.SpawnUnit(u, GetComponent<Tile>());

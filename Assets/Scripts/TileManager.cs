@@ -1,12 +1,13 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 
 
 public class TileManager : MonoBehaviour {
     
-    public static float HeighSteps = 0.5f;
+    public static float HeighSteps = 0.25f;
     public Tile[,] Tiles;
 
 	public GameObject TilePrefab;
@@ -205,7 +206,7 @@ public class TileManager : MonoBehaviour {
 
         AppendGrid(manager.FetchTiles());
         UnitSpawnManager spawner = manager.gameObject.GetComponent <UnitSpawnManager>();
-        if(spawner != null)
+        if(spawner != null && Application.isPlaying)
         {
             spawner.SpawnUnits();
         }
@@ -372,7 +373,7 @@ public class TileManager : MonoBehaviour {
     /// <param name="tiles"></param>
     /// <param name="range"></param>
     /// <returns></returns>
-	public List<Tile> GetSurroundingTiles(List<Tile> tiles, int range){	
+	public List<Tile> GetSurroundingTiles(List<Tile> tiles, int range, TileManager region){	
 		
 		if (range <= 0) return tiles;
 		
@@ -384,7 +385,7 @@ public class TileManager : MonoBehaviour {
 		
 		foreach(Tile t in tiles){
 			
-			surrounding = GetSurroundingTiles(t);
+			surrounding = GetSurroundingTiles(t, region);
 			
 			foreach(Tile s in surrounding){
 				if( !tiles.Contains(s) && !additional.Contains(s)) additional.Add(s);
@@ -394,7 +395,7 @@ public class TileManager : MonoBehaviour {
 		
 		range --;
 		if(range > 0) {
-			return GetSurroundingTiles(tiles, range);	
+			return GetSurroundingTiles(tiles, range, region);	
 		} else {			
 			return tiles;
 		}
@@ -405,41 +406,42 @@ public class TileManager : MonoBehaviour {
     /// </summary>
     /// <param name="t"></param>
     /// <returns></returns>
-	public List<Tile> GetSurroundingTiles( Tile t){
-		List<Tile> surrounding = new List<Tile>();	
-		
+	public List<Tile> GetSurroundingTiles( Tile t, TileManager region){
+		List<Tile> surrounding = new List<Tile>();
+
+        if (t == null) return surrounding;
 		int x = t.TilePos.x;
 		int z = t.TilePos.z;
 		
-		if(TileInField(x+1, z)){
-			surrounding.Add( TileManager.Instance.Tiles[x+1, z]);	
+		if(TileInField(x+1, z, region)){
+			surrounding.Add(region.Tiles[x+1, z]);	
 		}
-		if(TileInField(x+1, z+1)){
-			surrounding.Add(TileManager.Instance.Tiles[x+1, z+1]);	
-		}
-		
-		if(TileInField(x, z+1)){
-			surrounding.Add( TileManager.Instance.Tiles[x, z+1]);	
+		if(TileInField(x+1, z+1, region)){
+			surrounding.Add(region.Tiles[x+1, z+1]);	
 		}
 		
-		if(TileInField(x-1, z+1)){
-			surrounding.Add( TileManager.Instance.Tiles[x-1, z+1]);	
+		if(TileInField(x, z+1, region)){
+			surrounding.Add(region.Tiles[x, z+1]);	
 		}
 		
-		if(TileInField(x-1, z)){
-			surrounding.Add( TileManager.Instance.Tiles[x-1, z]);	
+		if(TileInField(x-1, z+1, region)){
+			surrounding.Add(region.Tiles[x-1, z+1]);	
 		}
 		
-		if(TileInField(x-1, z-1)){
-			surrounding.Add( TileManager.Instance.Tiles[x-1, z-1]);	
+		if(TileInField(x-1, z, region)){
+			surrounding.Add(region.Tiles[x-1, z]);	
 		}
 		
-		if(TileInField(x, z-1)){
-			surrounding.Add( TileManager.Instance.Tiles[x, z-1]);	
+		if(TileInField(x-1, z-1, region)){
+			surrounding.Add(region.Tiles[x-1, z-1]);	
 		}
 		
-		if(TileInField(x+1, z-1)){
-			surrounding.Add( TileManager.Instance.Tiles[x+1, z-1]);	
+		if(TileInField(x, z-1, region)){
+			surrounding.Add(region.Tiles[x, z-1]);	
+		}
+		
+		if(TileInField(x+1, z-1, region)){
+			surrounding.Add(region.Tiles[x+1, z-1]);	
 		}
 		//		Debug.Log(surrounding.Count);
 		
@@ -452,15 +454,15 @@ public class TileManager : MonoBehaviour {
     /// <param name="x"></param>
     /// <param name="y"></param>
     /// <returns></returns>
-	bool TileInField(int x, int y){
+	bool TileInField(int x, int y, TileManager region){
 		return x >= 0 && y >= 0 &&
-			x < TileManager.Instance.GridWidth && y < TileManager.Instance.GridHeight;
+			x < region.GridWidth && y < region.GridHeight;
 	}	
 
 	
-	public List<Tile> GetEdgeTiles( List<Tile> tiles, int range){
+	public List<Tile> GetEdgeTiles( List<Tile> tiles, int range, TileManager region){
 		List<Tile> baseTiles = new List<Tile>(tiles);
-		List<Tile> all = GetSurroundingTiles(baseTiles, range);		
+		List<Tile> all = GetSurroundingTiles(baseTiles, range, region);		
 		
 		foreach(Tile t in all) Debug.DrawRay(t.transform.position, Vector3.up, Color.grey, 10);
 		
@@ -548,9 +550,46 @@ public class TileManager : MonoBehaviour {
 	public int GetLastActiveRow(){
 		for(int i = 0 ; i < GridHeight; i++){
 			for(int j = 0; j < GridWidth; j++){
-				if(Tiles[i,j].isAccessible) return i;
+				if(Tiles[j,i].isAccessible) return i;
 			}
 		}
 		return -1;
 	}
+
+    /*
+    public List<List<Tile>> GetRegions(List<Tile> all_tiles, TileManager manager)
+    {
+        List<Tile> copy = (from t in all_tiles where t.isAccessible select t).ToList();
+        List<List<Tile>> regions = new List<List<Tile>>();
+
+        while (copy.Count > 0)
+        {
+            List<Tile> region = GetRegion(copy[0], manager);
+            copy.RemoveAll(t => region.Contains(t));
+        }
+
+        return regions;
+       
+    }
+
+    public List<Tile> GetRegion(Tile t, TileManager manager)
+    {
+        if (Tiles == null) Tiles = FetchTiles();
+        List<Tile> currentregion = new List<Tile>();
+        currentregion.Add(t);
+
+        List<Tile> surrounding = GetSurroundingTiles(currentregion, 1, manager).Where(p => p.isAccessible).ToList();
+
+        while (surrounding.Count > 0)
+        {
+            currentregion.AddRange(surrounding);
+            surrounding = GetSurroundingTiles(currentregion, 1, manager).Where(p => p != null && p.isAccessible ).ToList();
+           
+        }
+
+        return currentregion;
+    }
+
+    */
+
  }

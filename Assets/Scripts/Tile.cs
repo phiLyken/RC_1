@@ -22,16 +22,17 @@ public class Tile : MonoBehaviour, IWayPoint
 {
     
     public int zoneID;
-    public int CrumbleDelay;
-	public int CrumbleStage;
 
-    public int MinLifeTime;
+	public int CrumbleStage;
+    GameObject crumble_effect;
 
     public bool isCamp;
-    int RandomOffset;
 
     [SerializeField]
     public bool isAccessible = true;
+
+    [SerializeField]
+    public bool isCrumbling;
 
     TileVisualizer DisplayState;
 
@@ -69,7 +70,7 @@ public class Tile : MonoBehaviour, IWayPoint
         if (WorldCrumbler.Instance != null)
         {
             WorldCrumbler.Instance.OnCrumble += OnCrumbleTurn;
-            RandomOffset = Random.Range(0, WorldCrumbler.Instance.RandomCrumbleOffset + 1);
+            
         }
         SelectibleObjectBase b = GetComponent<SelectibleObjectBase>();
         if (b == null)
@@ -78,39 +79,23 @@ public class Tile : MonoBehaviour, IWayPoint
         b.OnHoverEnd += OnHoverEnd;
         b.OnSelect += delegate { TileSelecter.SelectTile(this); };
     }
-    int turnsInCrumbleZone;
 
-    int GetTurnsCrumbled()
-    {
-        return turnsInCrumbleZone - (CrumbleDelay + RandomOffset);
-    }
-
-    GameObject crumble_effect;
     public void OnCrumbleTurn(int crumble_row)
     {
-        if (crumble_row <= TilePos.z) return;
-        // Debug.Log("cruble turn in tile " + crumble_row);
-        turnsInCrumbleZone++;
-    //   Debug.Log(turnsInCrumbleZone);
+        if (!isCrumbling) return;
 
-        if (GetTurnsCrumbled() > 0)
-        {
-            if(crumble_effect == null)
-            {
-                crumble_effect = Instantiate(Resources.Load("crumble_prefab")) as GameObject;
-                crumble_effect.transform.SetParent(transform);
-                crumble_effect.transform.localPosition = Vector3.zero;
-            }
-          //  SetVisualState("crumbling");
-        }
-
-        if (turnsInCrumbleZone > 1 && (GetTurnsCrumbled() > MinLifeTime && Random.value < WorldCrumbler.Instance.CrumbleChance)
-            || GetTurnsCrumbled() > WorldCrumbler.Instance.CrumblingRows)
-        {
-            DeactivateTile();
-        }
-
+        int crumble_amount = Random.Range(0, 3);
+        SetCrumble(CrumbleStage + crumble_amount);
     }
+
+    public void SetCrumble(int new_crumble) {
+
+        if (!isAccessible) return;
+        int diff = new_crumble - CrumbleStage;
+        CrumbleStage = new_crumble;
+        MoveTileDown( Mathf.Max(diff,0));
+    }
+
     public void ToggleCamp()
     {
         isCamp = !isCamp;
@@ -130,13 +115,15 @@ public class Tile : MonoBehaviour, IWayPoint
     void DeactivateTile()
     {
         if (OnDeactivate != null) OnDeactivate(this);
-        WorldCrumbler.Instance.OnCrumble -= OnCrumbleTurn;
+
+        if(Application.isPlaying)
+            WorldCrumbler.Instance.OnCrumble -= OnCrumbleTurn;
         GetComponent<MeshRenderer>().enabled = false;
         isAccessible = false;
 
         if(crumble_effect != null)
         {
-            Destroy(crumble_effect.gameObject);
+            DestroyImmediate(crumble_effect.gameObject);
         }
 
     }
@@ -161,6 +148,18 @@ public class Tile : MonoBehaviour, IWayPoint
 
     }
 
+    public void StartCrumble()
+    {
+        isCrumbling = true;
+        if (crumble_effect == null)
+        {
+            crumble_effect = Instantiate(Resources.Load("crumble_prefab")) as GameObject;
+            crumble_effect.transform.SetParent(transform);
+            crumble_effect.transform.localPosition = Vector3.zero;
+        }
+
+    }
+
     public void ToggleBlocked()
     {
 
@@ -173,10 +172,10 @@ public class Tile : MonoBehaviour, IWayPoint
         SetVisualState("normal");
     }
 
-    public void MoveTileUp()
+    public void MoveTileUp(int steps)
     {
-        currentHeightStep++;
-        Elevate(Vector3.up * TileManager.HeighSteps);
+        currentHeightStep += steps;
+        Elevate(Vector3.up * TileManager.HeighSteps * steps);
     }
 
     void Elevate(Vector3 delta)
@@ -185,11 +184,16 @@ public class Tile : MonoBehaviour, IWayPoint
         if (Child != null) Child.transform.position += delta;
     }
 
-    public void MoveTileDown()
+    public void MoveTileDown(int steps)
     {
 
-        currentHeightStep--;
-        Elevate(Vector3.up * TileManager.HeighSteps * -1);
+        currentHeightStep -= steps;
+        Elevate(Vector3.up * TileManager.HeighSteps * -steps);
+
+        if (currentHeightStep < -4)
+        {
+            DeactivateTile();
+        }
     }
 
 
@@ -223,14 +227,14 @@ public class Tile : MonoBehaviour, IWayPoint
     {
         if (DebugCrumbleTime)
         {
-            float p = (float)MinLifeTime / 10;
+            float p = (float) CrumbleStage / 10;
             Color col = new Color(2.0f * p, 2.0f * (1 - p), 0, 0.7f);
             Gizmos.color = col;
 
             Gizmos.DrawCube(transform.position, new Vector3(transform.localScale.x, 0.1f, transform.localScale.z));
         }
 
-       Debug.DrawRay(transform.position, Vector3.up * 0.3f, IsFree ? Color.green : Color.red);
+     //  Debug.DrawRay(transform.position, Vector3.up * 0.3f, IsFree ? Color.green : Color.red);
     
        
     }

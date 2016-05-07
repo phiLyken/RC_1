@@ -2,25 +2,19 @@
 using System.Collections;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public delegate void CrumbleEvent(int row);
 public class WorldCrumbler : MonoBehaviour, ITurn {
 
     //Speed: Rows per turn the crumble progresses
     //Every Row < than the crumble row will get 1 crumbleturn
-    public int CrumbleDistancePerTurn;
-    public int CrumblingRows;
-    public int RandomCrumbleOffset;
-    public float CrumbleChance;
+    public MyMath.R_Range TilesToCrumbleCount = new MyMath.R_Range(3, 5);
     public static  WorldCrumbler Instance;
     public CrumbleEvent OnCrumble;
     public int CrumbleTurnCost;
-    float currentCrumbleLine;
-	int starting_order;
-    int currentCrumbleRow
-    {
-        get { return (int)currentCrumbleLine; }
-    }
+    public int TurnTime;
+    int starting_order;
 
     public bool IsActive
     {
@@ -38,23 +32,10 @@ public class WorldCrumbler : MonoBehaviour, ITurn {
         SetNextTurnTime(CrumbleTurnCost);
     }
 
-    void OnDrawGizmos()
-    {
-        if(TileManager.Instance != null)
-        {
-            Gizmos.color = new Color(0.5f, 0, 0, 0.5f);
-            Gizmos.DrawCube(
-                TileManager.Instance.GetTilePos2D(TileManager.Instance.GridWidth / 2, currentCrumbleRow),
-                new Vector3(TileManager.Instance.GridWidth,1,1 )
-                );
-        }
-    }
-
     public Color GetColor()
     {
         return Color.grey;
     }
-    public int TurnTime;
 
     public int GetCurrentTurnCost()
     {
@@ -84,16 +65,22 @@ public class WorldCrumbler : MonoBehaviour, ITurn {
     public void StartTurn()
     {
         ToastNotification.SetToastMessage1("Crumbling");
-        currentCrumbleLine += CrumbleDistancePerTurn;
+        SetCrumbleInWeightedTiles();
+
         if (OnCrumble != null)
         {
-            OnCrumble(currentCrumbleRow);
+            OnCrumble(0);
         }
+    }
+
+    void SetCrumbleInWeightedTiles()
+    {
+        int count = (int) TilesToCrumbleCount.Value();        
+        TileWeighted.GetCrumbleTiles(count, TileManager.Instance).ForEach(t => t.StartCrumble() );
     }
 
     public void GlobalTurn(int turn)
     {
-
         TurnTime--;
     }
 

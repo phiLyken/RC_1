@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEditor;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 class TileTools : EditorWindow
 {
@@ -12,6 +13,7 @@ class TileTools : EditorWindow
     TileManager main;
     bool debugTime = false;
     Tile selectedTile;
+    List<TileWeighted> weighted;
 
     [MenuItem("Foo/TileTool")]
     public static void ShowWindow()
@@ -36,7 +38,7 @@ class TileTools : EditorWindow
         {
             Grid = main.GetComponent<TileManager>();
         }
-        if (Pathing == null ||Pathing != main.GetComponent<PathFindingTest>() )
+        if (Pathing == null || Pathing != main.GetComponent<PathFindingTest>() )
         {
             Pathing = main.GetComponent<PathFindingTest>();
         }
@@ -122,9 +124,33 @@ class TileTools : EditorWindow
             SelectCurrentTilesInEditor();
             SetVisualStateOnSelection("selected");
         }
+
+        if (GUILayout.Button("Show Current Crumble Weights"))
+        {
+            if(weighted == null) { 
+                weighted = TileWeighted.GetWeightedTiles(Grid);
+            } else
+            {
+                weighted = null;
+            }
+            SceneView.RepaintAll();
+          
+        }
+
+        if (GUILayout.Button("Test Crumble"))
+        {
+            crumble_number = EditorGUILayout.IntField(crumble_number, GUILayout.Width(50));
+            TileWeighted.GetCrumbleTiles(4,Grid).ForEach(t =>t.StartCrumble());
+
+            //  Debug.Log(Grid.GetLastActiveRow());
+           
+            Grid.GetTileList().ForEach(t => t.OnCrumbleTurn(0));
+            SceneView.RepaintAll();
+        }
+
     }
 
-
+    int crumble_number;
     void SetPathingTile(Tile selectedTile)
     {
 
@@ -165,6 +191,8 @@ class TileTools : EditorWindow
         if (selectedTile == null) return;
         if (selectedTile != null)
         {
+            if (CurrentTileSelection == null) CurrentTileSelection = new List<Tile>();
+
             EditorGUILayout.BeginHorizontal();
 
             if (GUILayout.Button("Select Row"))
@@ -191,6 +219,14 @@ class TileTools : EditorWindow
                 SetVisualStateOnSelection("selected");
             }
 
+            /*
+            if (GUILayout.Button("Select Region"))
+            {
+                CurrentTileSelection.AddRange(Grid.GetRegion(selectedTile, Grid));
+                SelectCurrentTilesInEditor();
+                SetVisualStateOnSelection("selected");
+            }
+            */
             EditorGUILayout.EndHorizontal();
         }
     }
@@ -210,7 +246,8 @@ class TileTools : EditorWindow
             {
                 if(editorTiles.Count == 0 || !editorTiles.Contains(CurrentTileSelection[i]))
                 {
-                    CurrentTileSelection[i].SetVisualState("normal");
+                    if(CurrentTileSelection[i] != null)
+                        CurrentTileSelection[i].SetVisualState("normal");
                     CurrentTileSelection.RemoveAt(i);
                 }
             }
@@ -238,11 +275,7 @@ class TileTools : EditorWindow
 
     void SelectCurrentTilesInEditor()
     {
-        Object[] newSelection = new Object[CurrentTileSelection.Count];
-        for (int i = 0; i < newSelection.Length; i++) newSelection[i] = CurrentTileSelection[i].gameObject;
-
-        Selection.objects = newSelection;
-
+        Selection.objects = (from t in CurrentTileSelection.Where(t => t != null) select t.gameObject).ToArray();
     }
 
     void SetVisualStateOnSelection(string state)
@@ -255,17 +288,7 @@ class TileTools : EditorWindow
   
     List<Tile> GetTilesInEditorSelection()
     {
-        List<Tile> tiles = new List<Tile>();
-        foreach (GameObject ob in Selection.gameObjects)
-        {
-                Tile t = (ob as GameObject).GetComponent<Tile>();
-                if (t != null)
-                {
-                    tiles.Add(t);
-                }
-        }
-
-        return tiles;
+        return (from ob in Selection.gameObjects where ob.GetComponent<Tile>() != null select ob.GetComponent<Tile>()).ToList();
     }
 
     public void OnInspectorUpdate()
@@ -273,5 +296,41 @@ class TileTools : EditorWindow
         // This will only get called 10 times per second.
         Repaint();
 
+    }
+    
+
+    // Window has been selected
+    void OnFocus()
+    {
+        // Remove delegate listener if it has previously
+        // been assigned.
+        SceneView.onSceneGUIDelegate -= this.OnSceneGUI;
+        // Add (or re-add) the delegate.
+        SceneView.onSceneGUIDelegate += this.OnSceneGUI;
+    }
+
+    void OnDestroy()
+    {
+        // When the window is destroyed, remove the delegate
+        // so that it will no longer do any drawing.
+        SceneView.onSceneGUIDelegate -= this.OnSceneGUI;
+    }
+
+    void OnSceneGUI(SceneView sceneView)
+    {
+        // Do your drawing here using Handles.
+        Handles.BeginGUI();
+       
+        if (weighted != null && Grid != null)
+        {
+            float sum_weights = weighted.Select(t => t.weight).Sum();
+          
+            foreach (TileWeighted tw in weighted) {
+                float percent = (tw.weight / sum_weights)*100;
+                if(percent > 0)
+                MyMath.SceneViewText(percent.ToString("00.00") + "%", Grid.Tiles[tw.tilePos.x, tw.tilePos.z].GetPosition(), Color.black);
+            }
+        }
+        Handles.EndGUI();
     }
 }

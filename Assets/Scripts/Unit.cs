@@ -179,6 +179,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
         _isDead = true;
         if (OnUnitKilled != null) OnUnitKilled(this);
 
+        //TODO: CLEAN UP THIS DEPENCY MESS
         currentTile.OnDeactivate -= OnCurrentTileDeactivate;
         TurnSystem.Instance.OnGlobalTurn -= GlobalTurn;
         
@@ -263,9 +264,8 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     void BaseCampTurn()
     {
         Actions.RestCharges();
-
-
     }
+
     public bool HasEndedTurn()
     {
         if (Actions.HasAP()) return false;
@@ -303,8 +303,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
         Stats.ReceiveDamage(dmg);
         if (OnDamageReceived != null) OnDamageReceived(dmg);     
 
-    }
-    
+    }   
     
     #region
     /// <summary>
