@@ -6,7 +6,7 @@ using UnityEngine.Events;
 public class UI_Unit : MonoBehaviour {
        
     public Text UnitName;
-    public Text MoveField;
+    public Counter MoveField;
     public  UnitBar StatBar;
 
     Unit m_unit;
@@ -36,6 +36,7 @@ public class UI_Unit : MonoBehaviour {
     {       
         m_unit = u;
         u.Stats.OnStatUpdated += OnUpdateStat;
+        
         u.OnTurnStart += UpdateUI;
 
         u.OnTurnEnded += TurnEnd;
@@ -44,10 +45,21 @@ public class UI_Unit : MonoBehaviour {
         Unit.OnUnitHoverEnd += CheckHoverEnd;
         Unit.OnUnitKilled += CheckKilled;
 
+        m_unit.Actions.OnActionComplete += ActionComplete;
         UpdateUI(u);
+    }
+
+    void ActionComplete(UnitActionBase action)
+    {
+        UpdateUI(m_unit);
     }
     void TurnEnd(Unit u)
     {
+        StartCoroutine(HideDelayed());
+    }
+    IEnumerator HideDelayed()
+    {
+        yield return new WaitForSeconds(0.85f);
         Toggle(false);
     }
     void OnUpdateStat()
@@ -103,11 +115,7 @@ public class UI_Unit : MonoBehaviour {
         }
 
 
-        MoveField.text = "";
-        for (int i = 0; i < m_unit.Actions.GetAPLeft(); i++)
-        {
-            MoveField.text += "o";
-        }
+        MoveField.SetNumber(u.Actions.GetAPLeft());
 
         if (TurnSystem.HasTurn(m_unit))
         {

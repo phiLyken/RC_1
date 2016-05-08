@@ -7,8 +7,8 @@ public delegate void ActionEventHandler(UnitActionBase action);
 public class ActionManager : MonoBehaviour {
 
     Unit Owner;
-
-    public int AP_Used = 99;
+   
+    public int AP_Used = 2;
     public  int MaxAP = 2;
     public int CurrentTurnCost = 0;
     
@@ -25,6 +25,7 @@ public class ActionManager : MonoBehaviour {
 
     public ActionEventHandler OnActionSelected;
     public ActionEventHandler OnActionUnselected;
+    public ActionEventHandler OnActionComplete;
 
     public UnitActionBase GetCurrentAction()
     {
@@ -206,11 +207,15 @@ public class ActionManager : MonoBehaviour {
         AP_Used += action.EndTurnOnUse ? MaxAP : action.AP_Cost;
 
         CurrentTurnCost += action.TurnTimeCost;
+
+        if (OnActionComplete != null) OnActionComplete(action);
+
         // Debug.Log(TurnTime);
         if (TurnSystem.HasTurn(Owner) && PanCamera.Instance != null)
             PanCamera.Instance.PanToPos(Owner.currentTile.GetPosition());
         UnsetCurrentAction();
-       // Debug.Log(Owner.GetID() + " Action used" + action.ActionID);
+        // Debug.Log(Owner.GetID() + " Action used" + action.ActionID);
+       
     }
 
 	string GetActionInfos(UnitActionBase[] actions)

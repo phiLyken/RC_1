@@ -161,7 +161,7 @@ class TileTools : EditorWindow
         if (Pathing != null && Pathing.endTile != null && Pathing.startTile != null && GUILayout.Button("Test Path", GUILayout.Width(100), GUILayout.Height(25)))
         {
             Pathing.CalculatePath();
-
+            SceneView.RepaintAll();
         }
 
         if (GUILayout.Button("SetTile - Start", GUILayout.Width(100), GUILayout.Height(25)))

@@ -34,7 +34,6 @@ public class UnitSpawnManager : MonoBehaviour {
     
     void Awake()
     {
-
         //Select all spawners that have spawnOnawke disabled
         Spawners = (from c in GetComponentsInChildren<UnitSpawner>() where !c.SpawnOnAwake select c).ToList();
       
