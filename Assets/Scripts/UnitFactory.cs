@@ -19,7 +19,7 @@ public class UnitFactory : MonoBehaviour
             return null;
         }
         GameObject base_unit = Instantiate(Resources.Load("base_unit")) as GameObject;
-        base_unit.name = data.ID;
+        base_unit.name = data.ID +"_"+Random.Range(0,100);
 
         UnitActionBase[] Actions = MyMath.SpawnFromList(data.Actions.ToList()).ToArray();
         MyMath.SetListAsChild(Actions.ToList(), base_unit.transform);
@@ -35,7 +35,7 @@ public class UnitFactory : MonoBehaviour
         Unit m_unit = base_unit.AddComponent<Unit>();
         m_unit.OwnerID = data.Owner;
         m_unit.TurnTime = turntime;
-
+      //  Debug.Log("Created unit " + m_unit.gameObject.name);
         if(data.Owner == 1)
         {
            UnitAI ai = m_unit.gameObject.AddComponent<UnitAI>();
@@ -73,7 +73,7 @@ public class UnitFactory : MonoBehaviour
     /// <param name="tile"></param>
     public static void SpawnUnit(Unit u, Tile tile)
     {
-       // Unit newUnit = (Instantiate(u.gameObject) as GameObject).GetComponent<Unit>();
+        
         u.SetTile(tile, true);
     }
 }

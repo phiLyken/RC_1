@@ -28,9 +28,15 @@ public class UnitSpawner : MonoBehaviour {
     public void SpawnUnit()
     {
         Unit u = UnitFactory.CreateUnit(UnitConfigsDatabase.GetConfig(MyMath.GetRandomObject(Unit_Ids.ToList())), group, (int) TurnTimeOnSpawn.Value());
+       // Debug.Log(gameObject.name+" spawning " + u.GetID());
+      
 
-        if(u != null)
+        if(u != null) { 
             UnitFactory.SpawnUnit(u, GetComponent<Tile>());
+        } else
+        {
+            Debug.LogWarning("Could not spawn unit");
+        }
     }
     void OnDrawGizmos()
     {

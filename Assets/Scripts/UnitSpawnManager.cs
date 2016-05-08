@@ -37,14 +37,14 @@ public class UnitSpawnManager : MonoBehaviour {
 
         //Select all spawners that have spawnOnawke disabled
         Spawners = (from c in GetComponentsInChildren<UnitSpawner>() where !c.SpawnOnAwake select c).ToList();
-        SpawnUnits();
+      
     }
 
     public void SpawnUnits()
     {
         int unitCount = GetUnitSpawnCount();
         Debug.Log(gameObject.name+" Spawning Units " + unitCount);
-        SpawnUnits(GetUnitSpawnCount());
+        SpawnUnits(unitCount);
     }
 
     void SpawnUnits(int count)

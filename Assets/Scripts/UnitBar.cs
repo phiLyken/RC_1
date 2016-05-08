@@ -15,7 +15,7 @@ public class UnitBar : MonoBehaviour {
     void UpdateMax(int max)
     {
         Max = max;
-        Debug.Log("Update max " + max);
+       // Debug.Log("Update max " + max);
         if (Bar_Steps != null)
         {
             for (int i = Bar_Steps.Count - 1; i >= 0; i--)
@@ -46,7 +46,7 @@ public class UnitBar : MonoBehaviour {
         {
             UpdateMax(_max);
         }
-		Debug.Log(Bar_Steps.Count);
+		//Debug.Log(Bar_Steps.Count);
         for (int i = 0; i < Bar_Steps.Count; i++)
         {
             Color color = Color.magenta;

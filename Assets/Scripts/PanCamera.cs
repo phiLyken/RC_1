@@ -74,7 +74,7 @@ public class PanCamera : MonoBehaviour {
 	IEnumerator Zooming(){
 		
 		zooming = true;
-		Debug.Log("startZoom");
+		//Debug.Log("startZoom");
 		float StartTouchDistance = Input.GetAxis("Mouse ScrollWheel") != 0 ? 0 : (Input.touches[0].position - Input.touches[1].position).magnitude;
 		float LastTouchDistance = StartTouchDistance;
 		float CurrentDeltaDistance = 0;

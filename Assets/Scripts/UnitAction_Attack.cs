@@ -28,7 +28,9 @@ public class UnitAction_Attack : UnitActionBase {
     void Start()
     {
         GameObject pref = Resources.Load("target_indicator") as GameObject;
+       
         AimIndicator = Instantiate(pref);
+        AimIndicator.transform.SetParent(transform, true);
         AimIndicator.SetActive(false);
     }
 
