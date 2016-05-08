@@ -39,6 +39,7 @@ public class UnitAI : MonoBehaviour, ITriggerable {
 
     UnitAction_Attack getAttack()
     {
+        //TODO: Remove reference by string for actions
         UnitAction_Attack atk = (m_unit.Actions.GetAction("Attack") as UnitAction_Attack); 
         if(atk == null)
         {

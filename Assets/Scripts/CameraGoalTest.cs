@@ -7,7 +7,7 @@ public class CameraGoalTest : MonoBehaviour {
     {
         if (Input.GetButtonDown("Fire1"))
         {
-            Camera.main.transform.parent.GetComponent<PanCamera>().PanToPos(transform.position);
+           PanCamera.Instance.PanToPos(transform.position);
         }
     }
 }

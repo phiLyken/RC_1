@@ -3,6 +3,8 @@ using System.Collections;
 
 public class PanCamera : MonoBehaviour {
 
+    int currentZoomLevel;
+
 	bool drag;
 	Vector3 startDragPos;
 	Vector3 smoothMove;
@@ -10,8 +12,9 @@ public class PanCamera : MonoBehaviour {
 	bool zooming;
 	bool inputEnabled;
     bool rotating;
-   
-	public GameObject CameraObj;
+    public static PanCamera Instance;
+
+   // public GameObject CameraObj;
 	
 	public static bool CameraAction {
 		get { return Instance != null &&( Instance.drag || Instance.zooming || Instance.rotating); }
@@ -21,7 +24,7 @@ public class PanCamera : MonoBehaviour {
 	
 		inputEnabled = false;
 	}
-	public static PanCamera Instance;
+
 	void Awake(){
 		Instance = this;
 	}
@@ -87,25 +90,45 @@ public class PanCamera : MonoBehaviour {
 			CurrentDeltaDistance = ( CurrentTouchDistance - LastTouchDistance );
 		
 			LastTouchDistance =  CurrentTouchDistance;
-			
-			Vector3 newPos = CameraObj.transform.position + (CameraObj.transform.forward * CurrentDeltaDistance / 75);
-			if (newPos.y > 1 && newPos.y < 20){
-				CameraObj.transform.position = newPos;
-			}
+
+            Zoom(CurrentTouchDistance / 75);
 			yield return null;
 			
 		}
 		
 		StartCoroutine( DelayedStopZoom() );
-		
-
-		yield break;
-		
+        yield break;		
 	}
+
+    void Zoom(float dist)
+    {
+        Vector3 newPos = transform.transform.position + (transform.transform.forward * dist);
+        if (newPos.y > 1 && newPos.y < 20)
+        {
+            transform.transform.position = newPos;
+        }
+    }
+    public void SetZoomLevel(int newLevel)
+    {
+        currentZoomLevel = newLevel;
+    }
     public static void FocusOnPlanePoint(Vector3 point)
     {
         if(Instance != null)
          Instance.PanToPos(point);
+    }
+    float GetDesiredCameraDistance()
+    {
+        return currentZoomLevel * 5;
+    }
+    float CameraDistanceToPlane()
+    {
+        return (MyMath.GetPlaneIntersectionY(new Ray(transform.position, transform.forward)) - transform.position).magnitude;
+    }
+
+    float GetZoomDelta()
+    {
+        return GetDesiredCameraDistance() - CameraDistanceToPlane();
     }
 
     void Reset()
@@ -119,7 +142,7 @@ public class PanCamera : MonoBehaviour {
     {
 
         Reset();    
-     StartCoroutine(PanToWorldPos(pos,5));
+        StartCoroutine(PanToWorldPos(pos,5));
         
     }
 	IEnumerator PanToWorldPos(Vector3 pos, float speed)
