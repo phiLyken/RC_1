@@ -91,7 +91,7 @@ public class PanCamera : MonoBehaviour {
 
 			CurrentDeltaDistance = ( CurrentTouchDistance - LastTouchDistance );
 
-			Debug.Log(CurrentDeltaDistance);
+//			Debug.Log(CurrentDeltaDistance);
 
 			LastTouchDistance =  CurrentTouchDistance;
 
