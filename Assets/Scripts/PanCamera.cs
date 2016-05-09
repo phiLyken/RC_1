@@ -8,6 +8,7 @@ public class PanCamera : MonoBehaviour {
 	bool drag;
 	Vector3 startDragPos;
 	Vector3 smoothMove;
+	float currentZoomDistance;
 	int StopDragDelay = 4;
 	bool zooming;
 	bool inputEnabled;
@@ -34,7 +35,7 @@ public class PanCamera : MonoBehaviour {
 		SetCameraStart();
 	}
 	void SetCameraStart(){
-       
+		currentZoomDistance = CameraDistanceToPlane();
 	}
         
 	
@@ -52,7 +53,7 @@ public class PanCamera : MonoBehaviour {
 			Vector3 mousePos = MyMath.GetInputPos();			
 			
 			if (Input.touchCount > 1 || Input.GetAxis("Mouse ScrollWheel") != 0){				
-				StartCoroutine(Zooming());
+				StartCoroutine(ListenToZoomInput());
 				yield break;
 			}
 			
@@ -71,7 +72,7 @@ public class PanCamera : MonoBehaviour {
     {
         return (Input.touchCount > 1 || Input.GetAxis("Mouse ScrollWheel") != 0);
     }
-	IEnumerator Zooming(){
+	IEnumerator ListenToZoomInput(){
 		
 		zooming = true;
 		//Debug.Log("startZoom");
@@ -81,17 +82,21 @@ public class PanCamera : MonoBehaviour {
 		float CurrentTouchDistance = 0;
 		
 		while (HasZoomInput()  && inputEnabled){
+			
 			if (Input.GetAxis("Mouse ScrollWheel") != 0) {
-				CurrentTouchDistance =  Input.GetAxis("Mouse ScrollWheel") * 1200;
+				CurrentTouchDistance =  Input.GetAxis("Mouse ScrollWheel") * -50;
 			} else {
 				CurrentTouchDistance =  (Input.touches[0].position - Input.touches[1].position).magnitude;
 			}
-			
+
 			CurrentDeltaDistance = ( CurrentTouchDistance - LastTouchDistance );
-		
+
+			Debug.Log(CurrentDeltaDistance);
+
 			LastTouchDistance =  CurrentTouchDistance;
 
-            Zoom(CurrentTouchDistance / 75);
+			if(CurrentDeltaDistance != 0)
+				SetZoomDistance( currentZoomDistance + CurrentDeltaDistance);
 			yield return null;
 			
 		}
@@ -100,14 +105,22 @@ public class PanCamera : MonoBehaviour {
         yield break;		
 	}
 
-    void Zoom(float dist)
+
+
+	void SetZoomDistance(float dist){
+		currentZoomDistance = Mathf.Clamp(dist, 1, 100);;
+	}
+
+    void ZoomCameraByDist(float dist)
     {
+		
+//		Debug.Log("Zoom "+dist);
         Vector3 newPos = transform.transform.position + (transform.transform.forward * dist);
-        if (newPos.y > 1 && newPos.y < 20)
-        {
-            transform.transform.position = newPos;
-        }
+       
+        transform.transform.position = newPos;
+        
     }
+
     public void SetZoomLevel(int newLevel)
     {
         currentZoomLevel = newLevel;
@@ -119,7 +132,7 @@ public class PanCamera : MonoBehaviour {
     }
     float GetDesiredCameraDistance()
     {
-        return currentZoomLevel * 5;
+        return currentZoomDistance;
     }
     float CameraDistanceToPlane()
     {
@@ -138,10 +151,11 @@ public class PanCamera : MonoBehaviour {
         zooming = false;
         StopAllCoroutines();
     }
+
     public void PanToPos(Vector3 pos)
     {
 
-        Reset();    
+		drag = false;  
         StartCoroutine(PanToWorldPos(pos,5));
         
     }
@@ -185,7 +199,7 @@ public class PanCamera : MonoBehaviour {
 		
 		if(inputEnabled && (Input.touchCount == 2)){
 			smoothMove *= 0.2f;			
-			StartCoroutine(Zooming());	
+			StartCoroutine(ListenToZoomInput());	
 		}		                                            
 		 
 		yield break;
@@ -221,6 +235,7 @@ public class PanCamera : MonoBehaviour {
    
 	void Update () {
 			
+
 		if (Input.GetKeyDown(KeyCode.Menu) || Input.GetKeyDown(KeyCode.Escape)){
 			SetCameraStart();	
 		}
@@ -242,6 +257,10 @@ public class PanCamera : MonoBehaviour {
 		if(!CameraAction && smoothMove.magnitude > 0){
 			transform.Translate(-smoothMove, Space.World);
 			smoothMove = Vector3.Lerp(smoothMove, Vector3.zero, Time.deltaTime* 10 );
+		}
+
+		if(GetZoomDelta() != 0){
+			ZoomCameraByDist( - GetZoomDelta() * Time.deltaTime * 5);
 		}
 	}
 	
