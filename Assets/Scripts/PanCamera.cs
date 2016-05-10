@@ -3,6 +3,9 @@ using System.Collections;
 
 public class PanCamera : MonoBehaviour {
 
+   
+    private EventHandler cameraActionCallBack;
+
     int currentZoomLevel;
 
 	bool drag;
@@ -29,15 +32,13 @@ public class PanCamera : MonoBehaviour {
 		Instance = this;
 	}
 	
-	void Start(){
-		
+	void Start(){    
 		SetCameraStart();
 	}
 	void SetCameraStart(){
        
 	}
-        
-	
+
 	void OnGUI(){
 		GUI.Label( new Rect(0,0,100,30), zooming ? "Zooming" : (drag ? "Panning" : " ")+ "    touches:"+Input.touchCount);
 	}
@@ -108,15 +109,12 @@ public class PanCamera : MonoBehaviour {
             transform.transform.position = newPos;
         }
     }
+
     public void SetZoomLevel(int newLevel)
     {
         currentZoomLevel = newLevel;
     }
-    public static void FocusOnPlanePoint(Vector3 point)
-    {
-        if(Instance != null)
-         Instance.PanToPos(point);
-    }
+
     float GetDesiredCameraDistance()
     {
         return currentZoomLevel * 5;
@@ -141,11 +139,19 @@ public class PanCamera : MonoBehaviour {
     public void PanToPos(Vector3 pos)
     {
 
-        Reset();    
-        StartCoroutine(PanToWorldPos(pos,5));
-        
+        PanToPos(pos, null);
     }
-	IEnumerator PanToWorldPos(Vector3 pos, float speed)
+
+    public void PanToPos(Vector3 pos, EventHandler cb)
+    {
+        DisableInput();
+        Reset();
+        StartCoroutine(PanToWorldPos(pos, 5,cb));
+
+
+    }
+
+	IEnumerator PanToWorldPos(Vector3 pos, float speed, EventHandler callback)
     {
        
         pos.y = 0;
@@ -165,6 +171,8 @@ public class PanCamera : MonoBehaviour {
             yield return null;
         }
 
+        if (callback != null) callback();
+        inputEnabled = true;
         drag = false;
     }
 	IEnumerator Pan(){

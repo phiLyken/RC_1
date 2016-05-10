@@ -57,6 +57,7 @@ public class ToastNotification : MonoBehaviour {
 
     public static void StopToast()
     {
+        if (Instance == null) return;
         Instance.StopAllCoroutines();
         Instance.ToggleActive(false);
     }

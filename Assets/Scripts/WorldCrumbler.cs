@@ -15,6 +15,7 @@ public class WorldCrumbler : MonoBehaviour, ITurn {
     public int CrumbleTurnCost;
     public int TurnTime;
     int starting_order;
+    bool hasCrumbled;
 
     public bool IsActive
     {
@@ -59,20 +60,41 @@ public class WorldCrumbler : MonoBehaviour, ITurn {
 
     public bool HasEndedTurn()
     {
-        return true;
+        return hasCrumbled;
     }
 
     public void StartTurn()
     {
-        ToastNotification.SetToastMessage1("Crumbling");
-        SetCrumbleInWeightedTiles();
+        hasCrumbled = false;
+        ToastNotification.SetToastMessage1("Crumbling");  
+        
+        if(PanCamera.Instance != null)
+        {
+            PanCamera.Instance.PanToPos(GetCameraPosition(), CrumbleTurn);
+        }      else
+        {
+            CrumbleTurn();
+        }
+    }
 
+    Vector3 GetCameraPosition()
+    {
+        TilePos centertile = new TilePos( (int)TileManager.Instance.GridWidth / 2, 
+            Mathf.Min(TileManager.Instance.GetLastActiveRow(), TileManager.Instance.GridHeight-1));
+
+        return TileManager.Instance.Tiles[centertile.x, centertile.z].GetPosition();
+    }
+
+    void CrumbleTurn()
+    {
+        SetCrumbleInWeightedTiles();
         if (OnCrumble != null)
         {
             OnCrumble(0);
         }
-    }
 
+        hasCrumbled = true;
+    }
     void SetCrumbleInWeightedTiles()
     {
         int count = (int) TilesToCrumbleCount.Value();        

@@ -179,17 +179,25 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
         _isDead = true;
         if (OnUnitKilled != null) OnUnitKilled(this);
 
+        StartCoroutine(RemoveWhenReady());
+                     
+    }
+    IEnumerator RemoveWhenReady()
+    {
+        while (TurnEventQueue.Current != null) yield return null;
+        new TurnEventQueue.CameraFocusEvent(currentTile.GetPosition(), RemoveUnitFromGame);
+    }
+    public void RemoveUnitFromGame()
+    {
         //TODO: CLEAN UP THIS DEPENCY MESS
         currentTile.OnDeactivate -= OnCurrentTileDeactivate;
         TurnSystem.Instance.OnGlobalTurn -= GlobalTurn;
-        
+
         GetOwner().RemoveUnit(this);
         TurnSystem.Unregister(this);
         AllUnits.Remove(this);
-
-        Destroy(this.gameObject);        
+        Destroy(this.gameObject);
     }
-
 
     public int GetCurrentTurnCost()
     {
@@ -239,11 +247,13 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
         if(UI_ActiveUnit.Instance != null)
              UI_ActiveUnit.Instance.SelectedUnitTF.text = GetID();
         UnSelectCurrent();
-        PanCamera.FocusOnPlanePoint(currentTile.GetPosition());
-       
-        SelectedUnit = this;
 
-        if (OnTurnStart != null) OnTurnStart(this);    
+       if(PanCamera.Instance != null)
+        PanCamera.Instance.PanToPos(currentTile.GetPosition());
+
+        SelectedUnit = this;
+        if (OnTurnStart != null) OnTurnStart(this);
+
     }
 
     public void GlobalTurn(int turn)

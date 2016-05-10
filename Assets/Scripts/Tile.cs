@@ -23,9 +23,11 @@ public class Tile : MonoBehaviour, IWayPoint
     
     public int zoneID;
 
-	public int CrumbleStage;
+    [SerializeField]
+    public int CrumbleStage;
     GameObject crumble_effect;
 
+    [SerializeField]
     public bool isCamp;
 
     [SerializeField]
@@ -40,13 +42,13 @@ public class Tile : MonoBehaviour, IWayPoint
     public int currentHeightStep = 0;
     public TilePos TilePos;
     public TileManager Manager;
-    public  GameObject Child;
+    public GameObject Child;
     public List<Tile> AdjacentTiles;
 
     public UnitEventHandler OnUnitTrespassing;
     public TileEventHandler OnDeactivate;
     public TileEventHandler OnSetChild;
-
+    
     public Vector3 GetPosition()
     {
         return transform.position;
@@ -112,6 +114,13 @@ public class Tile : MonoBehaviour, IWayPoint
       //  SetVisualState("normal");
     }
 
+    IEnumerator DeactivateWhenReady()
+    {
+        while (TurnEventQueue.Current != null) yield return null;
+        DeactivateTile();
+    }
+
+
     void DeactivateTile()
     {
         if (OnDeactivate != null) OnDeactivate(this);
@@ -151,7 +160,7 @@ public class Tile : MonoBehaviour, IWayPoint
     public void StartCrumble()
     {
         isCrumbling = true;
-        if (crumble_effect == null)
+        if (isAccessible && crumble_effect == null)
         {
             crumble_effect = Instantiate(Resources.Load("crumble_prefab")) as GameObject;
             crumble_effect.transform.SetParent(transform);

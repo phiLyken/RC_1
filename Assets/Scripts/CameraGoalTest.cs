@@ -7,7 +7,12 @@ public class CameraGoalTest : MonoBehaviour {
     {
         if (Input.GetButtonDown("Fire1"))
         {
-           PanCamera.Instance.PanToPos(transform.position);
+           PanCamera.Instance.PanToPos(transform.position, ChangeColor );
         }
+    }
+
+    void ChangeColor()
+    {
+        GetComponent<MeshRenderer>().material.color = Color.blue;
     }
 }
