@@ -156,20 +156,23 @@ public class PanCamera : MonoBehaviour {
     {
 
 		drag = false;  
+
         StartCoroutine(PanToWorldPos(pos,5));
         
     }
+
 	IEnumerator PanToWorldPos(Vector3 pos, float speed)
     {
        
         pos.y = 0;
+		yield return null;
         drag = true;
   
-        Vector3 delta = pos -MyMath.GetCameraCenter() ;
+        Vector3 delta = pos - MyMath.GetCameraCenter() ;
 
        
 
-        while ( delta.magnitude > 0.1f)
+		while (drag && delta.magnitude > 0.1f)
         {
             transform.Translate((pos - MyMath.GetCameraCenter()) * speed * Time.deltaTime, Space.World);
                        
