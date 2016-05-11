@@ -114,16 +114,20 @@ public class Tile : MonoBehaviour, IWayPoint
       //  SetVisualState("normal");
     }
 
+    void DeactivateTile()
+    {
+        StartCoroutine(DeactivateWhenReady());
+    }
     IEnumerator DeactivateWhenReady()
     {
+        if (OnDeactivate != null) OnDeactivate(this);
         while (TurnEventQueue.Current != null) yield return null;
-        DeactivateTile();
+        RemoveTile();
     }
 
 
-    void DeactivateTile()
-    {
-        if (OnDeactivate != null) OnDeactivate(this);
+    void RemoveTile()
+    {       
 
         if(Application.isPlaying)
             WorldCrumbler.Instance.OnCrumble -= OnCrumbleTurn;
