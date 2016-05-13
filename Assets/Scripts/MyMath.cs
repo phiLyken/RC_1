@@ -351,15 +351,18 @@ public class MyMath : MonoBehaviour {
         UnityEditor.Handles.BeginGUI();
 
         var view = UnityEditor.SceneView.currentDrawingSceneView;
-        Vector3 screenPos = view.camera.WorldToScreenPoint(worldPos);
-        Vector2 size = GUI.skin.label.CalcSize(new GUIContent(text)) * 1.5f;
-        GUI.Box(new Rect(screenPos.x - (size.x / 2), -screenPos.y + view.position.height, size.x, size.y),"", GUI.skin.box );
 
-        if (colour.HasValue) GUI.color = colour.Value;
-        GUI.Label(new Rect(screenPos.x - (size.x / 2), -screenPos.y + view.position.height , size.x, size.y), text, UnityEditor.EditorStyles.whiteBoldLabel );
-        UnityEditor.Handles.EndGUI();
+		if(view != null){
+	        Vector3 screenPos = view.camera.WorldToScreenPoint(worldPos);
+	        Vector2 size = GUI.skin.label.CalcSize(new GUIContent(text)) * 1.5f;
+	        GUI.Box(new Rect(screenPos.x - (size.x / 2), -screenPos.y + view.position.height, size.x, size.y),"", GUI.skin.box );
 
-        GUI.color = Color.white;
+	        if (colour.HasValue) GUI.color = colour.Value;
+	        GUI.Label(new Rect(screenPos.x - (size.x / 2), -screenPos.y + view.position.height , size.x, size.y), text, UnityEditor.EditorStyles.whiteBoldLabel );
+	        UnityEditor.Handles.EndGUI();
+
+	        GUI.color = Color.white;
+		}
     }
 
     public static string StringArrToLines(string[] str)

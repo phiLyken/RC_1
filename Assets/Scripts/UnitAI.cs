@@ -161,26 +161,30 @@ public class UnitAI : MonoBehaviour, ITriggerable {
     }
     IEnumerator Decide()
     {
-        if (m_Actions.IsActionInProgress) yield return null;
+		if (m_Actions.IsActionInProgress) {
+			Debug.Log("AI action in progres....");
+			yield return null;
+		}
+		else {
+	        if (Triggered)
+	        {
+	             Debug.Log(m_unit.GetID() + "decide");
+	             List<Unit> attackables = UnitAction_Attack.GetAttackableUnits(Unit.GetAllUnitsOfOwner(0, false), m_unit, getAttack().Range);
+	             Unit target = FindBestUnitToAttack(attackables);
 
-        if (Triggered)
-        {
-             Debug.Log(m_unit.GetID() + "decide");
-             List<Unit> attackables = UnitAction_Attack.GetAttackableUnits(Unit.GetAllUnitsOfOwner(0, false), m_unit, getAttack().Range);
-             Unit target = FindBestUnitToAttack(attackables);
-
-            if (target != null)
-            {
-                yield return StartCoroutine(Attack(target));
-            }
-            else
-            {
-                yield return StartCoroutine( MoveToAttackPosition());
-            }
-        } else
-        {
-            yield return StartCoroutine(MoveRandom());
-        }
+	            if (target != null)
+	            {
+	                yield return StartCoroutine(Attack(target));
+	            }
+	            else
+	            {
+	                yield return StartCoroutine( MoveToAttackPosition());
+	            }
+	        } else
+	        {
+	            yield return StartCoroutine(MoveRandom());
+	        }
+		}
     }
     void SkipTurn()
     {
