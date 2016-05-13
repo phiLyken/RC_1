@@ -132,7 +132,7 @@ public class TurnSystem : MonoBehaviour {
 	/// </summary>
     void NormalizeList()
     {
-        int lowest = Mathf.Max(0, getLowestTurnTime());
+        int lowest = getLowestTurnTime();
    //     Debug.Log("normalizing list lowest time " + lowest);
         foreach(ITurn t in Turnables)
         {
