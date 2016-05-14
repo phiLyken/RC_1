@@ -20,7 +20,9 @@ public class UnitAction_Attack : UnitActionBase {
 
     public Damage DMG;
     Unit currentTarget;
-    
+
+    MeshViewGroup highlight;
+
     void Awake()
     {
         orderID = 1;
@@ -41,7 +43,7 @@ public class UnitAction_Attack : UnitActionBase {
         Unit.OnUnitSelect += UnitSelected;
         List<Tile> AttackableTiles = new LOSCheck(Owner.currentTile, TileManager.Instance).GetTilesVisibleTileInRange((int) Range);
 
-        TileCollectionHighlight.SetHighlight(AttackableTiles, "attack_range");
+        highlight = new MeshViewGroup(AttackableTiles, TileStateConfigs.GetMaterialForstate("attack_range"));
 
         if (Unit.HoveredUnit != null) OnUnitHover(Unit.HoveredUnit);
     }
@@ -57,7 +59,7 @@ public class UnitAction_Attack : UnitActionBase {
 
         Unit.OnUnitHover -= OnUnitHover;
         Unit.OnUnitSelect -= UnitSelected;
-        TileCollectionHighlight.DisableHighlight();
+        highlight.RemoveGroup();
     }
 
     void UnitSelected(Unit u)

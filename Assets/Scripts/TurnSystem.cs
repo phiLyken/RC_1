@@ -70,8 +70,10 @@ public class TurnSystem : MonoBehaviour {
 
             yield return StartCoroutine(WaitForTurn(Current));
 
-            Current.TurnTimeUpdated -= OnTurnPreview;
-            Current.EndTurn();
+            if(Current != null && !Current.Equals(null)) { 
+                Current.TurnTimeUpdated -= OnTurnPreview;
+                Current.EndTurn();
+            }
 
             Current = null;
    
@@ -102,7 +104,7 @@ public class TurnSystem : MonoBehaviour {
     {
 
         ///Double null check because we are checking an interface
-        while (!forceNext && (t!=null && !t.Equals(null)) && !t.HasEndedTurn())
+        while (!forceNext && ( (t!=null && !t.Equals(null)) && !t.HasEndedTurn() || TurnEventQueue.Current != null ))
         {
             //Debug.Log(t.GetID());
             yield return null;

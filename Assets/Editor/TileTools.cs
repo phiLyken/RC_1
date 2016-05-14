@@ -15,6 +15,8 @@ class TileTools : EditorWindow
     Tile selectedTile;
     List<TileWeighted> weighted;
 
+    MeshViewGroup highlights;
+
     [MenuItem("Foo/TileTool")]
     public static void ShowWindow()
     {
@@ -122,7 +124,7 @@ class TileTools : EditorWindow
             CurrentTileSelection.Clear();
             CurrentTileSelection.AddRange(Grid.GetTileList());
             SelectCurrentTilesInEditor();
-            SetVisualStateOnSelection("selected");
+           
         }
 
         if (GUILayout.Button("Show Current Crumble Weights"))
@@ -209,14 +211,14 @@ class TileTools : EditorWindow
             {
                 CurrentTileSelection.AddRange(Grid.GetCol(selectedTile));
                 SelectCurrentTilesInEditor();
-                SetVisualStateOnSelection("selected");
+               
             }
 
             if (GUILayout.Button("Select Same Height"))
             {
                 CurrentTileSelection.AddRange(Grid.GetTilesAtHeight(selectedTile.currentHeightStep));
                 SelectCurrentTilesInEditor();
-                SetVisualStateOnSelection("selected");
+              
             }
 
             /*
@@ -234,20 +236,20 @@ class TileTools : EditorWindow
 
     void OnSelectionChange()
     {
-      //  Debug.Log("selected "+Selection.objects.Length);
+        //Debug.Log("selected "+Selection.objects.Length);
         List<Tile> editorTiles = GetTilesInEditorSelection();
 
-     //   Debug.Log("tiles selected:" + editorTiles.Count) ;
+        //Debug.Log("tiles selected:" + editorTiles.Count) ;
+        SetVisualStateOnSelection("normal");
 
         //remove tiles that are not selected anymore
-        if(CurrentTileSelection != null )
+        if (CurrentTileSelection != null )
         {
             for(int i = CurrentTileSelection.Count-1; i >=0; i--)
             {
                 if(editorTiles.Count == 0 || !editorTiles.Contains(CurrentTileSelection[i]))
                 {
-                    if(CurrentTileSelection[i] != null)
-                        CurrentTileSelection[i].SetVisualState("normal");
+                   
                     CurrentTileSelection.RemoveAt(i);
                 }
             }
@@ -270,7 +272,7 @@ class TileTools : EditorWindow
             }
         }
 
-        SetVisualStateOnSelection("selected");
+        SetVisualStateOnSelection("editor_selected");
     }
 
     void SelectCurrentTilesInEditor()
@@ -280,9 +282,10 @@ class TileTools : EditorWindow
 
     void SetVisualStateOnSelection(string state)
     {
-        if(CurrentTileSelection != null)
+       
+        if (CurrentTileSelection != null)
         {
-            foreach (Tile t in CurrentTileSelection) t.SetVisualState(state);
+            highlights = new MeshViewGroup(CurrentTileSelection, TileStateConfigs.GetMaterialForstate(state));
         }
     }
   

@@ -106,7 +106,7 @@ public class LOS : MonoBehaviour
         z = Mathf.Clamp(z, 0, max_z);
         Debug.Log(x + " " + z + "  max " + max_x + " " + max_z);
 
-        TileManager.Instance.Tiles[x, z].SetVisualState("visible_test_false");
+        TileManager.Instance.Tiles[x, z].SetVisualState( new VisualState("visible_test_false"));
     }
 }
 abstract class Visibility

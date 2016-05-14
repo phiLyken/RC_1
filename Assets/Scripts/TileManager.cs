@@ -128,13 +128,6 @@ public class TileManager : MonoBehaviour {
 
 	} 
 
-	public bool AreTilesAdjacent(Tile t1, Tile t2){
-		foreach (Tile t in t1.AdjacentTiles){
-			if(t2.AdjacentTiles.Contains(t)) return true;	
-		}
-		
-		return false;
-	}
 	
     public List<Tile> GetTilesInRange(Tile center, int range)
     {
@@ -204,13 +197,14 @@ public class TileManager : MonoBehaviour {
     public void AppendGrid(TileManager manager)
     {
 
+        manager.transform.position = GetAppendPosition();
         AppendGrid(manager.FetchTiles());
         UnitSpawnManager spawner = manager.gameObject.GetComponent <UnitSpawnManager>();
         if(spawner != null && Application.isPlaying)
         {
             spawner.SpawnUnits();
         }
-        DestroyImmediate(manager.gameObject);
+       // DestroyImmediate(manager.gameObject);
        
     }
     public void AppendGrid(Tile[,] newTiles)
@@ -349,8 +343,7 @@ public class TileManager : MonoBehaviour {
 
         return tiles;
     }
-
-
+    
 	
 	//Add Tiles top/right/bottom/left from the given tiles
 	//Reduce range by one and repeat

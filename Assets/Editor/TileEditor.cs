@@ -64,6 +64,16 @@ public class TileEditor : Editor {
             }
         }
 
+        if (GUILayout.Button("Force Crumble"))
+        {
+            foreach (Tile t in targets)
+            {
+                t.StartCrumble();
+                t.OnCrumbleTurn(0);
+            }
+        }
+
+
         if (GUILayout.Button("Add/Remove Loot"))
         {
             foreach (Tile t in targets)

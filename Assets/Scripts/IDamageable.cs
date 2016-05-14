@@ -23,6 +23,18 @@ public class Damage
     public int base_damge = 0;
     [HideInInspector]
     public int bonus_damage = 0;
+
+    public Damage(MyMath.R_Range dmg)
+    {
+        min = (int) dmg.min;
+        max = (int) dmg.max;
+    }
+
+    public Damage()
+    {
+        min = 100;
+        max = 200;
+    }
 }
 public interface IDamageable {
 
