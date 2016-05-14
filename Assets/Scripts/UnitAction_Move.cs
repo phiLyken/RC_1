@@ -10,7 +10,8 @@ public class UnitAction_Move : UnitActionBase {
     List<Tile> currentPath;
     PathDisplay pathpreview;
 
-    MeshViewGroup highlight;
+    MeshViewGroup move_highlight;
+    MeshViewGroup attack_preview_highlight;
 
     void Awake()
     {
@@ -25,7 +26,7 @@ public class UnitAction_Move : UnitActionBase {
 
        
        
-        highlight = new MeshViewGroup(GetWalkableTiles(Owner.currentTile), TileStateConfigs.GetMaterialForstate("move_to"));
+        move_highlight = new MeshViewGroup(GetWalkableTiles(Owner.currentTile), TileStateConfigs.GetMaterialForstate("move_to"));
 
         TileSelecter.OnTileSelect += SetMovementTile;
         TileSelecter.OnTileHover += SetPreviewTile;
@@ -49,7 +50,22 @@ public class UnitAction_Move : UnitActionBase {
         }
     }
 
-    
+    void SetAttackPreview(Tile t)
+    {
+      
+        ResetAttackPreview();
+        
+        VisualStateConfig attack_state = TileStateConfigs.GetMaterialForstate("attack_range_move_preview");
+        List<Tile> in_range = (Owner.Actions.GetAction("Attack") as UnitAction_Attack).GetAttackAbleTilesForUnit(t);
+        List<Tile> border = TileManager.FindBorderTiles(in_range, TileManager.Instance,true);
+        attack_preview_highlight = new MeshViewGroup(border, attack_state);
+    }
+    void ResetAttackPreview()
+    {
+        if(attack_preview_highlight != null) { 
+             attack_preview_highlight.RemoveGroup();
+        }
+    }
     void SetPreviewTile(Tile t)
     {
        // Debug.Log("setpreview tile");
@@ -61,17 +77,25 @@ public class UnitAction_Move : UnitActionBase {
             {
                 Destroy(pathpreview.gameObject);
             }
-
+           
             pathpreview = PathDisplay.MakePathDisplay();
             pathpreview.UpdatePositions(pathToTile);
             currentTargetTile = t;
             currentPath = pathToTile;
+            SetAttackPreview(currentTargetTile);
+
         } else
         {
+            ResetAttackPreview();
             currentPath = null;
             currentTargetTile = null;
           //  Debug.Log("cannot move to tile");
         }
+    }
+    
+    void UpdateAttackTiles(Tile targetTile)
+    {
+
     }
     protected override void ActionExecuted()
     {
@@ -135,9 +159,9 @@ public class UnitAction_Move : UnitActionBase {
         {
             Destroy(pathpreview.gameObject);
         }
-
-        highlight.RemoveGroup();
-        highlight = null;
+        ResetAttackPreview();
+        move_highlight.RemoveGroup();
+        move_highlight = null;
     }
 
 

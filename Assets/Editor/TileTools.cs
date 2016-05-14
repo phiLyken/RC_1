@@ -126,6 +126,14 @@ class TileTools : EditorWindow
             SelectCurrentTilesInEditor();
            
         }
+        if (GUILayout.Button("Select Border"))
+        {
+            List<Tile> border = TileManager.FindBorderTiles(CurrentTileSelection, Grid, true);
+            CurrentTileSelection.Clear();
+            CurrentTileSelection.AddRange(border);
+            SelectCurrentTilesInEditor();
+
+        }
 
         if (GUILayout.Button("Show Current Crumble Weights"))
         {
@@ -137,6 +145,16 @@ class TileTools : EditorWindow
             }
             SceneView.RepaintAll();
           
+        }
+
+        if (GUILayout.Button("Reset Tile Visual States"))
+        {
+
+            foreach (Tile t in Grid.FetchTiles())
+            {
+                t.GetComponent<MeshMaterialView>().states = new List<VisualState>();
+                t.GetComponent<MeshMaterialView>().AddState(new VisualState(TileStateConfigs.GetMaterialForstate("normal")));
+            }
         }
 
         if (GUILayout.Button("Test Crumble"))
@@ -214,12 +232,16 @@ class TileTools : EditorWindow
                
             }
 
+
+
+
             if (GUILayout.Button("Select Same Height"))
             {
                 CurrentTileSelection.AddRange(Grid.GetTilesAtHeight(selectedTile.currentHeightStep));
                 SelectCurrentTilesInEditor();
               
             }
+
 
             /*
             if (GUILayout.Button("Select Region"))
@@ -233,7 +255,7 @@ class TileTools : EditorWindow
         }
     }
 
-
+    
     void OnSelectionChange()
     {
         //Debug.Log("selected "+Selection.objects.Length);
@@ -282,7 +304,10 @@ class TileTools : EditorWindow
 
     void SetVisualStateOnSelection(string state)
     {
-       
+
+        if(highlights != null) { 
+                 highlights.RemoveGroup();
+        }
         if (CurrentTileSelection != null)
         {
             highlights = new MeshViewGroup(CurrentTileSelection, TileStateConfigs.GetMaterialForstate(state));

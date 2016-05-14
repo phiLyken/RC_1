@@ -36,14 +36,29 @@ public class UnitAction_Attack : UnitActionBase {
         AimIndicator.SetActive(false);
     }
 
+    public static List<Tile> GetAttackAbleTiles(Tile t, int range)
+    {
+        return new LOSCheck(t, TileManager.Instance).GetTilesVisibleTileInRange((range));
+    }
+
+    public List<Tile> GetAttackAbleTilesForUnit()
+    {
+        return GetAttackAbleTilesForUnit(Owner.currentTile);
+    }
+
+
+    public List<Tile> GetAttackAbleTilesForUnit(Tile source_tile)
+    {
+        return GetAttackAbleTiles(source_tile, (int)Range);
+    }
+
     public override void SelectAction()
     {
         base.SelectAction();
         Unit.OnUnitHover += OnUnitHover;
-        Unit.OnUnitSelect += UnitSelected;
-        List<Tile> AttackableTiles = new LOSCheck(Owner.currentTile, TileManager.Instance).GetTilesVisibleTileInRange((int) Range);
+        Unit.OnUnitSelect += UnitSelected;       
 
-        highlight = new MeshViewGroup(AttackableTiles, TileStateConfigs.GetMaterialForstate("attack_range"));
+        highlight = new MeshViewGroup(GetAttackAbleTilesForUnit(), TileStateConfigs.GetMaterialForstate("attack_range"));
 
         if (Unit.HoveredUnit != null) OnUnitHover(Unit.HoveredUnit);
     }

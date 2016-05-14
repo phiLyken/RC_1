@@ -399,41 +399,41 @@ public class TileManager : MonoBehaviour {
     /// </summary>
     /// <param name="t"></param>
     /// <returns></returns>
-	public List<Tile> GetSurroundingTiles( Tile t, TileManager region){
+	public static List<Tile> GetSurroundingTiles( Tile t, TileManager region){
 		List<Tile> surrounding = new List<Tile>();
 
         if (t == null) return surrounding;
 		int x = t.TilePos.x;
 		int z = t.TilePos.z;
 		
-		if(TileInField(x+1, z, region)){
+		if(region.TileInField(x+1, z, region)){
 			surrounding.Add(region.Tiles[x+1, z]);	
 		}
-		if(TileInField(x+1, z+1, region)){
+		if(region.TileInField(x+1, z+1, region)){
 			surrounding.Add(region.Tiles[x+1, z+1]);	
 		}
 		
-		if(TileInField(x, z+1, region)){
+		if(region.TileInField(x, z+1, region)){
 			surrounding.Add(region.Tiles[x, z+1]);	
 		}
 		
-		if(TileInField(x-1, z+1, region)){
+		if(region.TileInField(x-1, z+1, region)){
 			surrounding.Add(region.Tiles[x-1, z+1]);	
 		}
 		
-		if(TileInField(x-1, z, region)){
+		if(region.TileInField(x-1, z, region)){
 			surrounding.Add(region.Tiles[x-1, z]);	
 		}
 		
-		if(TileInField(x-1, z-1, region)){
+		if(region.TileInField(x-1, z-1, region)){
 			surrounding.Add(region.Tiles[x-1, z-1]);	
 		}
 		
-		if(TileInField(x, z-1, region)){
+		if(region.TileInField(x, z-1, region)){
 			surrounding.Add(region.Tiles[x, z-1]);	
 		}
 		
-		if(TileInField(x+1, z-1, region)){
+		if(region.TileInField(x+1, z-1, region)){
 			surrounding.Add(region.Tiles[x+1, z-1]);	
 		}
 		//		Debug.Log(surrounding.Count);
@@ -441,6 +441,33 @@ public class TileManager : MonoBehaviour {
 		return surrounding;
 		
 	}
+
+    /// <summary>
+    /// Find the tiles that have a neighbour that doesnt belong to the area
+    /// </summary>
+    /// <param name="area"></param>
+    /// <param name="region"></param>
+    /// <returns></returns>
+    public static List<Tile> FindBorderTiles(List<Tile> area, TileManager region, bool exclude_inaccessible)
+    {
+        List<Tile> tiles = new List<Tile>();
+        
+        foreach(Tile t in area)
+        {
+            foreach(Tile t2 in  GetSurroundingTiles(t, region))
+            {
+                if (t2.isAccessible && !area.Contains(t2))
+                {
+                  
+                             tiles.Add(t);
+                    continue;
+                }
+            }
+        }
+
+        return tiles;
+    }
+
     /// <summary>
     /// checks whether the passed tile is within the field
     /// </summary>
@@ -461,8 +488,7 @@ public class TileManager : MonoBehaviour {
 		
 		for(int i = 0; i < tiles.Count; i++){
 			all.Remove(tiles[i]);
-		}
-			
+		}			
 		return all;
 		
 	}
