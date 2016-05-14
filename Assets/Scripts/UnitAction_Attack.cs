@@ -110,7 +110,7 @@ public class UnitAction_Attack : UnitActionBase {
 
         if(stats != null)
         {
-            return  stats.Int * Constants.INT_TO_DMG;
+            return Random.Range(0, stats.Int * Constants.INT_TO_DMG);
         }
         return 0;
     }
