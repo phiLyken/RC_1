@@ -60,7 +60,7 @@ public class UnitAI : MonoBehaviour, ITriggerable {
     }
     IEnumerator Attack(Unit target)
     {
-        Debug.Log("ai: attack");
+       // Debug.Log("ai: attack");
        
         yield return null;
         //   Debug.Log(m_unit.GetID() + " Selecting atk");
@@ -82,9 +82,9 @@ public class UnitAI : MonoBehaviour, ITriggerable {
 
     IEnumerator MoveRandom()
     {
-        Debug.Log("ai: random");
+       // Debug.Log("ai: random");
         UnitAction_Move move = getMove();
-        move.SelectAction();
+      
         Tile randomDest = GetRandomWalkableTile(move);
         if(randomDest != null)
         {
@@ -101,25 +101,25 @@ public class UnitAI : MonoBehaviour, ITriggerable {
 
         Debug.Log("ai: move");
         yield return null;
-        Debug.Log(m_unit.GetID()+ "Selecting move");
+      //  Debug.Log(m_unit.GetID()+ "Selecting move");
         UnitAction_Move move = getMove();
         m_Actions.SelectAbility(move);
 
         if (move == null || !move.HasRequirements()) yield break;
 
         yield return new WaitForSeconds(0.5f);
-        Debug.Log(m_unit.GetID() + " getting move targets");
+        //Debug.Log(m_unit.GetID() + " getting move targets");
 
         t.OnHover();
         yield return new WaitForSeconds(0.5f);
 
-        Debug.Log(m_unit.GetID() + " Select tile to for move ");
+       // Debug.Log(m_unit.GetID() + " Select tile to for move ");
         TileSelecter.SelectTile(t);
         
     }
     IEnumerator MoveToAttackPosition()
     {
-        Debug.Log("ai: move to attack position");
+      //  Debug.Log("ai: move to attack position");
         UnitAction_Attack atk = getAttack();
         UnitAction_Move  move = getMove();
 
@@ -156,7 +156,7 @@ public class UnitAI : MonoBehaviour, ITriggerable {
             
             yield return StartCoroutine( Decide());
         }
-        Debug.Log("Ai ended");
+       // Debug.Log("Ai ended");
 
     }
     IEnumerator Decide()
@@ -165,7 +165,7 @@ public class UnitAI : MonoBehaviour, ITriggerable {
 
         if (Triggered)
         {
-             Debug.Log(m_unit.GetID() + "decide");
+           //  Debug.Log(m_unit.GetID() + "decide");
              List<Unit> attackables = UnitAction_Attack.GetAttackableUnits(Unit.GetAllUnitsOfOwner(0, false), m_unit, getAttack().Range);
              Unit target = FindBestUnitToAttack(attackables);
 
@@ -184,7 +184,7 @@ public class UnitAI : MonoBehaviour, ITriggerable {
     }
     void SkipTurn()
     {
-        Debug.Log("ai skip turn");
+       // Debug.Log("ai skip turn");
         m_unit.SkipTurn();
     }
     Tile GetAttackTile()
@@ -209,7 +209,7 @@ public class UnitAI : MonoBehaviour, ITriggerable {
 
         m_unit.Activate();
         Cover.SetActive(false);
-        Debug.Log(m_unit.GetID() + " now attacking");
+      //  Debug.Log(m_unit.GetID() + " now attacking");
         Triggered = true;
 
         TriggerUnitsForGroup(this);

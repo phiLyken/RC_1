@@ -10,6 +10,8 @@ public class UnitAction_Move : UnitActionBase {
     List<Tile> currentPath;
     PathDisplay pathpreview;
 
+    MeshViewGroup highlight;
+
     void Awake()
     {
         orderID = 0;
@@ -20,8 +22,11 @@ public class UnitAction_Move : UnitActionBase {
         base.SelectAction();
 
         if (Owner.GetComponent<WaypointMover>().Moving) return;
-      
-        TileCollectionHighlight.SetHighlight(GetWalkableTiles(Owner.currentTile), "selected");
+
+       
+       
+        highlight = new MeshViewGroup(GetWalkableTiles(Owner.currentTile), TileStateConfigs.GetMaterialForstate("move_to"));
+
         TileSelecter.OnTileSelect += SetMovementTile;
         TileSelecter.OnTileHover += SetPreviewTile;
 
@@ -77,7 +82,7 @@ public class UnitAction_Move : UnitActionBase {
        
       
         base.ActionExecuted();
-        UnSelectAction();
+       
         // ActionCompleted();
 
     }
@@ -131,7 +136,8 @@ public class UnitAction_Move : UnitActionBase {
             Destroy(pathpreview.gameObject);
         }
 
-        TileCollectionHighlight.DisableHighlight();
+        highlight.RemoveGroup();
+        highlight = null;
     }
 
 

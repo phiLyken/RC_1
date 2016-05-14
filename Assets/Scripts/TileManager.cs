@@ -343,8 +343,7 @@ public class TileManager : MonoBehaviour {
 
         return tiles;
     }
-
-
+    
 	
 	//Add Tiles top/right/bottom/left from the given tiles
 	//Reduce range by one and repeat

@@ -36,8 +36,6 @@ public class Tile : MonoBehaviour, IWayPoint
     [SerializeField]
     public bool isCrumbling;
 
-    TileVisualizer DisplayState;
-
     public GameObject Mesh;
     public int currentHeightStep = 0;
     public TilePos TilePos;
@@ -80,8 +78,22 @@ public class Tile : MonoBehaviour, IWayPoint
         b.OnHover += OnHover;
         b.OnHoverEnd += OnHoverEnd;
         b.OnSelect += delegate { TileSelecter.SelectTile(this); };
+
+        SetBaseState();
     }
 
+    void SetBaseState()
+    {
+        if (isCamp) {
+            SetVisualState( new VisualState("base"));
+        } else if (!isAccessible)
+        {
+            SetVisualState(new VisualState("blocked"));
+        } else
+        {
+            SetVisualState(new VisualState("normal"));
+        }
+    }
     public void OnCrumbleTurn(int crumble_row)
     {
         if (!isCrumbling) return;
@@ -101,11 +113,10 @@ public class Tile : MonoBehaviour, IWayPoint
     public void ToggleCamp()
     {
         isCamp = !isCamp;
-        SetVisualState("normal");
+
     }
     public void OnHover()
-    {
-       
+    {       
             TileSelecter.HoverTile(this);
     }
 
@@ -175,14 +186,10 @@ public class Tile : MonoBehaviour, IWayPoint
 
     public void ToggleBlocked()
     {
-
         if (!isOccupied)
         {
-
             isAccessible = !isAccessible;
         }
-
-        SetVisualState("normal");
     }
 
     public void MoveTileUp(int steps)
@@ -215,20 +222,16 @@ public class Tile : MonoBehaviour, IWayPoint
         DebugCrumbleTime = false;
     }
 
-    public void SetVisualState(string id)
+    public void SetVisualState(VisualState state)
     {
-        // Debug.Log("set visual");
-        if (DisplayState == null) DisplayState = gameObject.GetComponent<TileVisualizer>();
-        if (DisplayState == null) DisplayState = gameObject.AddComponent<TileVisualizer>();
-        if (id == "normal" )
+        MeshMaterialView view = GetComponent<MeshMaterialView>();
+        if (view == null)
         {
-            if(isCamp)
-                 id = "camp";
-
-            if (!isAccessible)
-                id = "blocked";
+            view = gameObject.AddComponent<MeshMaterialView>();
         }
-        DisplayState.SetState(id);
+
+        view.AddState(state);
+     
     }
 
     #region 
