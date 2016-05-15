@@ -19,6 +19,7 @@ public class UnitAction_Attack : UnitActionBase {
     public static event TargetEvent OnTarget;
 
     public Damage DMG;
+
     Unit currentTarget;
 
     MeshViewGroup highlight;
@@ -56,7 +57,8 @@ public class UnitAction_Attack : UnitActionBase {
     {
         base.SelectAction();
         Unit.OnUnitHover += OnUnitHover;
-        Unit.OnUnitSelect += UnitSelected;       
+        Unit.OnUnitSelect += UnitSelected;
+        Unit.OnUnitHoverEnd += OnUnitHoverEnd; 
 
         highlight = new MeshViewGroup(GetAttackAbleTilesForUnit(), TileStateConfigs.GetMaterialForstate("attack_range"));
 
@@ -74,6 +76,7 @@ public class UnitAction_Attack : UnitActionBase {
 
         Unit.OnUnitHover -= OnUnitHover;
         Unit.OnUnitSelect -= UnitSelected;
+        Unit.OnUnitHoverEnd -= OnUnitHoverEnd;
         highlight.RemoveGroup();
     }
 
@@ -89,9 +92,10 @@ public class UnitAction_Attack : UnitActionBase {
     {   
         Damage damage_dealt = new Damage();
         int damage = DMG.GetDamage();
+        int bonus = (int)GetBonusIntRange().Value();
         ///this is what will be passed to the target as receiving damage
-        damage_dealt.amount = (int)(damage + GetIntMod());
-        damage_dealt.bonus_damage = damage_dealt.amount - damage;
+        damage_dealt.amount = bonus + damage;
+        damage_dealt.bonus_damage = bonus;
         damage_dealt.base_damge = damage;        
 
         StartCoroutine(AttackSequence(Owner, currentTarget, damage_dealt));
@@ -102,17 +106,6 @@ public class UnitAction_Attack : UnitActionBase {
         }
 
         base.ActionExecuted();
-    }
-
-    float GetIntMod()
-    {
-        PlayerUnitStats stats = (Owner.Stats as PlayerUnitStats);
-
-        if(stats != null)
-        {
-            return Random.Range(0, stats.Int * Constants.INT_TO_DMG);
-        }
-        return 0;
     }
 
     IEnumerator AttackSequence(Unit atk, Unit def, Damage dmg)
@@ -141,6 +134,10 @@ public class UnitAction_Attack : UnitActionBase {
 
     }
 
+    void OnUnitHoverEnd(Unit u)
+    {
+        UI_DmgPreview.Instance.Disable();
+    }
     void OnUnitHover(Unit unit)
     {
         if (unit == null || !isInRange(this.Owner, unit, Range) || !canTarget(unit))
@@ -156,12 +153,21 @@ public class UnitAction_Attack : UnitActionBase {
         currentTarget = unit;
         AimIndicator.transform.position = unit.transform.position;
         AimIndicator.SetActive(true);
-        DMG.bonus_damage = (int)GetIntMod();
-
+        DMG.bonus_range = GetBonusIntRange();
 
         if (OnTarget != null) OnTarget(Owner, currentTarget, DMG);
     }
 
+    MyMath.R_Range GetBonusIntRange()
+    {       
+        PlayerUnitStats stats = (Owner.Stats as PlayerUnitStats);
+
+        if (stats != null)
+        {
+            return new MyMath.R_Range(0, stats.Int+1);
+        }
+        return new MyMath.R_Range(0, 0) ;
+    }
     public static bool isInRange(Unit attacker, Unit other, float range)
     {
         return isInRange(attacker, other, range, attacker.currentTile);

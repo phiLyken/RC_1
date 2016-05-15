@@ -34,7 +34,7 @@ public class MyMath : MonoBehaviour {
 
 	}
 
-   static  float GetDistance2D(Vector3 v1, Vector3 v2)
+    public static  float GetDistance2D(Vector3 v1, Vector3 v2)
     {
         v1.y = 0;
         v2.y = 0;

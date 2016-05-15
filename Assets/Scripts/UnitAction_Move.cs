@@ -51,8 +51,7 @@ public class UnitAction_Move : UnitActionBase {
     }
 
     void SetAttackPreview(Tile t)
-    {
-      
+    {      
         ResetAttackPreview();
         
         VisualStateConfig attack_state = TileStateConfigs.GetMaterialForstate("attack_range_move_preview");
@@ -93,17 +92,12 @@ public class UnitAction_Move : UnitActionBase {
         }
     }
     
-    void UpdateAttackTiles(Tile targetTile)
-    {
-
-    }
     protected override void ActionExecuted()
     {
 
         // Debug.Log("move executed");
         ActionInProgress = true;
-        SetMovementTile(currentTargetTile, currentPath);
-       
+        SetMovementTile(currentTargetTile, currentPath);       
       
         base.ActionExecuted();
        
@@ -119,7 +113,7 @@ public class UnitAction_Move : UnitActionBase {
     }
     public bool PathWalkable(List<Tile> p)
     {
-        return p != null && p.Count - 1 <= MoveRange && p.Count > 1;
+        return p != null &&  p.Count > 1 && TilePathFinder.GetPathLengthForUnit(Owner, p) <= MoveRange;
     }
 
     public void SetMovementTile(Tile target, List<Tile> path)
@@ -131,7 +125,6 @@ public class UnitAction_Move : UnitActionBase {
         mover.MoveOnPath(path, 3);
 
         mover.OnMovementEnd += OnMoveEnd;
-
     }
 
     public List<Tile> GetReachableTiles(Tile from, List<Tile> tiles, Unit unit)

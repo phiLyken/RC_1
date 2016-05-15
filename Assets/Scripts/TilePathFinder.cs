@@ -121,6 +121,7 @@ public class TilePathFinder
 			bool left = Visit(n, n.x - 1,	n.y,u);			
 
 			
+           
 			if(top && right){	
 				//Debug.Log("Check Diagonal");
 				Visit(n, n.x + 1,	n.y + 1, u);
@@ -287,4 +288,29 @@ public class TilePathFinder
 		else
 			return false;	
 	}
+
+    static bool IsDiagonal(Tile t1, Tile t2)
+    {
+       
+        return Mathf.Abs((t1.TilePos.x - t2.TilePos.x)) + Mathf.Abs((t1.TilePos.z - t2.TilePos.z)) > 1;
+    }
+    public static float GetPathLengthForUnit(Unit unit, List<Tile> path)
+    {
+
+        float path_cost = 0;
+        Tile last = path[0];
+        for(int i = 1; i < path.Count; i++)
+        {
+            float current_cost = 0;
+            Tile current = path[i];
+            
+            current_cost += IsDiagonal(last, current) ? Constants.MovementCost_Diagonal : Constants. MovementCost_Straight;
+            current_cost += Mathf.Abs(Mathf.Abs((last.currentHeightStep) - Mathf.Abs(current.currentHeightStep))) * Constants.MovementCost_Height;
+
+            path_cost += current_cost;
+            last = current;
+        }
+
+        return path_cost;
+    }
 }

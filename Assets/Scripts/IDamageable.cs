@@ -18,7 +18,9 @@ public class Damage
     [Tooltip("Amount of damage Dealt")]
     public int max = 20;
 
-   
+    [HideInInspector]
+    public MyMath.R_Range bonus_range;
+
     [HideInInspector]
     public int base_damge = 0;
     [HideInInspector]

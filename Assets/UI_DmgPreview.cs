@@ -33,12 +33,14 @@ public class UI_DmgPreview : MonoBehaviour {
 
         DamageTF.text = dmg.min + "-" + dmg.max;
 
-        bool showBonus = dmg.bonus_damage > 0;
+        bool showBonus = dmg.bonus_range.max > 0;
+
         BonusBG.gameObject.SetActive(showBonus);
         BonusTF.gameObject.SetActive(showBonus);
         if (showBonus)
         {
-            BonusTF.text = dmg.bonus_damage.ToString();
+            BonusTF.text = "+"+dmg.bonus_range.min + "-" + dmg.bonus_range.max;
+
         }
 
         GetComponent<UI_WorldPos>().SetWorldPosObject(target.transform); 

@@ -27,7 +27,7 @@ public class Constants : MonoBehaviour {
     /// <summary>
     /// Amount of Extra Damage Dealt per Point of Intensity
     /// </summary>
-    public static float INT_TO_DMG = 1.0f;
+    public static int INT_TO_DMG = 1;
 
     /// <summary>
     /// How much the tile can crumble before it is removed
@@ -40,7 +40,19 @@ public class Constants : MonoBehaviour {
     /// </summary>
     public static MyMath.R_Range CrumbleRange = new MyMath.R_Range(1, 2);
 
+    /// <summary>
+    /// Cost of moving diagonal
+    /// </summary>
+    public static float MovementCost_Diagonal = 1.35f;
 
+    /// <summary>
+    /// Cost of moving straight
+    /// </summary>
+    public static float MovementCost_Straight = 1;
 
+    /// <summary>
+    /// Movement cost of going up or down by 1
+    /// </summary>
+    public static float MovementCost_Height = 0;
 
 }

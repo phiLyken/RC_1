@@ -262,12 +262,15 @@ class TileTools : EditorWindow
         List<Tile> editorTiles = GetTilesInEditorSelection();
 
         //Debug.Log("tiles selected:" + editorTiles.Count) ;
-        SetVisualStateOnSelection("normal");
+       
 
         //remove tiles that are not selected anymore
         if (CurrentTileSelection != null )
         {
-            for(int i = CurrentTileSelection.Count-1; i >=0; i--)
+
+            SetVisualStateOnSelection("normal");
+
+            for (int i = CurrentTileSelection.Count-1; i >=0; i--)
             {
                 if(editorTiles.Count == 0 || !editorTiles.Contains(CurrentTileSelection[i]))
                 {
