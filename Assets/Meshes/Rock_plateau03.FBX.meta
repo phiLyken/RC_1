@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 27475ccfba6ad534fa8bc59e1e35c21f
-timeCreated: 1462573619
+guid: 70da47df10231bd4c8c432279f496533
+timeCreated: 1463182808
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
@@ -9,7 +9,7 @@ ModelImporter:
     400000: //RootNode
     2300000: //RootNode
     3300000: //RootNode
-    4300000: RC_Wind
+    4300000: Rock_plateau03
   materials:
     importMaterials: 1
     materialName: 0
