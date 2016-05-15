@@ -164,7 +164,8 @@ public class UnitAction_Attack : UnitActionBase {
 
         if (stats != null)
         {
-            return new MyMath.R_Range(0, stats.Int+1);
+            if(stats.Int > 0)
+                return new MyMath.R_Range(1, stats.Int+1);
         }
         return new MyMath.R_Range(0, 0) ;
     }

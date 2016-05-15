@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class UnitAction_Rage : UnitActionBase
 {
     public int IntensityGain;
+    public float WillConsumeChance;
 
      float[] WillLoseChances;
      float[] IntensityGainChance;
@@ -38,7 +39,7 @@ public class UnitAction_Rage : UnitActionBase
     protected override void ActionExecuted()
     {
 
-        (Owner.Stats as PlayerUnitStats).AddInt(IntensityGain, true);
+        (Owner.Stats as PlayerUnitStats).AddInt(IntensityGain, Random.value < WillConsumeChance);
         base.ActionExecuted();  
     }
     public int IntensityGained()

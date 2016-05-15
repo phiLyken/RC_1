@@ -39,7 +39,7 @@ public class UI_DmgPreview : MonoBehaviour {
         BonusTF.gameObject.SetActive(showBonus);
         if (showBonus)
         {
-            BonusTF.text = "+"+dmg.bonus_range.min + "-" + dmg.bonus_range.max;
+            BonusTF.text = "+"+dmg.bonus_range.min + "-" + (dmg.bonus_range.max-1);
 
         }
 

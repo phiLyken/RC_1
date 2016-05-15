@@ -378,7 +378,7 @@ public class TileManager : MonoBehaviour {
     /// <param name="tiles"></param>
     /// <param name="range"></param>
     /// <returns></returns>
-	public List<Tile> GetSurroundingTiles(List<Tile> tiles, int range, TileManager region){	
+	public static List<Tile> GetSurroundingTiles(List<Tile> tiles, int range, TileManager region){	
 		
 		if (range <= 0) return tiles;
 		
