@@ -19,12 +19,7 @@ public class UnitSpawner : MonoBehaviour {
         Color.yellow
     };
 
-    void Awake()
-    {
-        if (SpawnOnAwake) {
-            SpawnUnit();
-        }
-    }
+
     public void SpawnUnit()
     {
         Unit u = UnitFactory.CreateUnit(UnitConfigsDatabase.GetConfig(MyMath.GetRandomObject(Unit_Ids.ToList())), group, (int) TurnTimeOnSpawn.Value());

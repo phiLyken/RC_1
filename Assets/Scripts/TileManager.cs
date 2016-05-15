@@ -123,11 +123,17 @@ public class TileManager : MonoBehaviour {
 	void Awake () {
         SetTiles(FetchTiles());
 
-        if(gameObject.tag == "Grid")
-         Instance = this;       
+        if(gameObject.tag == "Grid") { 
+            Instance = this;    
+        }
 
-	} 
+    } 
 
+    void Start()
+    {
+        if(Instance == this)
+        SpawnUnitsInRegion(this);
+    }
 	
     public List<Tile> GetTilesInRange(Tile center, int range)
     {
@@ -194,17 +200,23 @@ public class TileManager : MonoBehaviour {
         AppendGrid(  SpawnTiles());
     }
 
-    public void AppendGrid(TileManager manager)
+    void SpawnUnitsInRegion(TileManager manager)
     {
-
-        manager.transform.position = GetAppendPosition();
-        AppendGrid(manager.FetchTiles());
-        UnitSpawnManager spawner = manager.gameObject.GetComponent <UnitSpawnManager>();
-        if(spawner != null && Application.isPlaying)
+        UnitSpawnManager spawner = manager.gameObject.GetComponent<UnitSpawnManager>();
+        if (spawner != null && Application.isPlaying)
         {
             spawner.SpawnUnits();
         }
-       // DestroyImmediate(manager.gameObject);
+
+    }
+    public void AppendGrid(TileManager manager)
+    {
+        Debug.Log("AAsdsadsad");
+
+        manager.transform.position = GetAppendPosition();
+        AppendGrid(manager.FetchTiles());
+        SpawnUnitsInRegion(manager);
+       DestroyImmediate(manager.gameObject);
        
     }
     public void AppendGrid(Tile[,] newTiles)

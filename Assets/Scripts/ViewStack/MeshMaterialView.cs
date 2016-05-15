@@ -105,6 +105,7 @@ public class MeshViewGroup
 
         foreach(Tile t in tiles)
         {
+            if (t == null) continue;
             VisualState s =  new VisualState(state);
             states.Add(s);
             t.SetVisualState(s);

@@ -21,8 +21,6 @@ public class UnitConfig
     public int TriggerRange;
     public int TurnTimeOffset;
     public GameObject Mesh;
-
-
 }
 
 public class UnitSpawnManager : MonoBehaviour {
@@ -33,22 +31,27 @@ public class UnitSpawnManager : MonoBehaviour {
     List<UnitSpawner> Spawners;
     
     void Awake()
-    {
-        //Select all spawners that have spawnOnawke disabled
-        Spawners = (from c in GetComponentsInChildren<UnitSpawner>() where !c.SpawnOnAwake select c).ToList();
-      
+    {        
+        Spawners = ( GetComponentsInChildren<UnitSpawner>()).ToList();        
     }
 
     public void SpawnUnits()
     {
-        int unitCount = GetUnitSpawnCount();
-        Debug.Log(gameObject.name+" Spawning Units " + unitCount);
-        SpawnUnits(unitCount);
+        Spawners.ForEach(s => {         
+            if (s.SpawnOnAwake)
+            {               
+                s.SpawnUnit();
+            }
+        });
+             
+     
+        SpawnUnits(GetUnitSpawnCount());
     }
 
     void SpawnUnits(int count)
     {
-        MyMath.GetRandomObjects(Spawners, count).ForEach( spawner => spawner.SpawnUnit()) ;
+        
+        MyMath.GetRandomObjects(Spawners.Where(sp => !sp.SpawnOnAwake ).ToList() , count).ForEach( spawner => spawner.SpawnUnit()) ;
     }
 
     int GetUnitSpawnCount()
