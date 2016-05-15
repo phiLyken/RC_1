@@ -274,6 +274,14 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     void BaseCampTurn()
     {
         Actions.RestCharges();
+
+        PlayerUnitStats stats = Stats as PlayerUnitStats;
+
+        if(stats != null)
+        {
+            stats.Int = 0;
+            stats.Will = stats.Max;           
+        }
     }
 
     public bool HasEndedTurn()
