@@ -94,11 +94,13 @@ public class Tile : MonoBehaviour, IWayPoint
             SetVisualState(new VisualState("normal"));
         }
     }
+
+
     public void OnCrumbleTurn(int crumble_row)
     {
         if (!isCrumbling) return;
 
-        int crumble_amount = Random.Range(0, 3);
+        int crumble_amount = (int) Constants.CrumbleRange.Value();
         SetCrumble(CrumbleStage + crumble_amount);
     }
 
@@ -210,7 +212,7 @@ public class Tile : MonoBehaviour, IWayPoint
         currentHeightStep -= steps;
         Elevate(Vector3.up * TileManager.HeighSteps * -steps);
 
-        if (currentHeightStep < -4)
+        if (currentHeightStep < Constants.CrumbleHeightThreshold)
         {
             DeactivateTile();
         }

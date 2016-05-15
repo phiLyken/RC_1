@@ -29,7 +29,16 @@ public class Constants : MonoBehaviour {
     /// </summary>
     public static float INT_TO_DMG = 1.0f;
 
+    /// <summary>
+    /// How much the tile can crumble before it is removed
+    /// </summary>
+    public static int CrumbleHeightThreshold = -4;
 
+
+    /// <summary>
+    /// How many levels a tile can crumble on a crumble turn if it is crumbling
+    /// </summary>
+    public static MyMath.R_Range CrumbleRange = new MyMath.R_Range(1, 2);
 
 
 
