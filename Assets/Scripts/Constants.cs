@@ -38,7 +38,7 @@ public class Constants : MonoBehaviour {
     /// <summary>
     /// How many levels a tile can crumble on a crumble turn if it is crumbling
     /// </summary>
-    public static MyMath.R_Range CrumbleRange = new MyMath.R_Range(1, 2);
+    public static MyMath.R_Range CrumbleRange = new MyMath.R_Range(1, 3);
 
     /// <summary>
     /// Cost of moving diagonal
