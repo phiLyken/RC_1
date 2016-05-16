@@ -73,6 +73,13 @@ public class TileEditor : Editor {
             }
         }
 
+        if (GUILayout.Button("Reset Crumble"))
+        {
+            foreach (Tile t in targets)
+            {
+                t.ResetCrumble();
+            }
+        }
 
         if (GUILayout.Button("Add/Remove Loot"))
         {
@@ -101,6 +108,7 @@ public class TileEditor : Editor {
        
     }
 
+   
     void MakeEnemySpawnTile(Tile t)
     {
         

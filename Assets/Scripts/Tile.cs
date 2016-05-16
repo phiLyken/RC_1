@@ -25,6 +25,8 @@ public class Tile : MonoBehaviour, IWayPoint
 
     [SerializeField]
     public int CrumbleStage;
+
+    [SerializeField]
     GameObject crumble_effect;
 
     [SerializeField]
@@ -102,9 +104,11 @@ public class Tile : MonoBehaviour, IWayPoint
 
     public void OnCrumbleTurn(int crumble_row)
     {
+      
         if (!isCrumbling) return;
 
-        int crumble_amount = (int) Constants.CrumbleRange.Value();
+        int crumble_amount = (int)Constants.CrumbleRange.Value();
+      //  Debug.Log("Crumble " + gameObject.name+"  amount"+crumble_amount);
         SetCrumble(CrumbleStage + crumble_amount);
     }
 
@@ -133,6 +137,7 @@ public class Tile : MonoBehaviour, IWayPoint
 
     void DeactivateTile()
     {
+        Debug.Log("REMOVE " + gameObject.name);
         StartCoroutine(DeactivateWhenReady());
     }
     IEnumerator DeactivateWhenReady()
@@ -144,17 +149,14 @@ public class Tile : MonoBehaviour, IWayPoint
 
 
     void RemoveTile()
-    {       
-
+    {
+       
         if(Application.isPlaying)
             WorldCrumbler.Instance.OnCrumble -= OnCrumbleTurn;
         GetComponent<MeshRenderer>().enabled = false;
         isAccessible = false;
 
-        if(crumble_effect != null)
-        {
-            DestroyImmediate(crumble_effect.gameObject);
-        }
+        RemoveCrumbleEffect();
 
     }
 
@@ -199,6 +201,14 @@ public class Tile : MonoBehaviour, IWayPoint
         }
     }
 
+    void RemoveCrumbleEffect()
+    {
+        if (crumble_effect != null)
+        {
+            DestroyImmediate(crumble_effect.gameObject);
+        }
+    }
+
     public void MoveTileUp(int steps)
     {
         currentHeightStep += steps;
@@ -223,6 +233,15 @@ public class Tile : MonoBehaviour, IWayPoint
         }
     }
 
+    public void ResetCrumble()
+    {
+        CrumbleStage = 0;
+        currentHeightStep = 0;
+        transform.position = TileManager.Instance.GetTilePos(this);
+        GetComponent<MeshRenderer>().enabled = true;
+        isAccessible = true;
+        RemoveCrumbleEffect();
+    }
 
     void OnEnable()
     {
