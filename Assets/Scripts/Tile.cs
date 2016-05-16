@@ -232,13 +232,14 @@ public class Tile : MonoBehaviour, IWayPoint
     public void SetVisualState(VisualState state)
     {
         MeshMaterialView view = GetComponent<MeshMaterialView>();
-        view.states = new List<VisualState>();
+       
 
         if (view == null)
         {
+           
             view = gameObject.AddComponent<MeshMaterialView>();
         }
-
+        view.states = new List<VisualState>();
         view.AddState(state);
      
     }
