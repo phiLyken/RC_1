@@ -89,7 +89,6 @@ public class Tile : MonoBehaviour, IWayPoint
     public void SetBaseState()
     {
         
-
         if (isCamp) {
             SetVisualState( new VisualState("base"));
         } else if (!isAccessible)
@@ -258,7 +257,7 @@ public class Tile : MonoBehaviour, IWayPoint
            
             view = gameObject.AddComponent<MeshMaterialView>();
         }
-        view.states = new List<VisualState>();
+        
         view.AddState(state);
      
     }
