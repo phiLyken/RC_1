@@ -63,8 +63,22 @@ public class TileManager : MonoBehaviour {
         return -1;
     }
 
+    static TileManager _instance;
 
-	public static TileManager Instance;
+	public static TileManager Instance
+    {
+        get
+        {
+            if(_instance != null)
+            {
+                return _instance;
+            } else
+            {
+                _instance = FindObjectOfType(typeof(TileManager)) as TileManager;
+                return _instance;
+            }
+        }
+    }
 
 	public Vector3 GridCenter{
 		get{
@@ -124,7 +138,7 @@ public class TileManager : MonoBehaviour {
         SetTiles(FetchTiles());
 
         if(gameObject.tag == "Grid") { 
-            Instance = this;    
+            _instance = this;    
         }
 
     } 
@@ -145,11 +159,7 @@ public class TileManager : MonoBehaviour {
 
         return tiles;
     }
-
-   
-
-
-    
+        
     float GetTileDistance(Tile t1, Tile t2)
     {
         return 
@@ -177,8 +187,6 @@ public class TileManager : MonoBehaviour {
 		}		
 		return null;
 	}
-	
-
 	
 	public Vector3 GetCenterForFootPrint(Tile start, int size){
 		return start.transform.position + new Vector3(TileSize * (size-1),0, TileSize * (size-1))/2;		
@@ -313,13 +321,19 @@ public class TileManager : MonoBehaviour {
     {
         return GetTilePos2D(t.TilePos.x, t.TilePos.z);
     }
+
     public Vector3 GetTilePos2D(int x, int y)
     {
        return new Vector3(x * TileSize, 0, y * TileSize)
          + transform.position + new Vector3(TileSize * 0.5f, 0, TileSize * 0.5f);
     }
 
-    
+    public Vector3 GetTilePos(Tile t)
+    {
+        Vector3 position = GetTilePos2D(t);
+        position.y = GetTileHeight(t.currentHeightStep);
+        return position;
+    }
     /// <summary>
     /// Sets tiles to their horizontal position in the grid and makes them a child 
     /// </summary>
