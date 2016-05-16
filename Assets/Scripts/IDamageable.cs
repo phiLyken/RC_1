@@ -36,6 +36,7 @@ public class Damage
     {
         min = 100;
         max = 200;
+        amount = GetDamage();
     }
 }
 public interface IDamageable {

@@ -539,6 +539,7 @@ public class TileManager : MonoBehaviour {
 
         return tiles;
     }
+
     public List<Tile> GetCol(Tile t)
     {
         int colNum = t.TilePos.x;

@@ -69,8 +69,10 @@ public class Tile : MonoBehaviour, IWayPoint
 
         if (WorldCrumbler.Instance != null)
         {
-            WorldCrumbler.Instance.OnCrumble += OnCrumbleTurn;
-            
+            WorldCrumbler.Instance.OnCrumble += OnCrumbleTurn;            
+        } else
+        {
+            Debug.Log("Möp");
         }
         SelectibleObjectBase b = GetComponent<SelectibleObjectBase>();
         if (b == null)
@@ -82,8 +84,10 @@ public class Tile : MonoBehaviour, IWayPoint
         SetBaseState();
     }
 
-    void SetBaseState()
+    public void SetBaseState()
     {
+        
+
         if (isCamp) {
             SetVisualState( new VisualState("base"));
         } else if (!isAccessible)
@@ -167,6 +171,7 @@ public class Tile : MonoBehaviour, IWayPoint
             DestroyImmediate(Mesh);
         }
         Mesh = newMesh;
+
         newMesh.transform.parent = this.transform;
         newMesh.transform.localPosition = Vector3.zero;
 
@@ -227,6 +232,8 @@ public class Tile : MonoBehaviour, IWayPoint
     public void SetVisualState(VisualState state)
     {
         MeshMaterialView view = GetComponent<MeshMaterialView>();
+        view.states = new List<VisualState>();
+
         if (view == null)
         {
             view = gameObject.AddComponent<MeshMaterialView>();

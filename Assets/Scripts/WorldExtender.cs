@@ -33,6 +33,7 @@ public class WorldExtender : MonoBehaviour {
     void SpawnNext()
     {
         TileManager region = null;
+        currentPhaseID++;
         if (TilesUntilCamp <= TileManager.Instance.GridHeight)
         {
             region = RegionLoader.GetCamp();
@@ -42,7 +43,7 @@ public class WorldExtender : MonoBehaviour {
         {
             region = RegionLoader.GetRegion();
         }
-        currentPhaseID++;
+        
         TileManager.Instance.AppendGrid(region);
     }
 

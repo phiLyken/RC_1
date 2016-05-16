@@ -151,10 +151,9 @@ class TileTools : EditorWindow
         {
 
             foreach (Tile t in Grid.FetchTiles())
-            {
-               
-                t.GetComponent<MeshMaterialView>().states = new List<VisualState>();
-                t.GetComponent<MeshMaterialView>().AddState(new VisualState(TileStateConfigs.GetMaterialForstate("normal")));
+            {               
+              
+                t.SetBaseState();
             }
         }
 
