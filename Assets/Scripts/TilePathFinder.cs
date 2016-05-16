@@ -180,7 +180,7 @@ public class TilePathFinder
             int other_height = manager.Tiles[x, y].currentHeightStep;
             int diff = m_height - other_height;
         
-            if (diff > 1)
+            if (diff > 3)
             {
                // Debug.DrawLine(manager.Tiles[parent.x, parent.y].transform.position, manager.Tiles[x, y].transform.position, Color.yellow, 3f);
                 return false;
