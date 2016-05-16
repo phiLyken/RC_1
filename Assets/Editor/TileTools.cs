@@ -15,8 +15,6 @@ class TileTools : EditorWindow
     Tile selectedTile;
     List<TileWeighted> weighted;
 
-    MeshViewGroup highlights;
-
     [MenuItem("Foo/TileTool")]
     public static void ShowWindow()
     {
@@ -92,7 +90,7 @@ class TileTools : EditorWindow
         {
            
             Grid.AppendGrid(RegionLoader.GetRegion());
-            SetVisualStateOnSelection("normal");
+          
             if(CurrentTileSelection != null) { 
                 CurrentTileSelection.Clear();
             }
@@ -102,7 +100,7 @@ class TileTools : EditorWindow
         {
 
             Grid.AppendGrid(RegionLoader.GetCamp());
-            SetVisualStateOnSelection("normal");
+         
             if (CurrentTileSelection != null)
             {
                 CurrentTileSelection.Clear();
@@ -151,7 +149,7 @@ class TileTools : EditorWindow
         {
 
             foreach (Tile t in Grid.FetchTiles())
-            {               
+            {          
               
                 t.SetBaseState();
             }
@@ -221,25 +219,20 @@ class TileTools : EditorWindow
                 Debug.Log(Grid.GetRow(selectedTile));
 
                 CurrentTileSelection.AddRange(Grid.GetRow(selectedTile));
-                SelectCurrentTilesInEditor();
-                SetVisualStateOnSelection("selected");
+                SelectCurrentTilesInEditor();               
             }
 
             if (GUILayout.Button("Select Col"))
             {
                 CurrentTileSelection.AddRange(Grid.GetCol(selectedTile));
-                SelectCurrentTilesInEditor();
-               
+                SelectCurrentTilesInEditor();               
             }
-
-
 
 
             if (GUILayout.Button("Select Same Height"))
             {
                 CurrentTileSelection.AddRange(Grid.GetTilesAtHeight(selectedTile.currentHeightStep));
-                SelectCurrentTilesInEditor();
-              
+                SelectCurrentTilesInEditor();              
             }
 
 
@@ -266,15 +259,12 @@ class TileTools : EditorWindow
 
         //remove tiles that are not selected anymore
         if (CurrentTileSelection != null )
-        {
-
-            SetVisualStateOnSelection("normal");
+        {          
 
             for (int i = CurrentTileSelection.Count-1; i >=0; i--)
             {
                 if(editorTiles.Count == 0 || !editorTiles.Contains(CurrentTileSelection[i]))
-                {
-                   
+                {                   
                     CurrentTileSelection.RemoveAt(i);
                 }
             }
@@ -295,9 +285,7 @@ class TileTools : EditorWindow
                     }
                 }
             }
-        }
-
-        SetVisualStateOnSelection("editor_selected");
+        }      
     }
 
     void SelectCurrentTilesInEditor()
@@ -305,17 +293,6 @@ class TileTools : EditorWindow
         Selection.objects = (from t in CurrentTileSelection.Where(t => t != null) select t.gameObject).ToArray();
     }
 
-    void SetVisualStateOnSelection(string state)
-    {
-
-        if(highlights != null) { 
-                 highlights.RemoveGroup();
-        }
-        if (CurrentTileSelection != null)
-        {
-            highlights = new MeshViewGroup(CurrentTileSelection, TileStateConfigs.GetMaterialForstate(state));
-        }
-    }
   
     List<Tile> GetTilesInEditorSelection()
     {
@@ -326,9 +303,7 @@ class TileTools : EditorWindow
     {
         // This will only get called 10 times per second.
         Repaint();
-
-    }
-    
+    }    
 
     // Window has been selected
     void OnFocus()
