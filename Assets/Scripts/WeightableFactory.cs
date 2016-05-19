@@ -46,9 +46,9 @@ public class WeightableFactory {
 	
 		int count = 0;
 		for(int i = 0; i < WeightableObjects.Count; i++){
-			Debug.Log( (WeightableObjects[i]).WeightableID+" checking");
+			//	Debug.Log( (WeightableObjects[i]).WeightableID+" checking");
 			foreach(IWeightable w in Result)if(WeightableObjects[i] == w) count++;
-			Debug.Log( (WeightableObjects[i]).WeightableID+" : "+count);
+			//Debug.Log( (WeightableObjects[i]).WeightableID+" : "+count);
 			count = 0;
 		}
 	}
