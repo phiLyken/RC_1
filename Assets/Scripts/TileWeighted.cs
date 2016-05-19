@@ -36,9 +36,11 @@ public class TileWeighted : IWeightable {
 
         //Apply weight based on distance to last row (the closer the more weight)
         int lastRow = region.GetLastActiveRow();
-		int max_rows = 7;
+      
+		int max_rows = 10;
 
-		int distance = Mathf.Max(0, max_rows - ( tile.TilePos.z - lastRow)) ;
+        int distance = max_rows - Mathf.Min(tile.TilePos.z - lastRow, max_rows);
+
         float prev_weight = 0;
         float neighbours_weight = 0;
 
@@ -58,8 +60,8 @@ public class TileWeighted : IWeightable {
             neighbours_weight += GetNeighbourWeight(region.Tiles[tile.TilePos.x +1, tile.TilePos.z], 0.5f);
 		}
 
-        weight = distance * (neighbours_weight + prev_weight);
-	
+        weight = distance/5 + distance * (neighbours_weight + prev_weight);
+       
 	}
 
     public float Weight
