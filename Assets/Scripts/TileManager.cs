@@ -596,7 +596,7 @@ public class TileManager : MonoBehaviour {
 	public int GetLastActiveRow(){
 		for(int i = 0 ; i < GridHeight; i++){
 			for(int j = 0; j < GridWidth; j++){
-				if(Tiles[j,i].isAccessible) return i;
+				if(Tiles[j,i].isAccessible && !Tiles[j,i].isCrumbling) return i;
 			}
 		}
 		return -1;

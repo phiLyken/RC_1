@@ -106,7 +106,7 @@ public class Tile : MonoBehaviour, IWayPoint
       
         if (!isCrumbling) return;
 
-        int crumble_amount = (int)Constants.CrumbleRange.Value();
+        int crumble_amount = (int)Constants.TileCrumbleRangeOnCrumble.Value();
       //  Debug.Log("Crumble " + gameObject.name+"  amount"+crumble_amount);
         SetCrumble(CrumbleStage + crumble_amount);
     }
@@ -137,6 +137,7 @@ public class Tile : MonoBehaviour, IWayPoint
     void DeactivateTile()
     {
         Debug.Log("REMOVE " + gameObject.name);
+      
         StartCoroutine(DeactivateWhenReady());
     }
     IEnumerator DeactivateWhenReady()
@@ -154,7 +155,7 @@ public class Tile : MonoBehaviour, IWayPoint
             WorldCrumbler.Instance.OnCrumble -= OnCrumbleTurn;
         GetComponent<MeshRenderer>().enabled = false;
         isAccessible = false;
-
+        isCrumbling = false;
         RemoveCrumbleEffect();
 
     }

@@ -38,7 +38,7 @@ public class Constants : MonoBehaviour {
     /// <summary>
     /// How many levels a tile can crumble on a crumble turn if it is crumbling
     /// </summary>
-    public static MyMath.R_Range CrumbleRange = new MyMath.R_Range(1, 3);
+    public static MyMath.R_Range TileCrumbleRangeOnCrumble = new MyMath.R_Range(1, 3);
 
     /// <summary>
     /// Cost of moving diagonal
@@ -54,5 +54,10 @@ public class Constants : MonoBehaviour {
     /// Movement cost of going up or down by 1
     /// </summary>
     public static float MovementCost_Height = 0;
+
+    /// <summary>
+    /// The range in tiles that the world crumble has (counted from the last not crumbling row)
+    /// </summary>
+    public static int CrumbleRange = 10;
 
 }

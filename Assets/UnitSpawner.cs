@@ -33,6 +33,8 @@ public class UnitSpawner : MonoBehaviour {
             Debug.LogWarning("Could not spawn unit");
         }
     }
+
+#if UNITY_EDITOR
     void OnDrawGizmos()
     {
         if (SpawnOnAwake) { 
@@ -43,6 +45,9 @@ public class UnitSpawner : MonoBehaviour {
         Gizmos.color = group_color[Mathf.Clamp(group, 0, group_color.Length - 1)] ;
         Gizmos.DrawWireCube(transform.position , Vector3.one);
 
+
         MyMath.SceneViewText(MyMath.StringArrToLines(Unit_Ids), transform.position + Vector3.up, Color.magenta);
     }
+
+#endif
 }
