@@ -6,9 +6,8 @@ public class UnitSpawner : MonoBehaviour {
 
     public bool SpawnOnAwake;
 
-    public string[] Unit_Ids;
     public int group;
-    public MyMath.R_Range TurnTimeOnSpawn;
+    
 
     Color[] group_color =
     {
@@ -20,9 +19,9 @@ public class UnitSpawner : MonoBehaviour {
     };
 
 
-    public void SpawnUnit()
+    public void SpawnUnit(ScriptableUnitConfig unit_config, int turnTime)
     {
-        Unit u = UnitFactory.CreateUnit(UnitConfigsDatabase.GetConfig(MyMath.GetRandomObject(Unit_Ids.ToList())), group, (int) TurnTimeOnSpawn.Value());
+        Unit u = UnitFactory.CreateUnit(unit_config, group, turnTime);
        // Debug.Log(gameObject.name+" spawning " + u.GetID());
       
 
@@ -43,6 +42,6 @@ public class UnitSpawner : MonoBehaviour {
         Gizmos.color = group_color[Mathf.Clamp(group, 0, group_color.Length - 1)] ;
         Gizmos.DrawWireCube(transform.position , Vector3.one);
 
-        MyMath.SceneViewText(MyMath.StringArrToLines(Unit_Ids), transform.position + Vector3.up, Color.magenta);
+        //MyMath.SceneViewText(MyMath.StringArrToLines(Unit_Ids), transform.position + Vector3.up, Color.magenta);
     }
 }

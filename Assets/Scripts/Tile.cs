@@ -74,7 +74,7 @@ public class Tile : MonoBehaviour, IWayPoint
             WorldCrumbler.Instance.OnCrumble += OnCrumbleTurn;            
         } else
         {
-            Debug.Log("Möp");
+           // Debug.Log("Möp");
         }
         SelectibleObjectBase b = GetComponent<SelectibleObjectBase>();
         if (b == null)

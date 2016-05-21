@@ -5,20 +5,39 @@ using System.Collections.Generic;
 public class RegionConfigDataBase : ScriptableObject {
 	
 	[SerializeField]
-	private List<RegionBalancingConfig> configs;
+	private List<RegionPool> AllPools;
 
+    public RegionConfig StartRegion;
 
 	void OnEnable(){
-		if(configs == null){
-			configs = new List<RegionBalancingConfig>();
+		if(AllPools == null){
+			AllPools = new List<RegionPool>();
 		}
 	}
 
-		
+    public static RegionConfigDataBase GetDataBase()
+    {
+        return Resources.Load("region_balancing_config") as RegionConfigDataBase; 
+    }
+
+    public static RegionPool GetPoolConfig(int index)
+    {
+        RegionConfigDataBase db = GetDataBase();
+
+        if(index >= db.AllPools.Count)
+            Debug.LogWarning("Not sufficient index for Region Pools " + index + " items in pool" + db.AllPools.Count);
+
+        return db.AllPools[Mathf.Min(index, db.AllPools.Count - 1)];
+       
+    }
+
 }
 	
 [System.Serializable]
-public class RegionBalancingConfig{
+public class RegionPool{
 	[SerializeField]
-	private List<RegionConfig> configs;
+	public List<WeightedRegion> Regions;
+
+    [SerializeField]
+    public List<WeightedRegion> Camps;
 }

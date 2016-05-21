@@ -7,9 +7,6 @@ using System.Linq;
 
 public class UnitSpawnManager : MonoBehaviour {
     
-    public int MinSpawn;
-    public int MaxSpawn;
-
     List<UnitSpawner> Spawners;
     
     void Awake()
@@ -17,33 +14,28 @@ public class UnitSpawnManager : MonoBehaviour {
         Spawners = ( GetComponentsInChildren<UnitSpawner>()).ToList();        
     }
 
-    public void SpawnUnits()
+    public void SpawnGroups(List<UnitSpawnGroupConfig> groups)
     {
-        Spawners.ForEach(s => {         
-            if (s.SpawnOnAwake)
-            {               
-                s.SpawnUnit();
+        foreach(UnitSpawnGroupConfig group in groups) {
+            List<WeightedUnit> unitconfigs = RegionLoader.GetUnitsForGroupPower(group);
+            List<UnitSpawner> spawnersForId = Spawners.Where(sp => sp.group == group.SpawnerGroup).ToList();
+
+            if(unitconfigs.Count > spawnersForId.Count)
+            {
+                Debug.LogWarning("Not enough spawners for my group :(   " + spawnersForId.Count);
+                return;
             }
-        });
-             
-     
-        SpawnUnits(GetUnitSpawnCount());
+
+            while(spawnersForId.Count > 0 && unitconfigs.Count > 0)
+            {
+                WeightedUnit unit = unitconfigs[Random.Range(0, unitconfigs.Count)];
+                UnitSpawner spawner = spawnersForId[Random.Range(0, spawnersForId.Count)];
+
+                unitconfigs.Remove(unit);
+                spawnersForId.Remove(spawner);
+
+                spawner.SpawnUnit( unit.UnitConfig, (int)unit.TurnTimeOnSpawn.Value());
+            }
+        }
     }
-
-    void SpawnUnits(int count)
-    {
-        
-        MyMath.GetRandomObjects(Spawners.Where(sp => !sp.SpawnOnAwake ).ToList() , count).ForEach( spawner => spawner.SpawnUnit()) ;
-    }
-
-    int GetUnitSpawnCount()
-    {
-        return Mathf.Min( Random.Range(MinSpawn, MaxSpawn+1  ), Spawners.Count);
-    }
-
-
-
-
-
-   
 }

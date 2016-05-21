@@ -7,7 +7,7 @@ public enum StatType
 	complex,simple
 }
 [System.Serializable]
-public class UnitConfig
+public class UnitConfig 
 {
 	public string ID;
 	public StatType StatType;
@@ -17,8 +17,9 @@ public class UnitConfig
 
 	public int Owner;
 	public int TriggerRange;
-	public int TurnTimeOffset;
+	
 	public GameObject Mesh;
 
 	public int UnitPower;
 }
+

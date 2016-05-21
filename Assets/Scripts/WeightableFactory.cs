@@ -1,9 +1,34 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System;
 
 public class WeightableFactory {
+    public class WeightAble <T> : IWeightable
+    {
+        T weightable;
+        float weight;
 
+        public WeightAble(T obj, float _weight)
+        {
+            weightable = obj;
+            weight = _weight;
+        }
+
+        public float Weight
+        {
+            get
+            {
+                return weight;
+            }
+
+            set
+            {
+                
+            }
+        }
+    }
     public static IWeightable GetWeighted(List<IWeightable> WeightableObjects) {
 
         float totalChance = 0;
@@ -11,7 +36,7 @@ public class WeightableFactory {
             totalChance += w.Weight;
         }
 
-        float r = Random.value * totalChance;
+        float r = UnityEngine.Random.value * totalChance;
         float last = 0;
 
         for (int i = 0; i < WeightableObjects.Count; i++) {
@@ -22,6 +47,11 @@ public class WeightableFactory {
         }
 
         return null;
+    }
+
+    public static T GetWeighted<T>(List<T> weighted)
+    {
+        return  (T) GetWeighted(weighted.Cast<IWeightable>().ToList()) ;
     }
 
     public static List<IWeightable> GetWeighted(List<IWeightable> WeightableObjects, int count){

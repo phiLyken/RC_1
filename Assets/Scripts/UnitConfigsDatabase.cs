@@ -31,8 +31,13 @@ public class UnitConfigsDatabase : ScriptableObject {
 		return configs[index];
 	}
 
-	public static UnitConfig GetConfig(string id){
-        UnitConfigsDatabase db = Resources.Load("unit_configs") as UnitConfigsDatabase;
+    public static List<UnitConfig> GetAllConfigs()
+    {
+        UnitConfigsDatabase db = Resources.Load("Units/unit_configs") as UnitConfigsDatabase;
+        return db.configs;
+    }
+	public static UnitConfig ___GetConfig(string id){
+        UnitConfigsDatabase db = Resources.Load("Units/unit_configs") as UnitConfigsDatabase;
         foreach (UnitConfig c in db.configs) if(c.ID == id) return c;
 
 		Debug.LogWarning("CONFIG NOT FOUND "+id);

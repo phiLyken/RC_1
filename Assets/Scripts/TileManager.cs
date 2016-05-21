@@ -211,20 +211,17 @@ public class TileManager : MonoBehaviour {
     void SpawnUnitsInRegion(TileManager manager)
     {
         UnitSpawnManager spawner = manager.gameObject.GetComponent<UnitSpawnManager>();
+
         if (spawner != null && Application.isPlaying)
         {
-            spawner.SpawnUnits();
+          //  spawner.SpawnUnits();
         }
 
     }
     public void AppendGrid(TileManager manager)
     {
-        Debug.Log("AAsdsadsad");
-
         manager.transform.position = GetAppendPosition();
         AppendGrid(manager.FetchTiles());
-        SpawnUnitsInRegion(manager);
-       DestroyImmediate(manager.gameObject);
        
     }
     public void AppendGrid(Tile[,] newTiles)
@@ -233,7 +230,7 @@ public class TileManager : MonoBehaviour {
 
         AdjustGrid(newTiles.GetLength(0), newTiles.GetLength(1));
         OffsetTilePositions(newTiles, offset);
-        SetTilePhaseID(newTiles, WorldExtender.currentPhaseID);
+        SetTilePhaseID(newTiles, WorldExtender.CurrentStage);
         SetTilesToGridPosition(newTiles);       
         SetTiles(FetchTiles());
 

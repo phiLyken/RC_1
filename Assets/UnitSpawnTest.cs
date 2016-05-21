@@ -3,12 +3,12 @@ using System.Collections;
 
 public class UnitSpawnTest : MonoBehaviour {
 
-    public UnitConfig Config;
+    public ScriptableUnitConfig UnitConfig;
     public int group;
 
     void Start()
     {
-        Unit u = UnitFactory.CreateUnit(Config, group,0);
+        Unit u = UnitFactory.CreateUnit(UnitConfig, group,0);
 
         UnitFactory.SpawnUnit(u, (GetComponent<Tile>()));
     }

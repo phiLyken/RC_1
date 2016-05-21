@@ -11,7 +11,7 @@ public class UnitFactory : MonoBehaviour
     /// </summary>
     /// <param name="data">Unit Config to determine unit type, stats, actions</param>
     /// <returns></returns>
-    public static Unit CreateUnit(UnitConfig data, int group, int turntime)
+    public static Unit CreateUnit(ScriptableUnitConfig data, int group, int turntime)
     {
         if(data == null)
         {
@@ -44,7 +44,7 @@ public class UnitFactory : MonoBehaviour
         return m_unit;
     }
 
-    static void addStats(GameObject target, UnitConfig conf)
+    static void addStats(GameObject target, ScriptableUnitConfig conf)
     {
         UnitStats stats;
         if (conf.StatType == StatType.simple)

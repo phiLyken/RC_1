@@ -2,7 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
-
+using UnityEditor;
+using System.IO;
 
 public class MyMath : MonoBehaviour {
 	
@@ -24,7 +25,40 @@ public class MyMath : MonoBehaviour {
 		
 		return best;
 	}
-	public static float GetPercentpointsOfValueInRange(float _value, float _min, float _max){
+
+    //http://wiki.unity3d.com/index.php?title=CreateScriptableObjectAsset
+    public static class ScriptableObjectUtility
+    {
+        /// <summary>
+        //	This makes it easy to create, name and place unique new ScriptableObject asset files.
+        /// </summary>
+        public static void CreateAsset<T>() where T : ScriptableObject
+        {
+            T asset = ScriptableObject.CreateInstance<T>();
+
+            string path = AssetDatabase.GetAssetPath(Selection.activeObject);
+            if (path == "")
+            {
+                path = "Assets";
+            }
+            else if (Path.GetExtension(path) != "")
+            {
+                path = path.Replace(Path.GetFileName(AssetDatabase.GetAssetPath(Selection.activeObject)), "");
+            }
+
+            string assetPathAndName = AssetDatabase.GenerateUniqueAssetPath(path + "/New " + typeof(T).ToString() + ".asset");
+
+            AssetDatabase.CreateAsset(asset, assetPathAndName);
+
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+            EditorUtility.FocusProjectWindow();
+            Selection.activeObject = asset;
+        }
+    }
+
+
+    public static float GetPercentpointsOfValueInRange(float _value, float _min, float _max){
 		if (_value < _min)
 						return 0;
 		if (_value > _max)
@@ -34,6 +68,7 @@ public class MyMath : MonoBehaviour {
 
 	}
 
+    
     public static  float GetDistance2D(Vector3 v1, Vector3 v2)
     {
         v1.y = 0;
