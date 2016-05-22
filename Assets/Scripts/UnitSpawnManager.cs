@@ -22,7 +22,7 @@ public class UnitSpawnManager : MonoBehaviour {
 
             if(unitconfigs.Count > spawnersForId.Count)
             {
-                Debug.LogWarning("Not enough spawners for my group :(   " + spawnersForId.Count);
+                Debug.LogWarning("Not enough spawners for my group :(   spawners:" + spawnersForId.Count+"  units:"+ unitconfigs.Count);
                 return;
             }
 

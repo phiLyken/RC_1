@@ -4,8 +4,6 @@ using System.Linq;
 
 public class UnitSpawner : MonoBehaviour {
 
-    public bool SpawnOnAwake;
-
     public int group;
     
 
@@ -34,10 +32,6 @@ public class UnitSpawner : MonoBehaviour {
     }
     void OnDrawGizmos()
     {
-        if (SpawnOnAwake) { 
-            Gizmos.color = Color.red;
-            Gizmos.DrawCube(transform.position, Vector3.one*0.25f);
-        }
 
         Gizmos.color = group_color[Mathf.Clamp(group, 0, group_color.Length - 1)] ;
         Gizmos.DrawWireCube(transform.position , Vector3.one);

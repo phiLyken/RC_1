@@ -23,8 +23,10 @@ public class RegionLoader : MonoBehaviour {
 
         int powerLeft = group.GroupPower;
 
-        List<WeightedUnit> choosenUnits = new List<WeightedUnit>();
-        List<WeightedUnit> validUnits = GetUnitsInPowerRange(group.SpawnableUnits, powerLeft);
+        List<WeightedUnit> possibleUnits = group.SpawnableUnits.Where(u => !u.ForceUnit).ToList();
+        List<WeightedUnit> choosenUnits = group.SpawnableUnits.Where(u => u.ForceUnit).ToList();
+
+        List<WeightedUnit> validUnits = GetUnitsInPowerRange(possibleUnits, powerLeft);
 
         while(validUnits.Count > 0)
         {
@@ -39,7 +41,7 @@ public class RegionLoader : MonoBehaviour {
 
             powerLeft -= unitPower;
             
-            validUnits = GetUnitsInPowerRange(group.SpawnableUnits, powerLeft);
+            validUnits = GetUnitsInPowerRange(possibleUnits, powerLeft);
         }
      
         return choosenUnits;
@@ -62,13 +64,20 @@ public class RegionLoader : MonoBehaviour {
     }
     public static List<UnitSpawnGroupConfig> GetGroupsForPower(RegionConfig region)
     {
+       
+        //Add all forced groups to choosen ones
+        List<UnitSpawnGroupConfig> choosenGroups = region.Groups.Where(gr => gr.ForceGroup).ToList() ;
+
+        //make a copy of groups but exclude the ones that we already have
+        List<UnitSpawnGroupConfig> groupsCopy = new List<UnitSpawnGroupConfig>(region.Groups).Where(gr => !choosenGroups.Contains(gr)).ToList();
+
+
         int powerLeft = region.RegionTotalEnemyPower;
+        //list of groupls that are valid for the powerlevel left
+        List<UnitSpawnGroupConfig> validgroups = GetGroupsInPowerLevel(groupsCopy, powerLeft);       
 
-        List<UnitSpawnGroupConfig> groupsCopy = new List<UnitSpawnGroupConfig>(region.Groups);
-        List<UnitSpawnGroupConfig> choosenGroups = new List<UnitSpawnGroupConfig>();
-        List<UnitSpawnGroupConfig> validgroups = GetGroupsInPowerLevel(groupsCopy, powerLeft);
-
-        if(  DuplicateGroups(groupsCopy))
+        //check if group ids are duplicate (would case them spawn on same tiles, so we quit);
+        if (  DuplicateGroups(groupsCopy))
         {
             return null;
         }

@@ -13,7 +13,7 @@ public class WorldExtender : MonoBehaviour {
 
     void Start()
     {
-      //  TurnSystem.Instance.OnGlobalTurn += OnGlobalTurn;
+        TurnSystem.Instance.OnGlobalTurn += OnGlobalTurn;
         SetupGame();
     }
 

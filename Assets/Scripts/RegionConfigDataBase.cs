@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
+[System.Serializable]
 public class RegionConfigDataBase : ScriptableObject {
 	
 	[SerializeField]
@@ -17,7 +18,7 @@ public class RegionConfigDataBase : ScriptableObject {
 
     public static RegionConfigDataBase GetDataBase()
     {
-        return Resources.Load("region_balancing_config") as RegionConfigDataBase; 
+        return Resources.Load("Regions/region_balancing_config") as RegionConfigDataBase; 
     }
 
     public static RegionPool GetPoolConfig(int index)

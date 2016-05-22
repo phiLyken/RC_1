@@ -4,7 +4,7 @@ using System.IO;
 
 public class CampConfigCreator
 {
-    [MenuItem("Assets/Create/CampConfig")]
+    [MenuItem("Assets/Create/Camp Config")]
     public static void CreateAsset()
     {
         MyMath.ScriptableObjectUtility.CreateAsset<CampConfigDatabase>();
@@ -14,16 +14,26 @@ public class CampConfigCreator
 
 public class RegionConfigCreator
 {
-    [MenuItem("Assets/Create/RegionConfig")]
+    [MenuItem("Assets/Create/Region Config")]
     public static void CreateAsset()
     {
         MyMath.ScriptableObjectUtility.CreateAsset<RegionConfig>();
     }
 }
 
+public class UnitConfigCreator
+{
+    [MenuItem("Assets/Create/Unit Config")]
+    public static void CreateAsset()
+    {
+        MyMath.ScriptableObjectUtility.CreateAsset<ScriptableUnitConfig>();
+    }
+}
+
+
 public class UnitConfigUtility
 {
-    [MenuItem("Assets/Create/UnitCopy")]
+    [MenuItem("Assets/Create/Unit Copy")]
     public static void CreateAsset()
     {
         foreach (UnitConfig conf in UnitConfigsDatabase.GetAllConfigs())

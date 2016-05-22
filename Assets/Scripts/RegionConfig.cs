@@ -17,6 +17,8 @@ public class UnitSpawnGroupConfig : IWeightable
 {
     public int SpawnerGroup;
     public int GroupPower;
+    public bool ForceGroup;
+
     public List<WeightedUnit> SpawnableUnits;
     public float _Weight;
 
@@ -35,7 +37,8 @@ public class UnitSpawnGroupConfig : IWeightable
 
 [System.Serializable]
 public class WeightedUnit : IWeightable {
-	
+
+    public bool ForceUnit;
 	public ScriptableUnitConfig UnitConfig;
 	public float _Weight;
     public MyMath.R_Range TurnTimeOnSpawn;
