@@ -119,7 +119,7 @@ public class RegionLoader : MonoBehaviour {
 
     public static RegionConfig GetCamp(int level)
     {
-        //Get a camp for the current level (basecamps)
-        return null;
+        return WeightableFactory.GetWeighted(RegionConfigDataBase.GetPoolConfig(level).Camps).Region;
+       
     }
 }

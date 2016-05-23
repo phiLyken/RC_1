@@ -8,7 +8,8 @@ using System.Linq;
 public class UnitSpawnManager : MonoBehaviour {
     
     List<UnitSpawner> Spawners;
-    
+    static int globalGroupCounter;
+
     void Awake()
     {        
         Spawners = ( GetComponentsInChildren<UnitSpawner>()).ToList();        
@@ -18,7 +19,8 @@ public class UnitSpawnManager : MonoBehaviour {
     {
         foreach(UnitSpawnGroupConfig group in groups) {
             List<WeightedUnit> unitconfigs = RegionLoader.GetUnitsForGroupPower(group);
-            List<UnitSpawner> spawnersForId = Spawners.Where(sp => sp.group == group.SpawnerGroup).ToList();
+            List<UnitSpawner> spawnersForId = Spawners.Where(sp => sp.SpawnerGroupID == group.SpawnerGroup).ToList();
+            globalGroupCounter++;
 
             if(unitconfigs.Count > spawnersForId.Count)
             {
@@ -28,13 +30,14 @@ public class UnitSpawnManager : MonoBehaviour {
 
             while(spawnersForId.Count > 0 && unitconfigs.Count > 0)
             {
+                
                 WeightedUnit unit = unitconfigs[Random.Range(0, unitconfigs.Count)];
                 UnitSpawner spawner = spawnersForId[Random.Range(0, spawnersForId.Count)];
 
                 unitconfigs.Remove(unit);
                 spawnersForId.Remove(spawner);
 
-                spawner.SpawnUnit( unit.UnitConfig, (int)unit.TurnTimeOnSpawn.Value());
+                spawner.SpawnUnit( unit.UnitConfig, (int)unit.TurnTimeOnSpawn.Value(), globalGroupCounter);
             }
         }
     }

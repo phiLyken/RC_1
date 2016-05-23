@@ -95,6 +95,16 @@ class TileTools : EditorWindow
             }
         }
 
+        if (GUILayout.Button("Spawn Next Region"))
+        {
+            WorldExtender.Instance.SpawnNext();
+
+            if (CurrentTileSelection != null)
+            {
+                CurrentTileSelection.Clear();
+            }
+        }
+
         if (GUILayout.Button("Spawn Camp Region"))
         {
 

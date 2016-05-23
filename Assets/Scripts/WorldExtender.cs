@@ -8,11 +8,21 @@ public class WorldExtender : MonoBehaviour {
     /// </summary>
     public int MinTilesLastUnit;
 
+    public int CurrentStageOverride;
+
     static public int CurrentStage;
     public int TilesUntilCamp;
 
+    public static WorldExtender Instance;
+
+    void Awake()
+    {
+        Instance = this;
+
+    }
     void Start()
     {
+        CurrentStage = CurrentStageOverride;
         TurnSystem.Instance.OnGlobalTurn += OnGlobalTurn;
         SetupGame();
     }
@@ -49,7 +59,7 @@ public class WorldExtender : MonoBehaviour {
     /// <summary>
     /// Decides what to spawn next (camp, or regular region) and starts the region spawning process
     /// </summary>
-    void SpawnNext()
+    public void SpawnNext()
     {
         RegionConfig region = null;       
 
@@ -75,7 +85,7 @@ public class WorldExtender : MonoBehaviour {
 
     int GetNextCampSpawn()
     {
-        return 200;
+        return TilesUntilCamp + 75+ Random.Range(0, 75); 
     }
    
 }
