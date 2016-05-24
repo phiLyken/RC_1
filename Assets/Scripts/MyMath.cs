@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEditor;
 using System.IO;
 
-public class MyMath : MonoBehaviour {
+public static class MyMath  {
 	
 	public static GameObject GetClosestGameObject(Vector3 originPosition, GameObject[] objects){
 		
@@ -84,7 +84,7 @@ public class MyMath : MonoBehaviour {
 
     public static T CloneMono<T>(T item)
     {
-        return Instantiate((item as MonoBehaviour).gameObject).GetComponent<T>();
+        return MonoBehaviour.Instantiate((item as MonoBehaviour).gameObject).GetComponent<T>();
     }
 
 
@@ -135,7 +135,7 @@ public class MyMath : MonoBehaviour {
   
         for(int i = obj.transform.childCount-1; i >= 0; i--)
         {
-            Destroy(obj.transform.GetChild(i).gameObject);
+            MonoBehaviour.Destroy(obj.transform.GetChild(i).gameObject);
         }
     }
 
@@ -381,6 +381,7 @@ public class MyMath : MonoBehaviour {
 
     /*https://gist.github.com/Arakade/9dd844c2f9c10e97e3d0*/
 
+#if UNITY_EDITOR
     public static void SceneViewText(string text, Vector3 worldPos, Color? colour = null)
     {
         UnityEditor.Handles.BeginGUI();
@@ -399,7 +400,21 @@ public class MyMath : MonoBehaviour {
 	        GUI.color = Color.white;
 		}
     }
+#endif
+    private static System.Random rng = new System.Random();
 
+    public static void Shuffle<T>(this IList<T> list)
+    {
+        int n = list.Count;
+        while (n > 1)
+        {
+            n--;
+            int k = rng.Next(n + 1);
+            T value = list[k];
+            list[k] = list[n];
+            list[n] = value;
+        }
+    }
     public static string StringArrToLines(string[] str)
     {
         if (str == null || str.Length == 0) return "";

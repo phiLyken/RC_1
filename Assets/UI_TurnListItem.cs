@@ -38,6 +38,7 @@ public class UI_TurnListItem : MonoBehaviour {
         Frame.enabled = TurnSystem.HasTurn(turn);
        // Frame.enabled = false;
         TF.text = turn.GetID();
+        SetActiveIndicator(false);
     }
 
     public void SetOrder(int id)

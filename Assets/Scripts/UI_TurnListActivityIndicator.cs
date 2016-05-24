@@ -30,7 +30,7 @@ public class UI_TurnListActivityIndicator : MonoBehaviour {
 
     void OnUnitUnHover(Unit u)
     {
-        Debug.Log("ASDSADSADSADSADSAD");    
+       
         m_ui.SetActiveIndicator(false);
     }
 }

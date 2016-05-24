@@ -38,8 +38,17 @@ public class UnitFactory : MonoBehaviour
       //  Debug.Log("Created unit " + m_unit.gameObject.name);
         if(data.Owner == 1)
         {
-           UnitAI ai = m_unit.gameObject.AddComponent<UnitAI>();
+            UnitAI ai = m_unit.gameObject.AddComponent<UnitAI>();
             ai.group_id = group;
+
+            GameObject Cover = Instantiate(Resources.Load("enemy_unit_cover")) as GameObject;
+            Cover.transform.SetParent(m_unit.transform, true);
+            Cover.transform.localPosition = Vector3.zero;
+
+            Cover.GetComponent<UnitTrigger>().Target = base_unit.gameObject;
+            Cover.GetComponent<BoxCollider>().size = new Vector3(1+ 2*data.TriggerRange, 1 + 2 * data.TriggerRange, 1 + 2* data.TriggerRange);
+
+            ai.Cover = Cover;
         }
         return m_unit;
     }
