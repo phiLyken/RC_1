@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEditor;
@@ -57,6 +58,39 @@ public static class MyMath  {
         }
     }
 
+    public static Vector3[] GetTransformBoundPositionTop(Transform transform)
+    {
+        Vector3[] ret = new Vector3[4];
+
+        Bounds b = new Bounds(transform.position, transform.localScale);
+
+        Vector3 range = b.extents;
+        range.y = 0;
+        ret[0] = transform.position + range;
+
+        range.x *= -1;
+        ret[1] = transform.position + range;
+
+        range.z *= -1;
+        ret[2] = transform.position + range;
+
+        range.x *= -1;
+        ret[3] = transform.position + range;
+
+        return ret;
+
+    }
+    public static List<RaycastHit> GetObjectsFromRays(List<Ray> rays, LayerMask m)
+    {
+        List<RaycastHit> hits = new List<RaycastHit>();
+
+       foreach(Ray r in rays) { 
+            hits.AddRange( Physics.RaycastAll(r,Mathf.Infinity,m));
+        }
+
+        return hits;
+       
+    }
 
     public static float GetPercentpointsOfValueInRange(float _value, float _min, float _max){
 		if (_value < _min)

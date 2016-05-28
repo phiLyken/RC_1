@@ -230,16 +230,12 @@ public class TileManager : MonoBehaviour {
 
         AdjustGrid(newTiles.GetLength(0), newTiles.GetLength(1));
         OffsetTilePositions(newTiles, offset);
-        SetTilePhaseID(newTiles, WorldExtender.CurrentStage);
         SetTilesToGridPosition(newTiles);       
         SetTiles(FetchTiles());
 
         
     }
-    void SetTilePhaseID(Tile[,] tiles, int id)
-    {
-        foreach (Tile t in tiles) t.zoneID = id;
-    }
+
     /// <summary>
     /// Offsets all "TilePos" coordinates by the offset
     /// </summary>

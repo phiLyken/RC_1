@@ -20,8 +20,8 @@ public struct TilePos
 [RequireComponent(typeof(BoxCollider), typeof(SelectibleObjectBase))]
 public class Tile : MonoBehaviour, IWayPoint
 {
-    
-    public int zoneID;
+    [SerializeField]
+    public int TileGroup;
 
     [SerializeField]
     public int CrumbleStage;
@@ -38,7 +38,9 @@ public class Tile : MonoBehaviour, IWayPoint
     [SerializeField]
     public bool isCrumbling;
 
+    
     public GameObject Mesh;
+    [SerializeField]
     public int currentHeightStep = 0;
     public TilePos TilePos;
     public TileManager Manager;
@@ -193,6 +195,18 @@ public class Tile : MonoBehaviour, IWayPoint
 
     }
 
+    public void SetTileProperties(TileProperties p)
+    {
+        switch (p) { 
+            case TileProperties.BlockWalkable:
+            isAccessible = false;
+            break;
+        case TileProperties.BlockSight:
+            break;
+        default:
+            break;
+        }
+    }
     public void ToggleBlocked()
     {
         if (!isOccupied)
