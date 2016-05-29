@@ -26,12 +26,12 @@ public class RaysFromTiles : MonoBehaviour {
 
     public List<GameObject> GetPropsForTile(Tile t)
     {
-        return MyMath.GetObjectsFromRays(   GetRaysForTile(t), mask)
+        return MyMath.GetObjectsFromRays(   GetRaysForTile(t), "prop")
             .Select(_t => _t.collider.gameObject).GroupBy(prop => prop).Select(grp => grp.First()).ToList();
     }
     bool IsTileblocked(Tile t)
     {
-        return MyMath.GetObjectsFromRays(GetRaysForTile(t), mask).Count > 0;
+        return MyMath.GetObjectsFromRays(GetRaysForTile(t), "prop").Count > 0;
     }
     List<Ray> GetRaysForTile(Tile t)
     {

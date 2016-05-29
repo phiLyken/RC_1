@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 
-
+[RequireComponent(typeof(RaysFromTiles))]
 public class TileManager : MonoBehaviour {
 
     public static List<TileGroup> Groups;
@@ -526,11 +526,12 @@ public class TileManager : MonoBehaviour {
         Gizmos.DrawWireSphere(GetAppendPosition(), 0.5f);
 
          Color[] col =
-    {
-        Color.red, Color.cyan, Color.yellow, Color.black, Color.green
-    };
+         {
+            Color.red, Color.cyan, Color.yellow, Color.blue, Color.green
+            };
 
 
+        
         if(Groups != null) {
 
             int index = 0;
@@ -545,10 +546,13 @@ public class TileManager : MonoBehaviour {
                     foreach (Tile t in current_group.Group)
                     {
                        if(t != null)
-                        Gizmos.DrawCube(t.transform.position, new Vector3(t.transform.localScale.x, 0.1f, t.transform.localScale.z));
+                        Gizmos.DrawWireCube(t.transform.position, new Vector3(t.transform.localScale.x, 0.1f, t.transform.localScale.z));
                     }
                 }
             }
+        } else
+        {
+            Groups = TileGroup.GetGroupsFromTiles(GetTileList());
         }
     }
 	

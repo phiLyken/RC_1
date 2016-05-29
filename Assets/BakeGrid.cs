@@ -30,7 +30,7 @@ public class BakeGrid : MonoBehaviour {
 
     }    
 
-    void ApplyTagsToTiles(Dictionary<Tile, List<GameObject>> map)
+    static void ApplyTagsToTiles(Dictionary<Tile, List<GameObject>> map)
     {
         foreach (var pair in map)
         {
@@ -45,7 +45,7 @@ public class BakeGrid : MonoBehaviour {
         }
     }
     
-    List<List<Tile>> MakeGroups(Dictionary<Tile, List<GameObject>> tile_map)
+    static List<List<Tile>> MakeGroups(Dictionary<Tile, List<GameObject>> tile_map)
     {
         Dictionary<GameObject, List<Tile>> tiles_for_prop = new Dictionary<GameObject, List<Tile>>();
               
@@ -121,7 +121,7 @@ public class BakeGrid : MonoBehaviour {
         return groups;
     }
     
-    List<GameObject> GetNewPropsInGroup(List<Tile> tiles, Dictionary<Tile, List<GameObject>> tile_map, List<GameObject> obj)
+    static List<GameObject> GetNewPropsInGroup(List<Tile> tiles, Dictionary<Tile, List<GameObject>> tile_map, List<GameObject> obj)
     {
         List<GameObject> newprops = new List<GameObject>();
         foreach(Tile t in tiles)

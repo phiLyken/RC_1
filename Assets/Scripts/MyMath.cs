@@ -80,12 +80,12 @@ public static class MyMath  {
         return ret;
 
     }
-    public static List<RaycastHit> GetObjectsFromRays(List<Ray> rays, LayerMask m)
+    public static List<RaycastHit> GetObjectsFromRays(List<Ray> rays, string tag)
     {
         List<RaycastHit> hits = new List<RaycastHit>();
 
        foreach(Ray r in rays) { 
-            hits.AddRange( Physics.RaycastAll(r,Mathf.Infinity,m));
+            hits.AddRange( Physics.RaycastAll(r,Mathf.Infinity).Where(rhit => rhit.collider.gameObject.tag == tag));
         }
 
         return hits;
