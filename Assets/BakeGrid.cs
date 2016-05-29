@@ -34,7 +34,14 @@ public class BakeGrid : MonoBehaviour {
     {
         foreach (var pair in map)
         {
-            pair.Value.ForEach(go => go.GetComponent<PropTags>().Tags.ForEach(tag => pair.Key.SetTileProperties(tag)));
+            pair.Value.ForEach(go => {
+                if(go.GetComponent<PropTags>() != null) { 
+                go.GetComponent<PropTags>().Tags.ForEach(tag => pair.Key.SetTileProperties(tag));
+                } else
+                {
+                    Debug.LogWarning("No Prop tags found on " + go.name);
+                }
+            });
         }
     }
     
@@ -47,8 +54,7 @@ public class BakeGrid : MonoBehaviour {
         {
             foreach(GameObject prop in pair.Value)
             {              
-                {
-                    
+                {                    
                     if (prop != null && !tiles_for_prop.ContainsKey(prop))
                         tiles_for_prop.Add(prop, new List<Tile>()  );
                 } 
@@ -78,13 +84,11 @@ public class BakeGrid : MonoBehaviour {
 
         foreach(Tile t in tiles_without_group)
         {
-            Debug.Log(" checking tile "+t.name);
+           
             if (!tiles_assigned.Contains(t))
             {
                 current_group_id++;
 
-                //Start new Group
-                Debug.Log("new group");
                 List<Tile> group = new List<Tile>();
                 group.Add(t);
 
@@ -101,10 +105,19 @@ public class BakeGrid : MonoBehaviour {
 
                     new_props = GetNewPropsInGroup(group, tile_map, props_checked);
                 }
+
+                //all the props are parented to the first tile
+                if(props_checked.Count > 0)
+                {
+                    props_checked.ForEach(p => p.transform.SetParent(group[0].transform, true));
+                }
                 tiles_assigned.AddRange(group);
+                group.ForEach(_group_tile => _group_tile.TileGroup = current_group_id);
                 groups.Add(group);
             }
         }
+
+       
         return groups;
     }
     
@@ -117,12 +130,4 @@ public class BakeGrid : MonoBehaviour {
         }
         return newprops;
     }
-
-
-    List<Tile> GroupTiles()
-    {
-        return null;
-    }
-  
-
 }

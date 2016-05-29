@@ -8,7 +8,7 @@ using System.Linq;
 [CanEditMultipleObjects]
 public class BakeGridEditor : Editor
 {
-    Color[] col =
+    public static  Color[] col =
     {
         Color.red, Color.cyan, Color.yellow, Color.black, Color.green
     };

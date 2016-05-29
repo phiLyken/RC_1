@@ -6,7 +6,9 @@ using System.Linq;
 
 
 public class TileManager : MonoBehaviour {
-    
+
+    public static List<TileGroup> Groups;
+
     public static float HeighSteps = 0.25f;
     public Tile[,] Tiles;
 
@@ -140,7 +142,14 @@ public class TileManager : MonoBehaviour {
         if(gameObject.tag == "Grid") { 
             _instance = this;    
         }
+        
+        if(Groups == null)
+        {
+            Groups = new List<TileGroup>();
+        }
 
+        Groups.AddRange(TileGroup.GetGroupsFromTiles(GetTileList()));
+        Debug.Log(Groups.Count);
     } 
 
     void Start()
@@ -515,7 +524,33 @@ public class TileManager : MonoBehaviour {
 	void OnDrawGizmos(){
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(GetAppendPosition(), 0.5f);
-	}
+
+         Color[] col =
+    {
+        Color.red, Color.cyan, Color.yellow, Color.black, Color.green
+    };
+
+
+        if(Groups != null) {
+
+            int index = 0;
+
+            foreach(TileGroup current_group in Groups)
+            {
+                index++;
+
+                Gizmos.color = col[index % (col.Length - 1)];
+
+                if(current_group.Group.Count > 1) { 
+                    foreach (Tile t in current_group.Group)
+                    {
+                       if(t != null)
+                        Gizmos.DrawCube(t.transform.position, new Vector3(t.transform.localScale.x, 0.1f, t.transform.localScale.z));
+                    }
+                }
+            }
+        }
+    }
 	
 
     public List<Tile> GetRow(Tile t)

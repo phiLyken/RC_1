@@ -116,16 +116,6 @@ class TileTools : EditorWindow
             }
         }
 
-
-        if (GUILayout.Button(debugTime ? "Disable Crumble Debug" : "Enable Crumble Debug"))
-        {
-
-            foreach (Tile t in Grid.FetchTiles()) t.DebugCrumbleTime = !debugTime;
-            debugTime = !debugTime;
-            SceneView.RepaintAll();
-        }
-
-
         if (GUILayout.Button("Select All"))
         {
             CurrentTileSelection.Clear();

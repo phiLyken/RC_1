@@ -149,5 +149,5 @@ public class WorldCrumbler : MonoBehaviour, ITurn {
 		starting_order =   TurnSystem.Register(this);
 	}
 
-
+    public List<List<Tile>> CrumbeGroups;
 }

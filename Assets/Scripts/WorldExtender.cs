@@ -44,7 +44,6 @@ public class WorldExtender : MonoBehaviour {
     public static void SpawnRegion(RegionConfig region, TileManager target)
     {
         TileManager instance = Instantiate(region.TileSet).gameObject.GetComponent<TileManager>();
-
         target.AppendGrid(instance);
 
         //spawn the units and shit
@@ -52,7 +51,6 @@ public class WorldExtender : MonoBehaviour {
         List<UnitSpawnGroupConfig> groups = RegionLoader.GetGroupsForPower(region);
 
         spawner.SpawnGroups(groups);
-     
     }
 
 

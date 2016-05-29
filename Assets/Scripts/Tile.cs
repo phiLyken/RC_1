@@ -37,8 +37,7 @@ public class Tile : MonoBehaviour, IWayPoint
 
     [SerializeField]
     public bool isCrumbling;
-
-    
+        
     public GameObject Mesh;
     [SerializeField]
     public int currentHeightStep = 0;
@@ -50,11 +49,18 @@ public class Tile : MonoBehaviour, IWayPoint
     public UnitEventHandler OnUnitTrespassing;
     public TileEventHandler OnDeactivate;
     public TileEventHandler OnSetChild;
-    
+    public TileEventHandler OnTileCrumble;
+
+
+    public int GetCrumbleToHeightDiff()
+    {
+        return currentHeightStep - CrumbleStage;
+    }
     public Vector3 GetPosition()
     {
         return transform.position;
     }
+    
     
     public bool IsFree
     {
@@ -68,6 +74,10 @@ public class Tile : MonoBehaviour, IWayPoint
         get { return Child != null; }
     }
 
+    public void InitGroup(int global_group)
+    {
+        TileGroup += global_group;
+    }
     public void Start()
     {
 
@@ -84,7 +94,7 @@ public class Tile : MonoBehaviour, IWayPoint
         b.OnHover += OnHover;
         b.OnHoverEnd += OnHoverEnd;
         b.OnSelect += delegate { TileSelecter.SelectTile(this); };
-
+                
         SetBaseState();
     }
 
@@ -118,7 +128,15 @@ public class Tile : MonoBehaviour, IWayPoint
         if (!isAccessible) return;
         int diff = new_crumble - CrumbleStage;
         CrumbleStage = new_crumble;
-        MoveTileDown( Mathf.Max(diff,0));
+        
+
+        //If we are in the editor move the tile down on crumbling (used by force cruble tool)
+        //Otherwise, call the crumble event, in that case the group is responsible of crumbling
+        if (Application.isPlaying) { 
+                if (OnTileCrumble != null) OnTileCrumble(this);
+        } else {
+             MoveTileDown( Mathf.Max(diff,0));
+        }
     }
 
     public void ToggleCamp()
@@ -153,7 +171,7 @@ public class Tile : MonoBehaviour, IWayPoint
     void RemoveTile()
     {
        
-        if(Application.isPlaying)
+        if(Application.isPlaying && WorldCrumbler.Instance != null)
             WorldCrumbler.Instance.OnCrumble -= OnCrumbleTurn;
         GetComponent<MeshRenderer>().enabled = false;
         isAccessible = false;
@@ -237,9 +255,8 @@ public class Tile : MonoBehaviour, IWayPoint
 
     public void MoveTileDown(int steps)
     {
-
         currentHeightStep -= steps;
-        Elevate(Vector3.up * TileManager.HeighSteps * -steps);
+        Elevate(Vector3.down*TileManager.HeighSteps * steps);
 
         if (currentHeightStep < Constants.CrumbleHeightThreshold)
         {
@@ -257,15 +274,9 @@ public class Tile : MonoBehaviour, IWayPoint
         RemoveCrumbleEffect();
     }
 
-    void OnEnable()
-    {
-        DebugCrumbleTime = false;
-    }
-
     public void SetVisualState(VisualState state)
     {
-        MeshMaterialView view = GetComponent<MeshMaterialView>();
-       
+        MeshMaterialView view = GetComponent<MeshMaterialView>();      
 
         if (view == null)
         {
@@ -277,28 +288,24 @@ public class Tile : MonoBehaviour, IWayPoint
      
     }
 
-    #region 
-    [HideInInspector]
-    public bool DebugCrumbleTime = false;
-
-
     void OnDrawGizmos()
     {
-        if (DebugCrumbleTime)
+        if (!isAccessible)
         {
-            float p = (float) CrumbleStage / 10;
-            Color col = new Color(2.0f * p, 2.0f * (1 - p), 0, 0.7f);
-            Gizmos.color = col;
-
-            Gizmos.DrawCube(transform.position, new Vector3(transform.localScale.x, 0.1f, transform.localScale.z));
+            Gizmos.color = Color.red * 0.5f;
+            Gizmos.DrawCube(GetPosition(), new Vector3(transform.localScale.x, 0.1f, transform.localScale.z));
+        } else if (isCrumbling)
+        {
+            Gizmos.DrawCube(GetPosition(), new Vector3(transform.localScale.x, 0.1f, transform.localScale.z));
+            Gizmos.color = Color.yellow * 0.5f;
+        } else if (isCamp)
+        {
+            Gizmos.DrawCube(GetPosition(), new Vector3(transform.localScale.x, 0.1f, transform.localScale.z));
+            Gizmos.color = Color.green * 0.5f;
         }
-
-     //  Debug.DrawRay(transform.position, Vector3.up * 0.3f, IsFree ? Color.green : Color.red);
-    
        
+        
     }
 
     
-
-    #endregion
 }
