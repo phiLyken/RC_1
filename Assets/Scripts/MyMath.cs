@@ -84,7 +84,8 @@ public static class MyMath  {
     {
         List<RaycastHit> hits = new List<RaycastHit>();
 
-       foreach(Ray r in rays) { 
+       foreach(Ray r in rays) {
+            Debug.DrawRay(r.origin, r.direction * 5, Color.green, 10f);
             hits.AddRange( Physics.RaycastAll(r,Mathf.Infinity).Where(rhit => rhit.collider.gameObject.tag == tag));
         }
 

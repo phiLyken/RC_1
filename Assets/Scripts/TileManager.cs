@@ -3,8 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-
-[RequireComponent(typeof(RaysFromTiles))]
 public class TileManager : MonoBehaviour {
 
     public static List<TileGroup> Groups;
@@ -520,7 +518,10 @@ public class TileManager : MonoBehaviour {
 		return all;
 		
 	}
-	
+	public void InvalidateGroups()
+    {
+        Groups = null;
+    }
 	void OnDrawGizmos(){
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(GetAppendPosition(), 0.5f);
@@ -532,7 +533,7 @@ public class TileManager : MonoBehaviour {
 
 
         
-        if(Groups != null) {
+        if (Groups != null) {
 
             int index = 0;
 

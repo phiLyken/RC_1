@@ -6,27 +6,24 @@ public class BakeGrid : MonoBehaviour {
     
 
 
-    public List<List<Tile>> Bake()
+    public static List<List<Tile>> Bake(TileManager region)
     {
         Debug.Log("--- Baking ----");
         Dictionary<Tile, List<GameObject>> map = new Dictionary<Tile, List<GameObject>>();
-
-        RaysFromTiles caster = GetComponent<RaysFromTiles>();
-        
+       
         //Get all the objects for a tile and add it to the map
 
-        foreach ( Tile tile in GetComponent<TileManager>().GetTileList())
+        foreach ( Tile tile in region.GetTileList())
         {  
-            map.Add(tile, caster.GetPropsForTile(tile));
+            map.Add(tile, RaysFromTiles.GetPropsForTile(tile));
 
         }
         Debug.Log("Generated Map for " + map.Count + " tiles");
         ApplyTagsToTiles(map);
-        //Add the properties to the tile
-
-        //Keep a map of all props
-
+        region.InvalidateGroups();
         return  MakeGroups(map);
+
+       
 
     }    
 

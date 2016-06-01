@@ -17,7 +17,7 @@ public class BakeGridEditor : Editor
     {
         if (GUILayout.Button("Bake")) {
 
-            List<List<Tile>> groups = (target as BakeGrid).Bake().Where(list => list.Count > 1).ToList();
+            List<List<Tile>> groups = BakeGrid.Bake((target as BakeGrid).GetComponent<TileManager>()).Where(list => list.Count > 1).ToList();
 
             Debug.Log(groups.Count);
             for(int i = 0; i < groups.Count;i++)

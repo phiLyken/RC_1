@@ -165,6 +165,12 @@ class TileTools : EditorWindow
             SceneView.RepaintAll();
         }
 
+
+        if (GUILayout.Button("Bake"))
+        {
+            BakeGrid.Bake(Grid);
+            SceneView.RepaintAll();
+        }
     }
 
     int crumble_number;
