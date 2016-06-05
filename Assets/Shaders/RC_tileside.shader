@@ -68,12 +68,12 @@ Shader "Redcliffe/RC_tileside" {
                 float node_5030 = i.uv0.g.r;
                 float3 node_8383 = abs(i.normalDir);
                 float3 node_7021 = (node_8383*node_8383);
-                float4 node_5918 = _Time + _TimeEditor;
-                float2 node_9596 = (float2(i.posWorld.g,i.posWorld.b)+node_5918.g*float2(0.1,0.1));
+                float4 node_3261 = _Time + _TimeEditor;
+                float2 node_9596 = (float2(i.posWorld.g,i.posWorld.b)+node_3261.g*float2(0.1,0.1));
                 float4 node_5780 = tex2D(_MainTex,TRANSFORM_TEX(node_9596, _MainTex));
-                float2 node_4379 = (float2(i.posWorld.b,i.posWorld.r)+node_5918.g*float2(0.1,0.1));
+                float2 node_4379 = (float2(i.posWorld.b,i.posWorld.r)+node_3261.g*float2(0.1,0.1));
                 float4 node_7053 = tex2D(_MainTex,TRANSFORM_TEX(node_4379, _MainTex));
-                float2 node_3504 = (float2(i.posWorld.r,i.posWorld.g)+node_5918.g*float2(0.1,0.1));
+                float2 node_3504 = (float2(i.posWorld.r,i.posWorld.g)+node_3261.g*float2(0.1,0.1));
                 float4 node_2937 = tex2D(_MainTex,TRANSFORM_TEX(node_3504, _MainTex));
                 float3 emissive = ((node_5030*saturate(((0.25*(node_7021.r*node_5780.r + node_7021.g*node_7053.r + node_7021.b*node_2937.r))+node_5030))*_Brightness)*i.vertexColor.rgb*_TintColor.rgb);
                 float3 finalColor = emissive;
