@@ -604,7 +604,7 @@ public class TileManager : MonoBehaviour {
     public List<Tile> GetTileList()
     {
 
-        if (Tiles == null)
+        if (Tiles == null )
         {
            Tiles = FetchTiles();
         }

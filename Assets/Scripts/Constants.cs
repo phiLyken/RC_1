@@ -32,7 +32,7 @@ public class Constants : MonoBehaviour {
     /// <summary>
     /// How much the tile can crumble before it is removed
     /// </summary>
-    public static int CrumbleHeightThreshold = -4;
+    public static int CrumbleHeightThreshold = 4;
 
 
     /// <summary>

@@ -37,7 +37,13 @@ public class Tile : MonoBehaviour, IWayPoint
 
     [SerializeField]
     public bool isCrumbling;
-        
+
+    [SerializeField]
+    public bool isEnabled = true;
+
+    [SerializeField]
+    public bool isBlockingSight;
+
     public GameObject Mesh;
     [SerializeField]
     public int currentHeightStep = 0;
@@ -54,7 +60,7 @@ public class Tile : MonoBehaviour, IWayPoint
 
     public int GetCrumbleToHeightDiff()
     {
-        return currentHeightStep - CrumbleStage;
+        return currentHeightStep + CrumbleStage;
     }
     public Vector3 GetPosition()
     {
@@ -94,42 +100,53 @@ public class Tile : MonoBehaviour, IWayPoint
         b.OnHover += OnHover;
         b.OnHoverEnd += OnHoverEnd;
         b.OnSelect += delegate { TileSelecter.SelectTile(this); };
-                
+               
         SetBaseState();
     }
 
     public void SetBaseState()
     {
-        
-        if (isCamp) {
-            SetVisualState( new VisualState("base"));
-        } else if (!isAccessible)
+        MeshMaterialView view = GetComponent<MeshMaterialView>();
+        view.states = new List<VisualState>();
+
+        if (isCamp)
+        {
+            SetVisualState(new VisualState("base"));
+        }
+        else if (!isAccessible)
         {
             SetVisualState(new VisualState("blocked"));
-        } else
+        }
+        else if (!isEnabled)
+        {
+            SetVisualState(new VisualState("disabled"));
+        }
+        else
         {
             SetVisualState(new VisualState("normal"));
         }
     }
 
-
+    
     public void OnCrumbleTurn(int crumble_row)
     {
       
         if (!isCrumbling) return;
 
-        int crumble_amount = (int)Constants.TileCrumbleRangeOnCrumble.Value();
+        int crumble_amount = (int) Constants.TileCrumbleRangeOnCrumble.Value();
       //  Debug.Log("Crumble " + gameObject.name+"  amount"+crumble_amount);
         SetCrumble(CrumbleStage + crumble_amount);
     }
 
     public void SetCrumble(int new_crumble) {
 
-        if (!isAccessible) return;
+        new_crumble = Mathf.Clamp(new_crumble,0, Constants.CrumbleHeightThreshold+1);
         int diff = new_crumble - CrumbleStage;
-        CrumbleStage = new_crumble;
-        
 
+        CrumbleStage = new_crumble;
+
+       
+        
         //If we are in the editor move the tile down on crumbling (used by force cruble tool)
         //Otherwise, call the crumble event, in that case the group is responsible of crumbling
         if (Application.isPlaying) { 
@@ -156,7 +173,7 @@ public class Tile : MonoBehaviour, IWayPoint
 
     void DeactivateTile()
     {
-        Debug.Log("REMOVE " + gameObject.name);
+      //  Debug.Log("REMOVE " + gameObject.name);
       
         StartCoroutine(DeactivateWhenReady());
     }
@@ -176,6 +193,9 @@ public class Tile : MonoBehaviour, IWayPoint
         GetComponent<MeshRenderer>().enabled = false;
         isAccessible = false;
         isCrumbling = false;
+        isEnabled = false;
+
+        SetBaseState();
         RemoveCrumbleEffect();
 
     }
@@ -203,8 +223,10 @@ public class Tile : MonoBehaviour, IWayPoint
 
     public void StartCrumble()
     {
+        if (!isEnabled) return;
+
         isCrumbling = true;
-        if (isAccessible && crumble_effect == null)
+        if (crumble_effect == null)
         {
             crumble_effect = Instantiate(Resources.Load("crumble_prefab")) as GameObject;
             crumble_effect.transform.SetParent(transform);
@@ -217,9 +239,10 @@ public class Tile : MonoBehaviour, IWayPoint
     {
         switch (p) { 
             case TileProperties.BlockWalkable:
-            isAccessible = false;
+                isAccessible = false;
             break;
         case TileProperties.BlockSight:
+                isBlockingSight = true;
             break;
         default:
             break;
@@ -256,9 +279,10 @@ public class Tile : MonoBehaviour, IWayPoint
     public void MoveTileDown(int steps)
     {
         currentHeightStep -= steps;
+
         Elevate(Vector3.down*TileManager.HeighSteps * steps);
 
-        if (currentHeightStep < Constants.CrumbleHeightThreshold)
+        if ( Mathf.Abs(currentHeightStep) > Constants.CrumbleHeightThreshold)
         {
             DeactivateTile();
         }
@@ -290,18 +314,25 @@ public class Tile : MonoBehaviour, IWayPoint
 
     void OnDrawGizmos()
     {
-        if (!isAccessible)
+       
+        if (!isEnabled)
         {
             Gizmos.color = Color.red * 0.5f;
             Gizmos.DrawCube(GetPosition(), new Vector3(transform.localScale.x, 0.1f, transform.localScale.z));
         } else if (isCrumbling)
         {
-            Gizmos.DrawCube(GetPosition(), new Vector3(transform.localScale.x, 0.1f, transform.localScale.z));
-            Gizmos.color = Color.yellow * 0.5f;
+            //Gizmos.color = Color.yellow * 0.5f;
+            //Gizmos.DrawCube(GetPosition(), new Vector3(transform.localScale.x, 0.1f, transform.localScale.z));
+         
         } else if (isCamp)
         {
-            Gizmos.DrawCube(GetPosition(), new Vector3(transform.localScale.x, 0.1f, transform.localScale.z));
             Gizmos.color = Color.green * 0.5f;
+            Gizmos.DrawCube(GetPosition(), new Vector3(transform.localScale.x, 0.1f, transform.localScale.z));
+          
+        } else if (isBlockingSight)
+        {
+            Gizmos.color = Color.yellow * 0.5f;
+            Gizmos.DrawCube(GetPosition(), new Vector3(transform.localScale.x, 0.1f, transform.localScale.z));
         }
        
         

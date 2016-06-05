@@ -32,8 +32,8 @@ public class BakeGrid : MonoBehaviour {
         foreach (var pair in map)
         {
             pair.Value.ForEach(go => {
-                if(go.GetComponent<PropTags>() != null) { 
-                go.GetComponent<PropTags>().Tags.ForEach(tag => pair.Key.SetTileProperties(tag));
+                if(go.GetComponent<TileProp>() != null) { 
+                    go.GetComponent<TileProp>().Tags.ForEach(tag => pair.Key.SetTileProperties(tag));
                 } else
                 {
                     Debug.LogWarning("No Prop tags found on " + go.name);

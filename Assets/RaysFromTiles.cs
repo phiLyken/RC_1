@@ -20,8 +20,7 @@ public class RaysFromTiles : MonoBehaviour {
         List<Ray> ret = new List<Ray>();
         foreach(var pos in GetRayPositionsFromTile(t))
         {
-            
-            
+                       
             ret.Add(new Ray(new Vector3(pos.x,-4,pos.z), Vector3.up * 4));
         }
         ret.Add(new Ray( new Vector3( t.transform.position.x, -4, t.transform.position.z), Vector3.up));

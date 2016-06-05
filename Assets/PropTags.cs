@@ -10,13 +10,5 @@ public enum TileProperties
 public class PropTags : MonoBehaviour {
     public List<TileProperties> Tags;
     
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+
 }

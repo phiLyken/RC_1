@@ -20,7 +20,11 @@ public class VisualState
 
     public VisualState(string id)
     {
-        material = TileStateConfigs.GetMaterialForstate(id).material;
+        if (id != "disabled")
+        {
+            material = TileStateConfigs.GetMaterialForstate(id).material;
+        }
+       
     }
 
     public delegate void VisualStateEventHandler(VisualState state);
@@ -64,12 +68,19 @@ public class MeshMaterialView : MonoBehaviour {
             mRenderer = GetComponent<MeshRenderer>();
             if (mRenderer == null) mRenderer = gameObject.AddComponent<MeshRenderer>();
         }
+
+
         if (states == null || states.Count == 0)
         {
             mRenderer.material = null;
         } else {
-
-            mRenderer.material = states[states.Count - 1].material;
+            if(states[states.Count -1].material != null) {
+                mRenderer.enabled = true;
+                mRenderer.material = states[states.Count - 1].material;
+            } else
+            {
+                mRenderer.enabled = false;
+            }
         }
     }
 

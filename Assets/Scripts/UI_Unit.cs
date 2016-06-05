@@ -14,8 +14,14 @@ public class UI_Unit : MonoBehaviour {
     public static void CreateUnitUI(Unit u)
     {
         GameObject obj = (Instantiate(Resources.Load("unit_ui")) as GameObject);
-        obj.transform.SetParent(GameObject.FindGameObjectWithTag("UI").transform, false);
+
+        GameObject ui_parent = GameObject.FindGameObjectWithTag("UI");
+
+        if(ui_parent != null) { 
+        obj.transform.SetParent(ui_parent.transform, false);
         obj.GetComponent<UI_Unit>().SetUnitInfo(u);
+
+        }
     }
     public void Toggle(bool active)
     {

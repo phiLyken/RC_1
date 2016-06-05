@@ -18,19 +18,25 @@ public class TileGroup {
 
     void OnTileInGroupCrumble(Tile tile)
     {
-        if (CanTilesCrumble(Group))
-        {
+
+      //  if (CanTilesCrumble(Group))
+      //  {
             int _heightStepDelta = GetGetHeightDeltaForGroup(Group);
 
             if(_heightStepDelta != 0) { 
                 Group.ForEach(t => t.MoveTileDown(_heightStepDelta));
             }
-        }
+      //  } 
+
+
     }
     
     int GetGetHeightDeltaForGroup(List<Tile> tiles)
     {
-        return Mathf.Abs( tiles.Sum(t => t.GetCrumbleToHeightDiff()) / tiles.Count);     
+        int count = tiles.Count;
+        float diff = tiles.Sum(t => t.GetCrumbleToHeightDiff());
+
+        return (int) Mathf.Abs( (diff / count) );     
     }
 
     bool CanTilesCrumble(List<Tile> tiles)

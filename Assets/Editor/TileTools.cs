@@ -154,10 +154,10 @@ class TileTools : EditorWindow
             }
         }
 
-        if (GUILayout.Button("Test Crumble"))
+        if (Application.isPlaying && GUILayout.Button("Test Crumble"))
         {
-            crumble_number = EditorGUILayout.IntField(crumble_number, GUILayout.Width(50));
-            TileWeighted.GetCrumbleTiles(4,Grid).ForEach(t =>t.StartCrumble());
+   
+            TileWeighted.GetCrumbleTiles(20,Grid).ForEach(t =>t.StartCrumble());
 
             //  Debug.Log(Grid.GetLastActiveRow());
            
@@ -173,7 +173,7 @@ class TileTools : EditorWindow
         }
     }
 
-    int crumble_number;
+
     void SetPathingTile(Tile selectedTile)
     {
 

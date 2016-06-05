@@ -24,7 +24,7 @@ public class LOSCheck
     }
     public List<Tile> GetTilesVisibleTileInRange(int range)
     {
-        new MyVisibility(blockslight, TileVisible, LOSCheck.getdist).Compute(m_startTile.TilePos, range);
+        new MyVisibility(blockSight, TileVisible, LOSCheck.getdist).Compute(m_startTile.TilePos, range);
         return in_range;
     }
 
@@ -40,20 +40,20 @@ public class LOSCheck
         AddToRange(m_manager.Tiles[x, z]);      
     }
 
-    bool blockslight(int x, int z)
+    bool blockSight(int x, int z)
     {
         int max_x = m_manager.Tiles.GetLength(0) - 1;
         int max_z = m_manager.Tiles.GetLength(1) - 1;
         x = Mathf.Clamp(x, 0, max_x);
         z = Mathf.Clamp(z, 0, max_z);
   
-        return !m_manager.Tiles[x, z].isAccessible;
+        return !m_manager.Tiles[x,z].isEnabled || m_manager.Tiles[x, z].isBlockingSight;
 
     }
 
     void AddToRange(Tile t)
     {
-        if (!in_range.Contains(t) && t.isAccessible)
+        if (!in_range.Contains(t) )
         {
            
             in_range.Add(t);
@@ -72,7 +72,7 @@ public class LOSCheck
 public class LOS : MonoBehaviour
 {
     public TilePos start;
-    public TilePos end;
+  //  public TilePos end;
 
 
     public void Test()
@@ -83,8 +83,11 @@ public class LOS : MonoBehaviour
 
     void OnDrawGizmos()
     {
-        if(TileManager.Instance != null)
-        Gizmos.DrawCube(TileManager.Instance.Tiles[start.x, start.z].transform.position, Vector3.one);
+        if(TileManager.Instance != null) {
+            Gizmos.DrawCube(TileManager.Instance.Tiles[start.x, start.z].transform.position, Vector3.one);
+            Gizmos.color = Color.yellow;
+          //Gizmos.DrawWireSphere(TileManager.Instance.Tiles[end.x, end.z].transform.position, 2f);
+        }
     }
 
     bool blockslight(int x, int z)
@@ -93,7 +96,7 @@ public class LOS : MonoBehaviour
         int max_z = TileManager.Instance.Tiles.GetLength(1)-1;
         x = Mathf.Clamp(x, 0, max_x);
         z = Mathf.Clamp(z, 0, max_z);
-        Debug.Log(x + " " + z+ "  max "+max_x+" "+max_z);
+      //  Debug.Log(x + " " + z+ "  max "+max_x+" "+max_z);
         return !TileManager.Instance.Tiles[x, z].IsFree;
          
     }
@@ -104,7 +107,7 @@ public class LOS : MonoBehaviour
         int max_z = TileManager.Instance.Tiles.GetLength(1) - 1;
         x = Mathf.Clamp(x, 0, max_x);
         z = Mathf.Clamp(z, 0, max_z);
-        Debug.Log(x + " " + z + "  max " + max_x + " " + max_z);
+       // Debug.Log(x + " " + z + "  max " + max_x + " " + max_z);
 
         TileManager.Instance.Tiles[x, z].SetVisualState( new VisualState("visible_test_false"));
     }

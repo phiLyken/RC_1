@@ -33,11 +33,11 @@ public class TileWeighted : IWeightable {
 		tilePos = tile.TilePos; 
 		weight = 0;
 
-        if (tile.isCrumbling || !tile.isAccessible) return;
+        if (!tile.isEnabled || tile.isCrumbling ) return;
 
         //Apply weight based on distance to last row (the closer the more weight)
         int lastRow = region.GetLastActiveRow();
-      
+
 		int max_rows = Constants.CrumbleRange;
 
         int distance = max_rows - Mathf.Min(tile.TilePos.z - lastRow, max_rows);
@@ -62,7 +62,7 @@ public class TileWeighted : IWeightable {
 		}
 
         weight = distance/5 + distance * (neighbours_weight + prev_weight);
-      //  weight = distance;
+       // weight = distance;
 	}
 
     public float Weight
@@ -80,7 +80,9 @@ public class TileWeighted : IWeightable {
     }
 
     float GetNeighbourWeight(Tile t, float multiplier){
-		return (!t.isAccessible ? 15 : (t.CrumbleStage * 5)) * multiplier;
+
+
+		return (!t.isAccessible ? 15 : ( Mathf.Abs(t.CrumbleStage) * 5)) * multiplier;
 	}
 
     
