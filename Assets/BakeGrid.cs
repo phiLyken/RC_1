@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 public class BakeGrid : MonoBehaviour {
     
-
-
     public static List<List<Tile>> Bake(TileManager region)
     {
         Debug.Log("--- Baking ----");
@@ -14,7 +12,8 @@ public class BakeGrid : MonoBehaviour {
         //Get all the objects for a tile and add it to the map
 
         foreach ( Tile tile in region.GetTileList())
-        {  
+        {
+
             map.Add(tile, RaysFromTiles.GetPropsForTile(tile));
 
         }

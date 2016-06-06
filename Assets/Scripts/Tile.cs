@@ -48,15 +48,16 @@ public class Tile : MonoBehaviour, IWayPoint
     [SerializeField]
     public int currentHeightStep = 0;
     public TilePos TilePos;
-    public TileManager Manager;
+
     public GameObject Child;
-    public List<Tile> AdjacentTiles;
 
     public UnitEventHandler OnUnitTrespassing;
     public TileEventHandler OnDeactivate;
     public TileEventHandler OnSetChild;
     public TileEventHandler OnTileCrumble;
 
+    [HideInInspector]
+    public bool customTile;
 
     public int GetCrumbleToHeightDiff()
     {
@@ -145,8 +146,6 @@ public class Tile : MonoBehaviour, IWayPoint
 
         CrumbleStage = new_crumble;
 
-       
-        
         //If we are in the editor move the tile down on crumbling (used by force cruble tool)
         //Otherwise, call the crumble event, in that case the group is responsible of crumbling
         if (Application.isPlaying) { 
@@ -156,8 +155,14 @@ public class Tile : MonoBehaviour, IWayPoint
         }
     }
 
+    public void ToggleBlockSight()
+    {
+        customTile = true;
+        isBlockingSight = !isBlockingSight;
+    }
     public void ToggleCamp()
     {
+        customTile = true;
         isCamp = !isCamp;
 
     }
@@ -237,6 +242,8 @@ public class Tile : MonoBehaviour, IWayPoint
 
     public void SetTileProperties(TileProperties p)
     {
+        if (customTile) return;
+
         switch (p) { 
             case TileProperties.BlockWalkable:
                 isAccessible = false;
@@ -252,6 +259,7 @@ public class Tile : MonoBehaviour, IWayPoint
     {
         if (!isOccupied)
         {
+            customTile = true;
             isAccessible = !isAccessible;
         }
     }
@@ -266,6 +274,7 @@ public class Tile : MonoBehaviour, IWayPoint
 
     public void MoveTileUp(int steps)
     {
+        customTile = true;
         currentHeightStep += steps;
         Elevate(Vector3.up * TileManager.HeighSteps * steps);
     }
@@ -278,6 +287,7 @@ public class Tile : MonoBehaviour, IWayPoint
 
     public void MoveTileDown(int steps)
     {
+        customTile = true;
         currentHeightStep -= steps;
 
         Elevate(Vector3.down*TileManager.HeighSteps * steps);
@@ -319,20 +329,23 @@ public class Tile : MonoBehaviour, IWayPoint
         {
             Gizmos.color = Color.red * 0.5f;
             Gizmos.DrawCube(GetPosition(), new Vector3(transform.localScale.x, 0.1f, transform.localScale.z));
-        } else if (isCrumbling)
+        }if
+        (!isAccessible)
         {
-            //Gizmos.color = Color.yellow * 0.5f;
-            //Gizmos.DrawCube(GetPosition(), new Vector3(transform.localScale.x, 0.1f, transform.localScale.z));
-         
-        } else if (isCamp)
+            Gizmos.color = Color.red * 0.8f;
+            Gizmos.DrawWireCube(GetPosition(), new Vector3(transform.localScale.x * 0.8f, 0.1f, transform.localScale.z * 0.8f));
+
+        }
+        if (isCamp)
         {
             Gizmos.color = Color.green * 0.5f;
             Gizmos.DrawCube(GetPosition(), new Vector3(transform.localScale.x, 0.1f, transform.localScale.z));
           
-        } else if (isBlockingSight)
+        }
+        if (isBlockingSight)
         {
-            Gizmos.color = Color.yellow * 0.5f;
-            Gizmos.DrawCube(GetPosition(), new Vector3(transform.localScale.x, 0.1f, transform.localScale.z));
+            Gizmos.color = Color.yellow * 0.8f;
+            Gizmos.DrawWireCube(GetPosition(), new Vector3( transform.localScale.x * 0.5f, 0.1f, transform.localScale.z * 0.5f));
         }
        
         

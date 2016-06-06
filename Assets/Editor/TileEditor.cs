@@ -14,48 +14,161 @@ public class TileEditor : Editor {
 	}
 
     int selected = 0;
-  //  Tile m_tile;
+    //  Tile m_tile;
+
+
     public override void OnInspectorGUI()
     {
-        base.OnInspectorGUI();
-      //  m_tile = (target as Tile);
+        ToggleInspector();
+        GUILayout.Space(15);
+        CustomProperties();
+        GUILayout.Space(15);
+        MoveTiles();
+        GUILayout.Space(15);
+        CrumbleTiles();
+        GUILayout.Space(15);
+        MiscTools();
+
+        /*
+          int newSelected = EditorGUILayout.Popup("Label", selected, LoadTileAssets());
+        if (GUILayout.Button("Spawn"))
+        {
+            foreach (Tile t in targets) SpawnSelected(t);
+            SceneView.RepaintAll();
+        }
+
+         if (newSelected != selected)
+        {      
+            selected = newSelected;
+        }
+        */
+
+    }
+
+
+    bool showInspector;
+
+    void ToggleInspector()
+    {
+        showInspector = EditorGUILayout.Foldout(showInspector, "SHOW DEFAULT INSPECTOR");
+        if (showInspector)
+            base.OnInspectorGUI();
+    }
+
+    void CustomProperties()
+    {
+        EditorGUILayout.BeginHorizontal();
+
+
         if (GUILayout.Button("Toggle Blocked"))
         {
             foreach (Tile t in targets)
             {
+
                 t.ToggleBlocked();
+                SceneView.RepaintAll();
             }
         }
+
+
         if (GUILayout.Button("Toggle Camp"))
         {
             foreach (Tile t in targets)
             {
                 t.ToggleCamp();
+                SceneView.RepaintAll();
             }
         }
-        if (GUILayout.Button("Up"))
+
+        if (GUILayout.Button("Toggle BlockSight"))
+        {
+            foreach (Tile t in targets)
+            {
+                t.ToggleBlockSight();
+                SceneView.RepaintAll();
+            }
+        }
+        EditorGUILayout.EndHorizontal();
+
+        if (targets.Length > 1)
+        {
+            if (GUILayout.Button("Reset Custom Settings"))
+            {
+                foreach (Tile t in targets)
+                {
+                    TileTools.ResetTile(t);
+
+                    SceneView.RepaintAll();
+                }
+            }
+
+            EditorGUILayout.HelpBox(".. not supported in multiselect", MessageType.Info, true);
+        }
+        else if ((target as Tile).customTile)
+        {
+
+            if (GUILayout.Button("Reset Custom Settings"))
+            {
+                TileTools.ResetTile(target as Tile);
+            }
+            EditorGUILayout.HelpBox("CUSTOM SETTINGS! \nCustom tile settings will not get properties from props", MessageType.Warning, true);
+            SceneView.RepaintAll();
+        }
+
+    }
+
+    void MoveTiles()
+    {
+        EditorGUILayout.BeginHorizontal();
+        if (GUILayout.Button("Move Up"))
         {
             foreach (Tile t in targets)
             {
                 t.MoveTileUp(1);
+                SceneView.RepaintAll();
             }
         }
-        
-        if (GUILayout.Button("Down"))
+
+        if (GUILayout.Button("Move Down"))
         {
             foreach (Tile t in targets)
             {
                 t.MoveTileDown(1);
+                SceneView.RepaintAll();
             }
         }
 
-        int newSelected = EditorGUILayout.Popup("Label", selected, LoadTileAssets());
 
-        if (GUILayout.Button("Spawn"))
+        EditorGUILayout.EndHorizontal();
+    }
+
+    void CrumbleTiles()
+    {
+        EditorGUILayout.BeginHorizontal();
+        if (GUILayout.Button("Force Crumble"))
         {
-            foreach (Tile t in targets) SpawnSelected(t);
+            foreach (Tile t in targets)
+            {
+                t.StartCrumble();
+                t.OnCrumbleTurn(0);
+                SceneView.RepaintAll();
+            }
         }
 
+
+        if (GUILayout.Button("Reset Crumble"))
+        {
+            foreach (Tile t in targets)
+            {
+                t.ResetCrumble();
+                SceneView.RepaintAll();
+            }
+        }
+        EditorGUILayout.EndHorizontal();
+    }
+
+    void MiscTools()
+    {
         if (GUILayout.Button("Toggle Enemy Spawn"))
         {
             foreach (Tile t in targets)
@@ -64,51 +177,33 @@ public class TileEditor : Editor {
             }
         }
 
-        if (GUILayout.Button("Force Crumble"))
-        {
-            foreach (Tile t in targets)
-            {
-                t.StartCrumble();
-                t.OnCrumbleTurn(0);
-            }
-        }
-
-        if (GUILayout.Button("Reset Crumble"))
-        {
-            foreach (Tile t in targets)
-            {
-                t.ResetCrumble();
-            }
-        }
 
         if (GUILayout.Button("Add/Remove Loot"))
         {
             foreach (Tile t in targets)
             {
-                Tile_Loot l = t.GetComponent<Tile_Loot>();
-                if(l == null)
-                {
-                    l = t.gameObject.AddComponent<Tile_Loot>();
-                    GameObject lootobj = (Instantiate(Resources.Load("Loot"), t.GetPosition(), Quaternion.identity) as GameObject );
-                    lootobj.transform.SetParent(t.transform, true);
-                    l.LootObject = lootobj;
-                } else
-                {
-                    DestroyImmediate(l.LootObject.gameObject);
-                    DestroyImmediate(l);
-                }
+                ToggleLoot(t);
             }
         }
-
-
-        if (newSelected != selected)
-        {      
-            selected = newSelected;
-        }
-       
     }
 
-   
+  
+    void ToggleLoot(Tile t)
+    {
+        Tile_Loot l = t.GetComponent<Tile_Loot>();
+        if (l == null)
+        {
+            l = t.gameObject.AddComponent<Tile_Loot>();
+            GameObject lootobj = (Instantiate(Resources.Load("Loot"), t.GetPosition(), Quaternion.identity) as GameObject);
+            lootobj.transform.SetParent(t.transform, true);
+            l.LootObject = lootobj;
+        }
+        else
+        {
+            DestroyImmediate(l.LootObject.gameObject);
+            DestroyImmediate(l);
+        }
+    }
     void MakeEnemySpawnTile(Tile t)
     {
         
@@ -151,6 +246,10 @@ public class TileEditor : Editor {
         return object_names;
     }
 
+    void OnDrawGizmos()
+    {
+        Gizmos.DrawCube((target as Tile).transform.position, Vector3.one);
+    }
     
 
 }

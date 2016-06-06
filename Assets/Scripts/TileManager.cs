@@ -149,12 +149,7 @@ public class TileManager : MonoBehaviour {
         Groups.AddRange(TileGroup.GetGroupsFromTiles(GetTileList()));
         Debug.Log(Groups.Count);
     } 
-
-    void Start()
-    {
-        if(Instance == this)
-        SpawnUnitsInRegion(this);
-    }
+    
 	
     public List<Tile> GetTilesInRange(Tile center, int range)
     {
@@ -215,16 +210,7 @@ public class TileManager : MonoBehaviour {
         AppendGrid(  SpawnTiles());
     }
 
-    void SpawnUnitsInRegion(TileManager manager)
-    {
-        UnitSpawnManager spawner = manager.gameObject.GetComponent<UnitSpawnManager>();
 
-        if (spawner != null && Application.isPlaying)
-        {
-          //  spawner.SpawnUnits();
-        }
-
-    }
     public void AppendGrid(TileManager manager)
     {
         manager.transform.position = GetAppendPosition();
@@ -364,7 +350,7 @@ public class TileManager : MonoBehaviour {
          //   Debug.Log(gameObject.name);
          //   Debug.Log(gameObject.name + "_"+t.name);
             tiles[t.TilePos.x, t.TilePos.z] = t;
-            t.Manager = this;
+           
         }
 
         return tiles;
