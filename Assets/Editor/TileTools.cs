@@ -327,17 +327,7 @@ class TileTools : EditorWindow
         SceneView.onSceneGUIDelegate -= this.OnSceneGUI;
     }
 
-    public static void ResetTile(Tile t)
-    {
-        t.isAccessible = true;
-        t.isCamp = false;
-        t.isEnabled = true;
-        t.isBlockingSight = false;
-        t.CrumbleStage = 0;
-        t.customTile = false;
-        t.currentHeightStep = 0;
-        t.ResetCrumble();
-    }
+
     void OnSceneGUI(SceneView sceneView)
     {
         // Do your drawing here using Handles.

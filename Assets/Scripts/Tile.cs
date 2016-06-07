@@ -242,7 +242,7 @@ public class Tile : MonoBehaviour, IWayPoint
 
     public void SetTileProperties(TileProperties p)
     {
-        if (customTile) return;
+
 
         switch (p) { 
             case TileProperties.BlockWalkable:

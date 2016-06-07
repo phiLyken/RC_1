@@ -1,8 +1,10 @@
 ﻿using UnityEngine;
+using UnityEditor;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-public class BakeGrid : MonoBehaviour {
+
+public class BakeGrid  {
     
     public static List<List<Tile>> Bake(TileManager region)
     {
@@ -25,11 +27,28 @@ public class BakeGrid : MonoBehaviour {
        
 
     }    
+	public static void ResetTile(Tile t)
+	{
+		t.isAccessible = true;
+		t.isCamp = false;
+		t.isEnabled = true;
+		t.isBlockingSight = false;
+		t.CrumbleStage = 0;
+		t.customTile = false;
+		t.currentHeightStep = 0;
+		t.ResetCrumble();
+	}
 
     static void ApplyTagsToTiles(Dictionary<Tile, List<GameObject>> map)
     {
         foreach (var pair in map)
         {
+			if(pair.Key.customTile){
+				continue;
+			}
+
+			ResetTile(pair.Key);
+
             pair.Value.ForEach(go => {
                 if(go.GetComponent<TileProp>() != null) { 
                     go.GetComponent<TileProp>().Tags.ForEach(tag => pair.Key.SetTileProperties(tag));

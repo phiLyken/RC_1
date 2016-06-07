@@ -96,7 +96,7 @@ public class TileEditor : Editor {
             {
                 foreach (Tile t in targets)
                 {
-                    TileTools.ResetTile(t);
+                    BakeGrid.ResetTile(t);
 
                     SceneView.RepaintAll();
                 }
@@ -109,7 +109,7 @@ public class TileEditor : Editor {
 
             if (GUILayout.Button("Reset Custom Settings"))
             {
-                TileTools.ResetTile(target as Tile);
+				BakeGrid.ResetTile(target as Tile);
             }
             EditorGUILayout.HelpBox("CUSTOM SETTINGS! \nCustom tile settings will not get properties from props", MessageType.Warning, true);
             SceneView.RepaintAll();
