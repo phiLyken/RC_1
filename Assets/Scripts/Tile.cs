@@ -27,9 +27,6 @@ public class Tile : MonoBehaviour, IWayPoint
     public int CrumbleStage;
 
     [SerializeField]
-    GameObject crumble_effect;
-
-    [SerializeField]
     public bool isCamp;
 
     [SerializeField]
@@ -44,7 +41,8 @@ public class Tile : MonoBehaviour, IWayPoint
     [SerializeField]
     public bool isBlockingSight;
 
-    public GameObject Mesh;
+    string MeshPath = "tile_mesh_states_ground_1";
+
     [SerializeField]
     public int currentHeightStep = 0;
     public TilePos TilePos;
@@ -55,6 +53,7 @@ public class Tile : MonoBehaviour, IWayPoint
     public TileEventHandler OnDeactivate;
     public TileEventHandler OnSetChild;
     public TileEventHandler OnTileCrumble;
+    public TileEventHandler OnTileMove;
 
     [HideInInspector]
     public bool customTile;
@@ -148,11 +147,11 @@ public class Tile : MonoBehaviour, IWayPoint
 
         //If we are in the editor move the tile down on crumbling (used by force cruble tool)
         //Otherwise, call the crumble event, in that case the group is responsible of crumbling
-        if (Application.isPlaying) { 
-                if (OnTileCrumble != null) OnTileCrumble(this);
-        } else {
-             MoveTileDown( Mathf.Max(diff,0));
-        }
+        if (OnTileCrumble != null) OnTileCrumble(this);
+
+       // if (!Application.isPlaying) { 
+       //      MoveTileDown( Mathf.Max(diff,0));
+       // }
     }
 
     public void ToggleBlockSight()
@@ -201,7 +200,7 @@ public class Tile : MonoBehaviour, IWayPoint
         isEnabled = false;
 
         SetBaseState();
-        RemoveCrumbleEffect();
+       // RemoveCrumbleEffect();
 
     }
 
@@ -211,39 +210,24 @@ public class Tile : MonoBehaviour, IWayPoint
         if (OnSetChild != null) OnSetChild(this);
     }
 
-    public void SetMesh(GameObject newMesh)
-    {
-        if (Mesh != null)
-        {
-            DestroyImmediate(Mesh);
-        }
-        Mesh = newMesh;
-
-        newMesh.transform.parent = this.transform;
-        newMesh.transform.localPosition = Vector3.zero;
-
-        newMesh.transform.position += Vector3.down * Mesh.transform.localScale.y / 2 * transform.localScale.y + Vector3.down * 0.1f;
-
-    }
 
     public void StartCrumble()
     {
         if (!isEnabled) return;
 
         isCrumbling = true;
-        if (crumble_effect == null)
+      /*  if (crumble_effect == null)
         {
             crumble_effect = Instantiate(Resources.Load("crumble_prefab")) as GameObject;
             crumble_effect.transform.SetParent(transform);
             crumble_effect.transform.localPosition = Vector3.zero;
         }
+        */
 
     }
 
     public void SetTileProperties(TileProperties p)
     {
-
-
         switch (p) { 
             case TileProperties.BlockWalkable:
                 isAccessible = false;
@@ -264,14 +248,6 @@ public class Tile : MonoBehaviour, IWayPoint
         }
     }
 
-    void RemoveCrumbleEffect()
-    {
-        if (crumble_effect != null)
-        {
-            DestroyImmediate(crumble_effect.gameObject);
-        }
-    }
-
     public void MoveTileUp(int steps)
     {
         customTile = true;
@@ -282,8 +258,10 @@ public class Tile : MonoBehaviour, IWayPoint
     void Elevate(Vector3 delta)
     {
         transform.position += delta;
+        if (OnTileMove != null) OnTileMove(this);
         if (Child != null) Child.transform.position += delta;
     }
+
 
     public void MoveTileDown(int steps)
     {
@@ -300,12 +278,17 @@ public class Tile : MonoBehaviour, IWayPoint
 
     public void ResetCrumble()
     {
-        CrumbleStage = 0;
+        GetComponent<MeshRenderer>().enabled = true;
+        isEnabled = true;
+        isAccessible = true;
+        isBlockingSight = false;
+
         currentHeightStep = 0;
         transform.position = TileManager.Instance.GetTilePos(this);
-        GetComponent<MeshRenderer>().enabled = true;
-        isAccessible = true;
-        RemoveCrumbleEffect();
+        if (OnTileMove != null) OnTileMove(this);
+        SetCrumble(0);
+        SetBaseState();
+   
     }
 
     public void SetVisualState(VisualState state)
@@ -346,10 +329,27 @@ public class Tile : MonoBehaviour, IWayPoint
         {
             Gizmos.color = Color.yellow * 0.8f;
             Gizmos.DrawWireCube(GetPosition(), new Vector3( transform.localScale.x * 0.5f, 0.1f, transform.localScale.z * 0.5f));
-        }
-       
+        } 
         
     }
 
-    
+
+    public GameObject SpawnConfiguredMesh()
+    {
+
+        GameObject prefab = Resources.Load("Tiles/Meshes/" + MeshPath) as GameObject;
+        GameObject new_mesh = Instantiate(prefab);
+        return SpawnMesh(new_mesh.GetComponent<TileMesh>());
+       
+    }
+
+    public GameObject SpawnMesh(TileMesh child)
+    {
+        child.transform.position = transform.position - Vector3.up * 0.15f;
+        child.SetTile(this);
+        EditorTileMeshContainer.AddPair(this, child);
+        return child.gameObject;
+
+
+    }
 }

@@ -165,6 +165,16 @@ class TileTools : EditorWindow
             SceneView.RepaintAll();
         }
 
+        if (GUILayout.Button("Spawn_Meshes"))
+        {
+
+            List<Tile> tiles = Grid.GetTileList();
+            foreach(Tile t in tiles)
+            {
+                TileEditor.SpawnMesh(t);
+            }
+            SceneView.RepaintAll();
+        }
 
         if (GUILayout.Button("Bake"))
         {

@@ -12,7 +12,6 @@ public class TileManager : MonoBehaviour {
 
 	public GameObject TilePrefab;
 
-
 	public int RegionWidth;
 	public int RegionHeight;
 
@@ -121,7 +120,7 @@ public class TileManager : MonoBehaviour {
 		}
 
 		return bestTile;
-	}
+	} 
 
 	public static List<Tile> FindPath(TileManager manager, Tile startTile, Tile endTile, Unit requester)
     {
@@ -135,18 +134,14 @@ public class TileManager : MonoBehaviour {
 	}
 	
 	void Awake () {
+        
+        if(_instance == null)
+        {
+            SpawnMeshes();
+        }
         SetTiles(FetchTiles());
 
-        if(gameObject.tag == "Grid") { 
-            _instance = this;    
-        }
-        
-        if(Groups == null)
-        {
-            Groups = new List<TileGroup>();
-        }
-
-        Groups.AddRange(TileGroup.GetGroupsFromTiles(GetTileList()));
+        MakeGroups();
         Debug.Log(Groups.Count);
     } 
     
@@ -154,7 +149,8 @@ public class TileManager : MonoBehaviour {
     public List<Tile> GetTilesInRange(Tile center, int range)
     {
         List<Tile> tiles = new List<Tile>();
-        foreach(Tile t in Tiles)
+        
+        foreach(Tile t in GetTileList())
         {
             if (GetTileDistance(center, t) <= range) tiles.Add(t);
         }
@@ -194,28 +190,48 @@ public class TileManager : MonoBehaviour {
 		return start.transform.position + new Vector3(TileSize * (size-1),0, TileSize * (size-1))/2;		
 	}
 	
+    public List<TileGroup> MakeGroups()
+    {
+        if(Groups == null)
+        {
+            Groups = new List<TileGroup>();
+        }
+        Groups = TileGroup.GetGroupsFromTiles(GetTileList());
 
+        return Groups;
+
+    }
     public void SpawnBaseGrid()
     {
+        _instance = this;
+        EditorTileMeshContainer.Reset();
         GridHeight = 0;
         GridWidth = 0;
-
+        
         int cc = transform.childCount;
 
         for (int i = cc - 1; i >= 0; i--)
         {
             DestroyImmediate(transform.GetChild(i).gameObject);
         }
-             
+        
         AppendGrid(  SpawnTiles());
+      
     }
 
 
     public void AppendGrid(TileManager manager)
     {
         manager.transform.position = GetAppendPosition();
+        Groups.AddRange(manager.MakeGroups());
+        
         AppendGrid(manager.FetchTiles());
        
+    }
+
+    public void SpawnMeshes()
+    {
+        GetTileList().ForEach(t => t.SpawnConfiguredMesh());
     }
     public void AppendGrid(Tile[,] newTiles)
     {
@@ -223,10 +239,10 @@ public class TileManager : MonoBehaviour {
 
         AdjustGrid(newTiles.GetLength(0), newTiles.GetLength(1));
         OffsetTilePositions(newTiles, offset);
-        SetTilesToGridPosition(newTiles);       
+        SetTilesToGridPosition(newTiles);      
         SetTiles(FetchTiles());
+        SpawnMeshes();
 
-        
     }
 
     /// <summary>
