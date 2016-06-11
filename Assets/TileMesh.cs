@@ -37,18 +37,24 @@ public class TileMesh : MonoBehaviour {
             DestroyImmediate(this);
             return;
         }
-
-        transform.position = t.GetPosition() + Vector3.up * -0.05f;
+      
+        transform.position = GetMeshPosition();
     }
     public void SetTile(Tile t)
     {
+       
         m_tile = t;
-        SubMeshes = GetComponentsInChildren<TileMesh_Sub>().ToList();
+        UpdatePos(m_tile);
 
         OnParentCrumble(t);
         t.OnTileCrumble += OnParentCrumble;
         t.OnDeactivate += OnParentDeactivate;
         t.OnTileMove += UpdatePos;
+    }
+
+    Vector3 GetMeshPosition()
+    {
+        return  m_tile.GetPosition() + Vector3.up * -0.05f;
     }
 
     void OnParentDeactivate(Tile t)

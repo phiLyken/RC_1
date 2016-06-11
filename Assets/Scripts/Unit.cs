@@ -193,7 +193,9 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
         currentTile.OnDeactivate -= OnCurrentTileDeactivate;
         TurnSystem.Instance.OnGlobalTurn -= GlobalTurn;
 
-        GetOwner().RemoveUnit(this);
+        if(GetOwner() !=null)
+            GetOwner().RemoveUnit(this);
+
         TurnSystem.Unregister(this);
         AllUnits.Remove(this);
         Destroy(this.gameObject);
@@ -268,7 +270,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
                 BaseCampTurn();            
         }
 
-        Debug.Log(gameObject.name + " global turn new time:" + TurnTime);   
+      //  Debug.Log(gameObject.name + " global turn new time:" + TurnTime);   
     }
 
     void BaseCampTurn()

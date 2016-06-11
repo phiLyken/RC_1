@@ -165,7 +165,7 @@ class TileTools : EditorWindow
             SceneView.RepaintAll();
         }
 
-        if (GUILayout.Button("Spawn_Meshes"))
+        if (GUILayout.Button("Spawn Meshes"))
         {
 
             List<Tile> tiles = Grid.GetTileList();

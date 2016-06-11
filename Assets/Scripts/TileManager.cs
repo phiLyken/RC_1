@@ -73,7 +73,13 @@ public class TileManager : MonoBehaviour {
                 return _instance;
             } else
             {
-                _instance = FindObjectOfType(typeof(TileManager)) as TileManager;
+                _instance = GameObject.FindGameObjectWithTag("Grid").GetComponent<TileManager>();
+
+                if(_instance == null) { 
+                   _instance = FindObjectOfType(typeof(TileManager)) as TileManager;
+                }
+
+
                 return _instance;
             }
         }
@@ -192,6 +198,7 @@ public class TileManager : MonoBehaviour {
 	
     public List<TileGroup> MakeGroups()
     {
+        
         if(Groups == null)
         {
             Groups = new List<TileGroup>();
@@ -207,7 +214,7 @@ public class TileManager : MonoBehaviour {
         EditorTileMeshContainer.Reset();
         GridHeight = 0;
         GridWidth = 0;
-        
+       
         int cc = transform.childCount;
 
         for (int i = cc - 1; i >= 0; i--)
@@ -222,26 +229,44 @@ public class TileManager : MonoBehaviour {
 
     public void AppendGrid(TileManager manager)
     {
+        float start = Time.realtimeSinceStartup;
+
         manager.transform.position = GetAppendPosition();
+       
+
         Groups.AddRange(manager.MakeGroups());
-        
+        Debug.Log("[GROUPS] APPEND _TIME = " + (Time.realtimeSinceStartup - start).ToString("0.000000000000"));
+
         AppendGrid(manager.FetchTiles());
+
+        Debug.Log("[APPENDED] APPEND _TIME = " + (Time.realtimeSinceStartup - start).ToString("0.000000000000"));
        
     }
 
     public void SpawnMeshes()
     {
+
         GetTileList().ForEach(t => t.SpawnConfiguredMesh());
     }
     public void AppendGrid(Tile[,] newTiles)
     {
+        float start = Time.realtimeSinceStartup;
         TilePos offset = new TilePos(0, GridHeight);
 
         AdjustGrid(newTiles.GetLength(0), newTiles.GetLength(1));
+        Debug.Log("[ADJUSTED] APPEND _TIME = " + (Time.realtimeSinceStartup - start).ToString("0.000000000000"));
+
         OffsetTilePositions(newTiles, offset);
-        SetTilesToGridPosition(newTiles);      
+        Debug.Log("[OFFSET] APPEND _TIME = " + (Time.realtimeSinceStartup - start).ToString("0.000000000000"));
+        SetTilesToGridPosition(newTiles);
+
+        Debug.Log("[TO POSITION] APPEND _TIME = " + (Time.realtimeSinceStartup - start).ToString("0.000000000000"));
+
         SetTiles(FetchTiles());
+        Debug.Log("[SET TILES] APPEND _TIME = " + (Time.realtimeSinceStartup - start).ToString("0.000000000000"));
+
         SpawnMeshes();
+        Debug.Log("[SPAWNED] APPEND _TIME = " + (Time.realtimeSinceStartup - start).ToString("0.000000000000"));
 
     }
 
@@ -356,6 +381,8 @@ public class TileManager : MonoBehaviour {
     /// </summary>
     public Tile[,] FetchTiles()
     {
+        float start = Time.realtimeSinceStartup;
+       
         Tile[,] tiles = new Tile[GridWidth, GridHeight];
  
         Tile[] children = gameObject.GetComponentsInChildren<Tile>();
@@ -368,7 +395,7 @@ public class TileManager : MonoBehaviour {
             tiles[t.TilePos.x, t.TilePos.z] = t;
            
         }
-
+        Debug.Log("[FETCH] " +  (Time.realtimeSinceStartup - start).ToString("0.0000000000000000000"));
         return tiles;
     }
     
@@ -637,6 +664,23 @@ public class TileManager : MonoBehaviour {
 		return -1;
 	}
 
+    public Tile GetFirstNotCrumblingTileInCol(int column)
+    {
+        if (Tiles == null)
+        {
+            Tiles = FetchTiles();
+        }
+        for (int i = 0; i < Tiles.GetLength(1); i++)
+        {
+            Tile current = Tiles[column, i];
+            if(current.CrumbleStage == 0)
+            {
+                return current;
+            }
+        }
+        Debug.LogWarning("No not-crumbling-tile found (column " + column + ")");
+        return null;
+    }
     /*
     public List<List<Tile>> GetRegions(List<Tile> all_tiles, TileManager manager)
     {

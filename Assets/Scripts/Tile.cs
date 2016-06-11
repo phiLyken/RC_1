@@ -336,20 +336,27 @@ public class Tile : MonoBehaviour, IWayPoint
 
     public GameObject SpawnConfiguredMesh()
     {
+        float start = Time.realtimeSinceStartup;
 
         GameObject prefab = Resources.Load("Tiles/Meshes/" + MeshPath) as GameObject;
         GameObject new_mesh = Instantiate(prefab);
+
+       // Debug.Log("[SPAWN 1] " + (Time.realtimeSinceStartup - start).ToString("0.0000000000"));
         return SpawnMesh(new_mesh.GetComponent<TileMesh>());
        
     }
 
     public GameObject SpawnMesh(TileMesh child)
     {
-        child.transform.position = transform.position - Vector3.up * 0.15f;
+        float start = Time.realtimeSinceStartup;
         child.SetTile(this);
         EditorTileMeshContainer.AddPair(this, child);
+        //Debug.Log("[SPAWN 1.1] " + (Time.realtimeSinceStartup - start).ToString("0.0000000000"));
         return child.gameObject;
 
 
     }
+
+
+
 }
