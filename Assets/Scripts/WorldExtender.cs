@@ -29,7 +29,6 @@ public class WorldExtender : MonoBehaviour {
 
     void SetupGame()
     {
-
         SpawnRegion(RegionLoader.GetStartRegion(), TileManager.Instance);
     }
 

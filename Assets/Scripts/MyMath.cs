@@ -170,7 +170,7 @@ public static class MyMath  {
   
         for(int i = obj.transform.childCount-1; i >= 0; i--)
         {
-            MonoBehaviour.Destroy(obj.transform.GetChild(i).gameObject);
+            MonoBehaviour.DestroyImmediate(obj.transform.GetChild(i).gameObject);
         }
     }
 

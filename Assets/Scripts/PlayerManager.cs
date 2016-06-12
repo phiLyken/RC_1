@@ -14,8 +14,10 @@ public class PlayerManager : MonoBehaviour {
         Instance = this;
     }
 
-    public static Player GetPlayer(int index)
-    {
+    public static Player GetPlayer(int index) { 
+    
+        if(Instance == null) return null;
+
         return Instance.Players[index];
     }
 }

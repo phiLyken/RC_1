@@ -185,8 +185,21 @@ public class TileEditor : Editor {
                 ToggleLoot(t);
             }
         }
+
+        if (GUILayout.Button("Spawn Mesh"))
+        {
+            foreach (Tile t in targets)
+            {
+                SpawnMesh(t);
+            }
+        }
     }
 
+    public static void SpawnMesh(Tile t)
+    {
+        TileMesh new_mesh = t.SpawnConfiguredMesh().GetComponent<TileMesh>();
+        
+    }
   
     void ToggleLoot(Tile t)
     {
@@ -230,12 +243,12 @@ public class TileEditor : Editor {
 
     void SpawnSelected(Tile t)
     {
-        t.SetMesh((GameObject)Instantiate(Resources.Load("tiles/" + LoadTileAssets()[selected])));
+        t.SpawnConfiguredMesh();
     }
 
     string[] LoadTileAssets()
     {
-        Object[] assets = Resources.LoadAll("tiles");
+        Object[] assets = Resources.LoadAll("tiles/meshes");
         string[] object_names = new string[assets.Length];
 
         for (int i = 0; i < object_names.Length; i++)

@@ -99,7 +99,7 @@ public class WorldCrumbler : MonoBehaviour, ITurn {
     {
       
         int count = (int) TilesToCrumbleCount.Value();
-        Debug.Log("crumble. last row " + TileManager.Instance.GetLastActiveRow());    
+       // Debug.Log("crumble. last row " + TileManager.Instance.GetLastActiveRow());    
         TileWeighted.GetCrumbleTiles(count, TileManager.Instance).ForEach(t => t.StartCrumble() );
     }
 
