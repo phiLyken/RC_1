@@ -4,9 +4,7 @@ using System.Collections.Generic;
 
 public class UnitAction_Rest : UnitActionBase
 {
-    TurnableEventHandler UpdateCostPreview;
-
-    void Awake()
+      void Awake()
     {
         orderID = 3;
     }
@@ -15,8 +13,7 @@ public class UnitAction_Rest : UnitActionBase
     {
         base.SelectAction();
         StartCoroutine(WaitForConfirmation());
-    }
-    
+    }    
 
     public override void UnSelectAction()
     {

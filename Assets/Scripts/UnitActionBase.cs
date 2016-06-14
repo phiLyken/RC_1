@@ -7,6 +7,8 @@ public class UnitActionBase : MonoBehaviour {
     [HideInInspector]
     public bool ActionInProgress;
     public ActionEventHandler OnExecuteAction;
+    public ActionEventHandler OnSelectAction;
+    public ActionEventHandler OnUnselectAction;
     public StatInfo[] Requirements;
     
     public bool UsableInBaseCamp;
@@ -24,7 +26,7 @@ public class UnitActionBase : MonoBehaviour {
 
     protected  Unit Owner;
 
-    
+    public Sprite Image;
     /// <summary>
     /// used for ordering the abilities in lists
     /// </summary>
@@ -36,39 +38,35 @@ public class UnitActionBase : MonoBehaviour {
     {
         Owner = o;
     }
-
-   
+       
     public virtual void SelectAction()
     {
-        string charges = "";
-        if (UseCharges) charges = Charges.ToString();
-        if(UI_ActiveUnit.Instance !=null )
-        UI_ActiveUnit.Instance.AbilityTF.text = "Ability: " + ActionID+"("+charges+")\n"+Descr;
+        if (OnSelectAction != null) OnSelectAction(this);
     }
 
-    public virtual bool CanExecAction()
+    public virtual bool CanExecAction(bool displayToast)
     {
 
         if (!Owner.Actions.HasAP(AP_Cost)) {
-            ToastNotification.SetToastMessage2("Not enough AP");
+            if(displayToast)  ToastNotification.SetToastMessage2("Not enough AP");
             return false;
         }
         if (!HasRequirements()) {
             return false;
         }
         if (ActionInProgress) {
-            ToastNotification.SetToastMessage2("Other Action in Progress");
+            if (displayToast) ToastNotification.SetToastMessage2("Other Action in Progress");
             return false;
         }
         if (!HasCharges())
         {
-            ToastNotification.SetToastMessage2("No Enough Charges");
+            if (displayToast) ToastNotification.SetToastMessage2("Not Enough Charges");
             return false;
         }
 
         if (BlockedByCamp())
         {
-            ToastNotification.SetToastMessage2("Can not use in Camp");
+            if (displayToast) ToastNotification.SetToastMessage2("Can not use in Camp");
             return false;
         }
 
@@ -102,11 +100,12 @@ public class UnitActionBase : MonoBehaviour {
     }
     public virtual void UnSelectAction()
     {
-
+        if (OnUnselectAction != null) OnUnselectAction(this);
     }
-    public  void AttemptExection()
+
+    public void AttemptExection()
     {
-        if (CanExecAction())
+        if (CanExecAction(true))
         { 
             ActionExecuted();              
         } else

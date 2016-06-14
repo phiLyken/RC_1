@@ -3,6 +3,7 @@ using System.Collections;
 using System.Linq;
 
 public delegate void ActionEventHandler(UnitActionBase action);
+public delegate void ActionManagerEventHander(ActionManager mngr);
 
 public class ActionManager : MonoBehaviour {
 
@@ -11,15 +12,17 @@ public class ActionManager : MonoBehaviour {
     public int AP_Used = 2;
     public  int MaxAP = 2;
     public int CurrentTurnCost = 0;
-    
+
     public void RestCharges()
     {
         foreach(UnitActionBase action in Actions)
         {
             action.Charges = action.ChargeMax;
         }
-    }   
+    }
 
+    public static ActionManagerEventHander OnActionManagerActivated;
+   
     public UnitActionBase[] Actions;
     UnitActionBase currentAction;
 
@@ -71,8 +74,10 @@ public class ActionManager : MonoBehaviour {
         Owner.OnTurnStart += unit =>
         {
             AP_Used = 0;
-            UpateActionUI();
+            if (OnActionManagerActivated != null) OnActionManagerActivated(this);        
         };
+
+       
     }
 
 
@@ -112,16 +117,18 @@ public class ActionManager : MonoBehaviour {
 
     void Update()
     {
-        
-        if (!TurnSystem.HasTurn(Owner as ITurn)) return;
-      //  Debug.Log(Owner.GetID() + "has  turn");
-        if (Owner.OwnerID != 0) return;
-     
+        //Only Read Inputs if this is the currently active actionmanager
+        if ( Owner.OwnerID != 0) return;
+
+        if (TurnSystem.Instance == null || !TurnSystem.HasTurn(Owner))
+        {
+            return;
+        }
         if (Input.GetKeyDown(KeyCode.Backspace))
         {
-         SkipTurn();
-        }
-        
+             SkipTurn();
+             return;
+        }        
 
         if (Input.GetKeyUp(KeyCode.Alpha1))
         {
@@ -156,7 +163,6 @@ public class ActionManager : MonoBehaviour {
             Debug.LogWarning("No ability #" + index);
             return null;
         }
-
         return  SelectAbility(Actions[index]);
     }
     public UnitActionBase SelectAbility(UnitActionBase ability)
@@ -171,7 +177,7 @@ public class ActionManager : MonoBehaviour {
         }
 
         UnsetCurrentAction();
-        if (!ability.CanExecAction())
+        if (!ability.CanExecAction(true))
         {
             return null;
         }
@@ -184,21 +190,17 @@ public class ActionManager : MonoBehaviour {
         return currentAction;
 
     }
-    private void UpateActionUI()
-    {
-        if (UI_ActiveUnit.Instance != null)
-			UI_ActiveUnit.Instance.AbilityTF.text = GetActionInfos(Actions);
-    }
+
     private void UnsetCurrentAction()
     {
         if (currentAction == null) return;
 
         currentAction.UnSelectAction();
         currentAction.OnExecuteAction -= OnActionUsed;       
-        currentAction = null;
-        UpateActionUI();
+        currentAction = null;    
 
         if (OnActionUnselected != null) OnActionUnselected(currentAction);
+       // if (OnActionManagerActivated != null) OnActionManagerActivated(this);
 
     }
 
@@ -210,9 +212,11 @@ public class ActionManager : MonoBehaviour {
 
         if (OnActionComplete != null) OnActionComplete(action);
 
-        // Debug.Log(TurnTime);
-        if (TurnSystem.HasTurn(Owner) && PanCamera.Instance != null)
+      
+        if (TurnSystem.HasTurn(Owner) && PanCamera.Instance != null) {
             PanCamera.Instance.PanToPos(Owner.currentTile.GetPosition());
+        }
+
         UnsetCurrentAction();
         // Debug.Log(Owner.GetID() + " Action used" + action.ActionID);
        
