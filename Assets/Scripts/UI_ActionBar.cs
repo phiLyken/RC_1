@@ -26,6 +26,13 @@ public class UI_ActionBar : MonoBehaviour {
         instance._setActions(manager);
     }
 
+    public void SkipTurn()
+    {
+        if(m_manager != null &&  m_manager.GetOwnerID() == 0)
+        {
+            m_manager.SkipTurn();
+        }
+    }
     void _setActions(ActionManager manager)
     {
         UpdateButtons(manager);
@@ -67,20 +74,29 @@ public class UI_ActionBar : MonoBehaviour {
       
         }
 
-        if (manager == null) return;
+       // if (manager == null) return;
+
+       // If we already have a manager, unregister the events;
         if(m_manager != null)
         {
             m_manager.OnActionSelected -= OnSelectAction;
             m_manager.OnActionUnselected -= UnSelectAction;
+            m_manager = null;
         }
 
         m_manager = manager;
+
+        //Binds the callback for when an action was selected        
         m_manager.OnActionSelected += OnSelectAction;
         m_manager.OnActionUnselected += UnSelectAction;
+      
 
+
+        //From here it is all about adjusting the number of buttons in the action bar
+        //check for diff
         int diff = manager.Actions.Length - CurrentButtons.Count;
 
-       
+        //spawn new buttons and hook them up to the events       
         for (int i = 0; i < diff; i++)
         {
             GameObject newGO = Instantiate(ButtonPrefab);
@@ -92,6 +108,8 @@ public class UI_ActionBar : MonoBehaviour {
             
         }
          
+
+        //Go through all the buttons and set the action in the button
         for(int i = 0; i < CurrentButtons.Count; i++)
         {
             bool isActive = i < manager.Actions.Length;

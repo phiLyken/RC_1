@@ -8,7 +8,7 @@ public delegate void ActionManagerEventHander(ActionManager mngr);
 public class ActionManager : MonoBehaviour {
 
     Unit Owner;
-   
+    
     public int AP_Used = 2;
     public  int MaxAP = 2;
     public int CurrentTurnCost = 0;
@@ -22,6 +22,11 @@ public class ActionManager : MonoBehaviour {
     }
 
     public static ActionManagerEventHander OnActionManagerActivated;
+    
+    public int GetOwnerID()
+    {
+        return Owner.OwnerID;
+    }
    
     public UnitActionBase[] Actions;
     UnitActionBase currentAction;
@@ -110,6 +115,7 @@ public class ActionManager : MonoBehaviour {
 
     public void SkipTurn()
     {
+       
         Debug.Log("skip");
         AP_Used = MaxAP;
         CurrentTurnCost = 5;

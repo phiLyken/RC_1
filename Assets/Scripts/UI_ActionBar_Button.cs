@@ -53,7 +53,8 @@ public class UI_ActionBar_Button : MonoBehaviour {
     }
     public void SelectAction()
     {
-        m_manager.SelectAbility(m_action);
+        if(m_manager.GetOwnerID() == 0)
+            m_manager.SelectAbility(m_action);
     }
 
     public void MouseOver()
