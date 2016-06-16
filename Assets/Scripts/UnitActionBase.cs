@@ -51,7 +51,7 @@ public class UnitActionBase : MonoBehaviour {
             if(displayToast)  ToastNotification.SetToastMessage2("Not enough AP");
             return false;
         }
-        if (!HasRequirements()) {
+        if (!HasRequirements(displayToast)) {
             return false;
         }
         if (ActionInProgress) {
@@ -85,14 +85,14 @@ public class UnitActionBase : MonoBehaviour {
         if (UseCharges) Charges = ChargeMax;
     }
   
-    public bool HasRequirements()
+    public bool HasRequirements(bool displayToast)
     {
         foreach (StatInfo s in Requirements)
         {
             if (Owner.Stats.GetStat(s.Stat).Amount < s.Amount)
             {
                 Debug.Log("Not enough  " + s.ToString());
-                ToastNotification.SetToastMessage2("Not enough " + s.Stat.ToString());
+                if(displayToast)   ToastNotification.SetToastMessage2("Not enough " + s.Stat.ToString());
                 return false;
             }
         }

@@ -60,7 +60,7 @@ public class UnitAI : MonoBehaviour, ITriggerable {
         //   Debug.Log(m_unit.GetID() + " Selecting atk");
         UnitAction_Attack Attack = getAttack();
         Debug.Log(target);
-        if (Attack  == null || !Attack.HasRequirements())
+        if (Attack  == null || !Attack.HasRequirements(true))
         {
           
             yield break;
@@ -99,7 +99,7 @@ public class UnitAI : MonoBehaviour, ITriggerable {
         UnitAction_Move move = getMove();
         m_Actions.SelectAbility(move);
 
-        if (move == null || !move.HasRequirements()) yield break;
+        if (move == null || !move.HasRequirements(true)) yield break;
 
         yield return new WaitForSeconds(0.5f);
         //Debug.Log(m_unit.GetID() + " getting move targets");
