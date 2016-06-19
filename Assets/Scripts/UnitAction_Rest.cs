@@ -17,16 +17,20 @@ public class UnitAction_Rest : UnitActionBase
 
     public override void UnSelectAction()
     {
+      //  Debug.Log("end  comfirmation");
+        StopAllCoroutines();
         base.UnSelectAction();
-        StopAllCoroutines(); 
+      
     }
 
     IEnumerator WaitForConfirmation()
     {
+      //  Debug.Log("Wait for comfirmation");
         while (!Input.GetButtonUp("Jump")) {
+           
             yield return null;
         }
-
+       // Debug.Log("REST");
         AttemptExection();
 
     }

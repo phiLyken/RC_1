@@ -192,6 +192,7 @@ public class ActionManager : MonoBehaviour {
         currentAction = ability;
         currentAction.OnExecuteAction += OnActionUsed;
         currentAction.SelectAction();
+
         if (OnActionSelected != null) OnActionSelected(currentAction);
         return currentAction;
 

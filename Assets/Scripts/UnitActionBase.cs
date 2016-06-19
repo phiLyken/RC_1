@@ -105,6 +105,7 @@ public class UnitActionBase : MonoBehaviour {
 
     public void AttemptExection()
     {
+        Debug.Log("att empts");
         if (CanExecAction(true))
         { 
             ActionExecuted();              
@@ -128,7 +129,7 @@ public class UnitActionBase : MonoBehaviour {
     }
      protected virtual void ActionExecuted()
     {
-       // Debug.Log(ActionID + " done");
+        Debug.Log(ActionID + " done");
 
         if (OnExecuteAction != null) OnExecuteAction(this);
     }
