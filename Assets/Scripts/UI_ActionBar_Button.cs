@@ -13,7 +13,7 @@ public class UI_ActionBar_Button : MonoBehaviour {
      
     public void SetAction(UnitActionBase action, ActionManager manager)
     {
-        Debug.Log("set action " + action.ActionID);
+       // Debug.Log("set action " + action.ActionID);
         if(m_action != null)
         {
             action.OnSelectAction -= OnActionSelect;

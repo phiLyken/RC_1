@@ -115,7 +115,7 @@ public class Tile : MonoBehaviour, IWayPoint
         }
         else if (!isAccessible)
         {
-            SetVisualState(new VisualState("blocked"));
+            SetVisualState(new VisualState("disabled"));
         }
         else if (!isEnabled)
         {

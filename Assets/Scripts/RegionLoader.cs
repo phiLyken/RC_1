@@ -73,6 +73,7 @@ public class RegionLoader : MonoBehaviour {
             }
 
             powerLeft -= groupPower;
+
             if(groupsCopy.Count == 0)
             {
                 Debug.LogWarning("No groups to spawn left");

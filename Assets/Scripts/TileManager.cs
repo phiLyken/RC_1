@@ -151,7 +151,7 @@ public class TileManager : MonoBehaviour {
         SetTiles(FetchTiles());
 
         MakeGroups();
-        Debug.Log(Groups.Count);
+        
     } 
     
 	
