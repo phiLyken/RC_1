@@ -30,17 +30,17 @@ public class UnitAction_Loot : UnitActionBase
         AttemptExection();
 
     }
-    public override bool CanExecAction()
+    public override bool CanExecAction(bool b)
     {
         Tile_Loot l = Owner.currentTile.GetComponent<Tile_Loot>();
 
         if(l == null)
         {
-            ToastNotification.SetToastMessage2("No Loot Nearby");
+            if(b)ToastNotification.SetToastMessage2("No Loot Nearby");
             return false;
         }
 
-        return base.CanExecAction();
+        return base.CanExecAction(b);
     }
 
     protected override void ActionExecuted()

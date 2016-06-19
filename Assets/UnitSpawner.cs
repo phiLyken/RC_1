@@ -13,7 +13,9 @@ public class UnitSpawner : MonoBehaviour {
 		Color.blue,
 		Color.cyan,
 		Color.green,
-		Color.yellow
+		Color.yellow,
+        Color.magenta,
+        Color.white
 	};
 
 

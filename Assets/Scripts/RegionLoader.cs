@@ -46,41 +46,18 @@ public class RegionLoader : MonoBehaviour {
      
         return choosenUnits;
     }
-    public static bool DuplicateGroups(List<UnitSpawnGroupConfig> groups)
-    {
-        List<int> groupIDs = new List<int>();
 
-        foreach(UnitSpawnGroupConfig conf in groups)
-        {
-            if (groupIDs.Contains(conf.SpawnerGroup))
-            {
-                Debug.LogWarning("Duplicate Groups found");
-                return true;
-            }
-            groupIDs.Add(conf.SpawnerGroup);
-        }
-        return false;
-
-    }
     public static List<UnitSpawnGroupConfig> GetGroupsForPower(RegionConfig region)
-    {
-       
+    {       
         //Add all forced groups to choosen ones
         List<UnitSpawnGroupConfig> choosenGroups = region.Groups.Where(gr => gr.ForceGroup).ToList() ;
 
         //make a copy of groups but exclude the ones that we already have
         List<UnitSpawnGroupConfig> groupsCopy = new List<UnitSpawnGroupConfig>(region.Groups).Where(gr => !choosenGroups.Contains(gr)).ToList();
-
-
+        
         int powerLeft = region.RegionTotalEnemyPower;
         //list of groupls that are valid for the powerlevel left
         List<UnitSpawnGroupConfig> validgroups = GetGroupsInPowerLevel(groupsCopy, powerLeft);       
-
-        //check if group ids are duplicate (would case them spawn on same tiles, so we quit);
-        if (  DuplicateGroups(groupsCopy))
-        {
-            return null;
-        }
 
         while (validgroups.Count > 0)
         {

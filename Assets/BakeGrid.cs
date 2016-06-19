@@ -15,9 +15,7 @@ public class BakeGrid  {
 
         foreach ( Tile tile in region.GetTileList())
         {
-
             map.Add(tile, RaysFromTiles.GetPropsForTile(tile));
-
         }
         Debug.Log("Generated Map for " + map.Count + " tiles");
         ApplyTagsToTiles(map);

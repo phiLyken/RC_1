@@ -6,15 +6,13 @@ public class EditorTileMeshContainer : MonoBehaviour {
 
     public Dictionary<Tile, TileMesh> map;
     static EditorTileMeshContainer container;
+
     public static void AddPair(Tile t, TileMesh m)
     {
-       
-        
         if(container == null)
         {
             container = new GameObject().AddComponent<EditorTileMeshContainer>();
-            container.name = "Tile Mesh Container";
-           
+            container.name = "Tile Mesh Container";           
         }
 
         if(container.map == null)
@@ -46,9 +44,8 @@ public class EditorTileMeshContainer : MonoBehaviour {
         if (container == null)
         {
             return;
-           
-
         }
+
         container.map = new Dictionary<Tile, TileMesh>();
         MyMath.DeleteChildren(container.gameObject);
     }

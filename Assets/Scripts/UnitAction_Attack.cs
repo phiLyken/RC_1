@@ -67,6 +67,7 @@ public class UnitAction_Attack : UnitActionBase {
 
     public override void UnSelectAction()
     {
+        base.UnSelectAction();
         AimIndicator.SetActive(false);
 
         if (UI_DmgPreview.Instance != null)

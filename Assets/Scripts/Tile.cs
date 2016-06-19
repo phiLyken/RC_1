@@ -284,11 +284,13 @@ public class Tile : MonoBehaviour, IWayPoint
         isBlockingSight = false;
 
         currentHeightStep = 0;
-        transform.position = TileManager.Instance.GetTilePos(this);
+       
         if (OnTileMove != null) OnTileMove(this);
         SetCrumble(0);
         SetBaseState();
-   
+
+        transform.localPosition = TileManager.Instance.GetTilePos(this);
+
     }
 
     public void SetVisualState(VisualState state)
