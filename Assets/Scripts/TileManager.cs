@@ -209,7 +209,7 @@ public class TileManager : MonoBehaviour {
         Groups = TileGroup.GetGroupsFromTiles(GetTileList());
 
         return Groups;
-
+         
     }
     public void SpawnBaseGrid()
     {

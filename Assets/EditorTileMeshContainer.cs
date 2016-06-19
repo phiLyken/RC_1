@@ -5,47 +5,66 @@ using System.Collections.Generic;
 public class EditorTileMeshContainer : MonoBehaviour {
 
     public Dictionary<Tile, TileMesh> map;
-    static EditorTileMeshContainer container;
+    static EditorTileMeshContainer _instance;
 
+    static EditorTileMeshContainer GetInstance()
+    {
+        if(_instance != null)
+        {
+            return _instance;
+        }
+
+        _instance = FindObjectOfType<EditorTileMeshContainer>();
+
+        if (_instance != null)
+        {
+            return _instance;
+        }
+
+        _instance = new GameObject().AddComponent<EditorTileMeshContainer>();
+        _instance.name = "Tile Mesh Container";
+
+        return _instance;
+
+    }
     public static void AddPair(Tile t, TileMesh m)
     {
-        if(container == null)
+
+        EditorTileMeshContainer container = GetInstance();
+
+        if (container.map == null)
         {
-            container = new GameObject().AddComponent<EditorTileMeshContainer>();
-            container.name = "Tile Mesh Container";           
+            Reset(container);
         }
 
-        if(container.map == null)
+        if (_instance.map.ContainsKey(t))
         {
-            Reset();
-        }
-
-        if (container.map.ContainsKey(t))
-        {
-            TileMesh mesh = container.map[t];
+            TileMesh mesh = _instance.map[t];
             if(mesh != null)
             {
                 DestroyImmediate(mesh.gameObject);
             }
 
-            container.map[t] = m;
+            _instance.map[t] = m;
         } else
         {
-            container.map.Add(t, m);
+            _instance.map.Add(t, m);
            
         }
-        m.transform.SetParent(container.gameObject.transform);
+
+        m.transform.SetParent(_instance.gameObject.transform);
     }
 
     public static void Reset()
     {
-        EditorTileMeshContainer container = FindObjectOfType<EditorTileMeshContainer>();
-
+        Reset(GetInstance());
+    }
+    public static void Reset(EditorTileMeshContainer container)
+    {       
         if (container == null)
-        {
+        {   
             return;
         }
-
         container.map = new Dictionary<Tile, TileMesh>();
         MyMath.DeleteChildren(container.gameObject);
     }
