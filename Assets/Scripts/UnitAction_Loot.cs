@@ -6,7 +6,7 @@ public class UnitAction_Loot : UnitActionBase
 {
     void Awake()
     {
-        orderID = 10;
+        orderID = 99;
     }
     public override void SelectAction()
     {

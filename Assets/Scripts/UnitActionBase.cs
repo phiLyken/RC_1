@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
-
+public delegate void TargetListEvent(List<GameObject> targets);
 
 public class UnitActionBase : MonoBehaviour {
     [HideInInspector]
@@ -9,6 +10,12 @@ public class UnitActionBase : MonoBehaviour {
     public ActionEventHandler OnExecuteAction;
     public ActionEventHandler OnSelectAction;
     public ActionEventHandler OnUnselectAction;
+
+    public ActionTargetEventHandler OnTargetHover;
+    public ActionTargetEventHandler OnTargetUnhover;
+
+    public TargetListEvent OnTargetsFound;
+
     public StatInfo[] Requirements;
     
     public bool UsableInBaseCamp;
@@ -105,7 +112,7 @@ public class UnitActionBase : MonoBehaviour {
 
     public void AttemptExection()
     {
-        Debug.Log("att empts");
+       
         if (CanExecAction(true))
         { 
             ActionExecuted();              
@@ -123,15 +130,19 @@ public class UnitActionBase : MonoBehaviour {
     }
     protected virtual void ActionCompleted()
     {
-      //  Debug.Log("action completed ");
-        Charges--;
+     
+        
         ActionInProgress = false;
     }
      protected virtual void ActionExecuted()
     {
         Debug.Log(ActionID + " done");
-
+        Charges--;
         if (OnExecuteAction != null) OnExecuteAction(this);
     }
 
+    public virtual List<Tile> GetPreviewTiles()
+    {
+        return null;
+    }
 }

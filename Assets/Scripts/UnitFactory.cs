@@ -19,7 +19,16 @@ public class UnitFactory : MonoBehaviour
             return null;
         }
         GameObject base_unit = Instantiate(Resources.Load("base_unit")) as GameObject;
-        base_unit.name = data.ID +"_"+Random.Range(0,100);
+
+        string name = MyMath.GetRandomObjectAndRemove(Constants.names);
+
+        if (string.IsNullOrEmpty(name))
+        {
+            name = "UNKOWN " + Random.Range(0, 100);
+        }
+
+        base_unit.name = (data.Owner == 0 ? "OFFICER " : "INMATE " ) + name;
+
 
         UnitActionBase[] Actions = MyMath.SpawnFromList(data.Actions.ToList()).ToArray();
         MyMath.SetListAsChild(Actions.ToList(), base_unit.transform);

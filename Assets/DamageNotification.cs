@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 public class DamageNotification : MonoBehaviour {
 
+
     public Image BonusDmgImg;
     public Text BonusDmgText;
 

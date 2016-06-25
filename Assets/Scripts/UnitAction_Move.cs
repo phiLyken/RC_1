@@ -10,7 +10,6 @@ public class UnitAction_Move : UnitActionBase {
     List<Tile> currentPath;
     PathDisplay pathpreview;
 
-    MeshViewGroup move_highlight;
     MeshViewGroup attack_preview_highlight;
 
     void Awake()
@@ -18,16 +17,13 @@ public class UnitAction_Move : UnitActionBase {
         orderID = 0;
     }
 
+
     public override void SelectAction()
     {       
         base.SelectAction();
 
         if (Owner.GetComponent<WaypointMover>().Moving) return;
-
-       
-       
-        move_highlight = new MeshViewGroup(GetWalkableTiles(Owner.currentTile), TileStateConfigs.GetMaterialForstate("move_to"));
-
+           
         TileSelecter.OnTileSelect += SetMovementTile;
         TileSelecter.OnTileHover += SetPreviewTile;
 
@@ -55,7 +51,7 @@ public class UnitAction_Move : UnitActionBase {
         ResetAttackPreview();
         
         VisualStateConfig attack_state = TileStateConfigs.GetMaterialForstate("attack_range_move_preview");
-        List<Tile> in_range = (Owner.Actions.GetAction("Attack") as UnitAction_Attack).GetAttackAbleTilesForUnit(t);
+        List<Tile> in_range = (Owner.Actions.GetAction("Attack") as UnitAction_Attack).GetTargetableTilesForUnit(t);
         List<Tile> border = TileManager.FindBorderTiles(in_range, TileManager.Instance,true);
         attack_preview_highlight = new MeshViewGroup(border, attack_state);
     }
@@ -109,8 +105,8 @@ public class UnitAction_Move : UnitActionBase {
     {
         ActionCompleted();
         Owner.GetComponent<WaypointMover>().OnMovementEnd -= OnMoveEnd;
-
     }
+
     public bool PathWalkable(List<Tile> p)
     {
         return p != null &&  p.Count > 1 && TilePathFinder.GetPathLengthForUnit(Owner, p) <= MoveRange;
@@ -118,7 +114,6 @@ public class UnitAction_Move : UnitActionBase {
 
     public void SetMovementTile(Tile target, List<Tile> path)
     {
-     //   Debug.Log("set movement tile");
         Owner.SetTile(target, false);
 
         WaypointMover mover = Owner.GetComponent<WaypointMover>();
@@ -135,7 +130,6 @@ public class UnitAction_Move : UnitActionBase {
 			List<Tile> path = TileManager.Instance.FindPath(from, t,unit );
             if (PathWalkable(path)) reacheable.Add(t);
         }
-
         return reacheable;
     }
 
@@ -153,11 +147,13 @@ public class UnitAction_Move : UnitActionBase {
             Destroy(pathpreview.gameObject);
         }
         ResetAttackPreview();
-        move_highlight.RemoveGroup();
-        move_highlight = null;
+        
     }
 
-
+    public override List<Tile> GetPreviewTiles()
+    {
+        return GetWalkableTiles(Owner.currentTile);
+    }
     public List<Tile> GetWalkableTiles(Tile origin)
     {
         return  GetReachableTiles(origin, 

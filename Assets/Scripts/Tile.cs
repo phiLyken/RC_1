@@ -54,6 +54,7 @@ public class Tile : MonoBehaviour, IWayPoint
     public TileEventHandler OnSetChild;
     public TileEventHandler OnTileCrumble;
     public TileEventHandler OnTileMove;
+    public TileEventHandler OnTileRemoved;
 
     [HideInInspector]
     public bool customTile;
@@ -108,7 +109,7 @@ public class Tile : MonoBehaviour, IWayPoint
     {
         MeshMaterialView view = GetComponent<MeshMaterialView>();
         view.states = new List<VisualState>();
-
+       
         if (isCamp)
         {
             SetVisualState(new VisualState("base"));
@@ -134,7 +135,7 @@ public class Tile : MonoBehaviour, IWayPoint
         if (!isCrumbling) return;
 
         int crumble_amount = (int) Constants.TileCrumbleRangeOnCrumble.Value();
-      //  Debug.Log("Crumble " + gameObject.name+"  amount"+crumble_amount);
+        Debug.Log("Crumble " + gameObject.name+"  amount"+crumble_amount);
         SetCrumble(CrumbleStage + crumble_amount);
     }
 
@@ -145,13 +146,8 @@ public class Tile : MonoBehaviour, IWayPoint
 
         CrumbleStage = new_crumble;
 
-        //If we are in the editor move the tile down on crumbling (used by force cruble tool)
-        //Otherwise, call the crumble event, in that case the group is responsible of crumbling
         if (OnTileCrumble != null) OnTileCrumble(this);
-
-       // if (!Application.isPlaying) { 
-       //      MoveTileDown( Mathf.Max(diff,0));
-       // }
+     
     }
 
     public void ToggleBlockSight()
@@ -177,12 +173,13 @@ public class Tile : MonoBehaviour, IWayPoint
 
     void DeactivateTile()
     {
-      //  Debug.Log("REMOVE " + gameObject.name);
+       Debug.Log("REMOVE " + gameObject.name);
       
         StartCoroutine(DeactivateWhenReady());
     }
     IEnumerator DeactivateWhenReady()
     {
+
         if (OnDeactivate != null) OnDeactivate(this);
         while (TurnEventQueue.Current != null) yield return null;
         RemoveTile();
@@ -200,7 +197,9 @@ public class Tile : MonoBehaviour, IWayPoint
         isEnabled = false;
 
         SetBaseState();
-       // RemoveCrumbleEffect();
+        Debug.Log("removed");
+
+        if (OnTileRemoved != null) OnTileRemoved(this);
 
     }
 
@@ -270,6 +269,7 @@ public class Tile : MonoBehaviour, IWayPoint
 
         Elevate(Vector3.down*TileManager.HeighSteps * steps);
 
+        Debug.Log("move down");
         if ( Mathf.Abs(currentHeightStep) > Constants.CrumbleHeightThreshold)
         {
             DeactivateTile();

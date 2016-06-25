@@ -9,6 +9,7 @@ public class UI_ActionBar : MonoBehaviour {
     public Transform ButtonAnchor;
     public Text Title;
     public Text TextArea;
+    public GameObject EndTurnIndicator;
 
     public List<UI_ActionBar_Button> CurrentButtons;
 
@@ -49,6 +50,8 @@ public class UI_ActionBar : MonoBehaviour {
         }
         Title.text = action.ActionID;
         TextArea.text = action.Descr;
+
+        EndTurnIndicator.SetActive(action.EndTurnOnUse);
     }
 
     void UnSelectAction(UnitActionBase action)

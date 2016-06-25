@@ -11,7 +11,7 @@ class TileTools : EditorWindow
     TileManager Grid;
     PathFindingTest Pathing;
     TileManager main;
-    bool debugTime = false;
+
     Tile selectedTile;
     List<TileWeighted> weighted;
 

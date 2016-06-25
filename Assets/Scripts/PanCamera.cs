@@ -40,7 +40,7 @@ public class PanCamera : MonoBehaviour {
 	}
 
 	void OnGUI(){
-		GUI.Label( new Rect(0,0,100,30), zooming ? "Zooming" : (drag ? "Panning" : " ")+ "    touches:"+Input.touchCount);
+		//GUI.Label( new Rect(0,0,100,30), zooming ? "Zooming" : (drag ? "Panning" : " ")+ "    touches:"+Input.touchCount);
 	}
 	public IEnumerator CamInputControl(){
 		

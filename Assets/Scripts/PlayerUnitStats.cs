@@ -69,6 +69,11 @@ public class PlayerUnitStats : UnitStats
 
     }
 
+    public void Rest()
+    {
+        Int = 0;
+        Will = Max;
+    }
     public void AddWill(int amount)
     {
         //will is capped by the max-current int

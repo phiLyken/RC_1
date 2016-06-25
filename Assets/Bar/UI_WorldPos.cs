@@ -6,6 +6,7 @@ public class UI_WorldPos : MonoBehaviour {
     public Transform worldPosAnchor;
     Vector3 worldPos;
 
+
     public void SetWorldPosition(Vector3 pos)
     {
         RectTransform m_rect = GetComponent<RectTransform>();
