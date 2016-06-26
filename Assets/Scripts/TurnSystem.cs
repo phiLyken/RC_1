@@ -173,7 +173,7 @@ public class TurnSystem : MonoBehaviour {
 
         if (!Instance.Turnables.Contains(new_turnable))
         {
-            Debug.Log("TURNABLE: register " + new_turnable.GetID());
+           // Debug.Log("TURNABLE: register " + new_turnable.GetID());
             Instance.Turnables.Add(new_turnable);
 			return Instance.Turnables.Count;
         }

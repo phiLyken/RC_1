@@ -135,7 +135,7 @@ public class Tile : MonoBehaviour, IWayPoint
         if (!isCrumbling) return;
 
         int crumble_amount = (int) Constants.TileCrumbleRangeOnCrumble.Value();
-      //  Debug.Log("Crumble " + gameObject.name+"  amount"+crumble_amount);
+        Debug.Log("Crumble " + gameObject.name+"  amount"+crumble_amount);
         SetCrumble(CrumbleStage + crumble_amount);
     }
 

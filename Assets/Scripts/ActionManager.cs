@@ -116,7 +116,7 @@ public class ActionManager : MonoBehaviour {
     public void SkipTurn()
     {
        
-        Debug.Log("skip");
+        Debug.Log("Skip");
         AP_Used = MaxAP;
         CurrentTurnCost = 5;
     }
