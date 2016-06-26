@@ -98,8 +98,12 @@ public class UnitActionBase : MonoBehaviour {
         {
             if (Owner.Stats.GetStat(s.Stat).Amount < s.Amount)
             {
-                Debug.Log("Not enough  " + s.ToString());
-                if(displayToast)   ToastNotification.SetToastMessage2("Not enough " + s.Stat.ToString());
+                Debug.Log("Not enough  " + UnitStats.StatToString(s.Stat));
+                if (displayToast)
+                {
+                    ToastNotification.SetToastMessage2("Not enough " + UnitStats.StatToString(s.Stat));
+
+                }
                 return false;
             }
         }
