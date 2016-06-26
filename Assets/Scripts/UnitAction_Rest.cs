@@ -4,49 +4,82 @@ using System.Collections.Generic;
 
 public class UnitAction_Rest : UnitActionBase
 {
-      void Awake()
+    public float Range = 1;
+
+    Unit currentTarget;
+
+    void Awake()
     {
         orderID = 3;
     }
 
     public override void SelectAction()
     {
+        currentTarget = null;
         base.SelectAction();
-        StartCoroutine(WaitForConfirmation());
+
+        if (OnTargetsFound != null)
+        {
+            List<GameObject> targets = new List<GameObject>();
+            targets.Add(Owner.gameObject);
+            OnTargetsFound(targets);
+        }
+        Unit.OnUnitHover += OnUnitHover;
+        Unit.OnUnitHoverEnd += OnUnitUnhover;
+        Unit.OnUnitSelect += OnUnitSelect; 
     }    
 
-    public override void UnSelectAction()
+    void OnUnitHover(Unit u)
     {
-      //  Debug.Log("end  comfirmation");
-        StopAllCoroutines();
-        base.UnSelectAction();
-      
+        if(u != Owner)
+        {
+            return;
+        }
+
+        currentTarget = u;
+        if (OnTargetHover != null) OnTargetHover(currentTarget);
     }
 
-    IEnumerator WaitForConfirmation()
+    void OnUnitUnhover(Unit u)
     {
-      //  Debug.Log("Wait for comfirmation");
-        while (!Input.GetButtonUp("Jump")) {
-           
-            yield return null;
-        }
-       // Debug.Log("REST");
-        AttemptExection();
+        if (u != this.Owner) return;
 
+        currentTarget = null;
+        if (OnTargetHover != null) OnTargetUnhover(u);
+    }
+
+    void OnUnitSelect(Unit u)
+    {  
+        if(u == Owner)
+            AttemptExection();
+    }
+
+    public override bool CanExecAction(bool displayToast)
+    {
+        return base.CanExecAction(displayToast);       
+    }
+
+
+    public override List<Tile> GetPreviewTiles()
+    {
+        List<Tile> t = new List<Tile>();
+        t.Add(Owner.currentTile);
+        return t;
+    }
+    public override void UnSelectAction()
+    {
+        Unit.OnUnitHover -= OnUnitHover;
+        Unit.OnUnitHoverEnd -= OnUnitUnhover;
+        Unit.OnUnitSelect -= OnUnitSelect;
+        base.UnSelectAction();      
     }
 
     protected override void ActionExecuted()
-    {
-        PlayerUnitStats stats = Owner.Stats as PlayerUnitStats;
-
-        if(stats != null) { 
-
-            int to_heal = (int) (stats.Int * Constants.INT_TO_HEAL);
-            stats.AddInt(-stats.Int, false);
-            stats.AddWill(to_heal);
-
-        }
+    {    
         base.ActionExecuted();
+        new Heal().ApplyToUnit(currentTarget);
+        currentTarget = null;
+
         ActionCompleted();
     }
 

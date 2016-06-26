@@ -13,8 +13,6 @@ public class TileEditor : Editor {
 		m_tile = target as Tile;
 	}
 
-    int selected = 0;
-    //  Tile m_tile;
 
 
     public override void OnInspectorGUI()

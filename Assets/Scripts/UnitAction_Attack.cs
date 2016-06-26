@@ -1,13 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
-
-public delegate void TargetEvent(Unit instigator, Unit target, Damage dmg);
+public delegate void TargetEvent(Unit instigator, Unit target, IUnitEffect dmg);
 
 public class UnitAction_Attack : UnitActionBase {
-
-    GameObject AimIndicator;
 
     public int IntChangeOnUse;
     public float ChanceForIntChangeTrigger;
@@ -22,45 +20,45 @@ public class UnitAction_Attack : UnitActionBase {
 
     Unit currentTarget;
 
-    MeshViewGroup highlight;
-
     void Awake()
     {
         orderID = 1;
     }
-    void Start()
-    {
-        GameObject pref = Resources.Load("target_indicator") as GameObject;
-       
-        AimIndicator = Instantiate(pref);
-        AimIndicator.transform.SetParent(transform, true);
-        AimIndicator.SetActive(false);
-    }
 
-    public static List<Tile> GetAttackAbleTiles(Tile t, int range)
+    public static List<Tile> GetTargetableTiles(Tile t, int range)
     {
         return new LOSCheck(t, TileManager.Instance).GetTilesVisibleTileInRange((range));
     }
 
-    public List<Tile> GetAttackAbleTilesForUnit()
+    public List<Tile> GetTargetableTilesForUnit()
     {
-        return GetAttackAbleTilesForUnit(Owner.currentTile);
+        return GetTargetableTilesForUnit(Owner.currentTile);
     }
 
-
-    public List<Tile> GetAttackAbleTilesForUnit(Tile source_tile)
+    public override List<Tile> GetPreviewTiles()
     {
-        return GetAttackAbleTiles(source_tile, (int)Range);
+        return GetTargetableTilesForUnit();
+    }
+
+    public List<Tile> GetTargetableTilesForUnit(Tile source_tile)
+    {
+        return GetTargetableTiles(source_tile, (int)Range);
     }
 
     public override void SelectAction()
     {
         base.SelectAction();
-        Unit.OnUnitHover += OnUnitHover;
-        Unit.OnUnitSelect += UnitSelected;
-        Unit.OnUnitHoverEnd += OnUnitHoverEnd; 
 
-        highlight = new MeshViewGroup(GetAttackAbleTilesForUnit(), TileStateConfigs.GetMaterialForstate("attack_range"));
+        if(OnTargetsFound != null)
+        {
+            OnTargetsFound(
+                GetTargetableUnits(Unit.GetAllUnitsOfOwner((Owner.OwnerID + 1) % 2, true), Owner, Range).Select(u => u.gameObject).ToList()
+             );
+        }
+
+        Unit.OnUnitHover += OnUnitHover;
+        Unit.OnUnitSelect += OnUnitSelected;
+        Unit.OnUnitHoverEnd += OnUnitHoverEnd;
 
         if (Unit.HoveredUnit != null) OnUnitHover(Unit.HoveredUnit);
     }
@@ -68,20 +66,19 @@ public class UnitAction_Attack : UnitActionBase {
     public override void UnSelectAction()
     {
         base.UnSelectAction();
-        AimIndicator.SetActive(false);
-
+  
         if (UI_DmgPreview.Instance != null)
         {
             UI_DmgPreview.Instance.Disable();
         }
 
         Unit.OnUnitHover -= OnUnitHover;
-        Unit.OnUnitSelect -= UnitSelected;
+        Unit.OnUnitSelect -= OnUnitSelected;
         Unit.OnUnitHoverEnd -= OnUnitHoverEnd;
-        highlight.RemoveGroup();
+     
     }
 
-    void UnitSelected(Unit u)
+    void OnUnitSelected(Unit u)
     {
         if(u == currentTarget)
         {
@@ -138,7 +135,9 @@ public class UnitAction_Attack : UnitActionBase {
     void OnUnitHoverEnd(Unit u)
     {
         UI_DmgPreview.Instance.Disable();
+        if (OnTargetUnhover != null) OnTargetUnhover(u);
     }
+
     void OnUnitHover(Unit unit)
     {
         if (unit == null || !isInRange(this.Owner, unit, Range) || !canTarget(unit))
@@ -147,15 +146,14 @@ public class UnitAction_Attack : UnitActionBase {
             {
                 UI_DmgPreview.Instance.Disable();
             }
-            AimIndicator.SetActive(false);
+            if (OnTargetUnhover != null) OnTargetUnhover(unit);
             return;
         }
-
+        
         currentTarget = unit;
-        AimIndicator.transform.position = unit.transform.position;
-        AimIndicator.SetActive(true);
-        DMG.bonus_range = GetBonusIntRange();
 
+        DMG.bonus_range = GetBonusIntRange();
+        if (OnTargetHover != null) OnTargetHover(unit);
         if (OnTarget != null) OnTarget(Owner, currentTarget, DMG);
     }
 
@@ -194,7 +192,7 @@ public class UnitAction_Attack : UnitActionBase {
     void OnDestroy()
     {
         Unit.OnUnitHover -= OnUnitHover;
-        Unit.OnUnitSelect -= UnitSelected;
+        Unit.OnUnitSelect -= OnUnitSelected;
     }
 
     /// <summary>
@@ -202,7 +200,7 @@ public class UnitAction_Attack : UnitActionBase {
     /// </summary>
     /// <param name="list"></param>
     /// <returns></returns>
-    public static List<Unit> GetAttackableUnits(List<Unit> list, Unit attacker, float range)
+    public static List<Unit> GetTargetableUnits(List<Unit> list, Unit attacker, float range)
     {
         for(int i = list.Count-1; i >= 0; i--)
         {
@@ -210,13 +208,12 @@ public class UnitAction_Attack : UnitActionBase {
             if (!isInRange(attacker, u, range)) list.Remove(u);
 
         }
-
         return list;
     }
 
-    public static bool CanAttackFromTile(Unit target, Unit attacker, Tile t, float range)
+    public static bool CanTargetFromTile(Unit target, Unit instigator, Tile t, float range)
     {
-        return isInRange(attacker, target, range, t);
+        return isInRange(instigator, target, range, t);
     }
 
 }

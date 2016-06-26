@@ -8,6 +8,9 @@ public class UI_ActionBar_Button : MonoBehaviour {
     UnitActionBase m_action;
     ActionManager m_manager;
 
+    public Image ChargesCounterIMG;
+    public Text ChargesCounterTF;
+
     public Image ActionIcon;
     public ActionEventHandler OnActionHovered;
      
@@ -42,15 +45,32 @@ public class UI_ActionBar_Button : MonoBehaviour {
 
     public void OnActionUnselect(UnitActionBase action)
     {
+        Debug.Log("Action unselect");
         SetBaseState(action);
        
     }
-
+    public void SetBaseState()
+    {
+        SetBaseState(m_action);
+    }
     public void SetBaseState(UnitActionBase action)
     {
         ActionIcon.sprite = action.Image;
         ActionIcon.color = action.CanExecAction(false) ? Color.green : Color.red;
+        UpdateChargers(action);
     }
+
+    public void UpdateChargers(UnitActionBase action)
+    {
+        ChargesCounterIMG.gameObject.SetActive(action.UseCharges);
+        ChargesCounterTF.gameObject.SetActive(action.UseCharges);
+
+        ChargesCounterIMG.color = action.HasCharges() ? Color.white : Color.red;
+        ChargesCounterTF.text = action.Charges.ToString() + "/" + action.ChargeMax;
+
+        ChargesCounterTF.color = action.HasCharges() ? Color.black : Color.white;
+    }
+
     public void SelectAction()
     {
         if(m_manager.GetOwnerID() == 0)

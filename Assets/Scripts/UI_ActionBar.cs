@@ -9,6 +9,7 @@ public class UI_ActionBar : MonoBehaviour {
     public Transform ButtonAnchor;
     public Text Title;
     public Text TextArea;
+    public GameObject EndTurnIndicator;
 
     public List<UI_ActionBar_Button> CurrentButtons;
 
@@ -42,19 +43,27 @@ public class UI_ActionBar : MonoBehaviour {
     {
         if(action == null)
         {
-
             Title.text = "--";
-            TextArea.text = "???";
+            TextArea.text = "--";
             return;
         }
         Title.text = action.ActionID;
         TextArea.text = action.Descr;
+
+        EndTurnIndicator.SetActive(action.EndTurnOnUse);
+        SetBaseStatesInButtons();
     }
 
+    void SetBaseStatesInButtons()
+    {
+        foreach (UI_ActionBar_Button button in CurrentButtons) button.SetBaseState();
+    }
     void UnSelectAction(UnitActionBase action)
     {
-        Title.text = "xxx";
-        TextArea.text = "!";
+        Title.text = "--";
+        TextArea.text = "--";
+        SetBaseStatesInButtons();
+
     }
 
 
@@ -67,7 +76,6 @@ public class UI_ActionBar : MonoBehaviour {
 
     void UpdateButtons(ActionManager manager)
     {
-        Debug.Log("update buttons");
         if(m_manager != null && manager != m_manager)
         {             
             UnSelectAction(null);

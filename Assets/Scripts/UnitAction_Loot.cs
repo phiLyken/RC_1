@@ -1,53 +1,77 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public class UnitAction_Loot : UnitActionBase
 {
+    public float Range;
     void Awake()
     {
-        orderID = 10;
+        orderID = 99;
     }
+
     public override void SelectAction()
     {
         base.SelectAction();
-        StartCoroutine(WaitForConfirmation());
+
+        TileSelecter.OnTileSelect += OnTileSelect;
+       
+        if(OnTargetsFound != null)
+        {
+            OnTargetsFound(GetLootableTiles().Select(t => t.gameObject).ToList());
+        }
     }
-    
+
+
+    Tile FIXME_selected;
+
+    public void OnTileSelect(Tile t)
+    {
+        if(GetLootableTiles().Contains(t))
+        {
+            FIXME_selected = t;
+            AttemptExection();
+        } else
+        {
+            ToastNotification.SetToastMessage2("No Loot on this Tile");
+        }
+    }
+
+    public override List<Tile> GetPreviewTiles()
+    {
+        return   TileManager.Instance.GetTilesInRange(Owner.currentTile, (int)Range);
+    }
 
     public override void UnSelectAction()
     {
         base.UnSelectAction();
-        StopAllCoroutines(); 
+        TileSelecter.OnTileSelect-= OnTileSelect;
     }
 
-    IEnumerator WaitForConfirmation()
+    public List<Tile> GetLootableTiles()
     {
-        while (!Input.GetButtonUp("Jump")) {
-            yield return null;
-        }
-
-        AttemptExection();
-
+        return TileManager.Instance.GetTilesInRange(Owner.currentTile, (int)Range).Where(t => t.GetComponent<Tile_Loot>() != null).ToList();
     }
+
     public override bool CanExecAction(bool b)
     {
-        Tile_Loot l = Owner.currentTile.GetComponent<Tile_Loot>();
-
-        if(l == null)
+        if(GetLootableTiles().Count == 0)
         {
             if(b)ToastNotification.SetToastMessage2("No Loot Nearby");
             return false;
         }
-
         return base.CanExecAction(b);
     }
 
     protected override void ActionExecuted()
     {
         base.ActionExecuted();
-        Tile_Loot l = Owner.currentTile.GetComponent<Tile_Loot>();
+        Tile_Loot l = FIXME_selected.GetComponent<Tile_Loot>();
         l.OnLoot(Owner);
+
+    
+        ActionCompleted();
     }
 
 }

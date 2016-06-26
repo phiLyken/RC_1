@@ -4,10 +4,10 @@ using UnityEngine.UI;
 
 public class UI_DmgPreview : MonoBehaviour {
 
-    public Text DamageTF;
-    public Text BonusTF;
+    public Text MainTF;
+    public Text IconTF;
 
-    public Image BonusBG;
+    public Image Icon;
 
     public static UI_DmgPreview Instance;
 
@@ -26,22 +26,12 @@ public class UI_DmgPreview : MonoBehaviour {
     {
         gameObject.SetActive(false);
     }
-    public void SetDamage(Unit instigator, Unit target, Damage dmg)
+    public void SetDamage(Unit instigator, Unit target, IUnitEffect effect)
     {
       //  Debug.Log("assad");
         gameObject.SetActive(true);
 
-        DamageTF.text = dmg.min + "-" + dmg.max;
-
-        bool showBonus = dmg.bonus_range.max > 0;
-
-        BonusBG.gameObject.SetActive(showBonus);
-        BonusTF.gameObject.SetActive(showBonus);
-        if (showBonus)
-        {
-            BonusTF.text = "+"+dmg.bonus_range.min + "-" + (dmg.bonus_range.max-1);
-
-        }
+        effect.SetPreview(this, target);
 
         GetComponent<UI_WorldPos>().SetWorldPosObject(target.transform); 
     }

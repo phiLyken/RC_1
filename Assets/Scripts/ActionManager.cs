@@ -4,6 +4,7 @@ using System.Linq;
 
 public delegate void ActionEventHandler(UnitActionBase action);
 public delegate void ActionManagerEventHander(ActionManager mngr);
+public delegate void ActionTargetEventHandler(object target);
 
 public class ActionManager : MonoBehaviour {
 
@@ -20,7 +21,6 @@ public class ActionManager : MonoBehaviour {
             action.Charges = action.ChargeMax;
         }
     }
-
     public static ActionManagerEventHander OnActionManagerActivated;
     
     public int GetOwnerID()

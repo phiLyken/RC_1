@@ -294,8 +294,17 @@ public static class MyMath  {
         return objects[Random.Range(0, objects.Length)];
     }
 
+    public static T GetRandomObjectAndRemove<T>(List<T> objects)
+    {
+        if (objects.Count == 0) return default(T);
+
+        T chosen = objects[Random.Range(0, objects.Count)];
+        objects.Remove(chosen);
+        return chosen;
+    }
+
     /// <summary>
-    /// Returns a certain amount of items randomly from a list
+    /// Returns a certain amount of items randomly from a list 
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="list"></param>

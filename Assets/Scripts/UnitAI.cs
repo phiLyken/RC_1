@@ -27,6 +27,7 @@ public class UnitAI : MonoBehaviour, ITriggerable {
 
     void StartTurn(Unit u)
     {
+
         Debug.Log(m_unit.GetID() + "...well....");
         StartCoroutine(AISequence());
     }
@@ -160,7 +161,7 @@ public class UnitAI : MonoBehaviour, ITriggerable {
         if (Triggered)
         {
            //  Debug.Log(m_unit.GetID() + "decide");
-             List<Unit> attackables = UnitAction_Attack.GetAttackableUnits(Unit.GetAllUnitsOfOwner(0, false), m_unit, getAttack().Range);
+             List<Unit> attackables = UnitAction_Attack.GetTargetableUnits(Unit.GetAllUnitsOfOwner(0, false), m_unit, getAttack().Range);
              Unit target = FindBestUnitToAttack(attackables);
 
             if (target != null)

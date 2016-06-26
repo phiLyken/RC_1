@@ -5,11 +5,15 @@ using System.Linq;
 
 public class TileGroup {
 
-    public List<Tile> Group;   
+    public List<Tile> Group;
+    static int gr;
 
     public TileGroup(List<Tile> tiles)
     {
+        gr++;
+
         Group = tiles;
+      
         foreach(Tile t in Group)
         {
             t.OnTileCrumble += OnTileInGroupCrumble;
@@ -18,18 +22,11 @@ public class TileGroup {
 
     void OnTileInGroupCrumble(Tile tile)
     {
+        int _heightStepDelta = GetGetHeightDeltaForGroup(Group);
 
-
-      //  if (CanTilesCrumble(Group))
-      //  {
-            int _heightStepDelta = GetGetHeightDeltaForGroup(Group);
-
-            if(_heightStepDelta != 0) { 
-                Group.ForEach(t => t.MoveTileDown(_heightStepDelta));
-            }
-      //  } 
-
-
+        if(_heightStepDelta != 0) { 
+            Group.ForEach(t => t.MoveTileDown(_heightStepDelta));
+        }
     }
     
     int GetGetHeightDeltaForGroup(List<Tile> tiles)

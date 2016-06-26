@@ -5,12 +5,12 @@ using UnityEngine.UI;
 public delegate void ChoiceCallBack(int choice);
 public class UI_Choice : MonoBehaviour {
 
-    int choice = -1;
+
     ChoiceCallBack callback;
 
     public void WaitForChoice(string[] texts, ChoiceCallBack cb)
     {
-        choice = -1;
+
         Button[] buttons = GetComponentsInChildren<Button>();
         for (int i = 0; i < buttons.Length; i++)
         {

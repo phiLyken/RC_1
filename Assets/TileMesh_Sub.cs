@@ -19,14 +19,15 @@ public class TileMesh_Sub : MonoBehaviour {
             {
                 Sides.SetActive(true);
                 break;
-            }
-
-           
+            }          
         }
+
+       // Debug.Log("enable submesh");
     }
     
     public void DisableSub()
     {
+       // Debug.Log("disable sub mesh");
         gameObject.SetActive(false);
     }
 }

@@ -66,7 +66,7 @@ public class WorldCrumbler : MonoBehaviour, ITurn {
     public void StartTurn()
     {
         hasCrumbled = false;
-        ToastNotification.SetToastMessage1("Crumbling");  
+        ToastNotification.SetToastMessage1("The earth is shaking...");  
         
         if(PanCamera.Instance != null)
         {
@@ -116,7 +116,7 @@ public class WorldCrumbler : MonoBehaviour, ITurn {
 
     public string GetID()
     {
-        return "World Crumble [" + TurnTime + "]" ;
+        return "SEISMIC ACTIVITY [" + TurnTime + "]" ;
     }
 
     public int GetTurnControllerID()

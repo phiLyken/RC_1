@@ -15,9 +15,13 @@ public class TileMesh : MonoBehaviour {
             DestroyImmediate(this);
             return;
         }
+
+        //we need to check whether the tile 
+        //enabled to prevent it from reactivating it although it has crumbled
+        if (!t.isEnabled) return;
+
         int current_crumble = t.CrumbleStage;
-               
-       
+
         for(int i = 0; i< SubMeshes.Count; i++)
         {
             TileMesh_Sub sub = SubMeshes[i];
@@ -48,7 +52,7 @@ public class TileMesh : MonoBehaviour {
 
         OnParentCrumble(t);
         t.OnTileCrumble += OnParentCrumble;
-        t.OnDeactivate += OnParentDeactivate;
+        t.OnTileRemoved += OnParentDeactivate;
         t.OnTileMove += UpdatePos;
     }
 
@@ -59,12 +63,15 @@ public class TileMesh : MonoBehaviour {
 
     void OnParentDeactivate(Tile t)
     {
-        if(this == null)
+        SubMeshes.ForEach(m => m.DisableSub());
+       
+        if (this == null)
         {
             DestroyImmediate(this);
             return;
         }
-        SubMeshes.ForEach(m => m.DisableSub());
+
+       
     }
 
 

@@ -5,55 +5,94 @@ using System.Collections.Generic;
 public class UnitAction_Rage : UnitActionBase
 {
     public int IntensityGain;
-    public float WillConsumeChance;
 
-     float[] WillLoseChances;
-     float[] IntensityGainChance;
-    void Awake()
-    {
-        orderID = 11;
-    }
+        void Awake()
+        {
+            orderID = 11;
+        }
+    public float Range = 1;
+
+    Unit currentTarget;
+
+
 
     public override void SelectAction()
     {
+        currentTarget = null;
         base.SelectAction();
-        StartCoroutine(WaitForConfirmation());
+
+        if (OnTargetsFound != null)
+        {
+            List<GameObject> targets = new List<GameObject>();
+            targets.Add(Owner.gameObject);
+            OnTargetsFound(targets);
+        }
+        Unit.OnUnitHover += OnUnitHover;
+        Unit.OnUnitHoverEnd += OnUnitUnhover;
+        Unit.OnUnitSelect += OnUnitSelect;
+    }
+
+    void OnUnitHover(Unit u)
+    {
+        if (u != Owner)
+        {
+            return;
+        }
+
+        currentTarget = u;
+        if (OnTargetHover != null) OnTargetHover(currentTarget);
+    }
+
+   
+    void OnUnitUnhover(Unit u)
+    {
+        if (u != this.Owner) return;
+
+        currentTarget = null;
+        if (OnTargetHover != null) OnTargetUnhover(u);
+    }
+
+    void OnUnitSelect(Unit u)
+    {
+        if(u == Owner)
+         AttemptExection();
+    }
+
+    public override bool CanExecAction(bool displayToast)
+    {
+        return base.CanExecAction(displayToast);
+    }
+
+    protected override void ActionCompleted()
+    {
+        currentTarget = null;
+        base.ActionCompleted();
+
+    }
+    public override List<Tile> GetPreviewTiles()
+    {
+        List<Tile> t = new List<Tile>();
+        t.Add(Owner.currentTile);
+        return t;
+    }
+    public override void UnSelectAction()
+    {
+        Unit.OnUnitHover -= OnUnitHover;
+        Unit.OnUnitHoverEnd -= OnUnitUnhover;
+        Unit.OnUnitSelect -= OnUnitSelect;
+        base.UnSelectAction();
     }
     
 
-    public override void UnSelectAction()
-    {
-        base.UnSelectAction();
-        StopAllCoroutines(); 
-    }
-
-    IEnumerator WaitForConfirmation()
-    {
-        while (!Input.GetButtonUp("Jump")) {
-            yield return null;
-        }
-
-        AttemptExection();
-
-    }
     protected override void ActionExecuted()
     {
+        Debug.Log(" rage executed " + IntensityGain);
+        (Owner.Stats as PlayerUnitStats).AddInt(IntensityGain,true);
+        base.ActionExecuted();
+        ActionCompleted();
+    }
 
-        (Owner.Stats as PlayerUnitStats).AddInt(IntensityGain, Random.value < WillConsumeChance);
-        base.ActionExecuted();  
-    }
-    public int IntensityGained()
-    {
-        int gained = 0;
-        foreach (float f in IntensityGainChance)
-        {
-            gained += (f > Random.value ? 1 : 0);
-           // Debug.Log(gained);
-        }
-        return gained;
-    }
-    bool GetLooseWillOnRage(int current_will)
-    {
-        return WillLoseChances[Mathf.Min(current_will-1,WillLoseChances.Length-1)] > Random.value;
-    }
+    
+
+
 }
