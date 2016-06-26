@@ -63,14 +63,14 @@ public class TileMesh : MonoBehaviour {
 
     void OnParentDeactivate(Tile t)
     {
-        SubMeshes.ForEach(m => m.DisableSub());
-       
         if (this == null)
         {
             DestroyImmediate(this);
             return;
+        } else
+        {
+            SubMeshes.ForEach(m => m.DisableSub());
         }
-
        
     }
 

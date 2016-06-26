@@ -30,6 +30,7 @@ public class WorldExtender : MonoBehaviour {
     void SetupGame()
     {
         SpawnRegion(RegionLoader.GetStartRegion(), TileManager.Instance);
+        SpawnNext();
     }
 
     void OnGlobalTurn(int crumble_row)
@@ -71,6 +72,7 @@ public class WorldExtender : MonoBehaviour {
             region = RegionLoader.GetWeightedRegionForLevel(CurrentStage);
         }
 
+        Debug.Log("spawning region " + region.name);
         SpawnRegion(region, TileManager.Instance);
     }
 
