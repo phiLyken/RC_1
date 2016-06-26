@@ -20,10 +20,24 @@ public class UnitStats : MonoBehaviour
     {
 
     }
+
+    public static string StatToString(StatType t)
+    {
+        switch (t)
+        {
+            case StatType.intensity:
+                return "Adrenaline";
+            case StatType.will:
+                return "Oxygen";
+            default:
+                return t.ToString();
+        }
+    }
     public enum StatType
     {
         will, intensity, max, HP
     }
+    
 
     public StatInfo GetStat(StatType type)
     {
