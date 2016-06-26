@@ -49,13 +49,13 @@ public class PlayerUnitStats : UnitStats
     }
     public void AddInt(int amount, bool consumeWill)
     {
+       
         if (consumeWill)
         {
             //if we will is consumed, we make sure to not consume the last will
             amount = Mathf.Min(amount, Max - (1 + Int));
         }
-        else if
-      (!consumeWill)
+        else  
         {
             //if adding int does not consume will (e.g. when receiving damage), the incoming int is truncated to not exceed the cap
             amount = Mathf.Min(amount, Max - (Will + Int));
@@ -67,10 +67,28 @@ public class PlayerUnitStats : UnitStats
         Will = Mathf.Min(Will, Max - Int);
 
 
+
+        Debug.Log(" int amount added " + amount + "  consume: " + consumeWill);
+        /*
+        int truncated = amount;
+        if (!consumeWill)
+        {
+            truncated = Mathf.Min(amount, Max - (Will + Int));
+        }
+
+
+        Int  = Mathf.Min(Mathf.Max(Int + truncated, 0), Max);
+
+        Will = Mathf.Min(Will, Max - Int);
+
+        Will = Mathf.Max(Will, 1);
+
+               */
     }
 
     public void Rest()
     {
+        Debug.Log(" rest");
         Int = 0;
         Will = Max;
     }

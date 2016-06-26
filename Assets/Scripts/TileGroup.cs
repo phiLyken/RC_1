@@ -22,17 +22,11 @@ public class TileGroup {
 
     void OnTileInGroupCrumble(Tile tile)
     {
-
-        Debug.Log("Crumble in Group "+gr);
-
         int _heightStepDelta = GetGetHeightDeltaForGroup(Group);
 
         if(_heightStepDelta != 0) { 
             Group.ForEach(t => t.MoveTileDown(_heightStepDelta));
         }
-
-
-
     }
     
     int GetGetHeightDeltaForGroup(List<Tile> tiles)

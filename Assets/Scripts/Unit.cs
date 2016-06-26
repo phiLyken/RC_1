@@ -26,7 +26,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     public UnitEventHandler OnActionSelectedInUnit;
 
     public TurnableEventHandler OnUpdateTurnTime; 
-
+    
     public UnitEventHandler OnTurnStart;
     public UnitEventHandler OnTurnEnded;
     
@@ -245,11 +245,15 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     {
         starting_order++;
 
-        Debug.Log("NEW TURN:" + GetID());  
-        if(UI_ActiveUnit.Instance != null)
-             UI_ActiveUnit.Instance.SelectedUnitTF.text = GetID();
+        Debug.Log("NEW TURN:" + GetID()); 
+        
+        //TODO Add Listener for this 
+        if(UI_ActiveUnit.Instance != null) {
+            UI_ActiveUnit.Instance.SetActiveUnit(this);
+        }
         UnSelectCurrent();
 
+        //TODO ADD Listener for this
        if(PanCamera.Instance != null)
         PanCamera.Instance.PanToPos(currentTile.GetPosition());
 

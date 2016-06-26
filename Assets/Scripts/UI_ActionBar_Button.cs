@@ -49,7 +49,10 @@ public class UI_ActionBar_Button : MonoBehaviour {
         SetBaseState(action);
        
     }
-
+    public void SetBaseState()
+    {
+        SetBaseState(m_action);
+    }
     public void SetBaseState(UnitActionBase action)
     {
         ActionIcon.sprite = action.Image;

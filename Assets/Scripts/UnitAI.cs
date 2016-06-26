@@ -27,6 +27,7 @@ public class UnitAI : MonoBehaviour, ITriggerable {
 
     void StartTurn(Unit u)
     {
+
         Debug.Log(m_unit.GetID() + "...well....");
         StartCoroutine(AISequence());
     }

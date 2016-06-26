@@ -37,19 +37,19 @@ public class FooBar : MonoBehaviour {
         UpdateBar();
     }
 
-    public void AddInt(int amount, bool canKill, bool consumeWill)
+    public void AddInt(int amount, bool consumeWill)
     {
         Debug.Log(amount);
-        int trunced = amount;
+        int truncated = amount;
         if (!consumeWill)
         {
-            trunced = Mathf.Min(amount, Max - (Will_Current + Intensity_Current));
+            truncated = Mathf.Min(amount, Max - (Will_Current + Intensity_Current));
         }
-        Intensity_Current = Mathf.Min( Mathf.Max(Intensity_Current + trunced, 0), Max);
+        Intensity_Current = Mathf.Min( Mathf.Max(Intensity_Current + truncated, 0), Max);
         
         Will_Current = Mathf.Min(Will_Current, Max - Intensity_Current);
 
-        if (!canKill) Will_Current = Mathf.Max(Will_Current, 1);
+        Will_Current = Mathf.Max(Will_Current, 1);
         
 
         UpdateBar();
@@ -59,14 +59,14 @@ public class FooBar : MonoBehaviour {
         //  AddInt(  (int)(ReceiveDamageIntAddChance * amount * Random.value) );
         
         AddWill(-1);
-        AddInt(2, false, false);
+        AddInt(2, false);
 
 
     }
     public void Attack()
     {
         int toAdd = Random.value < AttackIntAddChance ? 1 : 0;
-        AddInt(toAdd,false, false);
+        AddInt(toAdd, false);
     }
 	
 	// Update is called once per frame
@@ -122,8 +122,8 @@ public class FooBar : MonoBehaviour {
             RestsLeft.text = Rests_Current.ToString();
             int amount = Intensity_Current;
 
-            AddInt(-amount,false,false);
-            AddWill(amount);
+            AddInt(-amount,false);
+            AddWill(Max- Will_Current);
         }
 
         
@@ -133,13 +133,13 @@ public class FooBar : MonoBehaviour {
     {
         if(Intensity_Current > 2)
         {
-            AddInt(-Intensity_Current, false, false);
+            AddInt(-Intensity_Current, false);
         }
     }
 
     public void Rage()
     {
-        AddInt(1,false, true);
+        AddInt(1, true);
     }
 
     void Start()

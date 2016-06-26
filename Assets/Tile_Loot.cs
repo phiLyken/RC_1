@@ -41,11 +41,15 @@ public class Tile_Loot : TileComponent {
     {
         (u.Actions.GetAction("Attack") as UnitAction_Attack).DMG.max += 1;
         (u.Actions.GetAction("Attack") as UnitAction_Attack).DMG.min += 1;
+
+        _u.GetComponent<UnitInventory>().AddBuff(new InventoryItem(ItemTypes.buff, "+1 Damage"));
     }
     
     void BuffWalkRange(Unit _u)
     {
         (u.Actions.GetAction("Move") as UnitAction_Move).MoveRange += 1;
+
+        _u.GetComponent<UnitInventory>().AddBuff(new InventoryItem(ItemTypes.buff, "+1 Move Range"));
     }
 
     void GetRest(Unit _u)

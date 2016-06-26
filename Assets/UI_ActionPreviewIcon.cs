@@ -5,7 +5,8 @@ using UnityEngine.UI;
 public class UI_ActionPreviewIcon : MonoBehaviour {
     
     static List<UI_ActionPreviewIcon> previews;
- 
+    public Image m_Image;
+    public UI_WorldPos worldPos;
 
     public static void Disable()
     {
@@ -33,20 +34,14 @@ public class UI_ActionPreviewIcon : MonoBehaviour {
             if(i < tr.Count)
             {
                 previews[i].SetPreview(tr[i], icon);
-
             }
-        }
-   
+        }   
     }
-
-    public Image m_Image;
-    public UI_WorldPos worldPos;
 
     public void SetPreview(Transform tr, Sprite icon)
     {
         m_Image.sprite = icon;
         worldPos.SetWorldPosObject(tr);
-
     }
 
     void Update()

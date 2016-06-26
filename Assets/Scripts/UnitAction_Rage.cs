@@ -5,10 +5,7 @@ using System.Collections.Generic;
 public class UnitAction_Rage : UnitActionBase
 {
     public int IntensityGain;
-    public float WillConsumeChance;
 
-     float[] WillLoseChances;
-     float[] IntensityGainChance;
         void Awake()
         {
             orderID = 11;
@@ -46,6 +43,7 @@ public class UnitAction_Rage : UnitActionBase
         if (OnTargetHover != null) OnTargetHover(currentTarget);
     }
 
+   
     void OnUnitUnhover(Unit u)
     {
         if (u != this.Owner) return;
@@ -56,7 +54,8 @@ public class UnitAction_Rage : UnitActionBase
 
     void OnUnitSelect(Unit u)
     {
-        AttemptExection();
+        if(u == Owner)
+         AttemptExection();
     }
 
     public override bool CanExecAction(bool displayToast)
@@ -66,7 +65,6 @@ public class UnitAction_Rage : UnitActionBase
 
     protected override void ActionCompleted()
     {
-        new Heal().ApplyToUnit(currentTarget);
         currentTarget = null;
         base.ActionCompleted();
 
@@ -88,27 +86,13 @@ public class UnitAction_Rage : UnitActionBase
 
     protected override void ActionExecuted()
     {
-
-        (Owner.Stats as PlayerUnitStats).AddInt(IntensityGain, Random.value < WillConsumeChance);
+        Debug.Log(" rage executed " + IntensityGain);
+        (Owner.Stats as PlayerUnitStats).AddInt(IntensityGain,true);
         base.ActionExecuted();
         ActionCompleted();
     }
 
-    public int IntensityGained()
-    {
-        int gained = 0;
-        foreach (float f in IntensityGainChance)
-        {
-            gained += (f > Random.value ? 1 : 0);
-           // Debug.Log(gained);
-        }
-        return gained;
-    }
-
-    bool GetLooseWillOnRage(int current_will)
-    {
-        return WillLoseChances[Mathf.Min(current_will-1,WillLoseChances.Length-1)] > Random.value;
-    }
+    
 
 
 }

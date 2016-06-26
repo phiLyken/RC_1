@@ -135,7 +135,7 @@ public class Tile : MonoBehaviour, IWayPoint
         if (!isCrumbling) return;
 
         int crumble_amount = (int) Constants.TileCrumbleRangeOnCrumble.Value();
-        Debug.Log("Crumble " + gameObject.name+"  amount"+crumble_amount);
+      //  Debug.Log("Crumble " + gameObject.name+"  amount"+crumble_amount);
         SetCrumble(CrumbleStage + crumble_amount);
     }
 
@@ -173,7 +173,7 @@ public class Tile : MonoBehaviour, IWayPoint
 
     void DeactivateTile()
     {
-       Debug.Log("REMOVE " + gameObject.name);
+       //Debug.Log("REMOVE " + gameObject.name);
       
         StartCoroutine(DeactivateWhenReady());
     }
@@ -197,7 +197,7 @@ public class Tile : MonoBehaviour, IWayPoint
         isEnabled = false;
 
         SetBaseState();
-        Debug.Log("removed");
+      //  Debug.Log("removed");
 
         if (OnTileRemoved != null) OnTileRemoved(this);
 
@@ -268,8 +268,7 @@ public class Tile : MonoBehaviour, IWayPoint
         currentHeightStep -= steps;
 
         Elevate(Vector3.down*TileManager.HeighSteps * steps);
-
-        Debug.Log("move down");
+        
         if ( Mathf.Abs(currentHeightStep) > Constants.CrumbleHeightThreshold)
         {
             DeactivateTile();
