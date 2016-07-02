@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class UnitAction_Move : UnitActionBase {
 
-    public int MoveRange;
+
 
     Tile currentTargetTile;
     List<Tile> currentPath;
@@ -51,7 +51,7 @@ public class UnitAction_Move : UnitActionBase {
         ResetAttackPreview();
         
         VisualStateConfig attack_state = TileStateConfigs.GetMaterialForstate("attack_range_move_preview");
-        List<Tile> in_range = (Owner.Actions.GetAction("Attack") as UnitAction_Attack).GetTargetableTilesForUnit(t);
+        List<Tile> in_range = (Owner.Actions.GetAcionOfType<UnitAction_ApplyEffectFromWeapon>().GetTargetableTilesForUnit(t));
         List<Tile> border = TileManager.FindBorderTiles(in_range, TileManager.Instance,true);
         attack_preview_highlight = new MeshViewGroup(border, attack_state);
     }
@@ -109,6 +109,7 @@ public class UnitAction_Move : UnitActionBase {
 
     public bool PathWalkable(List<Tile> p)
     {
+        float MoveRange = GetMoveRange();
         return p != null &&  p.Count > 1 && TilePathFinder.GetPathLengthForUnit(Owner, p) <= MoveRange;
     }
 
@@ -156,10 +157,15 @@ public class UnitAction_Move : UnitActionBase {
     }
     public List<Tile> GetWalkableTiles(Tile origin)
     {
+        int moveRange = (int)GetMoveRange();
         return  GetReachableTiles(origin, 
-            TileManager.Instance.GetTilesInRange(origin,MoveRange),
+            TileManager.Instance.GetTilesInRange(origin, moveRange),
             Owner);
     }
 
+    public float GetMoveRange()
+    {
+        return (Owner.Stats as PlayerUnitStats).MoveRange;
+    }
 
 }

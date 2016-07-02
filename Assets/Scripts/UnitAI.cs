@@ -32,34 +32,24 @@ public class UnitAI : MonoBehaviour, ITriggerable {
         StartCoroutine(AISequence());
     }
 
-    UnitAction_Attack getAttack()
+    UnitAction_ApplyEffectFromWeapon getAttack()
     {
         //TODO: Remove reference by string for actions
-        UnitAction_Attack atk = (m_unit.Actions.GetAction("Attack") as UnitAction_Attack); 
-        if(atk == null)
-        {
-            Debug.LogWarning(" could not find Attack ability for " + m_unit.GetID());
-        }
-        return atk;
+        return m_Actions.GetAcionOfType<UnitAction_ApplyEffectFromWeapon>();
     }
 
     UnitAction_Move getMove()
     {
-
-        UnitAction_Move move = (m_unit.Actions.GetAction("Move") as UnitAction_Move);
-        if (move == null)
-        {
-            Debug.LogWarning(" could not find Move ability for " + m_unit.GetID());
-        }
-        return move;
+        return m_Actions.GetAcionOfType<UnitAction_Move>();
     }
+
     IEnumerator Attack(Unit target)
     {
        // Debug.Log("ai: attack");
        
         yield return null;
         //   Debug.Log(m_unit.GetID() + " Selecting atk");
-        UnitAction_Attack Attack = getAttack();
+        UnitAction_ApplyEffectFromWeapon Attack = getAttack();
         Debug.Log(target);
         if (Attack  == null || !Attack.HasRequirements(true))
         {
@@ -114,8 +104,8 @@ public class UnitAI : MonoBehaviour, ITriggerable {
     }
     IEnumerator MoveToAttackPosition()
     {
-      //  Debug.Log("ai: move to attack position");
-        UnitAction_Attack atk = getAttack();
+        //  Debug.Log("ai: move to attack position");
+        UnitAction_ApplyEffectFromWeapon atk = getAttack();
         UnitAction_Move  move = getMove();
 
         List<Tile> walkables = move.GetWalkableTiles(m_unit.currentTile);
@@ -161,7 +151,7 @@ public class UnitAI : MonoBehaviour, ITriggerable {
         if (Triggered)
         {
            //  Debug.Log(m_unit.GetID() + "decide");
-             List<Unit> attackables = UnitAction_Attack.GetTargetableUnits(Unit.GetAllUnitsOfOwner(0, false), m_unit, getAttack().Range);
+             List<Unit> attackables = UnitAction_Attack.GetTargetableUnits(Unit.GetAllUnitsOfOwner(0, false), m_unit, getAttack().GetRange());
              Unit target = FindBestUnitToAttack(attackables);
 
             if (target != null)

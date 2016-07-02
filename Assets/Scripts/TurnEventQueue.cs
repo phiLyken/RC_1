@@ -43,7 +43,7 @@ public class TurnEventQueue  {
         public CameraFocusEvent(Vector3 pos, EventHandler cb)
         {
             Current = this;
-            Debug.Log("Camera Event");
+           // Debug.Log("Camera Event");
             callback = cb;
             position = pos;
 

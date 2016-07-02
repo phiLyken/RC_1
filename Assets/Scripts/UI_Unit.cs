@@ -42,7 +42,8 @@ public class UI_Unit : MonoBehaviour {
     {       
         m_unit = u;
         u.Stats.OnStatUpdated += OnUpdateStat;
-        
+        u.GetComponent<UnitInventory>().OnInventoryUpdated += OnUpdateStat;
+
         u.OnTurnStart += UpdateUI;
 
         u.OnTurnEnded += TurnEnd;
@@ -68,20 +69,23 @@ public class UI_Unit : MonoBehaviour {
         yield return new WaitForSeconds(0.85f);
         Toggle(false);
     }
+    //TODO Potential perfomance problem
     void OnUpdateStat()
-    {
+    {       
         UpdateUI(m_unit);
     }
     void CheckKilled(Unit u)
     {
 
         if(u == m_unit) {
+            u.GetComponent<UnitInventory>().OnInventoryUpdated -= OnUpdateStat;
             Unit.OnUnitKilled -= CheckKilled;
             m_unit.Stats.OnStatUpdated -= OnUpdateStat;
             Unit.OnUnitHover -= CheckHovered;
             Unit.OnUnitHoverEnd -= CheckHoverEnd;
             u.OnTurnEnded -= TurnEnd;
             Destroy(this.gameObject);
+      
         }
         
     }

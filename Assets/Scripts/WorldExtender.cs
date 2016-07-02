@@ -56,7 +56,7 @@ public class WorldExtender : MonoBehaviour {
         //spawn the units and shit
         UnitSpawnManager spawner = instance.GetComponent<UnitSpawnManager>();
         List<UnitSpawnGroupConfig> groups = RegionLoader.GetGroupsForPower(region);
-        Debug.Log("Spawn Groups " + groups.Count);
+        //Debug.Log("Spawn Groups " + groups.Count);
         spawner.SpawnGroups(groups);
     }
 

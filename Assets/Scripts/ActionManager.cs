@@ -241,7 +241,10 @@ public class ActionManager : MonoBehaviour {
         }
         return s;
     }
-
+    public T GetAcionOfType <T>()
+    {
+        return Actions.OfType<T>().ToList()[0];
+    }
     public UnitActionBase GetAction(string id)
     {
         foreach (var action in Actions) if (action.ActionID == id) return action;

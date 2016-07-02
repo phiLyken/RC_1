@@ -28,4 +28,7 @@ public class ScriptableUnitConfig : ScriptableObject
     public GameObject Mesh;
 
     public int UnitPower;
+
+    public WeaponConfig Weapon;
+    public ArmorConfig Armor;
 }

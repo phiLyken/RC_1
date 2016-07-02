@@ -1,83 +1,124 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using System;
 
-public delegate void DamageEventHandler(Damage dmg);
+public delegate void DamageEventHandler(Effect_Damage dmg);
 
-
-public interface IUnitEffect
+[System.Serializable]
+public class UnitEffect
 {
-    void ApplyToUnit(Unit u);
-    void SetPreview(UI_DmgPreview prev, Unit target);
+    public Sprite Icon;
+       
+    public int TurnLength;
+
+    public virtual void ApplyToUnit(Unit u) { }
+    public virtual void SetPreview(UI_DmgPreview prev, Unit target) { }
+
+    public UnitEffect(UnitEffect origin)
+    {
+        Icon = origin.Icon;
+        TurnLength = origin.TurnLength;
+    }
+
+    public UnitEffect() { }
+
+    public virtual string GetString()
+    {
+        return " null";
+    }
+
+    public virtual void SpawnEffect(Transform instigator, Unit target)
+    {
+       
+    }
 }
 
 [System.Serializable]
-public class Damage : IUnitEffect
+public class Effect_Damage : UnitEffect
 {
-    [HideInInspector]
-    public int amount = 0;
+    public MyMath.R_Range DamageRange;
+
+    int baked_damage = -1;
+
+    public Effect_Damage(Effect_Damage origin) : base(origin)
+    {
+        DamageRange = origin.DamageRange;
+
+        
+        baked_damage = (int) origin.DamageRange.Value();
+
+        Debug.Log("DMG  Baked "+ baked_damage);
+    }
 
     public int GetDamage()
     {
-        return UnityEngine.Random.Range(min, max);
-    }
-    [Tooltip("Amount of damage Dealt")]
-    public int min = 20;
-
-    [Tooltip("Amount of damage Dealt")]
-    public int max = 20;
-
-    [HideInInspector]
-    public MyMath.R_Range bonus_range;
-
-    [HideInInspector]
-    public int base_damge = 0;
-    [HideInInspector]
-    public int bonus_damage = 0;
-
-    public Damage(MyMath.R_Range dmg)
-    {
-        min = (int) dmg.min;
-        max = (int) dmg.max;
-    }
-
-    public Damage()
-    {
-        min = 100;
-        max = 200;
-        amount = GetDamage();
-    }
-
-    public void ApplyToUnit(Unit target)
-    {
-        target.ReceiveDamage(this);
-    }
-
-    public void SetPreview(UI_DmgPreview prev, Unit target)
-    {
-       prev.MainTF.text = min + "-" + max;
-
-       bool showBonus = bonus_range.max > 0;
-
-       prev.Icon.gameObject.SetActive(showBonus);
-       prev.IconTF.gameObject.SetActive(showBonus);
-        if (showBonus)
+        if(baked_damage < 0)
         {
-          prev.IconTF.text = "+" + bonus_range.min + "-" + (bonus_range.max - 1);
+            Debug.LogWarning("DMG NOT BAKED");
+        } 
+        return baked_damage;
+    }
+    public Effect_Damage()
+    {
+        baked_damage = 5;
+    }
+    public override void SpawnEffect(Transform instigator, Unit target)
+    {
+        if (PanCamera.Instance != null)
+            PanCamera.Instance.PanToPos(target.currentTile.GetPosition());
 
+        Debug.Log("EFFEEFCADASD");
+        SetLazer.MakeLazer(0.5f, new List<Vector3> { instigator.transform.position, target.transform.position }, Color.red);
+
+    }
+    public override string GetString()
+    {
+        return GetDamage() + " DAMAGE";
+    }
+    /// <summary>
+    /// clones itself to the target
+    /// </summary>
+    /// <param name="target"></param>
+    public override void ApplyToUnit(Unit target)
+    {
+        Effect_Damage eff = new Effect_Damage(this);
+     
+        if(eff.GetDamage() > 0 && !target.IsDead() ) { 
+            EffectNotification.SpawnDamageNotification(target.transform, eff);          
+            
+            target.ReceiveDamage(eff);
+         
         }
+    }
+
+    public override void SetPreview(UI_DmgPreview prev, Unit target)
+    {
+       
     }
 
 }
 
-public class Heal : IUnitEffect
+[System.Serializable]
+public class Heal : UnitEffect
 {
-    
-    public void ApplyToUnit(Unit target)
+    public string foo;
+
+    public override void ApplyToUnit(Unit target)
     {
         (target.Stats as PlayerUnitStats).Rest();   
     }
-    public void SetPreview(UI_DmgPreview prev, Unit target)
+
+    public Heal(Heal origin) : base(origin)
+    {
+        
+    }
+
+    public Heal()
+    {
+
+    }
+    public override void SetPreview(UI_DmgPreview prev, Unit target)
     {
         prev.Icon.gameObject.SetActive(false);
         prev.MainTF.text = "RESTORE O²";
@@ -89,6 +130,8 @@ public class Heal : IUnitEffect
 
 public interface IDamageable {
 
-    void ReceiveDamage(Damage dmg);  
+    void ReceiveDamage(Effect_Damage dmg);  
 
 }
+
+

@@ -3,20 +3,35 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public delegate void TargetEvent(Unit instigator, Unit target, IUnitEffect dmg);
+public delegate void TargetEvent(Unit instigator, Unit target, UnitEffect dmg);
 
 public class UnitAction_Attack : UnitActionBase {
 
     public int IntChangeOnUse;
     public float ChanceForIntChangeTrigger;
 
-    public float Range;
     public bool CanTargetOwn;
     public bool CanTargetSelf;
 
-    public static event TargetEvent OnTarget;
+    [HideInInspector]
+    public Effect_Damage Damage
+    {
+        get
+        {
+            return GetWeapon().RegularBehavior.Effects[0].GetEffect() as Effect_Damage;
+        }
+    }
 
-    public Damage DMG;
+    [HideInInspector]
+    public int Range
+    {
+        get
+        {
+            return GetWeapon().Range;
+        }
+    }
+
+    public static event TargetEvent OnTarget;
 
     Unit currentTarget;
 
@@ -45,14 +60,20 @@ public class UnitAction_Attack : UnitActionBase {
         return GetTargetableTiles(source_tile, (int)Range);
     }
 
+    WeaponConfig GetWeapon()
+    {
+    return  Owner.GetComponent<UnitInventory>().Weapon as WeaponConfig;
+    }
+
     public override void SelectAction()
     {
         base.SelectAction();
 
         if(OnTargetsFound != null)
         {
+            int range = GetWeapon().Range;
             OnTargetsFound(
-                GetTargetableUnits(Unit.GetAllUnitsOfOwner((Owner.OwnerID + 1) % 2, true), Owner, Range).Select(u => u.gameObject).ToList()
+                GetTargetableUnits(Unit.GetAllUnitsOfOwner((Owner.OwnerID + 1) % 2, true), Owner, range).Select(u => u.gameObject).ToList()
              );
         }
 
@@ -88,25 +109,13 @@ public class UnitAction_Attack : UnitActionBase {
     
     protected override void ActionExecuted()
     {   
-        Damage damage_dealt = new Damage();
-        int damage = DMG.GetDamage();
-        int bonus = (int)GetBonusIntRange().Value();
-        ///this is what will be passed to the target as receiving damage
-        damage_dealt.amount = bonus + damage;
-        damage_dealt.bonus_damage = bonus;
-        damage_dealt.base_damge = damage;        
+        StartCoroutine(AttackSequence(Owner, currentTarget, Damage));
 
-        StartCoroutine(AttackSequence(Owner, currentTarget, damage_dealt));
-
-        if( (Owner.Stats as PlayerUnitStats != null) && Random.value < ChanceForIntChangeTrigger)
-        {
-            (Owner.Stats as PlayerUnitStats).AddInt(IntChangeOnUse, false);
-        }
 
         base.ActionExecuted();
     }
 
-    IEnumerator AttackSequence(Unit atk, Unit def, Damage dmg)
+    IEnumerator AttackSequence(Unit atk, Unit def, Effect_Damage dmg)
     {
         ActionInProgress = true;
 
@@ -125,7 +134,7 @@ public class UnitAction_Attack : UnitActionBase {
         Instantiate(Resources.Load("simple_explosion"), def.transform.position, Quaternion.identity);
         yield return new WaitForSeconds(0.25f);
 
-        DamageNotification.SpawnDamageNotification(def.transform, dmg);
+        
         def.ReceiveDamage(dmg);
         yield return new WaitForSeconds(0.25f);
         ActionCompleted();
@@ -152,9 +161,8 @@ public class UnitAction_Attack : UnitActionBase {
         
         currentTarget = unit;
 
-        DMG.bonus_range = GetBonusIntRange();
         if (OnTargetHover != null) OnTargetHover(unit);
-        if (OnTarget != null) OnTarget(Owner, currentTarget, DMG);
+        if (OnTarget != null) OnTarget(Owner, currentTarget, Damage);
     }
 
     MyMath.R_Range GetBonusIntRange()

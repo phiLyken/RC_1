@@ -46,6 +46,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     bool _isActive;
     bool _isDead;
 
+
     void Awake()
     {
         Stats = GetComponent<UnitStats>();
@@ -80,6 +81,11 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     {
         if (OnUpdateTurnTime != null)
             OnUpdateTurnTime(this);
+    }
+
+    public bool IsDead()
+    {
+        return _isDead;
     }
 
     void ActivationCheck()
@@ -160,7 +166,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     public void UnitSelected()
     {
         if(Input.GetKey(KeyCode.T))
-         ReceiveDamage(new Damage());
+         ReceiveDamage(new Effect_Damage());
         
         if (OnUnitSelect != null) OnUnitSelect(this);
         return;
@@ -321,7 +327,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
         return OwnerID;
     }
 
-    public void ReceiveDamage(Damage dmg)
+    public void ReceiveDamage(Effect_Damage dmg)
     {
         
         Stats.ReceiveDamage(dmg);

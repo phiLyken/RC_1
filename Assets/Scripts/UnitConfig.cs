@@ -20,6 +20,7 @@ public class UnitConfig
 	
 	public GameObject Mesh;
 
+
 	public int UnitPower;
 }
 

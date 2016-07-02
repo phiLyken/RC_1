@@ -8,6 +8,11 @@ public class StatInfo
 {
     public UnitStats.StatType Stat;
     public float Amount;
+
+    public float GetAmount()
+    {
+        return Amount;
+    }
 }
 
 public class UnitStats : MonoBehaviour
@@ -16,7 +21,7 @@ public class UnitStats : MonoBehaviour
     public EventHandler OnHPDepleted;
 
     public StatInfo[] Stats;
-    public virtual void ReceiveDamage(Damage dmg)
+    public virtual void ReceiveDamage(Effect_Damage dmg)
     {
 
     }
@@ -35,7 +40,7 @@ public class UnitStats : MonoBehaviour
     }
     public enum StatType
     {
-        will, intensity, max, HP
+        will, intensity, max, HP, move_range
     }
     
 
@@ -47,6 +52,7 @@ public class UnitStats : MonoBehaviour
         si.Amount = 0;
         return si;
     }
+
 
     protected void Updated()
     {

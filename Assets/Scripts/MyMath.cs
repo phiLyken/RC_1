@@ -63,6 +63,7 @@ public static class MyMath  {
        
     }
 
+     
     public static float GetPercentpointsOfValueInRange(float _value, float _min, float _max){
 		if (_value < _min)
 						return 0;
@@ -271,6 +272,13 @@ public static class MyMath  {
         T chosen = objects[Random.Range(0, objects.Count)];
         objects.Remove(chosen);
         return chosen;
+    }
+
+    public static List<T> GetListFromObject<T>(T obj)
+    {
+        List<T> list = new List<T>();
+        list.Add(obj);
+        return list;
     }
 
     /// <summary>

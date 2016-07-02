@@ -16,11 +16,12 @@ public class UI_InventoryView : MonoBehaviour {
     {
       //  Debug.Log("Set Inventory View");
         string _inventory_as_text = "Inventory \n";
-
-
-        foreach(InventoryItem i in inv.Buffs)
-        {
-            _inventory_as_text += i.ID + "\n";
+                
+        if(inv.Buffs != null) { 
+            foreach(InventoryItem i in inv.Buffs)
+            {
+                _inventory_as_text += i.ID + "\n";
+            }
         }
 
         Display.text = _inventory_as_text;

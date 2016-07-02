@@ -11,7 +11,7 @@ public class UnitTrigger : MonoBehaviour {
         Unit u = col.GetComponent<Unit>();
         if(u != null && u.OwnerID == OwnerTrigger)
         {
-            Debug.Log("Unit Triggered");
+           // Debug.Log("Unit Triggered");
             Target.SendMessage("OnTrigger", SendMessageOptions.DontRequireReceiver);
         }
     }

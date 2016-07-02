@@ -5,12 +5,39 @@ using System.Linq;
 
 public class UnitInventory : MonoBehaviour {
 
-    public InventoryItem Weapon;
-    public InventoryItem Armor;
+    public EventHandler OnInventoryUpdated;
+
+    //TODO FIX! >_<
+    public WeaponConfig Weapon;
+    public ArmorConfig Armor;
     Unit Owner;
 
+
+    public List<StatInfo> GetAllBuffs()
+    {
+        List<StatInfo> all = new List<StatInfo>();
+
+        if (Armor != null) all.AddRange(Armor.BuffedStats);
+
+        return all;
+    }
+    public void SetWeapon(WeaponConfig wp)
+    {
+        Weapon = wp;
+        if (OnInventoryUpdated != null) OnInventoryUpdated() ;
+       
+    }
+
+    public void SetArmor(ArmorConfig arm)
+    {
+        Armor = arm;
+        
+        if (OnInventoryUpdated != null) OnInventoryUpdated();
+
+    }
     public List<InventoryItem> Buffs;
 
+   
     public void AddBuff(InventoryItem buff)
     {
         if(Buffs == null)
@@ -19,7 +46,9 @@ public class UnitInventory : MonoBehaviour {
         }
 
         Buffs.Add(buff);
+
+        if (OnInventoryUpdated != null) OnInventoryUpdated();
     }
 
-
+   
 }

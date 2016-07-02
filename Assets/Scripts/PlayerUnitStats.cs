@@ -1,11 +1,39 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
-public class PlayerUnitStats : UnitStats
-{    public int Max
+public class PlayerUnitStats : UnitStats    
+{
+    /*
+        max and move range return buffed stats as those can be influenced by the inventory
+        int and will are stats but they only have a current
+        the SETTER of max and move sets the value in the associated statinfos 
+        but the GETTER of max and move gets local statinfos + buffs
+        So max and move will not be the same when / getting setting
+    */
+    UnitInventory inventory;
+
+    float GetBuffedStat(StatType type, UnitInventory inventory)
     {
-        get { return (int)GetStat(StatType.max).Amount; }
+        float amount = 0;
+        if(inventory != null) { 
+
+            List<StatInfo> buffs = inventory.GetAllBuffs();
+            if (buffs.Count > 0)
+            {
+                buffs = buffs.Where(st => st.Stat == type).ToList();
+                amount += buffs.Sum(st => st.Amount);
+             }
+        }
+        amount += (int)GetStat(type).Amount;
+        return amount;
+    }
+    public int Max
+    {
+        get {
+            return (int)GetBuffedStat(StatType.max, inventory);
+        }
         set
         {
             GetStat(StatType.max).Amount = value;
@@ -31,9 +59,20 @@ public class PlayerUnitStats : UnitStats
         }
     }
 
-    public override void ReceiveDamage(Damage dmg)
+    public float  MoveRange
     {
-        int dmg_received = (-(dmg.amount));
+        get { return GetBuffedStat(StatType.move_range, inventory); ; }
+        set
+        {
+            GetStat(StatType.move_range).Amount = value;
+            Updated();
+        }
+    }
+
+    
+    public override void ReceiveDamage(Effect_Damage dmg)
+    {
+        int dmg_received = (-(dmg.GetDamage()));
         int int_received = (int)(Mathf.Abs(dmg_received) * Constants.RCV_DMG_TO_INT);
 
         Debug.Log(this.name + " rcv damge " + dmg_received + "  rcvd multiplier:" + "WTF" + "  +int=" + int_received);
@@ -68,7 +107,7 @@ public class PlayerUnitStats : UnitStats
 
 
 
-        Debug.Log(" int amount added " + amount + "  consume: " + consumeWill);
+        //  Debug.Log(" int amount added " + amount + "  consume: " + consumeWill);
         /*
         int truncated = amount;
         if (!consumeWill)
@@ -99,7 +138,10 @@ public class PlayerUnitStats : UnitStats
         Will = Mathf.Max(Mathf.Min(Will + amount, Max - Int), 0);
     }
 
-
+    void Awake()
+    {
+        inventory = GetComponent<UnitInventory>();
+    }
 
 
 }

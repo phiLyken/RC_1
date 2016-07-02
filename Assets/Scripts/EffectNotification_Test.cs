@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class DamageNotification_Test : MonoBehaviour {
+public class EffectNotification_Test : MonoBehaviour {
 
     public GameObject[] anchors;
     int index;
 
-    public Damage dmg;
+    public Effect_Damage dmg;
 
     void Update()
     {
@@ -14,7 +14,7 @@ public class DamageNotification_Test : MonoBehaviour {
         {
             index = (index + 1) % anchors.Length;
 
-            DamageNotification.SpawnDamageNotification(anchors[index].transform, dmg);
+            EffectNotification.SpawnDamageNotification(anchors[index].transform, dmg);
         }
     }
 }
