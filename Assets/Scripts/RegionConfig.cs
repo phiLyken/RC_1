@@ -59,8 +59,7 @@ public class WeightedRegion : IWeightable
 {
     public RegionConfig Region;
     public float _Weight;
-   
-
+  
     public float Weight
     {
         get

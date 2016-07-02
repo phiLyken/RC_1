@@ -14,9 +14,11 @@ public class UnitTestSpawner : MonoBehaviour {
         }
     }
 
+#if UNITY_EDITOR
     void OnDrawGizmos()
     {
         if(Config != null)
           MyMath.SceneViewText(Config.ID, transform.position);
     }
+#endif
 }

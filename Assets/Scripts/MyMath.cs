@@ -3,7 +3,7 @@ using System.Collections;
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine.UI;
-using UnityEditor;
+
 using System.IO;
 
 public static class MyMath  {
@@ -27,37 +27,7 @@ public static class MyMath  {
 		return best;
 	}
 
-    //http://wiki.unity3d.com/index.php?title=CreateScriptableObjectAsset
-    public static class ScriptableObjectUtility
-    {
-        /// <summary>
-        //	This makes it easy to create, name and place unique new ScriptableObject asset files.
-        /// </summary>
-        public static void CreateAsset<T>() where T : ScriptableObject
-        {
-            T asset = ScriptableObject.CreateInstance<T>();
-
-            string path = AssetDatabase.GetAssetPath(Selection.activeObject);
-            if (path == "")
-            {
-                path = "Assets";
-            }
-            else if (Path.GetExtension(path) != "")
-            {
-                path = path.Replace(Path.GetFileName(AssetDatabase.GetAssetPath(Selection.activeObject)), "");
-            }
-
-            string assetPathAndName = AssetDatabase.GenerateUniqueAssetPath(path + "/New " + typeof(T).ToString() + ".asset");
-
-            AssetDatabase.CreateAsset(asset, assetPathAndName);
-
-            AssetDatabase.SaveAssets();
-            AssetDatabase.Refresh();
-            EditorUtility.FocusProjectWindow();
-            Selection.activeObject = asset;
-        }
-    }
-
+   
     public static Vector3[] GetTransformBoundPositionTop(Transform transform)
     {
         Vector3[] ret = new Vector3[4];
@@ -426,6 +396,7 @@ public static class MyMath  {
     /*https://gist.github.com/Arakade/9dd844c2f9c10e97e3d0*/
 
 #if UNITY_EDITOR
+
     public static void SceneViewText(string text, Vector3 worldPos, Color? colour = null)
     {
         UnityEditor.Handles.BeginGUI();
@@ -444,6 +415,38 @@ public static class MyMath  {
 	        GUI.color = Color.white;
 		}
     }
+
+    //http://wiki.unity3d.com/index.php?title=CreateScriptableObjectAsset
+    public static class ScriptableObjectUtility
+    {
+        /// <summary>
+        //	This makes it easy to create, name and place unique new ScriptableObject asset files.
+        /// </summary>
+        public static void CreateAsset<T>() where T : ScriptableObject
+        {
+            T asset = ScriptableObject.CreateInstance<T>();
+
+            string path = UnityEditor.AssetDatabase.GetAssetPath(UnityEditor.Selection.activeObject);
+            if (path == "")
+            {
+                path = "Assets";
+            }
+            else if (Path.GetExtension(path) != "")
+            {
+                path = path.Replace(Path.GetFileName(UnityEditor.AssetDatabase.GetAssetPath(UnityEditor.Selection.activeObject)), "");
+            }
+
+            string assetPathAndName = UnityEditor.AssetDatabase.GenerateUniqueAssetPath(path + "/New " + typeof(T).ToString() + ".asset");
+
+            UnityEditor.AssetDatabase.CreateAsset(asset, assetPathAndName);
+
+            UnityEditor.AssetDatabase.SaveAssets();
+            UnityEditor.AssetDatabase.Refresh();
+            UnityEditor.EditorUtility.FocusProjectWindow();
+            UnityEditor.Selection.activeObject = asset;
+        }
+    }
+
 #endif
     private static System.Random rng = new System.Random();
 

@@ -1,11 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public class WorldExtender : MonoBehaviour {
     /// <summary>
     /// Tiles left in the grid under consideration of the crumble-row when a new region is spawned
     /// </summary>
+
+
+     //keep track of spawned
+    List<RegionConfig> spawned;
+
     public int MinTilesLastUnit;
 
     public int CurrentStageOverride;
@@ -24,6 +30,7 @@ public class WorldExtender : MonoBehaviour {
     {
         CurrentStage = CurrentStageOverride;
         TurnSystem.Instance.OnGlobalTurn += OnGlobalTurn;
+        spawned = new List<RegionConfig>();
         SetupGame();
     }
 
@@ -45,7 +52,7 @@ public class WorldExtender : MonoBehaviour {
     {
         TileManager instance = Instantiate(region.TileSet).gameObject.GetComponent<TileManager>();
         target.AppendGrid(instance);
-
+       
         //spawn the units and shit
         UnitSpawnManager spawner = instance.GetComponent<UnitSpawnManager>();
         List<UnitSpawnGroupConfig> groups = RegionLoader.GetGroupsForPower(region);
@@ -69,7 +76,8 @@ public class WorldExtender : MonoBehaviour {
         }
         else
         {
-            region = RegionLoader.GetWeightedRegionForLevel(CurrentStage);
+            region = RegionLoader.GetWeightedRegionForLevel(CurrentStage, spawned);
+            spawned.Add(region);
         }
 
         Debug.Log("spawning region " + region.name);
@@ -84,7 +92,7 @@ public class WorldExtender : MonoBehaviour {
 
     int GetNextCampSpawn()
     {
-        return TilesUntilCamp + 75+ Random.Range(0, 75); 
+        return TilesUntilCamp + 50+ Random.Range(0, 10); 
     }
    
 }

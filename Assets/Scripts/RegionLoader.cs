@@ -10,13 +10,23 @@ public class RegionLoader : MonoBehaviour {
         return RegionConfigDataBase.GetDataBase().StartRegion;
     }
 
-    public static RegionConfig GetWeightedRegionForLevel(int level)
+    public static RegionConfig GetWeightedRegionForLevel(int level, List<RegionConfig> exclude)
     {
         // get regions for level
-        List<WeightedRegion> configs = RegionConfigDataBase.GetPoolConfig(level).Regions;
+        List<WeightedRegion> configs = 
+            RegionConfigDataBase.GetPoolConfig(level).Regions.Where( r =>  !exclude.Contains(r.Region ) ).ToList();
         
+        if(configs.Count == 0)
+        {
+            Debug.LogWarning(" NO REGIONS LEFT for LEVEL " + level );
+        }
+
         // choose random region by weight
-        return WeightableFactory.GetWeighted(configs).Region;
+        WeightedRegion wr = WeightableFactory.GetWeighted(configs);
+
+
+        return wr.Region;
+            
     }
 
     public static List<WeightedUnit> GetUnitsForGroupPower(UnitSpawnGroupConfig group) { 
