@@ -6,7 +6,7 @@ public class EffectNotification_Test : MonoBehaviour {
     public GameObject[] anchors;
     int index;
 
-    public Effect_Damage dmg;
+    public UnitEffect_Damage dmg;
 
     void Update()
     {

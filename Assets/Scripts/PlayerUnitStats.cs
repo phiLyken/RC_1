@@ -70,7 +70,7 @@ public class PlayerUnitStats : UnitStats
     }
 
     
-    public override void ReceiveDamage(Effect_Damage dmg)
+    public override void ReceiveDamage(UnitEffect_Damage dmg)
     {
         int dmg_received = (-(dmg.GetDamage()));
         int int_received = (int)(Mathf.Abs(dmg_received) * Constants.RCV_DMG_TO_INT);

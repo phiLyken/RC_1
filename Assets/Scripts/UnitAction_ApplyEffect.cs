@@ -83,34 +83,13 @@ public class UnitAction_ApplyEffect : UnitActionBase
     protected override void ActionExecuted()
     {
         base.ActionExecuted();
-
-        Debug.Log("Applying "+ GetEffects().Count+ "effects   To " + targets.Count+" targets");
-
+        
         StartCoroutine(ApplySequence( Owner, targets  ));
         targets = null;
         //Debug.Break();
       
     }
 
-    IEnumerator ApplyEffect(Unit instigator, Unit target, UnitEffect effect)
-    {
-       
-        if (PanCamera.Instance != null)
-            PanCamera.Instance.PanToPos(instigator.currentTile.GetPosition());
-
-        effect.SpawnEffect(instigator.transform, target);
-
-        yield return new WaitForSeconds(0.5f);
-   
-        if (PanCamera.Instance != null)
-            PanCamera.Instance.PanToPos(target.currentTile.GetPosition());
-        yield return new WaitForSeconds(0.5f);
-       
-        Instantiate(Resources.Load("simple_explosion"), target.transform.position, Quaternion.identity);
-
-        yield return new WaitForSeconds(0.4f);
-        effect.ApplyToUnit(target);
-    }
 
     IEnumerator ApplySequence(Unit atk, List<Unit> targets)
     {
@@ -118,20 +97,21 @@ public class UnitAction_ApplyEffect : UnitActionBase
         List<UnitEffect> Effects = GetEffects();
         Debug.Log("Applying " + Effects.Count + "effects   To " + targets.Count + " targets");
         
-        foreach(Unit Target in targets)
+        foreach(Unit target in targets)
         {
             yield return new WaitForSeconds(1f);
 
             foreach (UnitEffect effect in Effects)
             {
-                if (!Target.IsDead()) { 
+                if (!target.IsDead()) {
 
-                    yield return StartCoroutine(ApplyEffect(atk, Target, effect));
+                    yield return StartCoroutine(effect.ApplyEffectSequence(target, Owner));
                 }
             }
         }
       
         yield return new WaitForSeconds(0.25f);
+
         ActionCompleted();
 
     }

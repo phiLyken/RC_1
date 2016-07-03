@@ -14,11 +14,11 @@ public class UnitAction_Attack : UnitActionBase {
     public bool CanTargetSelf;
 
     [HideInInspector]
-    public Effect_Damage Damage
+    public UnitEffect_Damage Damage
     {
         get
         {
-            return GetWeapon().RegularBehavior.Effects[0].GetEffect() as Effect_Damage;
+            return GetWeapon().RegularBehavior.Effects[0].GetEffect() as UnitEffect_Damage;
         }
     }
 
@@ -115,7 +115,7 @@ public class UnitAction_Attack : UnitActionBase {
         base.ActionExecuted();
     }
 
-    IEnumerator AttackSequence(Unit atk, Unit def, Effect_Damage dmg)
+    IEnumerator AttackSequence(Unit atk, Unit def, UnitEffect_Damage dmg)
     {
         ActionInProgress = true;
 

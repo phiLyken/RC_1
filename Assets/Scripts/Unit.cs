@@ -166,7 +166,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     public void UnitSelected()
     {
         if(Input.GetKey(KeyCode.T))
-         ReceiveDamage(new Effect_Damage());
+         ReceiveDamage(new UnitEffect_Damage());
         
         if (OnUnitSelect != null) OnUnitSelect(this);
         return;
@@ -327,7 +327,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
         return OwnerID;
     }
 
-    public void ReceiveDamage(Effect_Damage dmg)
+    public void ReceiveDamage(UnitEffect_Damage dmg)
     {
         
         Stats.ReceiveDamage(dmg);

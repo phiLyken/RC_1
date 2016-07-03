@@ -77,7 +77,7 @@ public class UnitAction_Rest : UnitActionBase
     protected override void ActionExecuted()
     {    
         base.ActionExecuted();
-        new Heal().ApplyToUnit(currentTarget);
+       
         currentTarget = null;
 
         ActionCompleted();

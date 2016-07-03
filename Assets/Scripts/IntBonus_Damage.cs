@@ -7,7 +7,7 @@ public class IntBonus_Damage : IntBonus
     public override UnitEffect GetEffectForInstigator(int _int)
     {
         //copies the effect
-        Effect_Damage dmg = new Effect_Damage(Effect.GetEffect() as Effect_Damage);
+        UnitEffect_Damage dmg = new UnitEffect_Damage(Effect.GetEffect() as UnitEffect_Damage);
 
         //modifies the ranges
         dmg.DamageRange = new MyMath.R_Range(dmg.DamageRange.min + int_to_damage_min * _int, dmg.DamageRange.max + int_to_damage_max * _int);

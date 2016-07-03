@@ -21,7 +21,7 @@ public class UnitStats : MonoBehaviour
     public EventHandler OnHPDepleted;
 
     public StatInfo[] Stats;
-    public virtual void ReceiveDamage(Effect_Damage dmg)
+    public virtual void ReceiveDamage(UnitEffect_Damage dmg)
     {
 
     }

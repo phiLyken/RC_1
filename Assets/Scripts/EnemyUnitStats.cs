@@ -4,7 +4,7 @@ using System.Collections;
 public class EnemyUnitStats : UnitStats {
 
 
-    public override void ReceiveDamage(Effect_Damage dmg)
+    public override void ReceiveDamage(UnitEffect_Damage dmg)
     {
         GetStat(StatType.HP).Amount -= dmg.GetDamage();
 
