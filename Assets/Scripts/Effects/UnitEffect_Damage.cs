@@ -18,7 +18,6 @@ public class UnitEffect_Damage : UnitEffect
     {
         DamageRange = origin.DamageRange;
 
-
         baked_damage = (int)origin.DamageRange.Value();
 
         Debug.Log("DMG  Baked " + baked_damage);
@@ -49,22 +48,36 @@ public class UnitEffect_Damage : UnitEffect
     protected override IEnumerator ApplyEffect(Unit target, UnitEffect effect)
     {
         //Make copy
-        UnitEffect_Damage eff = new UnitEffect_Damage(effect as UnitEffect_Damage);
+        UnitEffect_Damage copy = new UnitEffect_Damage(effect as UnitEffect_Damage);
 
-        if (eff.GetDamage() > 0 && !target.IsDead())
+        TurnSystem.Instance.OnGlobalTurn += copy.OnGlobalTurn;
+
+        if (copy.GetDamage() > 0)
         {
-            EffectNotification.SpawnDamageNotification(target.transform, eff);
-
-            target.ReceiveDamage(eff);
+            if (target.GetComponent<Unit_EffectManager>().ApplyEffect(copy)) {
+                copy.Effect_Host = target;
+                copy.EffectTick();
+            }
 
         }
         
         yield return null;
     }
 
+    void EffectTick()
+    {
+        Ticked();
+        Effect_Host.ReceiveDamage(this);
+      
+    }
     public override void SetPreview(UI_DmgPreview prev, Unit target)
     {
 
+    }
+
+    protected override void GlobalTurnTick()
+    {
+        EffectTick();
     }
 
 }

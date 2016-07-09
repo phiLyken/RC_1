@@ -3,9 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
+public delegate void EffectEventHandler(UnitEffect effect);
 [System.Serializable]
 public class UnitEffect
 {
+    public enum TargetModes
+    {
+        Owner, Target
+    }
+
+    public TargetModes TargetMode;
     public Sprite Icon;
     public GameObject ApplyEffectOnTargetPrefab;
     public GameObject CastEffectOnInstigatorPrefab;
@@ -14,18 +21,36 @@ public class UnitEffect
 
     public bool FocusOnCaster;
     public bool FocusOnTarget;
+    public bool ShowRemoveNotification;
+    public bool ShowApplyNotification;
+
     public float castDelay;
 
-    public int TurnLength;
+    public int MaxDuration;
+    protected Unit Effect_Host;
 
-    public virtual IEnumerator ApplyEffectSequence(Unit target, Unit instigator) {
+    protected int _durationActive;
+
+    public EffectEventHandler OnEffectExpired;
+    public EffectEventHandler OnEffectTick;
+
+    public Unit GetTarget(Unit target, Unit instigator)
+    {
+        return (TargetMode == TargetModes.Owner) ? instigator : target;
+    }
+   
+    public IEnumerator ApplyEffectSequence(Unit target, Unit instigator) {
+
+        target = GetTarget(target, instigator);
+       
+        Debug.Log(target.name);
 
         if (FocusOnCaster && PanCamera.Instance != null) {
             PanCamera.Instance.PanToPos(instigator.currentTile.GetPosition());
             yield return new WaitForSeconds(0.5f);
         }
 
-        if(ApplyEffectOnTargetPrefab != null) {
+        if(CastEffectOnInstigatorPrefab != null) {
             GameObject.Instantiate(CastEffectOnInstigatorPrefab, instigator.transform.position, Quaternion.identity);
             yield return new WaitForSeconds(castDelay);
         }
@@ -47,21 +72,57 @@ public class UnitEffect
 
         yield return ApplyEffect(target, this);
 
-
     }
 
+    #region
     ///OVERIDE THIS
     protected virtual IEnumerator ApplyEffect(Unit target, UnitEffect effect)
-    {
+    {        
         yield return null;
     }
-    public virtual void SetPreview(UI_DmgPreview prev, Unit target) { }
 
+    protected virtual void GlobalTurnTick()
+    {
+    }
+
+    protected virtual void EffectRemoved()
+    {
+    }
+
+    /// <summary>
+    /// Call After Ticking
+    /// </summary>
+    protected void Ticked()
+    {        
+        if (OnEffectTick != null) OnEffectTick(this);
+        Debug.Log(GetString() + " TICKED");
+        _durationActive++;
+       
+        if (_durationActive > MaxDuration)
+        {
+            if (OnEffectExpired != null) OnEffectExpired(this);
+            TurnSystem.Instance.OnGlobalTurn -= OnGlobalTurn;
+            EffectRemoved();
+        }
+    }
+    
     public UnitEffect(UnitEffect origin)
     {
         Icon = origin.Icon;
-        TurnLength = origin.TurnLength;
+        MaxDuration = origin.MaxDuration;
     }
+
+    public virtual void SetPreview(UI_DmgPreview prev, Unit target) { }
+    #endregion
+
+    protected  void OnGlobalTurn(int t)
+    {
+        if (!Effect_Host.IsDead())
+            GlobalTurnTick();
+    }
+   
+
+
 
     public UnitEffect() { }
 
@@ -70,5 +131,5 @@ public class UnitEffect
         return " null";
     }
 
-
+    
 }

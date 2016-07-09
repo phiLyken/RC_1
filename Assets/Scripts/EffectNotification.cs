@@ -8,26 +8,30 @@ public class EffectNotification : MonoBehaviour {
     public Image EffectIcon;
     public Text DamageTF;
 
-    public static void SpawnDamageNotification(Transform obj, UnitEffect effect)
+    public static void SpawnEffectNotification(GameObject prefab, Transform target_parent, UnitEffect effect)
     {
-        GameObject new_obj = Instantiate(Resources.Load("effect_notification")) as GameObject;
+        SpawnEffectNotification(prefab, target_parent, effect, effect.GetString());
+    }
+
+
+    public static void SpawnEffectNotification(GameObject prefab, Transform target_parent, UnitEffect effect, string custom_text)
+    {
+        GameObject new_obj = Instantiate(prefab) as GameObject;
         EffectNotification effect_notif = new_obj.GetComponent<EffectNotification>();
 
-        
-        new_obj.transform.SetParent(GameObject.FindGameObjectWithTag("UI").transform, false);
-        effect_notif.SetInfo(obj, effect);       
+        new_obj.transform.SetParent(target_parent.transform, false);
 
+        effect_notif.SetInfo(effect.Icon, custom_text, Color.white);
     }
 
-    void SetInfo(Transform tr, UnitEffect effect)
+    void SetInfo(Sprite sprite, string text, Color c)
     {
-        GetComponent<UI_WorldPos>().SetWorldPosObject(tr);
-        DamageTF.text = effect.GetString();
-        EffectIcon.sprite = effect.Icon;
+        DamageTF.text = text;
+        EffectIcon.sprite = sprite;
+
+        DamageTF.color = c;
+        EffectIcon.color = c;
     }
 
-    void Update()
-    {
-        GetComponent<UI_WorldPos>().UpdatePos();
-    }
+
 }

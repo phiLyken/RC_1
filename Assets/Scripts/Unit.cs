@@ -20,7 +20,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     public static UnitEventHandler OnUnitHover;
     public static UnitEventHandler OnUnitHoverEnd;
     public static UnitEventHandler OnUnitSelect;
-
+    
     public DamageEventHandler OnDamageReceived;
   
     public UnitEventHandler OnActionSelectedInUnit;

@@ -8,6 +8,7 @@ public class UnitAction_ApplyEffect : UnitActionBase
     public float Range = 4;
     public List<UnitEffect_Container> Effects;
 
+   
     List<Unit>  targets;
 
     void Awake()
@@ -17,7 +18,8 @@ public class UnitAction_ApplyEffect : UnitActionBase
     
     public override void SelectAction()
     {
-        targets = null;
+        targets = Unit.HoveredUnit != null ? MyMath.GetListFromObject(Unit.HoveredUnit) : null;
+
         base.SelectAction();
 
         if (OnTargetsFound != null)
@@ -41,6 +43,10 @@ public class UnitAction_ApplyEffect : UnitActionBase
 
     protected virtual List<UnitEffect> GetEffects()
     {
+        if(Effects == null)
+        {
+            Debug.LogError("NO EFFECTS FOUND " + ActionID);
+        }
         return Effects.Select(e => e.GetEffect()).ToList();
     }
 
@@ -61,7 +67,6 @@ public class UnitAction_ApplyEffect : UnitActionBase
 
     void OnUnitSelect(Unit u)
     {
-
         AttemptExection();
     }
 
@@ -95,22 +100,27 @@ public class UnitAction_ApplyEffect : UnitActionBase
     {
         ActionInProgress = true;
         List<UnitEffect> Effects = GetEffects();
+
         Debug.Log("Applying " + Effects.Count + "effects   To " + targets.Count + " targets");
         
         foreach(Unit target in targets)
         {
-            yield return new WaitForSeconds(1f);
-
+            bool first = true;
             foreach (UnitEffect effect in Effects)
             {
-                if (!target.IsDead()) {
-
+                if(!first) yield return new WaitForSeconds(0.5f);
+                first = false;
+                if(effect == null)
+                {
+                    Debug.LogError("NO EFFECT..");
+                }
+                if (!effect.GetTarget(target, atk).IsDead()) {
                     yield return StartCoroutine(effect.ApplyEffectSequence(target, Owner));
                 }
             }
         }
       
-        yield return new WaitForSeconds(0.25f);
+        yield return new WaitForSeconds(2.5f);
 
         ActionCompleted();
 

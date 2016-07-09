@@ -29,8 +29,11 @@ public class UnitFactory : MonoBehaviour
         //inventory should be created before stats
         MakeInventory(data, base_unit);
         MakeStats(base_unit, data);
-        
+
+        Unit_EffectManager  effect_manager = base_unit.AddComponent<Unit_EffectManager>();
         Unit m_unit = base_unit.AddComponent<Unit>();
+        effect_manager.SetUnit(m_unit);
+
         m_unit.OwnerID = data.Owner;
         m_unit.TurnTime = turntime;
         

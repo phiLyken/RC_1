@@ -8,6 +8,8 @@ public enum WeaponMode { regular, int_attack }
 public class UnitAction_ApplyEffectFromWeapon : UnitAction_ApplyEffect {
     
     public WeaponMode Mode;
+    public bool TargetEnemies;
+    public bool TargetFriendly;
 
     WeaponBehavior GetBehavior()
     {
@@ -15,13 +17,20 @@ public class UnitAction_ApplyEffectFromWeapon : UnitAction_ApplyEffect {
         return Mode == WeaponMode.regular ? wp.RegularBehavior : wp.IntAttackBehavior; 
     }
 
+    public override List<Tile> GetPreviewTiles()
+    {
+        return base.GetPreviewTiles();
+    }
+    
+    
+
     protected override List<UnitEffect> GetEffects()
     {     
 
         WeaponBehavior Behavior = GetBehavior();
 
         List <UnitEffect> effects = Behavior.Effects.Select(container => container.GetEffect()).ToList();
-
+        
         if(Behavior.IntBonus != null) {
            
             UnitEffect intBonus = Behavior.IntBonus.GetEffectForInstigator(   (int)Owner.Stats.GetStat(UnitStats.StatType.intensity).Amount);

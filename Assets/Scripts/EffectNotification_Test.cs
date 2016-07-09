@@ -14,7 +14,7 @@ public class EffectNotification_Test : MonoBehaviour {
         {
             index = (index + 1) % anchors.Length;
 
-            EffectNotification.SpawnDamageNotification(anchors[index].transform, dmg);
+          //EffectNotification.SpawnDamageNotification(anchors[index].transform, dmg);
         }
     }
 }

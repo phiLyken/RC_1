@@ -18,6 +18,7 @@ public class TileSelecter : MonoBehaviour {
     void Awake()
     {
         _instance = this;
+
         Unit.OnUnitHover += u =>
         {
             HoverTile(u.currentTile);
