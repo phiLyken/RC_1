@@ -14,13 +14,17 @@ public class UnitEffect_Damage : UnitEffect
 
     int baked_damage = -1;
 
-    public UnitEffect_Damage(UnitEffect_Damage origin) : base(origin)
+    /// <summary>
+    /// clones itself to the target
+    /// </summary>
+    /// <param name="target"></param>
+    public override UnitEffect MakeCopy(UnitEffect origin)
     {
-        DamageRange = origin.DamageRange;
+        UnitEffect_Damage _cc = (UnitEffect_Damage)( (UnitEffect_Damage) origin).MemberwiseClone() ;
 
-        baked_damage = (int)origin.DamageRange.Value();
+        _cc.baked_damage = (int) _cc.DamageRange.Value();
 
-        Debug.Log("DMG  Baked " + baked_damage);
+        return _cc;
     }
 
     public int GetDamage()
@@ -41,38 +45,10 @@ public class UnitEffect_Damage : UnitEffect
         return GetDamage() + " DAMAGE";
     }
 
-    /// <summary>
-    /// clones itself to the target
-    /// </summary>
-    /// <param name="target"></param>
-    protected override IEnumerator ApplyEffect(Unit target, UnitEffect effect)
-    {
-        //Make copy
-        UnitEffect_Damage copy = new UnitEffect_Damage(effect as UnitEffect_Damage);
-
-        TurnSystem.Instance.OnGlobalTurn += copy.OnGlobalTurn;
-
-        if (copy.GetDamage() > 0)
-        {
-            if (target.GetComponent<Unit_EffectManager>().ApplyEffect(copy)) {
-                copy.Effect_Host = target;
-                copy.EffectTick();
-            }
-
-        }
-        
-        yield return null;
-    }
-
-    void EffectTick()
+    protected override void  EffectTick()
     {
         Ticked();
-        Effect_Host.ReceiveDamage(this);
-      
-    }
-    public override void SetPreview(UI_DmgPreview prev, Unit target)
-    {
-
+        Effect_Host.ReceiveDamage(this);      
     }
 
     protected override void GlobalTurnTick()

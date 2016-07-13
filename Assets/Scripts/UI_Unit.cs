@@ -140,8 +140,11 @@ public class UI_Unit : MonoBehaviour {
         PlayerUnitStats p_stats = u.Stats as PlayerUnitStats;
         if(p_stats != null)
         {
-           
-            StatBar.SetBarValues( p_stats.Will, p_stats.Int, p_stats.Max);
+
+            StatBar.SetBarValues(p_stats.GetStatAmount(UnitStats.StatType.will),
+                                  p_stats.GetStatAmount(UnitStats.StatType.intensity),
+                                  p_stats.GetStatAmount(UnitStats.StatType.max)
+                                  );
             
         } else
         {

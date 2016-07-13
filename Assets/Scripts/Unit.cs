@@ -291,8 +291,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
 
         if(stats != null)
         {
-            stats.Int = 0;
-            stats.Will = stats.Max;           
+            stats.Rest();       
         }
     }
 

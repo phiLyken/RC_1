@@ -165,17 +165,8 @@ public class UnitAction_Attack : UnitActionBase {
         if (OnTarget != null) OnTarget(Owner, currentTarget, Damage);
     }
 
-    MyMath.R_Range GetBonusIntRange()
-    {       
-        PlayerUnitStats stats = (Owner.Stats as PlayerUnitStats);
 
-        if (stats != null)
-        {
-            if(stats.Int > 0)
-                return new MyMath.R_Range(1, stats.Int+1);
-        }
-        return new MyMath.R_Range(0, 0) ;
-    }
+
     public static bool isInRange(Unit attacker, Unit other, float range)
     {
         return isInRange(attacker, other, range, attacker.currentTile);

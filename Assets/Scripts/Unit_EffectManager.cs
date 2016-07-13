@@ -11,7 +11,7 @@ public class Unit_EffectManager : MonoBehaviour {
     public EffectEventHandler OnEffectTick;
     public EffectEventHandler OnEffectRemoved;
 
-    public List<UnitEffect> ActiveEffects;
+    public List<UnitEffect> ActiveEffects = new List<UnitEffect>();
 
    
     public bool AddEffect(UnitEffect new_effect)

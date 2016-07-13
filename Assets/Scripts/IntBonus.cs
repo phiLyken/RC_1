@@ -2,7 +2,7 @@
 
 public class IntBonus : MonoBehaviour
 {
-    public UnitEffect_Container Effect;
+   
 
     /// <summary>
     /// returns an effect based on the users int

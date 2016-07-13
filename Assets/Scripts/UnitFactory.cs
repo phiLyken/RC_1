@@ -27,10 +27,10 @@ public class UnitFactory : MonoBehaviour
         MakeMesh(data, base_unit);
 
         //inventory should be created before stats
-        MakeInventory(data, base_unit);
-        MakeStats(base_unit, data);
+        MakeInventory(data, base_unit);       
 
         Unit_EffectManager  effect_manager = base_unit.AddComponent<Unit_EffectManager>();
+        MakeStats(base_unit, data);
         Unit m_unit = base_unit.AddComponent<Unit>();
         effect_manager.SetUnit(m_unit);
 

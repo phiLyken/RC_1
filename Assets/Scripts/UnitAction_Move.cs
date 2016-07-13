@@ -157,15 +157,15 @@ public class UnitAction_Move : UnitActionBase {
     }
     public List<Tile> GetWalkableTiles(Tile origin)
     {
-        int moveRange = (int)GetMoveRange();
+        int moveRange = GetMoveRange();
         return  GetReachableTiles(origin, 
             TileManager.Instance.GetTilesInRange(origin, moveRange),
             Owner);
     }
 
-    public float GetMoveRange()
+    public int GetMoveRange()
     {
-        return (Owner.Stats as PlayerUnitStats).MoveRange;
+        return (Owner.Stats as PlayerUnitStats).GetStatAmount(UnitStats.StatType.move_range);
     }
 
 }
