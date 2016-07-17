@@ -13,7 +13,7 @@ public class UnitAction_ApplyEffectFromWeapon : UnitAction_ApplyEffect {
 
     WeaponBehavior GetBehavior()
     {
-        WeaponConfig wp = Owner.GetComponent<UnitInventory>().Weapon;
+        WeaponConfig wp = Owner.GetComponent<UnitInventory>().EquipedWeapon;
         return Mode == WeaponMode.regular ? wp.RegularBehavior : wp.IntAttackBehavior; 
     }
 
@@ -43,6 +43,6 @@ public class UnitAction_ApplyEffectFromWeapon : UnitAction_ApplyEffect {
 
     public override float GetRange()
     {
-     return  Owner.GetComponent<UnitInventory>().Weapon.Range;
+        return Owner.GetComponent<UnitInventory>().EquipedWeapon.Range;
     }
 }

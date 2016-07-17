@@ -7,48 +7,31 @@ public class UnitInventory : MonoBehaviour {
 
     public EventHandler OnInventoryUpdated;
 
-    //TODO FIX! >_<
-    public WeaponConfig Weapon;
-    public ArmorConfig Armor;
+    public WeaponConfig EquipedWeapon;
+    public ArmorConfig EquipedArmor;
+
+    List<IInventoryItem> Items;
+
     Unit Owner;
 
-
-    public List<StatInfo> GetAllBuffs()
+    public void AddItem(IInventoryItem new_item)
     {
-        List<StatInfo> all = new List<StatInfo>();
+        if (Items == null) Items = new List<IInventoryItem>();
 
-        if (Armor != null) all.AddRange(Armor.BuffedStats);
-
-        return all;
-    }
-    public void SetWeapon(WeaponConfig wp)
-    {
-        Weapon = wp;
-        if (OnInventoryUpdated != null) OnInventoryUpdated() ;
-       
-    }
-
-    public void SetArmor(ArmorConfig arm)
-    {
-        Armor = arm;
-        
-        if (OnInventoryUpdated != null) OnInventoryUpdated();
-
-    }
-    public List<InventoryItem> Buffs;
-
-   
-    public void AddBuff(InventoryItem buff)
-    {
-        if(Buffs == null)
-        {
-            Buffs = new List<InventoryItem>();
-        }
-
-        Buffs.Add(buff);
+        Debug.Log("Adding Item To Inventory " + new_item.GetID());
+        Items.Add(new_item);
 
         if (OnInventoryUpdated != null) OnInventoryUpdated();
     }
 
-   
+    public IInventoryItem GetItem(ItemTypes type)
+    {
+        return Items.Where(i => i.GetType() == type).First();
+    }
+
+    public List<IInventoryItem> GetItems()
+    {
+        return Items;
+    }
+
 }

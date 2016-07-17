@@ -5,6 +5,8 @@ using UnityEngine.UI;
 public class UI_ActiveUnit : MonoBehaviour {
 
     public UI_InventoryView inventory_view;
+    public UI_EffectListView effect_list_view;
+
     public Text SelectedUnitTF;
     public Text AbilityTF;
 
@@ -18,5 +20,8 @@ public class UI_ActiveUnit : MonoBehaviour {
     {
        SelectedUnitTF.text = unit.GetID();
        inventory_view.SetInventory(unit.GetComponent<UnitInventory>());
+       effect_list_view.SetEffects(unit.GetComponent<Unit_EffectManager>());
+
+
     }
 }

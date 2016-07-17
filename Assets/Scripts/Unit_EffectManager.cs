@@ -22,7 +22,17 @@ public class Unit_EffectManager : MonoBehaviour {
         }
 
         if (!ActiveEffects.Contains(new_effect))
-        {            
+        {
+            if (new_effect.ReplaceEffect)
+            {
+                UnitEffect duplicate_on_unit = GetEffect(new_effect.Unique_ID);
+                if(duplicate_on_unit != null)
+                {
+                    ActiveEffects.Remove(duplicate_on_unit);
+                    
+                }
+                
+            }
             ActiveEffects.Add(new_effect);
 
             new_effect.OnEffectTick += OnEffectTick;
@@ -36,7 +46,15 @@ public class Unit_EffectManager : MonoBehaviour {
         return false;
     }
 
-    
+
+    UnitEffect GetEffect(string id)
+    {
+        foreach (UnitEffect eff in ActiveEffects)
+        {
+            if (eff.Unique_ID == id) return eff;
+        }
+        return null;
+    }
     public bool ApplyEffect(UnitEffect effect)
     {
         if( !m_Unit.IsDead()  && AddEffect(effect))

@@ -101,8 +101,7 @@ public class UnitStats : MonoBehaviour
                    }
                }
          );
-
-        buffs.AddRange(GetInventory().GetAllBuffs());           
+        
 
 
         if (buffs.Count > 0)

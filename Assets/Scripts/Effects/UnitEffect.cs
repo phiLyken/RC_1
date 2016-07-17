@@ -9,10 +9,9 @@ public delegate void EffectEventHandler(UnitEffect effect);
 public class UnitEffect 
 {
     public enum TargetModes
-    {
-        Owner, Target
-    }
+    {   Owner, Target  }
 
+    public string Unique_ID;
     public TargetModes TargetMode;
     public Sprite Icon;
     public GameObject ApplyEffectOnTargetPrefab;
@@ -29,6 +28,8 @@ public class UnitEffect
     public float castDelay;
 
     public int MaxDuration;
+    public bool ReplaceEffect;
+
     protected Unit Effect_Host;
 
     protected int _durationActive;

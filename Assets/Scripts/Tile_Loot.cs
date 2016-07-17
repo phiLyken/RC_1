@@ -27,7 +27,7 @@ public class Tile_Loot : TileComponent {
     public void RemoveLoot()
     {
         Destroy(LootObject);
-        Destroy(this);
+        Destroy(this); 
     }    
     
     public void OnLoot(Unit _u)
@@ -39,12 +39,12 @@ public class Tile_Loot : TileComponent {
 
     void BuffDmg(Unit _u)
     {
-        _u.GetComponent<UnitInventory>().AddBuff(new InventoryItem(ItemTypes.buff, "+1 Damage"));
+       // _u.GetComponent<UnitInventory>().AddBuff(new InventoryItem(ItemTypes.buff, "+1 Damage"));
     }
     
     void BuffWalkRange(Unit _u)
     {
-        _u.GetComponent<UnitInventory>().AddBuff(new InventoryItem(ItemTypes.buff, "+1 Move Range"));
+      //  _u.GetComponent<UnitInventory>().AddBuff(new InventoryItem(ItemTypes.buff, "+1 Move Range"));
     }
 
     void GetRest(Unit _u)

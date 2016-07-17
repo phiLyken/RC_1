@@ -2,9 +2,12 @@
 using System.Collections;
 using System;
 
+[System.Serializable]
 public class UnitEffect_BuffStats : UnitEffect {
- 
+
     public StatInfo[] Buffs;
+
+
 
     public override UnitEffect MakeCopy(UnitEffect origin)
     {
@@ -12,11 +15,4 @@ public class UnitEffect_BuffStats : UnitEffect {
     }
 
 
-}
-
-[System.Serializable]
-public class BuffInfo
-{
-    public StatInfo Stat;
-   
 }

@@ -21,17 +21,8 @@ public class EffectNotification : MonoBehaviour {
 
         new_obj.transform.SetParent(target_parent.transform, false);
 
-        effect_notif.SetInfo(effect.Icon, custom_text, Color.white);
+        new_obj.GetComponent<UI_EffectItemView>().SetEffect(effect);
+     
     }
-
-    void SetInfo(Sprite sprite, string text, Color c)
-    {
-        DamageTF.text = text;
-        EffectIcon.sprite = sprite;
-
-        DamageTF.color = c;
-        EffectIcon.color = c;
-    }
-
 
 }

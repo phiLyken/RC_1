@@ -9,26 +9,18 @@ public enum ItemTypes
     buff
 }
 
-[System.Serializable]   
-public class InventoryItem {
+ 
+public interface IInventoryItem {
 
-   
 
-    public ItemTypes Type;
-    public string ID;
-    public Sprite Image;
-    public string Description;
-     
-    public virtual void AddedItemToInventory(UnitInventory inv)
-    {
-        
-    }
+     ItemTypes GetType();
+     string GetID();
+     Sprite GetImage();
+     string GetDescription();
 
-    public InventoryItem(ItemTypes type, string id)
-    {
-        Type = type;
-        ID = id;        
-    }
+     void AddToInventory(UnitInventory inv);
+     void RemoveFromIntory(UnitInventory inv);
+
 }
 
 /*

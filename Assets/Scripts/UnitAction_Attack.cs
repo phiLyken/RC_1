@@ -62,7 +62,7 @@ public class UnitAction_Attack : UnitActionBase {
 
     WeaponConfig GetWeapon()
     {
-    return  Owner.GetComponent<UnitInventory>().Weapon as WeaponConfig;
+    return  Owner.GetComponent<UnitInventory>().EquipedWeapon as WeaponConfig;
     }
 
     public override void SelectAction()
