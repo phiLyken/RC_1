@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using System;
 
-
-public class UI_ActionBar_Button : MonoBehaviour {
+public class UI_ActionBar_Button : MonoBehaviour, IToolTip{
 
     UnitActionBase m_action;
     ActionManager m_manager;
@@ -38,6 +38,10 @@ public class UI_ActionBar_Button : MonoBehaviour {
        
     }
 
+    public UnitActionBase GetAction()
+    {
+        return m_action;
+    }
     public void OnActionSelect(UnitActionBase action)
     {
         ActionIcon.color = Color.cyan;
@@ -85,5 +89,10 @@ public class UI_ActionBar_Button : MonoBehaviour {
     public void MouseOverEnd()
     {
         if (OnActionHovered != null) OnActionHovered(null);
+    }
+
+    public UnityEngine.Object GetItem()
+    {
+        return GetAction();
     }
 }

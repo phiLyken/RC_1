@@ -1,14 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using System;
 
-public class UI_InventoryItemView : MonoBehaviour {
+public class UI_InventoryItemView : MonoBehaviour, IToolTip {
 
     public Image Icon;
     public Text Count;
     public Text Description;
 
     protected IInventoryItem m_Item;
+
     public IInventoryItem GetItem()
     {
         return m_Item;
@@ -23,4 +25,8 @@ public class UI_InventoryItemView : MonoBehaviour {
             Description.text = item.GetDescription();
     }
 
+    UnityEngine.Object IToolTip.GetItem()
+    {
+        return (UnityEngine.Object) GetItem();
+    }
 }

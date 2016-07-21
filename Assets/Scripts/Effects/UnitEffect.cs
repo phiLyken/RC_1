@@ -6,7 +6,7 @@ using System;
 
 public delegate void EffectEventHandler(UnitEffect effect);
 [System.Serializable]
-public class UnitEffect 
+public class UnitEffect : UnityEngine.Object
 {
     public enum TargetModes
     {   Owner, Target  }

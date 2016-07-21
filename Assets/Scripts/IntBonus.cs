@@ -13,5 +13,11 @@ public class IntBonus : MonoBehaviour
     {
         return null;
     }
+
+
+    public virtual string IntBonusText()
+    {
+        return "does something based on int";
+    }
 }
 

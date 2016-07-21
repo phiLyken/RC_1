@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using System;
 
-public class UI_EffectItemView : MonoBehaviour {
+public class UI_EffectItemView : MonoBehaviour, IToolTip {
     public UnitEffect m_effect;
 
     public Image Icon;
@@ -18,5 +19,10 @@ public class UI_EffectItemView : MonoBehaviour {
         Icon.sprite = new_effeect.Icon;
         Text.text = new_effeect.GetString();
 
+    }
+
+    UnityEngine.Object IToolTip.GetItem()
+    {
+        return GetEffect();
     }
 }

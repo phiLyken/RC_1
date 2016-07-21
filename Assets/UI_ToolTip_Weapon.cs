@@ -2,8 +2,9 @@
 using System.Collections;
 using UnityEngine.UI;
 using System.Linq;
+using System;
 
-public class UI_ToolTip_Weapon : MonoBehaviour {
+public class UI_ToolTip_Weapon : UI_ToolTip_Base {
 
     public Text Title;
     public Text Range;
@@ -19,6 +20,14 @@ public class UI_ToolTip_Weapon : MonoBehaviour {
         Title.text = weapon.GetID();
         Range.text = weapon.Range.ToString();
 
+        IntBonus.text = weapon.RegularBehavior.IntBonus.IntBonusText();
 
+      //  IntAttack.text = weapon.IntAttackBehavior.Get
+
+    }
+
+    public override void SetItem(object obj)
+    {
+        SetWeapon((WeaponConfig)obj);
     }
 }

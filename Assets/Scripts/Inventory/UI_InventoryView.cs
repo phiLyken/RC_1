@@ -64,7 +64,7 @@ public class UI_InventoryView : MonoBehaviour {
     void MakeNewView(IInventoryItem item)
     {
         id++;
-        UI_InventoryItemView view1 = (Instantiate(Resources.Load("UI/item_view") as GameObject).GetComponent<UI_InventoryItemView>());
+        UI_InventoryItemView view1 = (Instantiate(Resources.Load("UI/ui_inventory_item_view") as GameObject).GetComponent<UI_InventoryItemView>());
         view1.SetItem(item);
         view1.transform.SetParent(this.transform, false);
         view1.gameObject.name = id.ToString();
