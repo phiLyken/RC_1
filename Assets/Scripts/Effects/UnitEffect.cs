@@ -6,7 +6,7 @@ using System;
 
 public delegate void EffectEventHandler(UnitEffect effect);
 [System.Serializable]
-public class UnitEffect : UnityEngine.Object
+public class UnitEffect 
 {
     public enum TargetModes
     {   Owner, Target  }
@@ -85,7 +85,19 @@ public class UnitEffect : UnityEngine.Object
         return origin.MemberwiseClone() as UnitEffect;
     }
 
-   
+    protected T MakeGenericCopy<T>(T bla, Unit target) where T : UnitEffect
+    {
+        T copy = bla.MemberwiseClone() as T;
+        copy.Effect_Host = target;
+
+        return copy;
+    }
+
+    protected virtual void PostEffectCopy(UnitEffect eff)
+    {
+
+    }
+
 
     protected virtual bool CanApplyEffect(Unit target, UnitEffect effect)
     {

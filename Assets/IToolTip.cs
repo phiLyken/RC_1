@@ -3,5 +3,5 @@ using System.Collections;
 
 public interface IToolTip  {
 
-    Object GetItem();
+    object GetItem();
 }

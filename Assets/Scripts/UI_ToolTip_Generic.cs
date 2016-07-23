@@ -15,7 +15,7 @@ public class UI_ToolTip_Generic : UI_ToolTip_Base {
     }
 }
 
-public class GenericToolTipTarget : UnityEngine.Object, IToolTip
+public class GenericToolTipTarget :  IToolTip
 {
     public string Text;
     public GenericToolTipTarget(string text)
@@ -23,7 +23,7 @@ public class GenericToolTipTarget : UnityEngine.Object, IToolTip
         Text = text;
     }
 
-    public UnityEngine.Object GetItem()
+    public object GetItem()
     {
         return this;
     }

@@ -16,7 +16,7 @@ public class UnitEffect_ModifyStat : UnitEffect
 
     int GetAmount()
     {
-        int _base = (int) Effect_Host.Stats.GetStat(type).Amount;
+        int _base = (int) Effect_Host.Stats.GetStatAmount(type);
 
         int value = Absolute;
 

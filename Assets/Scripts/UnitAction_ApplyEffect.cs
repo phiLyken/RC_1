@@ -5,10 +5,13 @@ using System.Linq;
 
 public class UnitAction_ApplyEffect : UnitActionBase
 {
+    public bool TargetFriendly;
+    public bool TargetEnemies;
+    public bool TargetSelf;
+
     public float Range = 4;
     public List<UnitEffect_Container> Effects;
-
-   
+       
     List<Unit>  targets;
 
     void Awake()
@@ -25,7 +28,7 @@ public class UnitAction_ApplyEffect : UnitActionBase
         if (OnTargetsFound != null)
         {
             float range = GetRange();
-            targets = GetTargetableUnits(Unit.GetAllUnitsOfOwner((Owner.OwnerID + 1) % 2, true), Owner, range);
+            targets = GetTargetableUnits( Unit.AllUnits);
             OnTargetsFound(
                targets.Select(u => u.gameObject).ToList()
              );
@@ -35,7 +38,7 @@ public class UnitAction_ApplyEffect : UnitActionBase
         Unit.OnUnitHoverEnd += OnUnitUnhover;
         Unit.OnUnitSelect += OnUnitSelect;
     }
-
+    
     public virtual float GetRange()
     {
         return Range;
@@ -52,9 +55,10 @@ public class UnitAction_ApplyEffect : UnitActionBase
 
     void OnUnitHover(Unit u)
     {
+
         targets = MyMath.GetListFromObject(u);
 
-        if (OnTargetHover != null) OnTargetHover(targets);
+        if (OnTargetHover != null) OnTargetHover(u);
     }
 
     void OnUnitUnhover(Unit u)
@@ -67,11 +71,17 @@ public class UnitAction_ApplyEffect : UnitActionBase
 
     void OnUnitSelect(Unit u)
     {
+        if (targets != null && targets.Count > 0 && !GetTargetableUnits(Unit.AllUnits).Contains(targets[0]))
+        {
+            ToastNotification.SetToastMessage1("Can't target this unit.");
+            return;
+        }
         AttemptExection();
     }
 
     public override bool CanExecAction(bool displayToast)
     {
+
         return base.CanExecAction(displayToast);
     }
 
@@ -151,22 +161,35 @@ public class UnitAction_ApplyEffect : UnitActionBase
     /// </summary>
     /// <param name="list"></param>
     /// <returns></returns>
-    public static List<Unit> GetTargetableUnits(List<Unit> list, Unit attacker, float range)
+    public List<Unit> GetTargetableUnits(List<Unit> list)
     {
-        for (int i = list.Count - 1; i >= 0; i--)
-        {
-            Unit u = list[i];
-            if (!isInRange(attacker, u, range)) list.Remove(u);
+        List<Unit> targets = new List<Unit>(list);
 
-        }
-        return list;
+        targets.RemoveAll(
+            unit => !CanTarget(unit)    
+        
+        );
+
+        return targets;
     }
+
+    bool CanTarget(Unit target)
+
+    {
+        if (target == Owner && !TargetSelf) return false;
+        if (!TargetSelf && (!TargetFriendly && target.OwnerID == Owner.OwnerID)) return false;
+        if (!TargetEnemies && target.OwnerID != Owner.OwnerID) return false;        
+        if (!isInRange(Owner, target, GetRange())) return false;
+
+        return true;
+    }
+
     public static bool isInRange(Unit instigator, Unit target, float range)
     {
-        return isInRange(instigator, target, range, instigator.currentTile);
+        return isInRangeAndVisible(instigator, target, range, instigator.currentTile);
 
     }
-    public static bool isInRange(Unit instigator, Unit target, float range, Tile origin)
+    public static bool isInRangeAndVisible(Unit instigator, Unit target, float range, Tile origin)
     {
         List<Tile> in_range = LOSCheck.GetTilesVisibleTileInRange(origin, (int)range);
 

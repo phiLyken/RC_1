@@ -485,6 +485,7 @@ public static class MyMath  {
         public float max;
         public bool asInt;
 
+
         public float Value()
         {
             if (asInt)

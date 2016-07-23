@@ -7,7 +7,7 @@ public class UI_ShowToolTip_Item : UI_ShowToolTip_Base {
     public GameObject ArmorToolTipPrefab;
     public GameObject WeaponToolTipPrefab;
 
-    protected override void SpawnToolTip(Object _obj)
+    protected override void SpawnToolTip(object _obj)
     {
 
         IInventoryItem item = (IInventoryItem)_obj;

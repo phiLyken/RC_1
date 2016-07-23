@@ -19,7 +19,9 @@ public class PlayerUnitStats : UnitStats
         Debug.Log(this.name + " rcv damge " + dmg_received + "  rcvd multiplier:" + "WTF" + "  +int=" + int_received);
 
         AddWill(dmg_received);
-        AddInt(int_received, false);
+
+        int x, y = 0;
+        AddInt(int_received, false,out x, out y);
 
         if( GetStatAmount(StatType.will) <= 0 && OnHPDepleted != null)
         {
@@ -27,28 +29,40 @@ public class PlayerUnitStats : UnitStats
         }
 
     }
-    public void AddInt(int amount, bool consumeWill)
+    public void AddInt(int amount, bool consumeWill, out int removed_will, out int added_int)
     {
+        removed_will = 0;
+        added_int = 0;
 
         int Max = GetStatAmount(StatType.max);
         int Int = GetStatAmount(StatType.intensity);
         int Will = GetStatAmount(StatType.will);
 
+        int Combined = Will + Int;
+        int Free = Max - Combined;
+
         if (consumeWill)
         {
-            //if we will is consumed, we make sure to not consume the last will
+           
             amount = Mathf.Min(amount, Max - (1 + Int));
         }
         else  
         {
-            //if adding int does not consume will (e.g. when receiving damage), the incoming int is truncated to not exceed the cap
-            amount = Mathf.Min(amount, Max - (Will + Int));
+           
+            amount = Mathf.Min(amount, Free);
         }
 
-        SetStatAmount(StatType.intensity, Mathf.Min(Mathf.Max(Int + amount, 0), Max));
+        int _new_int = Mathf.Min(Mathf.Max(Int + amount, 0), Max);
+
+        added_int = _new_int - Int;
+
+        SetStatAmount(StatType.intensity, _new_int);
 
         //in case int has been increased  more than the cap, "will" will be reduced
-        SetStatAmount(StatType.will, Mathf.Min(Will, Max - Int));
+
+        int _new_will = Mathf.Min(Will, Max - _new_int);
+        removed_will = Will - _new_will;
+        SetStatAmount(StatType.will, _new_will);
 
     }
 

@@ -8,8 +8,6 @@ public enum WeaponMode { regular, int_attack }
 public class UnitAction_ApplyEffectFromWeapon : UnitAction_ApplyEffect {
     
     public WeaponMode Mode;
-    public bool TargetEnemies;
-    public bool TargetFriendly;
 
     WeaponBehavior GetBehavior()
     {
@@ -19,7 +17,7 @@ public class UnitAction_ApplyEffectFromWeapon : UnitAction_ApplyEffect {
 
     public override List<Tile> GetPreviewTiles()
     {
-        return base.GetPreviewTiles();
+        return base.GetPreviewTiles(); 
     }
     
     

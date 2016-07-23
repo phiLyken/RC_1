@@ -33,14 +33,15 @@ public class UI_EffectListView : MonoBehaviour
 
     void OnUpdated(UnitEffect _effect)
     {
+       
         if (views == null)
         {
             views = new Dictionary<UnitEffect, UI_EffectItemView>();
         }
-
+        
         foreach (var item in effects.ActiveEffects)
         {
-            if (!views.ContainsKey(item))
+            if (!views.ContainsKey(item) && item.MaxDuration > 0)
             {
                 Debug.Log("Create Key ");
                 MakeNewView(item);
@@ -71,7 +72,7 @@ public class UI_EffectListView : MonoBehaviour
     void MakeNewView(UnitEffect item)
     {
         id++;
-        UI_EffectItemView view1 = (Instantiate(Resources.Load("UI/effect_list_view") as GameObject).GetComponent<UI_EffectItemView>());
+        UI_EffectItemView view1 = (Instantiate(Resources.Load("UI/ui_effect_list_view") as GameObject).GetComponent<UI_EffectItemView>());
         view1.SetEffect(item);
         view1.transform.SetParent(this.transform, false);
         view1.gameObject.name = id.ToString();

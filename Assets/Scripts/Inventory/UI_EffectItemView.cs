@@ -21,7 +21,7 @@ public class UI_EffectItemView : MonoBehaviour, IToolTip {
 
     }
 
-    UnityEngine.Object IToolTip.GetItem()
+    public object GetItem()
     {
         return GetEffect();
     }

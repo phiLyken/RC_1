@@ -150,8 +150,8 @@ public class UI_Unit : MonoBehaviour {
         {
             
             StatBar.SetBarValues(
-                (int) u.Stats.GetStat(UnitStats.StatType.HP).Amount, 0,
-                (int) u.Stats.GetStat(UnitStats.StatType.max).Amount
+                (int) u.Stats.GetStatAmount(UnitStats.StatType.HP), 0,
+                (int) u.Stats.GetStatAmount(UnitStats.StatType.max)
              );
         }
 

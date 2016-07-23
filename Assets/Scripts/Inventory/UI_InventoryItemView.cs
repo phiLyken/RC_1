@@ -25,8 +25,8 @@ public class UI_InventoryItemView : MonoBehaviour, IToolTip {
             Description.text = item.GetDescription();
     }
 
-    UnityEngine.Object IToolTip.GetItem()
+    object IToolTip.GetItem()
     {
-        return (UnityEngine.Object) GetItem();
+        return GetItem();
     }
 }

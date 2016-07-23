@@ -19,7 +19,7 @@ public class UI_DmgPreview : MonoBehaviour {
 
     void Start()
     {
-        UnitAction_Attack.OnTarget += SetDamage;
+    //    UnitAction_ApplyEffectFromWeapon.OnTarget += SetDamage;
         Disable();
     }
     public void Disable()

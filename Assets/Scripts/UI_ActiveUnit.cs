@@ -8,7 +8,7 @@ public class UI_ActiveUnit : MonoBehaviour {
     public UI_EffectListView effect_list_view;
 
     public Text SelectedUnitTF;
-    public Text AbilityTF;
+
 
     public static UI_ActiveUnit Instance;
     void Awake()

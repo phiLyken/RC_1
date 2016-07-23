@@ -22,7 +22,7 @@ public class UI_ShowToolTip_Base :  MonoBehaviour  {
         StartCoroutine(ShowToolTipDelayed());
     }
 
-    protected virtual void SetItemToolTip(Object _obj)
+    protected virtual void SetItemToolTip(object _obj)
     {
         RemoveOldTooltip();
         SpawnToolTip(_obj);
@@ -38,14 +38,14 @@ public class UI_ShowToolTip_Base :  MonoBehaviour  {
 
     }
 
-    protected virtual void InitializeToolTip(Object _obj)
+    protected virtual void InitializeToolTip(object _obj)
     {
         ToolTipInstance.GetComponent<UI_ToolTip_Base>().SetItem(_obj);
         ToolTipInstance.GetComponent<RectTransform>().SetParent(this.transform, false);
         ToolTipInstance.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 0);
     }
 
-    protected virtual void SpawnToolTip(Object _obj)
+    protected virtual void SpawnToolTip(object _obj)
     {
         ToolTipInstance = Instantiate(Prefab);
     }

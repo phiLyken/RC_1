@@ -42,14 +42,16 @@ public class UI_ActionBar_Button : MonoBehaviour, IToolTip{
     {
         return m_action;
     }
+
     public void OnActionSelect(UnitActionBase action)
     {
+      //  Debug.Log("Action select");
         ActionIcon.color = Color.cyan;
     }
 
     public void OnActionUnselect(UnitActionBase action)
     {
-        Debug.Log("Action unselect");
+      //  Debug.Log("Action unselect");
         SetBaseState(action);
        
     }
@@ -91,7 +93,7 @@ public class UI_ActionBar_Button : MonoBehaviour, IToolTip{
         if (OnActionHovered != null) OnActionHovered(null);
     }
 
-    public UnityEngine.Object GetItem()
+    public object GetItem()
     {
         return GetAction();
     }
