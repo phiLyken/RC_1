@@ -35,7 +35,7 @@ public class UI_InventoryView : MonoBehaviour {
         {
             if(!views.ContainsKey(item))
             {
-                Debug.Log("Create Key ");
+              //  Debug.Log("Create Key ");
                 MakeNewView(item);
             }
         }
