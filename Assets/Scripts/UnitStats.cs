@@ -13,6 +13,12 @@ public class StatInfo
     {
         return Amount;
     }
+
+    public StatInfo(UnitStats.StatType type, float amount)
+    {
+        Stat = type;
+        Amount = amount;
+    }
 }
 
 public class UnitStats : MonoBehaviour
@@ -55,10 +61,8 @@ public class UnitStats : MonoBehaviour
     public StatInfo GetStat(StatType type)
     {
         foreach (StatInfo s in Stats) if (s.Stat == type) return s;
-        // Debug.LogWarning("Stat not found " + type);
-        StatInfo si = new StatInfo();
-        si.Amount = 0;
-        return si;
+       
+        return null;
     }
     
     public int GetStatAmount(StatType type)

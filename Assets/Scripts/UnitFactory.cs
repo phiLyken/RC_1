@@ -30,12 +30,12 @@ public class UnitFactory : MonoBehaviour
         MakeInventory(data, base_unit);       
 
         Unit_EffectManager  effect_manager = base_unit.AddComponent<Unit_EffectManager>();
-        MakeStats(base_unit, data);
+        MakeStats(base_unit, data, turntime);
         Unit m_unit = base_unit.AddComponent<Unit>();
         effect_manager.SetUnit(m_unit);
 
         m_unit.OwnerID = data.Owner;
-        m_unit.TurnTime = turntime;
+      
         
         if (data.Owner == 1)
         {
@@ -104,9 +104,11 @@ public class UnitFactory : MonoBehaviour
         inventory.EquipedArmor = inventory.GetItem( ItemTypes.armor ) as ArmorConfig;
     }
 
-    static void MakeStats(GameObject target, ScriptableUnitConfig conf)
+    static void MakeStats(GameObject target, ScriptableUnitConfig conf, int start_initiative)
     {
         UnitStats stats;
+        int stats_count = conf.stats.Length;
+
         if (conf.StatType == StatType.simple)
         {
             stats = target.AddComponent<EnemyUnitStats>();
@@ -116,14 +118,14 @@ public class UnitFactory : MonoBehaviour
             stats = target.AddComponent<PlayerUnitStats>();
 
         }
-        stats.Stats = new StatInfo[conf.stats.Length];
-        for (int i = 0; i < stats.Stats.Length; i++)
+        stats.Stats = new StatInfo[stats_count + 1];
+        for (int i = 0; i < stats_count; i++)
         {
-            StatInfo inf = new StatInfo();
-            inf.Stat = conf.stats[i].Stat;
-            inf.Amount = conf.stats[i].Amount;
-            stats.Stats[i] = inf;
+                stats.Stats[i] = new StatInfo(conf.stats[i].Stat, conf.stats[i].Amount);
         }
+
+        stats.Stats[stats_count] = new StatInfo(UnitStats.StatType.current_initiative, start_initiative);
+        
     }
 
     /// <summary>

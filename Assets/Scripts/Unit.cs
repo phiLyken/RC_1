@@ -6,7 +6,6 @@ using System.Collections.Generic;
 public delegate void UnitEventHandler(Unit u);
 public class Unit : MonoBehaviour, ITurn, IDamageable {
 
-    public int TurnTime;
     int starting_order;
     public int OwnerID;
 
@@ -227,15 +226,15 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     public int GetTurnTime()
     {
         //Debug.Log("ID "+GetID()+" "+time+ "  "+time);
-       // if (TurnSystem.HasTurn(this)) return 0;
-        return TurnTime;
+        // if (TurnSystem.HasTurn(this)) return 0;
+        return (int) Stats.GetStat(UnitStats.StatType.current_initiative).Amount;
     }
    
     public void SetNextTurnTime(int turns)
     {
         if (_isDead) return;
-       // Debug.Log(gameObject.name+" next turn time " + turns);
-        TurnTime += turns;
+        // Debug.Log(gameObject.name+" next turn time " + turns);
+        Stats.GetStat(UnitStats.StatType.current_initiative).Amount += turns;
     }
 
     public void EndTurn()
@@ -273,14 +272,12 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
         ActivationCheck();
 
         if (IsActive)
-        {            
-            TurnTime--;
+        {
+            Stats.GetStat(UnitStats.StatType.current_initiative).Amount--;
 
             if (currentTile.isCamp)
                 BaseCampTurn();            
         }
-
-      //  Debug.Log(gameObject.name + " global turn new time:" + TurnTime);   
     }
 
     void BaseCampTurn()
