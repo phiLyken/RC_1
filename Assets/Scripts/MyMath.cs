@@ -511,4 +511,13 @@ public static class MyMath  {
         }
     }
 
+    public static List<MonoBehaviour> GetObjectsInRangeAroundCenter(MonoBehaviour center, List<MonoBehaviour> group, float distance)
+    {
+        return group.Where(tr => (center.transform.position - tr.transform.position).magnitude <= distance).ToList();
+    }
+
+    public static MonoBehaviour GetRandomObjectInRangeAroundCenter(MonoBehaviour center, List<MonoBehaviour> group, float distance)
+    {
+        return GetRandomObject(GetObjectsInRangeAroundCenter(center, group, distance));
+    }
 }

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public class RegionLoader : MonoBehaviour {
+public static class RegionLoader  {
 
     public static RegionConfig GetStartRegion()
     {
@@ -58,7 +58,8 @@ public class RegionLoader : MonoBehaviour {
     }
 
     public static List<UnitSpawnGroupConfig> GetGroupsForPower(RegionConfig region)
-    {       
+    {
+        Debug.Log("Get groups for " + region);
         //Add all forced groups to choosen ones
         List<UnitSpawnGroupConfig> choosenGroups = region.Groups.Where(gr => gr.ForceGroup).ToList() ;
 

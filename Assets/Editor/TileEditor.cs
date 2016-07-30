@@ -165,6 +165,8 @@ public class TileEditor : Editor {
         EditorGUILayout.EndHorizontal();
     }
 
+
+    int ADD_DUST;
     void MiscTools()
     {
         if (GUILayout.Button("Toggle Enemy Spawn"))
@@ -176,11 +178,12 @@ public class TileEditor : Editor {
         }
 
 
+        ADD_DUST = EditorGUILayout.IntField(ADD_DUST, "ADD DUST");
         if (GUILayout.Button("Add/Remove Loot"))
         {
             foreach (Tile t in targets)
             {
-                ToggleLoot(t);
+                ToggleLoot(t, ADD_DUST);
             }
         }
 
@@ -199,20 +202,19 @@ public class TileEditor : Editor {
         
     }
   
-    void ToggleLoot(Tile t)
+    void ToggleLoot(Tile t, int amount)
     {
         Tile_Loot l = t.GetComponent<Tile_Loot>();
         if (l == null)
         {
-            l = t.gameObject.AddComponent<Tile_Loot>();
-            GameObject lootobj = (Instantiate(Resources.Load("Loot"), t.GetPosition(), Quaternion.identity) as GameObject);
-            lootobj.transform.SetParent(t.transform, true);
-            l.LootObject = lootobj;
+            Tile_Loot.AddLoot(t, amount);
         }
         else
-        {
-            DestroyImmediate(l.LootObject.gameObject);
+        {           
+            DestroyImmediate(l.loot_object);
             DestroyImmediate(l);
+            EditorGUIUtility.ExitGUI();
+
         }
     }
     void MakeEnemySpawnTile(Tile t)

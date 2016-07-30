@@ -129,6 +129,16 @@ public class UnitAI : MonoBehaviour, ITriggerable {
     {
         return m.GetWalkableTiles(m_unit.currentTile); 
     }
+
+    Tile GetPatrolTile(Tile start)
+    {
+        List<Tile> tiles_in_range = TileManager.Instance.GetRandomTilesAroundCenter(start, 5);
+
+        tiles_in_range.RemoveAll(t => t.isAccessible && t.isEnabled && !t.isCamp && !t.isCrumbling);
+
+        return MyMath.GetRandomObject(tiles_in_range);
+    }
+
     Tile GetRandomWalkableTile(UnitAction_Move m)
     {
         return FindBestWalkableTile(GetWalkableTiles(m) );
@@ -173,10 +183,7 @@ public class UnitAI : MonoBehaviour, ITriggerable {
        // Debug.Log("ai skip turn");
         m_unit.SkipTurn();
     }
-    Tile GetAttackTile()
-    {
-        return null;
-    }
+
     Tile FindBestWalkableTile(List<Tile> tiles)
     {
 		if(tiles.Count == 0) return null;

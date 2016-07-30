@@ -14,7 +14,7 @@ public class UI_ToolTip_Weapon : UI_ToolTip_Base {
     public Text IntBonus;
     public Text IntAttack;
 
-    public void SetWeapon(WeaponConfig weapon)
+    public void SetWeapon(Weapon weapon)
     {
 
         Title.text = weapon.GetID();
@@ -28,6 +28,6 @@ public class UI_ToolTip_Weapon : UI_ToolTip_Base {
 
     public override void SetItem(object obj)
     {
-        SetWeapon((WeaponConfig)obj);
+        SetWeapon((Weapon)obj);
     }
 }

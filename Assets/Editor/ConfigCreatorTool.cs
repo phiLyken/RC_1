@@ -30,6 +30,14 @@ public class UnitConfigCreator
     }
 }
 
+public class Generic_ItemCreator
+{
+    [MenuItem("Assets/Create/Generic_Item")]
+    public static void CreateAsset()
+    {
+        MyMath.ScriptableObjectUtility.CreateAsset<Item_Generic>();
+    }
+}
 
 
 

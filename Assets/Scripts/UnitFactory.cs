@@ -93,15 +93,15 @@ public class UnitFactory : MonoBehaviour
     {
         UnitInventory inventory = base_unit.AddComponent<UnitInventory>();
 
-        WeaponConfig weapon = Instantiate(data.Weapon);
+        Weapon weapon = Instantiate(data.Weapon);
         weapon.transform.SetParent(base_unit.transform);
         inventory.AddItem(  weapon );
-        inventory.EquipedWeapon = inventory.GetItem( ItemTypes.weapon ) as WeaponConfig;
+        inventory.EquipedWeapon = inventory.GetItem( ItemTypes.weapon ) as Weapon;
 
-        ArmorConfig armor = Instantiate(data.Armor);
+        Armor armor = Instantiate(data.Armor);
         armor.transform.SetParent(base_unit.transform);
         inventory.AddItem(armor);
-        inventory.EquipedArmor = inventory.GetItem( ItemTypes.armor ) as ArmorConfig;
+        inventory.EquipedArmor = inventory.GetItem( ItemTypes.armor ) as Armor;
     }
 
     static void MakeStats(GameObject target, ScriptableUnitConfig conf, int start_initiative)

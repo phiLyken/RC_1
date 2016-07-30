@@ -504,7 +504,7 @@ public class TileManager : MonoBehaviour {
     /// <param name="area"></param>
     /// <param name="region"></param>
     /// <returns></returns>
-    public static List<Tile> FindBorderTiles(List<Tile> area, TileManager region, bool exclude_inaccessible)
+    public static List<Tile> GetBorderTiles(List<Tile> area, TileManager region, bool exclude_inaccessible)
     {
         List<Tile> tiles = new List<Tile>();
         
@@ -631,6 +631,16 @@ public class TileManager : MonoBehaviour {
 
         return tiles;
     }
+
+    public List<Tile> GetRandomTilesAroundCenter(Tile center, float distance)
+    {
+       return  MyMath.GetObjectsInRangeAroundCenter(center, GetTileList().Cast<MonoBehaviour>().ToList(), distance).Cast<Tile>().ToList();
+      
+    }
+
+
+
+
     public List<Tile> GetTileList()
     {
         if (Tiles == null )
@@ -681,40 +691,6 @@ public class TileManager : MonoBehaviour {
         Debug.LogWarning("No not-crumbling-tile found (column " + column + ")");
         return null;
     }
-    /*
-    public List<List<Tile>> GetRegions(List<Tile> all_tiles, TileManager manager)
-    {
-        List<Tile> copy = (from t in all_tiles where t.isAccessible select t).ToList();
-        List<List<Tile>> regions = new List<List<Tile>>();
 
-        while (copy.Count > 0)
-        {
-            List<Tile> region = GetRegion(copy[0], manager);
-            copy.RemoveAll(t => region.Contains(t));
-        }
-
-        return regions;
-       
-    }
-
-    public List<Tile> GetRegion(Tile t, TileManager manager)
-    {
-        if (Tiles == null) Tiles = FetchTiles();
-        List<Tile> currentregion = new List<Tile>();
-        currentregion.Add(t);
-
-        List<Tile> surrounding = GetSurroundingTiles(currentregion, 1, manager).Where(p => p.isAccessible).ToList();
-
-        while (surrounding.Count > 0)
-        {
-            currentregion.AddRange(surrounding);
-            surrounding = GetSurroundingTiles(currentregion, 1, manager).Where(p => p != null && p.isAccessible ).ToList();
-           
-        }
-
-        return currentregion;
-    }
-
-    */
 
  }

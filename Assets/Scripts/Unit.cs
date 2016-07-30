@@ -311,7 +311,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     public string GetID()
     {
         return gameObject.name;
-        return gameObject.name+" ["+(GetTurnTime()+GetCurrentTurnCost()).ToString()+"]";
+     //   return gameObject.name+" ["+(GetTurnTime()+GetCurrentTurnCost()).ToString()+"]";
     }
 
     public Color GetColor()

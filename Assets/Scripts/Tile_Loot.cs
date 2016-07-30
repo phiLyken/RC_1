@@ -6,76 +6,37 @@ using System;
 
 public class Tile_Loot : TileComponent {
 
-    public GameObject LootObject;
-     Unit u;
+    public GameObject loot_object;
+    public int count;
 
-    void Awake()
+    public override TileComponents GetComponentType()
     {
-        Type = TileComponents.loot;
-
-        /*
-        GetComponent<Tile>().OnSetChild += tile =>
-        {
-            Unit u = GetComponent<Tile>().Child.GetComponent<Unit>();
-            if(u != null && u.OwnerID==0)
-            {
-                OnLoot(u);
-            }
-        };*/
+        return TileComponents.loot;
     }
 
+    public void SetLoot(int _count)
+    {
+        count = _count;
+        loot_object = Instantiate(Resources.Load("default_loot")) as GameObject;
+        loot_object.transform.position = gameObject.GetComponent<Tile>().GetPosition();
+    }
+
+    public static void AddLoot(Tile target, int count)
+    {
+        target.gameObject.AddComponent<Tile_Loot>().SetLoot(count);
+   } 
     public void RemoveLoot()
     {
-        Destroy(LootObject);
+        Destroy(loot_object);
         Destroy(this); 
     }    
     
     public void OnLoot(Unit _u)
     {
-        u = _u;
-        LootChoice();
-       
+        PlayerInventory.Instance.AddItem( Resources.Load("Items/dust") as Item_Generic, count);
     }
 
-    void BuffDmg(Unit _u)
-    {
-       // _u.GetComponent<UnitInventory>().AddBuff(new InventoryItem(ItemTypes.buff, "+1 Damage"));
-    }
-    
-    void BuffWalkRange(Unit _u)
-    {
-      //  _u.GetComponent<UnitInventory>().AddBuff(new InventoryItem(ItemTypes.buff, "+1 Move Range"));
-    }
 
-    void GetRest(Unit _u)
-    {
-        (u.Actions.GetAction("Rest") as UnitAction_Rest).Charges += 1;
-    }
 
-    void LootChoice()
-    {
-        UI_Choice.CreateUIChoice(new string[]
-        {
-            "+1 Damage", "+1 Move Range","+1 Rest"
-        }, LootChoiceMade);
-    }
-
-    void LootChoiceMade(int i)
-    {
-        switch (i)
-        {
-            case 0:
-                BuffDmg(u);
-                break;
-            case 1:
-                BuffWalkRange(u);
-                break;
-            case 2:
-                GetRest(u);
-                break;
-        }
-
-        RemoveLoot();
-    }
 
 }

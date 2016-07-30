@@ -3,12 +3,13 @@ using System.Collections;
 using System;
 
 [System.Serializable]
-public class WeaponConfig : MonoBehaviour,  IInventoryItem
+public class Weapon : MonoBehaviour,  IInventoryItem
 {
-
     public string ID;
     public Sprite Icon;
 
+    [HideInInspector]
+    public int _count;
     public int Range;
 
     public WeaponBehavior RegularBehavior;
@@ -42,5 +43,16 @@ public class WeaponConfig : MonoBehaviour,  IInventoryItem
     public void RemoveFromIntory(UnitInventory inv)
     {
  
+    }
+
+    public int GetCount()
+    {
+        return _count;
+    }
+
+
+    void IInventoryItem.SetCount(int new_count)
+    {
+        _count = new_count;
     }
 }

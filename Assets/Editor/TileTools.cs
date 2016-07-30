@@ -125,7 +125,7 @@ class TileTools : EditorWindow
         }
         if (GUILayout.Button("Select Border"))
         {
-            List<Tile> border = TileManager.FindBorderTiles(CurrentTileSelection, Grid, true);
+            List<Tile> border = TileManager.GetBorderTiles(CurrentTileSelection, Grid, true);
             CurrentTileSelection.Clear();
             CurrentTileSelection.AddRange(border);
             SelectCurrentTilesInEditor();

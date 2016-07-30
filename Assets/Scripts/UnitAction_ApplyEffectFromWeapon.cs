@@ -11,7 +11,7 @@ public class UnitAction_ApplyEffectFromWeapon : UnitAction_ApplyEffect {
 
     WeaponBehavior GetBehavior()
     {
-        WeaponConfig wp = Owner.GetComponent<UnitInventory>().EquipedWeapon;
+        Weapon wp = Owner.GetComponent<UnitInventory>().EquipedWeapon;
         return Mode == WeaponMode.regular ? wp.RegularBehavior : wp.IntAttackBehavior; 
     }
 

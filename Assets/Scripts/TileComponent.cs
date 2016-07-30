@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class TileComponent : MonoBehaviour {
+public abstract class TileComponent : MonoBehaviour {
 
     public enum TileComponents
     {
@@ -10,6 +10,6 @@ public class TileComponent : MonoBehaviour {
 
     protected TileComponents Type;
 
-    
+    public abstract TileComponents GetComponentType();
 
 }

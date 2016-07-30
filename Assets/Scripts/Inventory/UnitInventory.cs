@@ -7,8 +7,8 @@ public class UnitInventory : MonoBehaviour {
 
     public EventHandler OnInventoryUpdated;
 
-    public WeaponConfig EquipedWeapon;
-    public ArmorConfig EquipedArmor;
+    public Weapon EquipedWeapon;
+    public Armor EquipedArmor;
 
     List<IInventoryItem> Items;
 

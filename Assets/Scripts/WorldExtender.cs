@@ -56,7 +56,7 @@ public class WorldExtender : MonoBehaviour {
         //spawn the units and shit
         UnitSpawnManager spawner = instance.GetComponent<UnitSpawnManager>();
         List<UnitSpawnGroupConfig> groups = RegionLoader.GetGroupsForPower(region);
-        //Debug.Log("Spawn Groups " + groups.Count);
+       // Debug.Log("Spawn Groups " + groups.Count);
         spawner.SpawnGroups(groups);
     }
 
@@ -80,7 +80,7 @@ public class WorldExtender : MonoBehaviour {
             spawned.Add(region);
         }
 
-        Debug.Log("spawning region " + region.name);
+      //  Debug.Log("spawning region " + region.name);
         SpawnRegion(region, TileManager.Instance);
     }
 

@@ -10,7 +10,7 @@ public class UI_ToolTip_Armor : UI_ToolTip_Base {
     public Text TF_MoveRange;
     public Text TF_Time;
 
-    public void SetArmor(ArmorConfig conf)
+    public void SetArmor(Armor conf)
     {
         foreach(StatInfo inf in conf.BuffedStats)
         {
@@ -27,6 +27,6 @@ public class UI_ToolTip_Armor : UI_ToolTip_Base {
 
     public override void SetItem(object obj)
     {
-        SetArmor((ArmorConfig)obj);
+        SetArmor((Armor)obj);
     }
 }

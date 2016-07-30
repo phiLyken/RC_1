@@ -59,6 +59,7 @@ public class UnitSpawnManager : MonoBehaviour {
 
         List<int> spawnerIDs = GetSpawnersIDs(Spawners);
 
+       // Debug.Log("spawning groups " + groups.Count);
         foreach (UnitSpawnGroupConfig group in groups) {
 
 
@@ -67,6 +68,7 @@ public class UnitSpawnManager : MonoBehaviour {
             List<UnitSpawner> spawnersForGroup = GetSpawnerForGroup(spawnerIDs, group);
             if(spawnersForGroup == null || spawnersForGroup.Count == 0)
             {
+                Debug.Log("NO SPAWNERS FOR GROUP");
                 return;
             }
 
@@ -78,9 +80,10 @@ public class UnitSpawnManager : MonoBehaviour {
               //  return;
             }
 
+            Debug.Log(spawnersForGroup.Count+ "   "+unitConfigs.Count);
             while(spawnersForGroup.Count > 0 && unitConfigs.Count > 0)
             {
-                
+                Debug.Log("SPAWN");
                 WeightedUnit unit = unitConfigs[Random.Range(0, unitConfigs.Count)];
                 UnitSpawner spawner = spawnersForGroup[Random.Range(0, spawnersForGroup.Count)];
 

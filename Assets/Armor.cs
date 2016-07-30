@@ -2,11 +2,14 @@
 using System.Collections;
 using System;
 
-public class ArmorConfig : MonoBehaviour, IInventoryItem {
+public class Armor : MonoBehaviour, IInventoryItem {
 
     public string ID;
     public Sprite Icon;
-   
+
+    [HideInInspector]
+    public int _count;
+
     public StatInfo[] BuffedStats;
 
     ItemTypes IInventoryItem.GetType()
@@ -37,5 +40,15 @@ public class ArmorConfig : MonoBehaviour, IInventoryItem {
     public void RemoveFromIntory(UnitInventory inv)
     {
        
+    }
+
+    public int GetCount()
+    {
+        return _count;
+    }
+
+    public void SetCount(int new_count)
+    {
+        _count = new_count;
     }
 }

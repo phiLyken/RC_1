@@ -29,6 +29,6 @@ public class ScriptableUnitConfig : ScriptableObject
 
     public int UnitPower;
 
-    public WeaponConfig Weapon;
-    public ArmorConfig Armor;
+    public Weapon Weapon;
+    public Armor Armor;
 }
