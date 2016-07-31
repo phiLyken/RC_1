@@ -18,7 +18,7 @@ public class ActionManager : MonoBehaviour {
     {
         foreach(UnitActionBase action in Actions)
         {
-            action.Charges = action.ChargeMax;
+            action.ResetCharge();
         }
     }
     public static ActionManagerEventHander OnActionManagerActivated;
@@ -235,7 +235,7 @@ public class ActionManager : MonoBehaviour {
 		for (int i = 0; i < actions.Length; i++)
         {
             string charges = "";
-			if (actions[i].UseCharges) charges = "   ["+actions[i].Charges.ToString()+"]";
+			if (actions[i].UseCharges) charges = "   ["+actions[i].GetChargesForType().ToString()+"]";
 
 			s += (i + 1).ToString() + ": " + actions[i].ActionID + charges+"\n";
         }

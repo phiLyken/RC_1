@@ -4,7 +4,6 @@ using System.Collections;
 public class ScriptableUnitConfig : ScriptableObject
 {
 
-
     public string ID;
   
     public StatInfo[] stats;
@@ -20,6 +19,8 @@ public class ScriptableUnitConfig : ScriptableObject
 
     public Weapon Weapon;
     public Armor Armor;
+
+    public EnemyDropCategory LootCategory;
 }
 
 [System.Serializable]

@@ -72,7 +72,7 @@ public class UI_ActionBar_Button : MonoBehaviour, IToolTip{
         ChargesCounterTF.gameObject.SetActive(action.UseCharges);
 
         ChargesCounterIMG.color = action.HasCharges() ? Color.white : Color.red;
-        ChargesCounterTF.text = action.Charges.ToString() + "/" + action.ChargeMax;
+        ChargesCounterTF.text = action.GetChargesForType().ToString() + "/" + action.ChargeMax;
 
         ChargesCounterTF.color = action.HasCharges() ? Color.black : Color.white;
     }

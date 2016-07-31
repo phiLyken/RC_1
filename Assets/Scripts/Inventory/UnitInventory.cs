@@ -4,35 +4,25 @@ using System.Collections.Generic;
 using System.Linq;
 
 public class UnitInventory : Inventory {
-
-    public EventHandler OnInventoryUpdated;
-
+    
     public Weapon EquipedWeapon;
     public Armor EquipedArmor;
 
 
-
-
-    public void AddItem(IInventoryItem new_item)
+    public override void AddItem(IInventoryItem item, int count)
     {
-        if (Items == null) Items = new List<IInventoryItem>();
+        if(item.GetItemType() == ItemTypes.armor)
+        {
+            EquipedArmor = item as Armor;
+        }
 
-        Debug.Log("Adding Item To Inventory " + new_item.GetID());
-        Items.Add(new_item);
+        if (item.GetItemType() == ItemTypes.weapon)
+        {
+            EquipedWeapon = item as Weapon;
+        }
 
-        if (OnInventoryUpdated != null) OnInventoryUpdated();
+        base.AddItem(item, count);
     }
 
-    public IInventoryItem GetItem(ItemTypes type)
-    {
-        return Items.Where(i => i.GetType() == type).First();
-    }
-
-    public List<IInventoryItem> GetItems()
-    {
-        return Items;
-    }
-
-    
 
 }

@@ -7,7 +7,7 @@ using System.Collections.Generic;
 public interface IInventoryItem {
 
 
-     ItemTypes GetType();
+     ItemTypes GetItemType();
      int GetCount();
      string GetID();
      Sprite GetImage();

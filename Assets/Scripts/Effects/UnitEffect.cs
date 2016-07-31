@@ -150,7 +150,7 @@ public class UnitEffect
     protected void Ticked()
     {
         if (OnEffectTick != null) OnEffectTick(this);
-        Debug.Log(GetString() + " TICKED");
+       // Debug.Log(GetString() + " TICKED");
         _durationActive++;
 
         if (_durationActive > MaxDuration)

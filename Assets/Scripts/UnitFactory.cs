@@ -21,13 +21,13 @@ public class UnitFactory : MonoBehaviour
         GameObject base_unit = Instantiate(Resources.Load("base_unit")) as GameObject;
 
         GetName(data, base_unit);
-
+        //inventory should be created before stats
+        MakeInventory(data, base_unit);
         MakeActions(data, base_unit);
 
         MakeMesh(data, base_unit);
 
-        //inventory should be created before stats
-        MakeInventory(data, base_unit);       
+
 
         Unit_EffectManager  effect_manager = base_unit.AddComponent<Unit_EffectManager>();
         MakeStats(base_unit, data, turntime);
@@ -91,17 +91,18 @@ public class UnitFactory : MonoBehaviour
 
     private static void MakeInventory(ScriptableUnitConfig data, GameObject base_unit)
     {
+
         UnitInventory inventory = base_unit.AddComponent<UnitInventory>();
 
         Weapon weapon = Instantiate(data.Weapon);
         weapon.transform.SetParent(base_unit.transform);
-        inventory.AddItem(  weapon );
-        inventory.EquipedWeapon = inventory.GetItem( ItemTypes.weapon ) as Weapon;
+        inventory.AddItem(  weapon,1 );
+
 
         Armor armor = Instantiate(data.Armor);
         armor.transform.SetParent(base_unit.transform);
-        inventory.AddItem(armor);
-        inventory.EquipedArmor = inventory.GetItem( ItemTypes.armor ) as Armor;
+        inventory.AddItem(armor,1);
+
     }
 
     static void MakeStats(GameObject target, ScriptableUnitConfig conf, int start_initiative)

@@ -53,7 +53,7 @@ public class UI_InventoryView : MonoBehaviour {
 
         foreach(var item in to_remove)
         {
-            Debug.Log("removing items not in inventory "+views[item].gameObject.name);
+           // Debug.Log("removing items not in inventory "+views[item].gameObject.name);
 
             Destroy(views[item].gameObject);
             views.Remove(item);

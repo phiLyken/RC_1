@@ -27,23 +27,17 @@ public class LootBalance : MonoBehaviour {
 
     public Item_Generic GetItem(ItemTypes type)
     {
-        return DropAbleItems.Where(lc => lc.Type == type).First();
+        return DropAbleItems.Where(lc => lc.Type == type).FirstOrDefault();
     }
 
     public static LootBalance GetBalance()
     {
-        return Resources.Load("Items/LootBalance") as LootBalance;
+        return (Resources.Load("Items/LootBalance") as GameObject).GetComponent<LootBalance>() ;
     }
 
  
 }
 
-public class LootConfig : ScriptableObject
-{
-    public LootCategory Category;
-    public GameObject WorldObject;
-    public List<LootContentConfig> Drops;
-}
 
 
 

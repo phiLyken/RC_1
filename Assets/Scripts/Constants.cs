@@ -92,4 +92,17 @@ public class Constants : MonoBehaviour {
     );
 
 
+    /// <summary>
+    /// How much dust the player will get when looting 
+    /// base amount is determined randomly upon looting and depends on the loot category
+    /// player level is the number of checkpoints reached (start counts as 1)
+    /// </summary>
+    /// <param name="base_amount"></param>
+    /// <param name="player_level"></param>
+    /// <returns></returns>
+    public static int GetDustForProgress(int base_amount, int player_level)
+    {
+        return base_amount * player_level;
+    }
+
 }

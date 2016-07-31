@@ -23,7 +23,8 @@ public class UnitActionBase : MonoBehaviour {
     public bool UseCharges;
     public bool EndTurnOnUse;
 
-    public int Charges;
+    public ItemTypes ChargeType;
+   
     public int ChargeMax;
 
     public int TurnTimeCost;
@@ -45,8 +46,31 @@ public class UnitActionBase : MonoBehaviour {
     public void SetOwner(Unit o)
     {
         Owner = o;
+        ResetCharge();
     }
+     
+    public void ResetCharge()
+    {
+        UnitInventory inv = Owner.GetComponent<UnitInventory>();
+
+        if (inv != null && !inv.HasItem(ChargeType,0))
+        {
+            //  Debug.Log(LootBalance.GetBalance().LootConfigs.Count);
+
+            IInventoryItem item_config = LootBalance.GetBalance().GetItem(ChargeType);
+
+            if(item_config == null)
+            {
+                Debug.LogWarning("CAN FIND A CONSUMABLE FOR " + ChargeType.ToString());
+                return;
+            }
+            inv.AddItem(item_config, ChargeMax);
+        } else
+        {
+            inv.GetInventoryItem(ChargeType).SetMax(ChargeMax);
+        }
        
+    } 
     public virtual void SelectAction()
     {
         if (OnSelectAction != null) OnSelectAction(this);
@@ -88,10 +112,7 @@ public class UnitActionBase : MonoBehaviour {
         if (r) Debug.Log("Can not use in camp");
         return r;
     }
-    void Start()
-    {
-        if (UseCharges) Charges = ChargeMax;
-    }
+
   
     public bool HasRequirements(bool displayToast)
     {
@@ -129,9 +150,20 @@ public class UnitActionBase : MonoBehaviour {
 
     public bool HasCharges()
     {
-        bool r = !UseCharges || Charges > 0;
+        bool r = !UseCharges || GetChargesForType() > 0;
         if (!r) Debug.Log("No Charges");
         return r;
+    }
+
+    public int GetChargesForType()
+    {
+        ItemInInventory item = Owner.GetComponent<UnitInventory>().GetInventoryItem(ChargeType);
+        if(item == null)
+        {
+            Debug.LogWarning("COULDNT FIND ITEM FOR TYPE " + ChargeType);
+            return 0;
+        }
+        return item.count;
     }
     protected virtual void ActionCompleted()
     {
@@ -142,10 +174,18 @@ public class UnitActionBase : MonoBehaviour {
      protected virtual void ActionExecuted()
     {
         Debug.Log(ActionID + " done");
-        Charges--;
+      
+
+        if (UseCharges)
+        {
+            UnitInventory inv = Owner.GetComponent<UnitInventory>();
+            inv.ModifyItem(ChargeType, -1);           
+        }
+
         if (OnExecuteAction != null) OnExecuteAction(this);
     }
 
+   
     public virtual List<Tile> GetPreviewTiles()
     {
         return null;

@@ -176,16 +176,24 @@ public class TileEditor : Editor {
                 MakeEnemySpawnTile(t);
             }
         }
+        GUILayout.Space(20);
 
-
-        ADD_DUST = EditorGUILayout.IntField(ADD_DUST, "ADD DUST");
+        EditorGUILayout.TextArea("", GUI.skin.horizontalSlider);
+        EditorGUILayout.LabelField("LOOT");
+        EditorGUILayout.BeginHorizontal();
+      
+        selected_loot = (LootCategory) EditorGUILayout.EnumPopup("loot_category", selected_loot);
+ 
         if (GUILayout.Button("Add/Remove Loot"))
         {
             foreach (Tile t in targets)
             {
-                ToggleLoot(t, ADD_DUST);
+                ToggleLoot(t, selected_loot);
             }
         }
+      
+        EditorGUILayout.EndHorizontal();
+        EditorGUILayout.TextArea("", GUI.skin.horizontalSlider);
 
         if (GUILayout.Button("Spawn Mesh"))
         {
@@ -194,6 +202,7 @@ public class TileEditor : Editor {
                 SpawnMesh(t);
             }
         }
+
     }
 
     public static void SpawnMesh(Tile t)
@@ -201,17 +210,20 @@ public class TileEditor : Editor {
         TileMesh new_mesh = t.SpawnConfiguredMesh().GetComponent<TileMesh>();
         
     }
-  
-    void ToggleLoot(Tile t, int amount)
+
+    LootCategory selected_loot;
+
+    void ToggleLoot(Tile t, LootCategory loot)
     {
-        Tile_Loot l = t.GetComponent<Tile_Loot>();
+       
+        AddLootOnSpawn l = t.GetComponent<AddLootOnSpawn>();
+
         if (l == null)
         {
-          //  Tile_Loot.AddLoot(t, amount);
+            t.gameObject.AddComponent<AddLootOnSpawn>().Category = loot;
         }
         else
-        {           
-            DestroyImmediate(l.crate);
+        {              
             DestroyImmediate(l);
             EditorGUIUtility.ExitGUI();
 

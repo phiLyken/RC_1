@@ -15,7 +15,7 @@ public class Weapon : MonoBehaviour,  IInventoryItem
     public WeaponBehavior RegularBehavior;
     public WeaponBehavior IntAttackBehavior;
 
-    ItemTypes IInventoryItem.GetType()
+    ItemTypes IInventoryItem.GetItemType()
     {
         return ItemTypes.weapon;
     }

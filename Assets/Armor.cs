@@ -12,7 +12,7 @@ public class Armor : MonoBehaviour, IInventoryItem {
 
     public StatInfo[] BuffedStats;
 
-    ItemTypes IInventoryItem.GetType()
+    ItemTypes IInventoryItem.GetItemType()
     {
         return ItemTypes.armor;
     }

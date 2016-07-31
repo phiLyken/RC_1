@@ -47,7 +47,7 @@ public class Item_Generic : ScriptableObject, IInventoryItem
         Count = new_count;
     }
 
-    ItemTypes IInventoryItem.GetType()
+    ItemTypes IInventoryItem.GetItemType()
     {
         return Type;
     }

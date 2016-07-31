@@ -72,7 +72,7 @@ public class UnitAI : MonoBehaviour, ITriggerable {
         yield return null;
         //   Debug.Log(m_unit.GetID() + " Selecting atk");
         UnitAction_ApplyEffectFromWeapon Attack = getAttack();
-        Debug.Log(target);
+       // Debug.Log(target);
         if (Attack  == null || !Attack.HasRequirements(true))
         {
           
@@ -143,7 +143,7 @@ public class UnitAI : MonoBehaviour, ITriggerable {
         UnitAction_Move move = getMove();
 
         List<Tile> walkable_tiles = move.GetWalkableTiles(m_unit.currentTile);
-        Debug.Log("walkable tiles " + walkable_tiles.Count);
+      //  Debug.Log("walkable tiles " + walkable_tiles.Count);
 
         List<Unit> enemy_group = Unit.GetAllUnitsOfOwner(0, false);
 
@@ -242,7 +242,7 @@ public class UnitAI : MonoBehaviour, ITriggerable {
             weight /= Mathf.Max(1, t.CrumbleStage * 5);
 
             weighted_tiles.Add(new GenericWeightable<Tile>(weight,t));
-            Debug.Log(weight);
+            //Debug.Log(weight);
         }
 
         Debug.Log("choosing from " + weighted_tiles.Count);

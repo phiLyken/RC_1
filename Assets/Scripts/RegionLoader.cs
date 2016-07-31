@@ -60,7 +60,7 @@ public static class RegionLoader  {
 
     public static List<UnitSpawnGroupConfig> GetGroupsForPower(RegionConfig region)
     {
-        Debug.Log("Get groups for " + region);
+       // Debug.Log("Get groups for " + region);
         //Add all forced groups to choosen ones
         List<UnitSpawnGroupConfig> choosenGroups = region.Groups.Where(gr => gr.ForceGroup).ToList() ;
 

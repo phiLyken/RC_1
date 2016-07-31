@@ -80,10 +80,10 @@ public class UnitSpawnManager : MonoBehaviour {
               //  return;
             }
 
-            Debug.Log(spawnersForGroup.Count+ "   "+unitConfigs.Count);
+           // Debug.Log(spawnersForGroup.Count+ "   "+unitConfigs.Count);
             while(spawnersForGroup.Count > 0 && unitConfigs.Count > 0)
             {
-                Debug.Log("SPAWN");
+               // Debug.Log("SPAWN");
                 WeightedUnit unit = unitConfigs[Random.Range(0, unitConfigs.Count)];
                 UnitSpawner spawner = spawnersForGroup[Random.Range(0, spawnersForGroup.Count)];
 
