@@ -173,23 +173,39 @@ public class UnitAction_ApplyEffect : UnitActionBase
         return targets;
     }
 
-    bool CanTarget(Unit target)
-
+    /// <summary>
+    /// Returns true if the target is targetable (according to the specified targeting rules)
+    /// </summary>
+    /// <param name="target"></param>
+    /// <param name="fromTile"></param>
+    /// <returns></returns>
+    public bool CanTarget(Unit target, Tile fromTile)
     {
         if (target == Owner && !TargetSelf) return false;
         if (!TargetSelf && (!TargetFriendly && target.OwnerID == Owner.OwnerID)) return false;
-        if (!TargetEnemies && target.OwnerID != Owner.OwnerID) return false;        
-        if (!isInRange(Owner, target, GetRange())) return false;
+        if (!TargetEnemies && target.OwnerID != Owner.OwnerID) return false;
+        if (!IsInRangeAndHasLOS(Owner, target, GetRange(), fromTile)) return false;
 
         return true;
+
     }
 
-    public static bool isInRange(Unit instigator, Unit target, float range)
+    /// <summary>
+    /// Returns true if the effect can be applied applied from the owners tile [application filter & LOS & range are applied)
+    /// </summary>
+    /// <param name="target"></param>
+    /// <returns></returns>
+    public bool CanTarget(Unit target)
+    {        
+        return CanTarget(target, Owner.currentTile);
+    }
+
+    public static bool IsInRangeAndHasLOS(Unit instigator, Unit target, float range)
     {
-        return isInRangeAndVisible(instigator, target, range, instigator.currentTile);
+        return IsInRangeAndHasLOS(instigator, target, range, instigator.currentTile);
 
     }
-    public static bool isInRangeAndVisible(Unit instigator, Unit target, float range, Tile origin)
+    public static bool IsInRangeAndHasLOS(Unit instigator, Unit target, float range, Tile origin)
     {
         List<Tile> in_range = LOSCheck.GetTilesVisibleTileInRange(origin, (int)range);
 

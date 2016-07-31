@@ -61,8 +61,25 @@ public class Constants : MonoBehaviour {
     /// </summary>
     public static int CrumbleRange = 10;
 
+    /// <summary>
+    /// How high is the chance that an AI will switch its target once the target is out of range
+    /// </summary>
+    public static float AI_TARGET_SWITCH_WHEN_OUT_OF_ATTACK_RANGE = 0.5f;
 
+    /// <summary>
+    /// How high is the chance that an aI will switch its target if the prefferred target is not reachable in 1 move
+    /// </summary>
+    public static float AI_TARGET_SWITCH_WHEN_OUT_OF_MOVE_ATTACK_RANGE = 0.3f;
 
+    /// <summary>
+    /// when the unit is not triggered, how high is the chance that it will patrol around its start tile
+    /// </summary>
+    public static float AI_PATROL_CHANCE = 0.5f;
+
+    /// <summary>
+    /// How far can an AI patrol around its start tile?
+    /// </summary>
+    public static float AI_PATROL_DISTANCE = 2f;
 
     public static List<string> names = new List<string>(new string[]
     {

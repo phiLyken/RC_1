@@ -3,16 +3,24 @@ using System.Collections;
 
 public class UnitTrigger : MonoBehaviour {
 
-    public GameObject Target;
-    public int OwnerTrigger;
 
+    public int OwnerTrigger;
+    public UnitEventHandler OnTriggered;
+
+
+    public void SetTarget(UnitAI ai)
+    {
+        OnTriggered += ai.OnTrigger;
+    }
     void OnTriggerEnter(Collider col)
     {
         Unit u = col.GetComponent<Unit>();
         if(u != null && u.OwnerID == OwnerTrigger)
         {
-           // Debug.Log("Unit Triggered");
-            Target.SendMessage("OnTrigger", SendMessageOptions.DontRequireReceiver);
+           if(OnTriggered != null)
+            {
+                OnTriggered(u);
+            }
         }
     }
 }

@@ -3,5 +3,5 @@ using System.Collections;
 
 public interface ITriggerable {
 
-    void OnTrigger();
+    void OnTrigger(Unit triggerer);
 }

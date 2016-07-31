@@ -83,7 +83,7 @@ public class UnitFactory : MonoBehaviour
         Cover.transform.SetParent(m_unit.transform, true);
         Cover.transform.localPosition = Vector3.zero;
 
-        Cover.GetComponent<UnitTrigger>().Target = base_unit.gameObject;
+        Cover.GetComponent<UnitTrigger>().SetTarget(ai);
         Cover.GetComponent<BoxCollider>().size = new Vector3(1 + 2 * data.TriggerRange, 1 + 2 * data.TriggerRange, 1 + 2 * data.TriggerRange);
 
         ai.Cover = Cover;

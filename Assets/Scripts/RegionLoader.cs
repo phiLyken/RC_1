@@ -21,10 +21,11 @@ public static class RegionLoader  {
             Debug.LogWarning(" NO REGIONS LEFT for LEVEL " + level );
         }
 
+        Debug.Log(configs.Count);
         // choose random region by weight
         WeightedRegion wr = WeightableFactory.GetWeighted(configs);
 
-
+        
         return wr.Region;
             
     }

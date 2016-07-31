@@ -11,6 +11,7 @@ public class UnitEffect
     public enum TargetModes
     {   Owner, Target  }
 
+    public object Instigator;
     public string Unique_ID;
     public TargetModes TargetMode;
     public Sprite Icon;
@@ -44,6 +45,7 @@ public class UnitEffect
 
     public IEnumerator ApplyEffectSequence(Unit target, Unit instigator) {
 
+        Instigator = instigator;
         target = GetTarget(target, instigator);
 
         Debug.Log(target.name);
