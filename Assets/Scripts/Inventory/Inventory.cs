@@ -59,9 +59,9 @@ public class Inventory : MonoBehaviour {
       
     }
 
-    public List<IInventoryItem> GetItems()
+    public List<IInventoryItem> GetVisibleItems()
     {
-        return Items.Select(i => i.GetItem()).ToList();
+        return Items.Where(it => it.GetItemType() == ItemTypes.armor || it.GetItemType() == ItemTypes.weapon).Select(ii => ii.GetItem()).ToList();
     }
 
     public IInventoryItem GetItem(ItemTypes type)

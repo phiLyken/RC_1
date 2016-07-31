@@ -31,7 +31,7 @@ public class UI_InventoryView : MonoBehaviour {
             views = new Dictionary<IInventoryItem, UI_InventoryItemView>();
         }
 
-       foreach(var item in inventory.GetItems())
+       foreach(var item in inventory.GetVisibleItems())
         {
             if(!views.ContainsKey(item))
             {
@@ -45,7 +45,7 @@ public class UI_InventoryView : MonoBehaviour {
        foreach(var item in views.Keys)
         {
            
-            if (!inventory.GetItems().Contains(item))
+            if (!inventory.GetVisibleItems().Contains(item))
             {               
                 to_remove.Add(item);
             }
