@@ -6,7 +6,7 @@ public class UI_ShowToolTip_Item : UI_ShowToolTip_Base {
 
     public GameObject ArmorToolTipPrefab;
     public GameObject WeaponToolTipPrefab;
-    public GameObject Default;
+    public GameObject GenericItemPrefab;
 
     protected override void SpawnToolTip(object _obj)
     {
@@ -26,7 +26,7 @@ public class UI_ShowToolTip_Item : UI_ShowToolTip_Base {
                 prefab = WeaponToolTipPrefab;
                 break;
             default:
-                //   prefab = Default;
+                prefab = GenericItemPrefab;
                 break;
         }
         if(prefab != null)

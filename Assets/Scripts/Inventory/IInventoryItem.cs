@@ -13,7 +13,7 @@ public interface IInventoryItem {
      Sprite GetImage();
      string GetDescription();
      void SetCount(int new_count);
-
+   
      void AddToInventory(UnitInventory inv);
      void RemoveFromInventory(UnitInventory inv);
 

@@ -19,6 +19,8 @@ public class Tile_Loot : TileComponent {
         loot = _loot;
         crate = Instantiate(_loot.WorldObject);
         crate.transform.position = gameObject.GetComponent<Tile>().GetPosition();
+        
+        
     }
 
     public static void AddLoot(Tile target, LootCategory Category)
