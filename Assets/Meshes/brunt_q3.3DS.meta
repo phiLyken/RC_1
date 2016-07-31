@@ -18,7 +18,7 @@ ModelImporter:
     4300000: brunt-head
     4300002: Brunt-Body
   materials:
-    importMaterials: 1
+    importMaterials: 0
     materialName: 0
     materialSearch: 1
   animations:

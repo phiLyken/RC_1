@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 0b7fca838db78224cb0dad90b650c02b
-timeCreated: 1467588284
+timeCreated: 1469948482
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
@@ -41,10 +41,28 @@ ModelImporter:
     4300006: loot_locks
     4300008: loot_display
     4300010: loot_L_door
-    7400000: opening
-    7400002: closed
-    7400004: opened
+    7400000: lootbox_closed
+    7400002: lootbox_opening
+    7400004: lootbox_open
+    7400006: lootbox_closed //// b_loot
+    7400008: lootbox_opening //// b_loot
+    7400010: lootbox_open //// b_loot
     9500000: //RootNode
+    11100000: //RootNode
+    11100002: b_display
+    11100004: b_l_door
+    11100006: b_lock_l_l
+    11100008: b_lock_l_r
+    11100010: b_lock_r_l
+    11100012: b_lock_r_r
+    11100014: b_loot
+    11100016: b_r_door
+    11100018: loot_box
+    11100020: loot_display
+    11100022: loot_handles
+    11100024: loot_L_door
+    11100026: loot_locks
+    11100028: loot_R_door
     13700000: loot_box
     13700002: loot_display
     13700004: loot_handles
@@ -52,7 +70,7 @@ ModelImporter:
     13700008: loot_locks
     13700010: loot_R_door
   materials:
-    importMaterials: 1
+    importMaterials: 0
     materialName: 0
     materialSearch: 1
   animations:
@@ -73,7 +91,65 @@ ModelImporter:
     extraExposedTransformPaths: []
     clipAnimations:
     - serializedVersion: 16
-      name: opening
+      name: lootbox_closed
+      takeName: Take 001
+      firstFrame: 0
+      lastFrame: 1
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: b_loot
+        weight: 1
+      - path: b_loot/b_display
+        weight: 1
+      - path: b_loot/b_l_door
+        weight: 1
+      - path: b_loot/b_l_door/b_lock_l_l
+        weight: 1
+      - path: b_loot/b_l_door/b_lock_l_r
+        weight: 1
+      - path: b_loot/b_r_door
+        weight: 1
+      - path: b_loot/b_r_door/b_lock_r_l
+        weight: 1
+      - path: b_loot/b_r_door/b_lock_r_r
+        weight: 1
+      - path: loot_box
+        weight: 1
+      - path: loot_display
+        weight: 1
+      - path: loot_handles
+        weight: 1
+      - path: loot_L_door
+        weight: 1
+      - path: loot_locks
+        weight: 1
+      - path: loot_R_door
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 1
+    - serializedVersion: 16
+      name: lootbox_opening
       takeName: Take 001
       firstFrame: 0
       lastFrame: 60
@@ -129,69 +205,11 @@ ModelImporter:
         weight: 1
       maskType: 0
       maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
+      additiveReferencePoseFrame: 1
     - serializedVersion: 16
-      name: closed
+      name: lootbox_open
       takeName: Take 001
-      firstFrame: 0
-      lastFrame: 0
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 0
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask:
-      - path: 
-        weight: 1
-      - path: b_loot
-        weight: 1
-      - path: b_loot/b_display
-        weight: 1
-      - path: b_loot/b_l_door
-        weight: 1
-      - path: b_loot/b_l_door/b_lock_l_l
-        weight: 1
-      - path: b_loot/b_l_door/b_lock_l_r
-        weight: 1
-      - path: b_loot/b_r_door
-        weight: 1
-      - path: b_loot/b_r_door/b_lock_r_l
-        weight: 1
-      - path: b_loot/b_r_door/b_lock_r_r
-        weight: 1
-      - path: loot_box
-        weight: 1
-      - path: loot_display
-        weight: 1
-      - path: loot_handles
-        weight: 1
-      - path: loot_L_door
-        weight: 1
-      - path: loot_locks
-        weight: 1
-      - path: loot_R_door
-        weight: 1
-      maskType: 0
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
-    - serializedVersion: 16
-      name: opened
-      takeName: Take 001
-      firstFrame: 60
+      firstFrame: 59
       lastFrame: 60
       wrapMode: 0
       orientationOffsetY: 0
@@ -199,8 +217,8 @@ ModelImporter:
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 0
-      loopBlend: 0
+      loopTime: 1
+      loopBlend: 1
       loopBlendOrientation: 0
       loopBlendPositionY: 0
       loopBlendPositionXZ: 0
@@ -245,7 +263,7 @@ ModelImporter:
         weight: 1
       maskType: 0
       maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
+      additiveReferencePoseFrame: 1
     isReadable: 1
   meshes:
     lODScreenPercentages: []
@@ -283,7 +301,7 @@ ModelImporter:
     rootMotionBoneName: 
     hasTranslationDoF: 0
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  animationType: 2
+  animationType: 1
   humanoidOversampling: 1
   additionalBone: 0
   userData: 
