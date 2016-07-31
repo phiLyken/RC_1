@@ -30,58 +30,19 @@ public class UnitConfigCreator
     }
 }
 
-public class Generic_ItemCreator
+
+
+public class LootConfigCreator
 {
-    [MenuItem("Assets/Create/Generic_Item")]
+    [MenuItem("Assets/Create/LootConfig ")]
     public static void CreateAsset()
     {
-        MyMath.ScriptableObjectUtility.CreateAsset<Item_Generic>();
+        MyMath.ScriptableObjectUtility.CreateAsset<LootConfig>();
     }
 }
 
 
 
-public class UnitConfigUtility
-{
-    [MenuItem("Assets/Create/Unit Copy")]
-    public static void CreateAsset()
-    {
-        foreach (UnitConfig conf in UnitConfigsDatabase.GetAllConfigs())
-        {
-            CreateAsset(conf);
-        }
-        
-    }
-
-  
-
-    public static ScriptableUnitConfig CreateAsset(UnitConfig conf) 
-    {
-        ScriptableUnitConfig asset = ScriptableObject.CreateInstance<ScriptableUnitConfig>();
-        asset.CopyFromConfig(conf);
-
-        string path = AssetDatabase.GetAssetPath(Selection.activeObject);
-        if (path == "")
-        {
-            path = "Assets";
-        }
-        else if (Path.GetExtension(path) != "")
-        {
-            path = path.Replace(Path.GetFileName(AssetDatabase.GetAssetPath(Selection.activeObject)), "");
-        }
-
-        string assetPathAndName = AssetDatabase.GenerateUniqueAssetPath(path + "/"+conf.ID+".asset");
-
-        AssetDatabase.CreateAsset(asset, assetPathAndName);
-
-        AssetDatabase.SaveAssets();
-        AssetDatabase.Refresh();
-        EditorUtility.FocusProjectWindow();
-        Selection.activeObject = asset;
-
-        return asset;
-    }
-}
 
 
 public class CampConfigDatabase : ScriptableObject

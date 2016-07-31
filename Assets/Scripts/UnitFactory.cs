@@ -109,15 +109,10 @@ public class UnitFactory : MonoBehaviour
         UnitStats stats;
         int stats_count = conf.stats.Length;
 
-        if (conf.StatType == StatType.simple)
-        {
-            stats = target.AddComponent<EnemyUnitStats>();
-        }
-        else
-        {
-            stats = target.AddComponent<PlayerUnitStats>();
 
-        }
+        stats = target.AddComponent<PlayerUnitStats>();
+
+      
         stats.Stats = new StatInfo[stats_count + 1];
         for (int i = 0; i < stats_count; i++)
         {
