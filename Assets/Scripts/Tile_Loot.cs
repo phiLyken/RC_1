@@ -6,37 +6,39 @@ using System;
 
 public class Tile_Loot : TileComponent {
 
-    public GameObject loot_object;
-    public int count;
+    public ItemTypes Category;
+
+    public GameObject crate;
 
     public override TileComponents GetComponentType()
     {
         return TileComponents.loot;
     }
 
-    public void SetLoot(int _count)
+    public void SetLoot(LootConfig loot)
     {
-        count = _count;
-        loot_object = Instantiate(Resources.Load("default_loot")) as GameObject;
-        loot_object.transform.position = gameObject.GetComponent<Tile>().GetPosition();
+
+        crate = Instantiate(loot.WorldObject);
+
+        crate.transform.position = gameObject.GetComponent<Tile>().GetPosition();
     }
 
-    public static void AddLoot(Tile target, int count)
+    public static void AddLoot(Tile target)
     {
-        target.gameObject.AddComponent<Tile_Loot>().SetLoot(count);
+      //  target.gameObject.AddComponent<Tile_Loot>().SetLoot(count);
    } 
     public void RemoveLoot()
     {
-        Destroy(loot_object);
+        Destroy(crate);
         Destroy(this); 
     }    
     
     public void OnLoot(Unit _u)
     {
-        PlayerInventory.Instance.AddItem( Resources.Load("Items/dust") as Item_Generic, count);
+     //   PlayerInventory.Instance.AddItem( Resources.Load("Items/dust") as Item_Generic, count);
     }
 
-
-
-
+    
 }
+
+

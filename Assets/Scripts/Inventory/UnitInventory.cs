@@ -3,16 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public class UnitInventory : MonoBehaviour {
+public class UnitInventory : Inventory {
 
     public EventHandler OnInventoryUpdated;
 
     public Weapon EquipedWeapon;
     public Armor EquipedArmor;
 
-    List<IInventoryItem> Items;
 
-    Unit Owner;
+
 
     public void AddItem(IInventoryItem new_item)
     {
@@ -33,5 +32,7 @@ public class UnitInventory : MonoBehaviour {
     {
         return Items;
     }
+
+    
 
 }

@@ -33,7 +33,7 @@ public class Item_Generic : ScriptableObject, IInventoryItem
         return Image;
     }
 
-    public void RemoveFromIntory(UnitInventory inv)
+    public void RemoveFromInventory(UnitInventory inv)
     {
       
     }

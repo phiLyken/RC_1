@@ -40,7 +40,7 @@ public class Weapon : MonoBehaviour,  IInventoryItem
         
     }
 
-    public void RemoveFromIntory(UnitInventory inv)
+    public void RemoveFromInventory(UnitInventory inv)
     {
  
     }

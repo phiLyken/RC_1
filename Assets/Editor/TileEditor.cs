@@ -207,11 +207,11 @@ public class TileEditor : Editor {
         Tile_Loot l = t.GetComponent<Tile_Loot>();
         if (l == null)
         {
-            Tile_Loot.AddLoot(t, amount);
+          //  Tile_Loot.AddLoot(t, amount);
         }
         else
         {           
-            DestroyImmediate(l.loot_object);
+            DestroyImmediate(l.crate);
             DestroyImmediate(l);
             EditorGUIUtility.ExitGUI();
 
