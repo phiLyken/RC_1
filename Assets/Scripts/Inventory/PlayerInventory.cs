@@ -6,9 +6,15 @@ public class PlayerInventory : Inventory {
 
     public static PlayerInventory Instance;
 
-    public int Dust;
-   
+    public virtual int GetMax(ItemTypes type)
+    {
+        return 99999999;
+    }
 
+    void Awake()
+    {
+        Instance = this;
+    }
 }
 
 

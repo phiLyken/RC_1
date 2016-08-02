@@ -142,8 +142,7 @@ public class Tile : MonoBehaviour, IWayPoint
     public void SetCrumble(int new_crumble) {
 
         new_crumble = Mathf.Clamp(new_crumble,0, Constants.CrumbleHeightThreshold+1);
-        int diff = new_crumble - CrumbleStage;
-
+       
         CrumbleStage = new_crumble;
 
         if (OnTileCrumble != null) OnTileCrumble(this);

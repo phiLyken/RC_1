@@ -102,7 +102,7 @@ public class Constants : MonoBehaviour {
     /// <returns></returns>
     public static int GetDustForProgress(int base_amount, int player_level)
     {
-        return base_amount * player_level;
+        return base_amount * Mathf.Max(1, player_level);
     }
 
 }

@@ -21,10 +21,10 @@ public class UI_InventoryView : MonoBehaviour {
         inventory = inv;
         inventory.OnInventoryUpdated += OnUpdated;
 
-        OnUpdated();
+        OnUpdated(null, 0);
     }
 
-    void OnUpdated()
+    void OnUpdated(IInventoryItem _item, int count)
     {
         if(views == null)
         {

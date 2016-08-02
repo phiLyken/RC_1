@@ -25,6 +25,11 @@ public class UI_EffectQueue : MonoBehaviour {
         m_EffectManager.OnEffectAdded += SpawnEffectAppliedNotification;
         m_EffectManager.OnEffectRemoved += SpawnEffectExpiredNotification;
 
+        UnitInventory inventory = unit.GetComponent<UnitInventory>();
+        inventory.OnInventoryUpdated += SpawnInventoryNotification;
+
+        PlayerInventory.Instance.OnInventoryUpdated += SpawnInventoryNotification;
+
         m_Unit.OnTurnStart += ShowActiveEffects;
 
         Unit.OnUnitKilled += u =>
@@ -52,19 +57,29 @@ public class UI_EffectQueue : MonoBehaviour {
     {
         if (!effect.ShowRemoveNotification) return;
 
-        EffectNotification.SpawnEffectNotification(EffectNotifactionPrefab, EffectNotificationsContainer, effect, effect.GetString()+" removed");
+        EventNotification.SpawnEffectNotification(EffectNotifactionPrefab, EffectNotificationsContainer, effect, effect.GetString()+" removed");
         EnableUnitUI();
     }
      
     void SpawnEffectTickNotification(UnitEffect effect)
     {
-        EffectNotification.SpawnEffectNotification(EffectNotifactionPrefab, EffectNotificationsContainer, effect );
+        EventNotification.SpawnEffectNotification(EffectNotifactionPrefab, EffectNotificationsContainer, effect );
         EnableUnitUI();
     }
     void SpawnEffectAppliedNotification(UnitEffect effect)
     {
         if (!effect.ShowApplyNotification) return;
-        EffectNotification.SpawnEffectNotification(EffectNotifactionPrefab, EffectNotificationsContainer, effect, effect.GetString()+" applied");
+        EventNotification.SpawnEffectNotification(EffectNotifactionPrefab, EffectNotificationsContainer, effect, effect.GetString()+" applied");
+        EnableUnitUI();
+    }
+
+    void SpawnInventoryNotification(IInventoryItem item, int count)
+    {
+
+       
+        if (count <= 0 || !TurnSystem.HasTurn(m_Unit)) return;
+
+        EventNotification.SpawnInventoryNotification(EffectNotifactionPrefab, EffectNotificationsContainer, item, count, "");
         EnableUnitUI();
     }
 
@@ -83,7 +98,7 @@ public class UI_EffectQueue : MonoBehaviour {
 
         foreach ( var effect in effects)
         {
-            EffectNotification.SpawnEffectNotification(EffectNotifactionPrefab, EffectNotificationsContainer, effect);
+            EventNotification.SpawnEffectNotification(EffectNotifactionPrefab, EffectNotificationsContainer, effect);
         }
     }
 

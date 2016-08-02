@@ -13,7 +13,7 @@ public class LazerTest : MonoBehaviour {
 	void Update () {
 	    if(Input.GetButton("Fire1"))
         {
-            SetLazer l = SetLazer.MakeLazer(t, positions, c);
+           SetLazer.MakeLazer(t, positions, c);
         }
 	}
 }

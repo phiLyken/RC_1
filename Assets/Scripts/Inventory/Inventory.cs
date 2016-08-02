@@ -4,20 +4,30 @@ using System.Collections.Generic;
 using System.Linq;
 using System;
 
+public delegate void InventoryItemUpdated(IInventoryItem item, int count);
+
 public class Inventory : MonoBehaviour {
-    public EventHandler OnInventoryUpdated;
+
+    public InventoryItemUpdated OnInventoryUpdated;
     public List<ItemInInventory> Items;
 
+    public virtual int GetMax(ItemTypes type)
+    {
+        return 9999;
+    }
     public virtual void AddItem(IInventoryItem item, int count)
     {
         if (Items == null) Items = new List<ItemInInventory>();
 
-        if (HasItem(item.GetItemType(), 1))
+        if (!HasItem(item.GetItemType(), 0))
         {
-            ModifyItem(item.GetItemType(), count);
-        } else {
-            Items.Add(new ItemInInventory(item, count));
+            Items.Add(new ItemInInventory(item, 0));
         }
+       
+        ModifyItem(item.GetItemType(), count);
+
+       
+       
     }
 
     public bool HasItem(ItemTypes type, int Minimum)
@@ -53,9 +63,10 @@ public class Inventory : MonoBehaviour {
         if (Items.Count == 0) return;
 
         IInventoryItem item = GetItem(type);
-        if (item != null) item.SetCount( Mathf.Max(0,item.GetCount() + _delta));
+        int old_count = item.GetCount();
+        if (item != null) item.SetCount( Mathf.Max(0, Mathf.Min(GetMax(type),item.GetCount() + _delta)));
 
-        if (OnInventoryUpdated != null) OnInventoryUpdated();
+        if (OnInventoryUpdated != null) OnInventoryUpdated(item, item.GetCount() - old_count );
       
     }
 
@@ -83,7 +94,7 @@ public class Inventory : MonoBehaviour {
 public class ItemInInventory : IInventoryItem
 {
 
-    public int max;
+  
     public int count;
     public IInventoryItem m_item;
     public IInventoryItem GetItem()
@@ -94,13 +105,10 @@ public class ItemInInventory : IInventoryItem
     {
         m_item = _base;
         count = startCount;
-        max = startCount;
+      
     }
 
-    public void SetMax(int _max)
-    {
-        max = _max;
-    }
+
     public void AddToInventory(UnitInventory inv)
     {
         m_item.AddToInventory(inv);
@@ -133,7 +141,7 @@ public class ItemInInventory : IInventoryItem
 
     public void SetCount(int new_count)
     {
-        count = Mathf.Min(max,new_count);
+        count = new_count;
     }
 
     public ItemTypes GetItemType()

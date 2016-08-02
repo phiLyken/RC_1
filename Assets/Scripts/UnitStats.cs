@@ -105,8 +105,9 @@ public class UnitStats : MonoBehaviour
                    }
                }
          );
-        
 
+        buffs.AddRange(GetInventory().EquipedWeapon.BuffedStats.Where(buffed => buffed.Stat == type));
+        buffs.AddRange(GetInventory().EquipedArmor.BuffedStats.Where(buffed => buffed.Stat == type));
 
         if (buffs.Count > 0)
         {
@@ -118,12 +119,17 @@ public class UnitStats : MonoBehaviour
         return amount;
     }
 
+    void InventoryItemUpdate(IInventoryItem item, int count)
+    {
+        UpdatedBuffs();
+    }
+
     UnitInventory GetInventory()
     {
         if(mInventory == null)
         {
             mInventory = GetComponent<UnitInventory>();
-            mInventory.OnInventoryUpdated += UpdatedBuffs;
+            mInventory.OnInventoryUpdated += InventoryItemUpdate;
         }
 
         return mInventory;

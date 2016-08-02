@@ -4,10 +4,7 @@ using UnityEngine.UI;
 using System;
 
 public class UI_ToolTip_Generic : UI_ToolTip_Base {
-
-   
     
-
     public override void SetItem(object obj)
     {
         GenericToolTipTarget gen = (GenericToolTipTarget) obj;

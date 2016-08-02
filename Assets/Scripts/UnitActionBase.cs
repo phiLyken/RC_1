@@ -65,10 +65,7 @@ public class UnitActionBase : MonoBehaviour {
                 return;
             }
             inv.AddItem(item_config, ChargeMax);
-        } else
-        {
-            inv.GetInventoryItem(ChargeType).SetMax(ChargeMax);
-        }
+        } 
        
     } 
     public virtual void SelectAction()

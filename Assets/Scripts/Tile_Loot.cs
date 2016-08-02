@@ -6,7 +6,8 @@ using System;
 
 public class Tile_Loot : TileComponent {
 
-    LootConfig loot;
+
+    public LootConfig loot;
     public GameObject crate;
 
     public override TileComponents GetComponentType()
@@ -37,22 +38,31 @@ public class Tile_Loot : TileComponent {
 
     public void OnLoot(Unit _u)
     {
-        LootContentConfig content = WeightableFactory.GetWeighted(loot.Drops);
 
+       
+        LootContentConfig content = WeightableFactory.GetWeighted(loot.Drops);
+       
         IInventoryItem item = content.Item;
 
         int amount = (int) content.BaseAmount.Value();
 
-        if(item.GetItemType() == ItemTypes.dust)
+        Debug.Log("looting " + loot +" "+amount);
+
+        if (item.GetItemType() == ItemTypes.dust)
         {
+           
             amount = Constants.GetDustForProgress(amount, WorldExtender.CurrentStage);
+            Debug.Log("adding " + item.GetID() + " " + amount);
             PlayerInventory.Instance.AddItem(item, amount);
 
         } else
         {
+            Debug.Log("adding " + item.GetID() + " " + amount);
             _u.GetComponent<UnitInventory>().AddItem(item, amount);
         }
-        
+
+        Destroy(crate);
+        Destroy(this);
         
     }
 

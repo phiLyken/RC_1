@@ -2,11 +2,17 @@
 using System.Collections;
 using UnityEngine.UI;
 
-public class EffectNotification : MonoBehaviour {
+public class EventNotification  {
 
+    static GameObject spawnGameObject(GameObject prefab, Transform target_parent)
+    {
+        GameObject new_obj = GameObject.Instantiate(prefab) as GameObject;
+     
 
-    public Image EffectIcon;
-    public Text DamageTF;
+        new_obj.transform.SetParent(target_parent.transform, false);
+
+        return new_obj;
+    }
 
     public static void SpawnEffectNotification(GameObject prefab, Transform target_parent, UnitEffect effect)
     {
@@ -16,13 +22,22 @@ public class EffectNotification : MonoBehaviour {
 
     public static void SpawnEffectNotification(GameObject prefab, Transform target_parent, UnitEffect effect, string custom_text)
     {
-        GameObject new_obj = Instantiate(prefab) as GameObject;
-        EffectNotification effect_notif = new_obj.GetComponent<EffectNotification>();
 
-        new_obj.transform.SetParent(target_parent.transform, false);
+        GameObject new_obj = spawnGameObject(prefab, target_parent);
+        new_obj.GetComponent<UI_UnitEventView>().SetEvent(effect.Icon, custom_text);
 
-        new_obj.GetComponent<UI_EffectItemView>().SetEffect(effect);
-     
     }
+    public static void SpawnInventoryNotification(GameObject prefab, Transform target_parent, IInventoryItem item, int count, string custom_text)
+    {
+        GameObject new_obj = spawnGameObject(prefab, target_parent);    
+        
+         
+        new_obj.GetComponent<UI_UnitEventView>().SetEvent(item.GetImage(), "+"+count+" "+  item.GetID());
+
+    }
+
+
+
+
 
 }

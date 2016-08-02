@@ -15,6 +15,9 @@ public class Weapon : MonoBehaviour,  IInventoryItem
     public WeaponBehavior RegularBehavior;
     public WeaponBehavior IntAttackBehavior;
 
+    public StatInfo[] BuffedStats;
+
+
     ItemTypes IInventoryItem.GetItemType()
     {
         return ItemTypes.weapon;

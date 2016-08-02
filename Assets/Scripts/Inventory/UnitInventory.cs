@@ -9,6 +9,10 @@ public class UnitInventory : Inventory {
     public Armor EquipedArmor;
 
 
+    public override int GetMax(ItemTypes type)
+    {
+        return 3;
+    }
     public override void AddItem(IInventoryItem item, int count)
     {
         if(item.GetItemType() == ItemTypes.armor)

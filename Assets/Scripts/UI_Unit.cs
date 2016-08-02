@@ -50,12 +50,9 @@ public class UI_Unit : MonoBehaviour {
         GetComponent<UI_EffectQueue>().SetUnit(u,this) ;
         
         m_unit = u;
-        u.Stats.OnStatUpdated += OnUpdateStat;
-     
-        u.GetComponent<UnitInventory>().OnInventoryUpdated += OnUpdateStat;
+        u.Stats.OnStatUpdated += OnUpdateStat;      
 
         u.OnTurnStart += UpdateUI;
-
         u.OnTurnEnded += TurnEnd;
 
         Unit.OnUnitHover += CheckHovered;
@@ -88,7 +85,7 @@ public class UI_Unit : MonoBehaviour {
     void CheckKilled(Unit u)
     {
         if(u == m_unit) {
-            u.GetComponent<UnitInventory>().OnInventoryUpdated -= OnUpdateStat;
+         
             Unit.OnUnitKilled -= CheckKilled;
             m_unit.Stats.OnStatUpdated -= OnUpdateStat;
             Unit.OnUnitHover -= CheckHovered;
