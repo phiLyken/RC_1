@@ -55,7 +55,7 @@ public class UnitStats : MonoBehaviour
     }
     public enum StatType
     {
-        will, intensity, max, HP, move_range, current_initiative, speed
+        will, intensity, max, HP, move_range, current_initiative, speed, max_stimpack, max_int_attack, max_rests, vitality
     }
     
     public StatInfo GetStat(StatType type)
