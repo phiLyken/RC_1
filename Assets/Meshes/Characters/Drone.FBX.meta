@@ -1,0 +1,151 @@
+fileFormatVersion: 2
+guid: ddbbfea9dd2a77c4b8bd1f151c935343
+timeCreated: 1470522312
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: Attach_Drone
+    100002: //RootNode
+    100004: Drone
+    100006: Drone_head
+    100008: Dronebody
+    100010: DroneHead
+    100012: Dronehinge
+    100014: LebBR
+    100016: LegBL
+    100018: LegBL_0
+    100020: LegBL_0 1
+    100022: LegBL_1
+    100024: LegBR_0
+    100026: LegBR_0 1
+    100028: LegBR_1
+    100030: LegFl
+    100032: LegFL_0
+    100034: LegFL_0 1
+    100036: LegFL_1
+    100038: LegFR
+    100040: LegFR_0
+    100042: LegFR_0 1
+    100044: LegFR_1
+    400000: Attach_Drone
+    400002: //RootNode
+    400004: Drone
+    400006: Drone_head
+    400008: Dronebody
+    400010: DroneHead
+    400012: Dronehinge
+    400014: LebBR
+    400016: LegBL
+    400018: LegBL_0
+    400020: LegBL_0 1
+    400022: LegBL_1
+    400024: LegBR_0
+    400026: LegBR_0 1
+    400028: LegBR_1
+    400030: LegFl
+    400032: LegFL_0
+    400034: LegFL_0 1
+    400036: LegFL_1
+    400038: LegFR
+    400040: LegFR_0
+    400042: LegFR_0 1
+    400044: LegFR_1
+    2300000: Dronebody
+    2300002: DroneHead
+    2300004: Dronehinge
+    2300006: LebBR
+    2300008: LegBL
+    2300010: LegBL_0 1
+    2300012: LegBR_0 1
+    2300014: LegFl
+    2300016: LegFL_0 1
+    2300018: LegFR
+    2300020: LegFR_0 1
+    3300000: Dronebody
+    3300002: DroneHead
+    3300004: Dronehinge
+    3300006: LebBR
+    3300008: LegBL
+    3300010: LegBL_0 1
+    3300012: LegBR_0 1
+    3300014: LegFl
+    3300016: LegFL_0 1
+    3300018: LegFR
+    3300020: LegFR_0 1
+    4300000: DroneHead
+    4300002: LebBR
+    4300004: LegBR_0
+    4300006: LegFR
+    4300008: LegFR_0
+    4300010: LegBL
+    4300012: LegBL_0
+    4300014: LegFl
+    4300016: LegFL_0
+    4300018: Dronebody
+    4300020: Dronehinge
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleRotations: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 0.01
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
