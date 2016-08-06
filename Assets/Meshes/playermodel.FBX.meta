@@ -79,6 +79,20 @@ ModelImporter:
     100142: suit01_legs
     100144: suit01_torso
     100146: suit01_tubes
+    100148: Attach_Lhand
+    100150: Attach_Rhand
+    100152: humanoid Footsteps
+    100154: humanoid HeadNub
+    100156: humanoid L Finger0Nub
+    100158: humanoid L Finger1Nub
+    100160: humanoid L Finger2Nub
+    100162: humanoid L Finger3Nub
+    100164: humanoid L Toe0Nub
+    100166: humanoid R Finger0Nub
+    100168: humanoid R Finger1Nub
+    100170: humanoid R Finger2Nub
+    100172: humanoid R Finger3Nub
+    100174: humanoid R Toe0Nub
     400000: head01
     400002: legs001
     400004: //RootNode
@@ -153,6 +167,20 @@ ModelImporter:
     400142: suit01_legs
     400144: suit01_torso
     400146: suit01_tubes
+    400148: Attach_Lhand
+    400150: Attach_Rhand
+    400152: humanoid Footsteps
+    400154: humanoid HeadNub
+    400156: humanoid L Finger0Nub
+    400158: humanoid L Finger1Nub
+    400160: humanoid L Finger2Nub
+    400162: humanoid L Finger3Nub
+    400164: humanoid L Toe0Nub
+    400166: humanoid R Finger0Nub
+    400168: humanoid R Finger1Nub
+    400170: humanoid R Finger2Nub
+    400172: humanoid R Finger3Nub
+    400174: humanoid R Toe0Nub
     2300000: head01
     2300002: legs001
     2300004: suit1
@@ -229,6 +257,7 @@ ModelImporter:
     13700010: suit01_legs
     13700012: suit01_torso
     13700014: suit01_tubes
+    13700016: head01
   materials:
     importMaterials: 0
     materialName: 0
