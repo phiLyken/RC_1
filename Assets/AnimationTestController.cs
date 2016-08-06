@@ -29,21 +29,22 @@ public class AnimationTestController : MonoBehaviour {
             GUI.EndGroup();
 
         GUI.BeginGroup(new Rect(0, 350, 350, 200), "OTHER STATES");
-                 Anim.SetBool("bMoving", GUI.Toggle(new Rect(0, 30, 100, 25), Anim.GetBool("bMoving"), "Moving"));
-                 Anim.SetBool("bIdle", GUI.Toggle(new Rect(0, 60, 100, 25), Anim.GetBool("bIdle"), "Idle"));
+                 Anim.SetBool("bMoving", GUI.Toggle(new Rect(0, 30, 100, 25), Anim.GetBool("bMoving"), "Moving"));               
         GUI.EndGroup();
 
         GUI.EndGroup();
 
         GUI.BeginGroup(new Rect(Screen.width - 200, 0, 350, 500), "WEAPON STATES");
-        Anim.SetBool("wpnPistol", GUI.Toggle(new Rect(0, 30, 150, 25), Anim.GetBool("wpnPistol"), "WEAPON PIOSTOL"));
-        Anim.SetBool("wpnDualPistol", GUI.Toggle(new Rect(0, 60, 150, 25), Anim.GetBool("wpnDualPistol"), "WEAPON DUAL P"));
-        Anim.SetBool("wpnRifle", GUI.Toggle(new Rect(0, 90, 150, 25), Anim.GetBool("wpnRifle"), "WPN RIFLE"));
-        Anim.SetBool("wpnCCW", GUI.Toggle(new Rect(0, 120, 150, 25), Anim.GetBool("wpnCCW"), "WPN CLOSE COMBAT"));
 
-        Anim.SetBool("wpnCCWnS", GUI.Toggle(new Rect(0, 150, 150, 25), Anim.GetBool("wpnCCWnS"), "WPN CLOSE COMBAT SHIELD"));
-        Anim.SetBool("wpnGreatweapon", GUI.Toggle(new Rect(0, 180, 150, 25), Anim.GetBool("wpnGreatweapon"), "GREAT WEAPON"));
-        Anim.SetBool("wpnBFG", GUI.Toggle(new Rect(0, 210, 150, 25), Anim.GetBool("wpnBFG"), "BIG FUCKING GUN"));
+            if (GUI.Button(new Rect(0, 30, 150, 25), "WPN CLOSE COMBAT")) Anim.SetFloat("WeaponIndex", 0);
+            if (GUI.Button(new Rect(0, 60, 150, 25), "WPN CLOSE COMBAT SHIELD")) Anim.SetFloat("WeaponIndex", 1);
+            if (GUI.Button(new Rect(0, 90, 150, 25), "PISTOL")) Anim.SetFloat("WeaponIndex", 2);
+            if (GUI.Button(new Rect(0, 120, 150, 25), "DUAL PISTOL")) Anim.SetFloat("WeaponIndex", 3);
+            if (GUI.Button(new Rect(0, 150, 150, 25), "RIFLE")) Anim.SetFloat("WeaponIndex", 4);
+            if (GUI.Button(new Rect(0, 180, 150, 25), "BFG")) Anim.SetFloat("WeaponIndex", 5);
+            if (GUI.Button(new Rect(0, 210, 150, 25), "GREAT WEAPON")) Anim.SetFloat("WeaponIndex", 6);
+
+
         GUI.EndGroup();
 
      
