@@ -127,7 +127,7 @@ ModelImporter:
     400116: humanoid R UpperArm
     400118: humanoid Spine
     400120: humanoid Spine1
-    7400000: anim_CCWnShield
+    7400000: anim_IdleCCWnShield
     9500000: //RootNode
   materials:
     importMaterials: 1
@@ -151,7 +151,7 @@ ModelImporter:
     extraExposedTransformPaths: []
     clipAnimations:
     - serializedVersion: 16
-      name: anim_CCWnShield
+      name: anim_IdleCCWnShield
       takeName: Take 001
       firstFrame: 0
       lastFrame: 61
@@ -161,7 +161,7 @@ ModelImporter:
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 0
+      loopTime: 1
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
