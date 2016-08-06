@@ -30,6 +30,7 @@ public class AnimationTestController : MonoBehaviour {
 
         GUI.BeginGroup(new Rect(0, 350, 350, 200), "OTHER STATES");
                  Anim.SetBool("bMoving", GUI.Toggle(new Rect(0, 30, 100, 25), Anim.GetBool("bMoving"), "Moving"));
+                 Anim.SetBool("bIdle", GUI.Toggle(new Rect(0, 60, 100, 25), Anim.GetBool("bIdle"), "Idle"));
         GUI.EndGroup();
 
         GUI.EndGroup();
