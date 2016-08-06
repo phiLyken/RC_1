@@ -1,0 +1,194 @@
+fileFormatVersion: 2
+guid: 2b5bb71a284a8f74890af026e40ce199
+timeCreated: 1470134297
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: Attach_Backpack
+    100002: humanoid
+    100004: humanoid Head
+    100006: humanoid HeadNub
+    100008: humanoid L Calf
+    100010: humanoid L Clavicle
+    100012: humanoid L Finger0
+    100014: humanoid L Finger01
+    100016: humanoid L Finger02
+    100018: humanoid L Finger0Nub
+    100020: humanoid L Finger1
+    100022: humanoid L Finger11
+    100024: humanoid L Finger12
+    100026: humanoid L Finger1Nub
+    100028: humanoid L Finger2
+    100030: humanoid L Finger21
+    100032: humanoid L Finger22
+    100034: humanoid L Finger2Nub
+    100036: humanoid L Finger3
+    100038: humanoid L Finger31
+    100040: humanoid L Finger32
+    100042: humanoid L Finger3Nub
+    100044: humanoid L Foot
+    100046: humanoid L Forearm
+    100048: humanoid L Hand
+    100050: humanoid L Thigh
+    100052: humanoid L Toe0
+    100054: humanoid L Toe0Nub
+    100056: humanoid L UpperArm
+    100058: humanoid Neck
+    100060: humanoid Pelvis
+    100062: humanoid R Calf
+    100064: humanoid R Clavicle
+    100066: humanoid R Finger0
+    100068: humanoid R Finger01
+    100070: humanoid R Finger02
+    100072: humanoid R Finger0Nub
+    100074: humanoid R Finger1
+    100076: humanoid R Finger11
+    100078: humanoid R Finger12
+    100080: humanoid R Finger1Nub
+    100082: humanoid R Finger2
+    100084: humanoid R Finger21
+    100086: humanoid R Finger22
+    100088: humanoid R Finger2Nub
+    100090: humanoid R Finger3
+    100092: humanoid R Finger31
+    100094: humanoid R Finger32
+    100096: humanoid R Finger3Nub
+    100098: humanoid R Foot
+    100100: humanoid R Forearm
+    100102: humanoid R Hand
+    100104: humanoid R Thigh
+    100106: humanoid R Toe0
+    100108: humanoid R Toe0Nub
+    100110: humanoid R UpperArm
+    100112: humanoid Spine
+    100114: humanoid Spine1
+    100116: //RootNode
+    100118: prisoner_torso02
+    400000: Attach_Backpack
+    400002: humanoid
+    400004: humanoid Head
+    400006: humanoid HeadNub
+    400008: humanoid L Calf
+    400010: humanoid L Clavicle
+    400012: humanoid L Finger0
+    400014: humanoid L Finger01
+    400016: humanoid L Finger02
+    400018: humanoid L Finger0Nub
+    400020: humanoid L Finger1
+    400022: humanoid L Finger11
+    400024: humanoid L Finger12
+    400026: humanoid L Finger1Nub
+    400028: humanoid L Finger2
+    400030: humanoid L Finger21
+    400032: humanoid L Finger22
+    400034: humanoid L Finger2Nub
+    400036: humanoid L Finger3
+    400038: humanoid L Finger31
+    400040: humanoid L Finger32
+    400042: humanoid L Finger3Nub
+    400044: humanoid L Foot
+    400046: humanoid L Forearm
+    400048: humanoid L Hand
+    400050: humanoid L Thigh
+    400052: humanoid L Toe0
+    400054: humanoid L Toe0Nub
+    400056: humanoid L UpperArm
+    400058: humanoid Neck
+    400060: humanoid Pelvis
+    400062: humanoid R Calf
+    400064: humanoid R Clavicle
+    400066: humanoid R Finger0
+    400068: humanoid R Finger01
+    400070: humanoid R Finger02
+    400072: humanoid R Finger0Nub
+    400074: humanoid R Finger1
+    400076: humanoid R Finger11
+    400078: humanoid R Finger12
+    400080: humanoid R Finger1Nub
+    400082: humanoid R Finger2
+    400084: humanoid R Finger21
+    400086: humanoid R Finger22
+    400088: humanoid R Finger2Nub
+    400090: humanoid R Finger3
+    400092: humanoid R Finger31
+    400094: humanoid R Finger32
+    400096: humanoid R Finger3Nub
+    400098: humanoid R Foot
+    400100: humanoid R Forearm
+    400102: humanoid R Hand
+    400104: humanoid R Thigh
+    400106: humanoid R Toe0
+    400108: humanoid R Toe0Nub
+    400110: humanoid R UpperArm
+    400112: humanoid Spine
+    400114: humanoid Spine1
+    400116: //RootNode
+    400118: prisoner_torso02
+    4300000: prisoner_torso02
+    9500000: //RootNode
+    13700000: prisoner_torso02
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleRotations: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 0.01
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
