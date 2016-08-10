@@ -1,131 +1,133 @@
 fileFormatVersion: 2
-guid: 6e82ffb235100eb4a8639ddec1bca52e
-timeCreated: 1469954326
+guid: a1d3b5a46e1245247adb66b80e075880
+timeCreated: 1470766712
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
     100000: //RootNode
     100002: Attach_Backpack
-    100004: humanoid
-    100006: humanoid Footsteps
-    100008: humanoid Head
-    100010: humanoid HeadNub
-    100012: humanoid L Calf
-    100014: humanoid L Clavicle
-    100016: humanoid L Finger0
-    100018: humanoid L Finger01
-    100020: humanoid L Finger02
-    100022: humanoid L Finger0Nub
-    100024: humanoid L Finger1
-    100026: humanoid L Finger11
-    100028: humanoid L Finger12
-    100030: humanoid L Finger1Nub
-    100032: humanoid L Finger2
-    100034: humanoid L Finger21
-    100036: humanoid L Finger22
-    100038: humanoid L Finger2Nub
-    100040: humanoid L Finger3
-    100042: humanoid L Finger31
-    100044: humanoid L Finger32
-    100046: humanoid L Finger3Nub
-    100048: humanoid L Foot
-    100050: humanoid L Forearm
-    100052: humanoid L Hand
-    100054: humanoid L Thigh
-    100056: humanoid L Toe0
-    100058: humanoid L Toe0Nub
-    100060: humanoid L UpperArm
-    100062: humanoid Neck
-    100064: humanoid Pelvis
-    100066: humanoid R Calf
-    100068: humanoid R Clavicle
-    100070: humanoid R Finger0
-    100072: humanoid R Finger01
-    100074: humanoid R Finger02
-    100076: humanoid R Finger0Nub
-    100078: humanoid R Finger1
-    100080: humanoid R Finger11
-    100082: humanoid R Finger12
-    100084: humanoid R Finger1Nub
-    100086: humanoid R Finger2
-    100088: humanoid R Finger21
-    100090: humanoid R Finger22
-    100092: humanoid R Finger2Nub
-    100094: humanoid R Finger3
-    100096: humanoid R Finger31
-    100098: humanoid R Finger32
-    100100: humanoid R Finger3Nub
-    100102: humanoid R Foot
-    100104: humanoid R Forearm
-    100106: humanoid R Hand
-    100108: humanoid R Thigh
-    100110: humanoid R Toe0
-    100112: humanoid R Toe0Nub
-    100114: humanoid R UpperArm
-    100116: humanoid Spine
-    100118: humanoid Spine1
+    100004: Attach_Lhand
+    100006: Attach_Rhand
+    100008: humanoid
+    100010: humanoid Head
+    100012: humanoid HeadNub
+    100014: humanoid L Calf
+    100016: humanoid L Clavicle
+    100018: humanoid L Finger0
+    100020: humanoid L Finger01
+    100022: humanoid L Finger02
+    100024: humanoid L Finger0Nub
+    100026: humanoid L Finger1
+    100028: humanoid L Finger11
+    100030: humanoid L Finger12
+    100032: humanoid L Finger1Nub
+    100034: humanoid L Finger2
+    100036: humanoid L Finger21
+    100038: humanoid L Finger22
+    100040: humanoid L Finger2Nub
+    100042: humanoid L Finger3
+    100044: humanoid L Finger31
+    100046: humanoid L Finger32
+    100048: humanoid L Finger3Nub
+    100050: humanoid L Foot
+    100052: humanoid L Forearm
+    100054: humanoid L Hand
+    100056: humanoid L Thigh
+    100058: humanoid L Toe0
+    100060: humanoid L Toe0Nub
+    100062: humanoid L UpperArm
+    100064: humanoid Neck
+    100066: humanoid Pelvis
+    100068: humanoid R Calf
+    100070: humanoid R Clavicle
+    100072: humanoid R Finger0
+    100074: humanoid R Finger01
+    100076: humanoid R Finger02
+    100078: humanoid R Finger0Nub
+    100080: humanoid R Finger1
+    100082: humanoid R Finger11
+    100084: humanoid R Finger12
+    100086: humanoid R Finger1Nub
+    100088: humanoid R Finger2
+    100090: humanoid R Finger21
+    100092: humanoid R Finger22
+    100094: humanoid R Finger2Nub
+    100096: humanoid R Finger3
+    100098: humanoid R Finger31
+    100100: humanoid R Finger32
+    100102: humanoid R Finger3Nub
+    100104: humanoid R Foot
+    100106: humanoid R Forearm
+    100108: humanoid R Hand
+    100110: humanoid R Thigh
+    100112: humanoid R Toe0
+    100114: humanoid R Toe0Nub
+    100116: humanoid R UpperArm
+    100118: humanoid Spine
+    100120: humanoid Spine1
     400000: //RootNode
     400002: Attach_Backpack
-    400004: humanoid
-    400006: humanoid Footsteps
-    400008: humanoid Head
-    400010: humanoid HeadNub
-    400012: humanoid L Calf
-    400014: humanoid L Clavicle
-    400016: humanoid L Finger0
-    400018: humanoid L Finger01
-    400020: humanoid L Finger02
-    400022: humanoid L Finger0Nub
-    400024: humanoid L Finger1
-    400026: humanoid L Finger11
-    400028: humanoid L Finger12
-    400030: humanoid L Finger1Nub
-    400032: humanoid L Finger2
-    400034: humanoid L Finger21
-    400036: humanoid L Finger22
-    400038: humanoid L Finger2Nub
-    400040: humanoid L Finger3
-    400042: humanoid L Finger31
-    400044: humanoid L Finger32
-    400046: humanoid L Finger3Nub
-    400048: humanoid L Foot
-    400050: humanoid L Forearm
-    400052: humanoid L Hand
-    400054: humanoid L Thigh
-    400056: humanoid L Toe0
-    400058: humanoid L Toe0Nub
-    400060: humanoid L UpperArm
-    400062: humanoid Neck
-    400064: humanoid Pelvis
-    400066: humanoid R Calf
-    400068: humanoid R Clavicle
-    400070: humanoid R Finger0
-    400072: humanoid R Finger01
-    400074: humanoid R Finger02
-    400076: humanoid R Finger0Nub
-    400078: humanoid R Finger1
-    400080: humanoid R Finger11
-    400082: humanoid R Finger12
-    400084: humanoid R Finger1Nub
-    400086: humanoid R Finger2
-    400088: humanoid R Finger21
-    400090: humanoid R Finger22
-    400092: humanoid R Finger2Nub
-    400094: humanoid R Finger3
-    400096: humanoid R Finger31
-    400098: humanoid R Finger32
-    400100: humanoid R Finger3Nub
-    400102: humanoid R Foot
-    400104: humanoid R Forearm
-    400106: humanoid R Hand
-    400108: humanoid R Thigh
-    400110: humanoid R Toe0
-    400112: humanoid R Toe0Nub
-    400114: humanoid R UpperArm
-    400116: humanoid Spine
-    400118: humanoid Spine1
-    7400000: anim_rage
+    400004: Attach_Lhand
+    400006: Attach_Rhand
+    400008: humanoid
+    400010: humanoid Head
+    400012: humanoid HeadNub
+    400014: humanoid L Calf
+    400016: humanoid L Clavicle
+    400018: humanoid L Finger0
+    400020: humanoid L Finger01
+    400022: humanoid L Finger02
+    400024: humanoid L Finger0Nub
+    400026: humanoid L Finger1
+    400028: humanoid L Finger11
+    400030: humanoid L Finger12
+    400032: humanoid L Finger1Nub
+    400034: humanoid L Finger2
+    400036: humanoid L Finger21
+    400038: humanoid L Finger22
+    400040: humanoid L Finger2Nub
+    400042: humanoid L Finger3
+    400044: humanoid L Finger31
+    400046: humanoid L Finger32
+    400048: humanoid L Finger3Nub
+    400050: humanoid L Foot
+    400052: humanoid L Forearm
+    400054: humanoid L Hand
+    400056: humanoid L Thigh
+    400058: humanoid L Toe0
+    400060: humanoid L Toe0Nub
+    400062: humanoid L UpperArm
+    400064: humanoid Neck
+    400066: humanoid Pelvis
+    400068: humanoid R Calf
+    400070: humanoid R Clavicle
+    400072: humanoid R Finger0
+    400074: humanoid R Finger01
+    400076: humanoid R Finger02
+    400078: humanoid R Finger0Nub
+    400080: humanoid R Finger1
+    400082: humanoid R Finger11
+    400084: humanoid R Finger12
+    400086: humanoid R Finger1Nub
+    400088: humanoid R Finger2
+    400090: humanoid R Finger21
+    400092: humanoid R Finger22
+    400094: humanoid R Finger2Nub
+    400096: humanoid R Finger3
+    400098: humanoid R Finger31
+    400100: humanoid R Finger32
+    400102: humanoid R Finger3Nub
+    400104: humanoid R Foot
+    400106: humanoid R Forearm
+    400108: humanoid R Hand
+    400110: humanoid R Thigh
+    400112: humanoid R Toe0
+    400114: humanoid R Toe0Nub
+    400116: humanoid R UpperArm
+    400118: humanoid Spine
+    400120: humanoid Spine1
+    7400000: anim_shootCCW
     9500000: //RootNode
   materials:
     importMaterials: 1
@@ -149,17 +151,17 @@ ModelImporter:
     extraExposedTransformPaths: []
     clipAnimations:
     - serializedVersion: 16
-      name: anim_rage
+      name: anim_shootCCW
       takeName: Take 001
       firstFrame: 0
-      lastFrame: 50
+      lastFrame: 40
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 1
+      loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
@@ -175,9 +177,11 @@ ModelImporter:
       transformMask:
       - path: 
         weight: 1
-      - path: humanoid
+      - path: Attach_Lhand
         weight: 1
-      - path: humanoid/humanoid Footsteps
+      - path: Attach_Rhand
+        weight: 1
+      - path: humanoid
         weight: 1
       - path: humanoid/humanoid Pelvis
         weight: 1

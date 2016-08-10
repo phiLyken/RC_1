@@ -1,76 +1,54 @@
 fileFormatVersion: 2
-guid: 0b7fca838db78224cb0dad90b650c02b
-timeCreated: 1469948482
+guid: 9270b00422946ea4d848e80f6e7a5da2
+timeCreated: 1470522312
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
-    100000: b_display
-    100002: b_l_door
-    100004: b_lock_l_l
-    100006: b_lock_l_r
-    100008: b_lock_r_l
-    100010: b_lock_r_r
-    100012: b_loot
-    100014: b_r_door
-    100016: loot_box
-    100018: loot_display
-    100020: loot_handles
-    100022: loot_L_door
-    100024: loot_locks
-    100026: loot_R_door
-    100028: //RootNode
-    400000: b_display
-    400002: b_l_door
-    400004: b_lock_l_l
-    400006: b_lock_l_r
-    400008: b_lock_r_l
-    400010: b_lock_r_r
-    400012: b_loot
-    400014: b_r_door
-    400016: loot_box
-    400018: loot_display
-    400020: loot_handles
-    400022: loot_L_door
-    400024: loot_locks
-    400026: loot_R_door
-    400028: //RootNode
-    4300000: loot_box
-    4300002: loot_R_door
-    4300004: loot_handles
-    4300006: loot_locks
-    4300008: loot_display
-    4300010: loot_L_door
-    7400000: lootbox_closed
-    7400002: lootbox_opening
-    7400004: lootbox_open
-    7400006: lootbox_closed //// b_loot
-    7400008: lootbox_opening //// b_loot
-    7400010: lootbox_open //// b_loot
+    100000: //RootNode
+    100002: Attach_Drone
+    100004: Drone
+    100006: Drone_head
+    100008: DroneHead
+    100010: LegBL_0
+    100012: LegBL_1
+    100014: LegBL_nub
+    100016: LegBR_0
+    100018: LegBR_1
+    100020: LegBR_nub
+    100022: LegFL_0
+    100024: LegFL_1
+    100026: LegFL_nub
+    100028: LegFR_0
+    100030: LegFR_1
+    100032: LegFR_nub
+    400000: //RootNode
+    400002: Attach_Drone
+    400004: Drone
+    400006: Drone_head
+    400008: DroneHead
+    400010: LegBL_0
+    400012: LegBL_1
+    400014: LegBL_nub
+    400016: LegBR_0
+    400018: LegBR_1
+    400020: LegBR_nub
+    400022: LegFL_0
+    400024: LegFL_1
+    400026: LegFL_nub
+    400028: LegFR_0
+    400030: LegFR_1
+    400032: LegFR_nub
+    2300000: DroneHead
+    3300000: DroneHead
+    4300000: DroneHead
+    7400000: anim_drone_death
+    7400002: anim_drone_dead
+    7400004: anim_drone_hit
     9500000: //RootNode
     11100000: //RootNode
-    11100002: b_display
-    11100004: b_l_door
-    11100006: b_lock_l_l
-    11100008: b_lock_l_r
-    11100010: b_lock_r_l
-    11100012: b_lock_r_r
-    11100014: b_loot
-    11100016: b_r_door
-    11100018: loot_box
-    11100020: loot_display
-    11100022: loot_handles
-    11100024: loot_L_door
-    11100026: loot_locks
-    11100028: loot_R_door
-    13700000: loot_box
-    13700002: loot_display
-    13700004: loot_handles
-    13700006: loot_L_door
-    13700008: loot_locks
-    13700010: loot_R_door
   materials:
-    importMaterials: 0
+    importMaterials: 1
     materialName: 0
     materialSearch: 1
   animations:
@@ -91,65 +69,7 @@ ModelImporter:
     extraExposedTransformPaths: []
     clipAnimations:
     - serializedVersion: 16
-      name: lootbox_closed
-      takeName: Take 001
-      firstFrame: 0
-      lastFrame: 1
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 1
-      loopBlend: 1
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask:
-      - path: 
-        weight: 1
-      - path: b_loot
-        weight: 1
-      - path: b_loot/b_display
-        weight: 1
-      - path: b_loot/b_l_door
-        weight: 1
-      - path: b_loot/b_l_door/b_lock_l_l
-        weight: 1
-      - path: b_loot/b_l_door/b_lock_l_r
-        weight: 1
-      - path: b_loot/b_r_door
-        weight: 1
-      - path: b_loot/b_r_door/b_lock_r_l
-        weight: 1
-      - path: b_loot/b_r_door/b_lock_r_r
-        weight: 1
-      - path: loot_box
-        weight: 1
-      - path: loot_display
-        weight: 1
-      - path: loot_handles
-        weight: 1
-      - path: loot_L_door
-        weight: 1
-      - path: loot_locks
-        weight: 1
-      - path: loot_R_door
-        weight: 1
-      maskType: 0
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 1
-    - serializedVersion: 16
-      name: lootbox_opening
+      name: anim_drone_death
       takeName: Take 001
       firstFrame: 0
       lastFrame: 60
@@ -175,41 +95,43 @@ ModelImporter:
       transformMask:
       - path: 
         weight: 1
-      - path: b_loot
+      - path: Attach_Drone
         weight: 1
-      - path: b_loot/b_display
+      - path: Drone
         weight: 1
-      - path: b_loot/b_l_door
+      - path: Drone/Drone_head
         weight: 1
-      - path: b_loot/b_l_door/b_lock_l_l
+      - path: Drone/LegBL_0
         weight: 1
-      - path: b_loot/b_l_door/b_lock_l_r
+      - path: Drone/LegBL_0/LegBL_1
         weight: 1
-      - path: b_loot/b_r_door
+      - path: Drone/LegBL_0/LegBL_1/LegBL_nub
         weight: 1
-      - path: b_loot/b_r_door/b_lock_r_l
+      - path: Drone/LegBR_0
         weight: 1
-      - path: b_loot/b_r_door/b_lock_r_r
+      - path: Drone/LegBR_0/LegBR_1
         weight: 1
-      - path: loot_box
+      - path: Drone/LegBR_0/LegBR_1/LegBR_nub
         weight: 1
-      - path: loot_display
+      - path: Drone/LegFL_0
         weight: 1
-      - path: loot_handles
+      - path: Drone/LegFL_0/LegFL_1
         weight: 1
-      - path: loot_L_door
+      - path: Drone/LegFL_0/LegFL_1/LegFL_nub
         weight: 1
-      - path: loot_locks
+      - path: Drone/LegFR_0
         weight: 1
-      - path: loot_R_door
+      - path: Drone/LegFR_0/LegFR_1
+        weight: 1
+      - path: Drone/LegFR_0/LegFR_1/LegFR_nub
         weight: 1
       maskType: 0
       maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 1
+      additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: lootbox_open
+      name: anim_drone_dead
       takeName: Take 001
-      firstFrame: 59
+      firstFrame: 58
       lastFrame: 60
       wrapMode: 0
       orientationOffsetY: 0
@@ -218,7 +140,7 @@ ModelImporter:
       loop: 0
       hasAdditiveReferencePose: 0
       loopTime: 1
-      loopBlend: 1
+      loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
       loopBlendPositionXZ: 0
@@ -233,41 +155,103 @@ ModelImporter:
       transformMask:
       - path: 
         weight: 1
-      - path: b_loot
+      - path: Attach_Drone
         weight: 1
-      - path: b_loot/b_display
+      - path: Drone
         weight: 1
-      - path: b_loot/b_l_door
+      - path: Drone/Drone_head
         weight: 1
-      - path: b_loot/b_l_door/b_lock_l_l
+      - path: Drone/LegBL_0
         weight: 1
-      - path: b_loot/b_l_door/b_lock_l_r
+      - path: Drone/LegBL_0/LegBL_1
         weight: 1
-      - path: b_loot/b_r_door
+      - path: Drone/LegBL_0/LegBL_1/LegBL_nub
         weight: 1
-      - path: b_loot/b_r_door/b_lock_r_l
+      - path: Drone/LegBR_0
         weight: 1
-      - path: b_loot/b_r_door/b_lock_r_r
+      - path: Drone/LegBR_0/LegBR_1
         weight: 1
-      - path: loot_box
+      - path: Drone/LegBR_0/LegBR_1/LegBR_nub
         weight: 1
-      - path: loot_display
+      - path: Drone/LegFL_0
         weight: 1
-      - path: loot_handles
+      - path: Drone/LegFL_0/LegFL_1
         weight: 1
-      - path: loot_L_door
+      - path: Drone/LegFL_0/LegFL_1/LegFL_nub
         weight: 1
-      - path: loot_locks
+      - path: Drone/LegFR_0
         weight: 1
-      - path: loot_R_door
+      - path: Drone/LegFR_0/LegFR_1
+        weight: 1
+      - path: Drone/LegFR_0/LegFR_1/LegFR_nub
         weight: 1
       maskType: 0
       maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 1
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: anim_drone_hit
+      takeName: Take 001
+      firstFrame: 0
+      lastFrame: 15
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Attach_Drone
+        weight: 1
+      - path: Drone
+        weight: 1
+      - path: Drone/Drone_head
+        weight: 1
+      - path: Drone/LegBL_0
+        weight: 1
+      - path: Drone/LegBL_0/LegBL_1
+        weight: 1
+      - path: Drone/LegBL_0/LegBL_1/LegBL_nub
+        weight: 1
+      - path: Drone/LegBR_0
+        weight: 1
+      - path: Drone/LegBR_0/LegBR_1
+        weight: 1
+      - path: Drone/LegBR_0/LegBR_1/LegBR_nub
+        weight: 1
+      - path: Drone/LegFL_0
+        weight: 1
+      - path: Drone/LegFL_0/LegFL_1
+        weight: 1
+      - path: Drone/LegFL_0/LegFL_1/LegFL_nub
+        weight: 1
+      - path: Drone/LegFR_0
+        weight: 1
+      - path: Drone/LegFR_0/LegFR_1
+        weight: 1
+      - path: Drone/LegFR_0/LegFR_1/LegFR_nub
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: 0.1
+    globalScale: 0.01
     meshCompression: 0
     addColliders: 0
     importBlendShapes: 1

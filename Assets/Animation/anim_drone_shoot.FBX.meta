@@ -1,0 +1,166 @@
+fileFormatVersion: 2
+guid: 2df2b899107b0ba43af01e2ab61e3903
+timeCreated: 1470522311
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: Drone
+    100004: Drone_head
+    100006: DroneHead
+    100008: LegBL_0
+    100010: LegBL_1
+    100012: LegBL_nub
+    100014: LegBR_0
+    100016: LegBR_1
+    100018: LegBR_nub
+    100020: LegFL_0
+    100022: LegFL_1
+    100024: LegFL_nub
+    100026: LegFR_0
+    100028: LegFR_1
+    100030: LegFR_nub
+    400000: //RootNode
+    400002: Drone
+    400004: Drone_head
+    400006: DroneHead
+    400008: LegBL_0
+    400010: LegBL_1
+    400012: LegBL_nub
+    400014: LegBR_0
+    400016: LegBR_1
+    400018: LegBR_nub
+    400020: LegFL_0
+    400022: LegFL_1
+    400024: LegFL_nub
+    400026: LegFR_0
+    400028: LegFR_1
+    400030: LegFR_nub
+    2300000: DroneHead
+    3300000: DroneHead
+    4300000: DroneHead
+    7400000: anim_drone_shoot
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleRotations: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: anim_drone_shoot
+      takeName: Take 001
+      firstFrame: 0
+      lastFrame: 40
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Drone
+        weight: 1
+      - path: Drone/Drone_head
+        weight: 1
+      - path: Drone/LegBL_0
+        weight: 1
+      - path: Drone/LegBL_0/LegBL_1
+        weight: 1
+      - path: Drone/LegBL_0/LegBL_1/LegBL_nub
+        weight: 1
+      - path: Drone/LegBR_0
+        weight: 1
+      - path: Drone/LegBR_0/LegBR_1
+        weight: 1
+      - path: Drone/LegBR_0/LegBR_1/LegBR_nub
+        weight: 1
+      - path: Drone/LegFL_0
+        weight: 1
+      - path: Drone/LegFL_0/LegFL_1
+        weight: 1
+      - path: Drone/LegFL_0/LegFL_1/LegFL_nub
+        weight: 1
+      - path: Drone/LegFR_0
+        weight: 1
+      - path: Drone/LegFR_0/LegFR_1
+        weight: 1
+      - path: Drone/LegFR_0/LegFR_1/LegFR_nub
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 0.01
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
