@@ -61,7 +61,7 @@ public class UI_ActionBar_Button : MonoBehaviour, IToolTip{
 
     public void SetBaseState(UnitActionBase action)
     {
-        ActionIcon.sprite = action.Image;
+        ActionIcon.sprite = action.GetImage();
         ActionIcon.color = action.CanExecAction(false) ? Color.green : Color.red;
         UpdateChargers(action);
     }

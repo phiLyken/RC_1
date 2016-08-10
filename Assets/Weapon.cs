@@ -8,9 +8,7 @@ public class Weapon : MonoBehaviour,  IInventoryItem
     public string ID;
     public Sprite Icon;
 
-    public int BaseDelay;
-
-    public WeaponAnimationStates AnimationState;
+       public WeaponAnimationStates AnimationState;
 
     [HideInInspector]
     public int _count;

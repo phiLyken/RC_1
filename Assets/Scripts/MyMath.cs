@@ -90,6 +90,7 @@ public static class MyMath  {
 
     public static T CloneMono<T>(T item)
     {
+      
         return MonoBehaviour.Instantiate((item as MonoBehaviour).gameObject).GetComponent<T>();
     }
 
@@ -99,6 +100,9 @@ public static class MyMath  {
         List<T> ret = new List<T>();
         foreach(var item in list)
         {
+            if (item == null)
+                continue;
+
             ret.Add(CloneMono(item));
         }
 

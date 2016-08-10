@@ -5,8 +5,9 @@ using System.Collections.Generic;
 [System.Serializable]
 public class WeaponBehavior :   MonoBehaviour {
 
+    public Sprite Icon;
     public int TimeDelay;
-    public List<  UnitEffect_Container > Effects;
+    public List<  UnitEffect > Effects;
     public IntBonus IntBonus;
 }
 

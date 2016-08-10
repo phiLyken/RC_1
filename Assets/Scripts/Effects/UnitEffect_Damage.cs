@@ -11,6 +11,8 @@ public delegate void DamageEventHandler(UnitEffect_Damage dmg);
 public class UnitEffect_Damage : UnitEffect
 {
     public bool UseAttackStat;
+    public StatType StatToUseMin;
+    public StatType StatToUseMax;
 
     public MyMath.R_Range DamageRange;
 
@@ -23,11 +25,13 @@ public class UnitEffect_Damage : UnitEffect
     public override UnitEffect MakeCopy(UnitEffect origin)
     {
         UnitEffect_Damage _cc = (UnitEffect_Damage)( (UnitEffect_Damage) origin).MemberwiseClone() ;
+
         MyMath.R_Range range = _cc.DamageRange;
+
         if (UseAttackStat)
         {
-            range.min += ((Unit) Instigator).Stats.GetStatAmount(StatType.attack_extra_damage_min);
-            range.max += ((Unit) Instigator).Stats.GetStatAmount(StatType.attack_extra_damage_max);
+            range.min += ((Unit) Instigator).Stats.GetStatAmount(StatToUseMin);
+            range.max += ((Unit) Instigator).Stats.GetStatAmount(StatToUseMax);
         }
         _cc.baked_damage = (int) range.Value();
 

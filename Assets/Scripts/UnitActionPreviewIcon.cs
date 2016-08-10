@@ -21,7 +21,7 @@ public class UnitActionPreviewIcon : MonoBehaviour {
         m_action.OnTargetsFound += _list =>
         {
             List<Transform> targets = _list.Select(i => i.transform).ToList();
-            UI_ActionPreviewIcon.PreviewOnTargets(targets, m_action.Image);
+            UI_ActionPreviewIcon.PreviewOnTargets(targets, m_action.GetImage());
             
         };
 

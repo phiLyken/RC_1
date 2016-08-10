@@ -43,7 +43,7 @@ public class UnitAI : MonoBehaviour, ITriggerable {
 
     UnitAction_ApplyEffectFromWeapon getAttack()
     {
-        return m_Actions.GetAcionOfType<UnitAction_ApplyEffectFromWeapon>();
+        return m_Actions.GetActionOfType<UnitAction_ApplyEffectFromWeapon>();
     }
 
     void OnDmgReceived(UnitEffect_Damage dmg)
@@ -62,7 +62,7 @@ public class UnitAI : MonoBehaviour, ITriggerable {
     
     UnitAction_Move getMove()
     {
-        return m_Actions.GetAcionOfType<UnitAction_Move>();
+        return m_Actions.GetActionOfType<UnitAction_Move>();
     }
 
     IEnumerator Attack(Unit target)

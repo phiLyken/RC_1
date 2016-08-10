@@ -31,10 +31,16 @@ public class UnitActionBase : MonoBehaviour {
     public int AP_Cost = 1;
 
     protected Unit Owner;
-
+   
+ 
     public Sprite Image;
 
-    public OneShotAnimations Animation;
+    public virtual Sprite GetImage()
+    {
+        return Image;
+    }
+
+    public UnitAnimationTypes Animation;
 
     [HideInInspector]
     public int orderID;
@@ -148,6 +154,7 @@ public class UnitActionBase : MonoBehaviour {
     {
         return TimeCost.GetCost();
     }
+    
 
 }
 

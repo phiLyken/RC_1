@@ -230,7 +230,7 @@ public class ActionManager : MonoBehaviour {
     }
 
 
-    public T GetAcionOfType <T>()
+    public T GetActionOfType <T>()
     {
         return Actions.OfType<T>().ToList()[0];
     }

@@ -6,9 +6,9 @@ public static class UnitAnimationControllerHelper {
     /// <summary>
     /// thes animations will make the unit hide its weapon upon execution
     /// </summary>
-    public static OneShotAnimations[] DisableWeapons =
+    public static UnitAnimationTypes[] DisableWeapons =
     {
-        OneShotAnimations.get_hit, OneShotAnimations.shoot
+        UnitAnimationTypes.get_hit, UnitAnimationTypes.shoot
     };
 }
 
@@ -25,7 +25,7 @@ public enum WeaponAnimationStates
 /// <summary>
 /// These should have the same name as the trigger in the animation controller
 /// </summary>
-public enum OneShotAnimations
+public enum UnitAnimationTypes
 {
-    get_hit, shoot, heal
+    get_hit, shoot, heal, move
 };

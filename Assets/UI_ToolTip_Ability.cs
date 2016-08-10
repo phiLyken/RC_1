@@ -12,7 +12,7 @@ public class UI_ToolTip_Ability : UI_ToolTip_Base {
  
     public void SetAbility(UnitActionBase ability)
     {
-        Icon.sprite = ability.Image;
+        Icon.sprite = ability.GetImage();
         Name.text = ability.ActionID;
         Description.text = ability.Descr;
 

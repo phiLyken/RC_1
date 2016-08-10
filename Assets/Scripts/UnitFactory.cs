@@ -18,49 +18,51 @@ public class UnitFactory : MonoBehaviour
             Debug.LogWarning("cant create unit, data == null");
             return null;
         }
-        GameObject base_unit = Instantiate(Resources.Load("base_unit")) as GameObject;
+
+        GameObject base_unit                = Instantiate(Resources.Load("base_unit")) as GameObject;
+
+        Unit_EffectManager effect_manager   = base_unit.AddComponent<Unit_EffectManager>();
+        UnitStats stats                     = MakeStats(base_unit, data, effect_manager, turntime);
+        UnitInventory inventory             = MakeInventory(data, base_unit, stats);
+        ActionManager actions               = MakeActions(data, base_unit);
+        GameObject mesh                     = MakeMesh(data, base_unit);
 
         GetName(data, base_unit);
-        //inventory should be created before stats
-        MakeInventory(data, base_unit);
-        MakeActions(data, base_unit);
+       
 
-        MakeMesh(data, base_unit);
+    
+        AttachWeapon(data, mesh, inventory);
 
-        Unit_EffectManager  effect_manager = base_unit.AddComponent<Unit_EffectManager>();
-        MakeStats(base_unit, data, effect_manager, turntime);
         Unit m_unit = base_unit.AddComponent<Unit>();
+
         effect_manager.SetUnit(m_unit);
 
-        m_unit.OwnerID = data.Owner;
-      
+        m_unit.OwnerID = data.Owner;      
         
         if (data.Owner == 1)
         {
             MakeAI(data, group, base_unit, m_unit);
-        }
-      
+        }    
 
-        // Debug.Log("Created unit " + m_unit.gameObject.name);
         return m_unit;
     }
 
-    private static void MakeActions(ScriptableUnitConfig data, GameObject base_unit)
+    private static ActionManager MakeActions(ScriptableUnitConfig data, GameObject base_unit)
     {
         UnitActionBase[] Actions = MyMath.SpawnFromList(data.Actions.ToList()).ToArray();
         MyMath.SetListAsChild(Actions.ToList(), base_unit.transform);
-        base_unit.AddComponent<ActionManager>();
+        return   base_unit.AddComponent<ActionManager>();
     }
 
-    private static void MakeMesh(ScriptableUnitConfig data, GameObject base_unit)
+    private static GameObject MakeMesh(ScriptableUnitConfig data, GameObject base_unit)
     {
         GameObject mesh = Instantiate(data.Mesh);
         mesh.transform.SetParent(base_unit.transform, false);
         mesh.transform.localPosition = Vector3.zero + Vector3.up * 0.5f;
         mesh.transform.localScale = Vector3.one;
 
-        AttachWeapon(data.Weapon, mesh);
-        AttachArmor(data.Armor, mesh);
+
+        return mesh;
     }
 
     private static void GetName(ScriptableUnitConfig data, GameObject base_unit)
@@ -81,6 +83,7 @@ public class UnitFactory : MonoBehaviour
         ai.group_id = group;
 
         GameObject Cover = Instantiate(Resources.Load("enemy_unit_cover")) as GameObject;
+
         Cover.transform.SetParent(m_unit.transform, true);
         Cover.transform.localPosition = Vector3.zero;
 
@@ -90,16 +93,15 @@ public class UnitFactory : MonoBehaviour
         ai.Cover = Cover;
     }
 
-    private static void MakeInventory(ScriptableUnitConfig data, GameObject base_unit)
+    private static UnitInventory MakeInventory(ScriptableUnitConfig data, GameObject base_unit, UnitStats stats)
     {
 
         UnitInventory inventory = base_unit.AddComponent<UnitInventory>();
-
-        Weapon weapon = Instantiate(data.Weapon);
-        weapon.transform.SetParent(base_unit.transform);
-        inventory.AddItem(  weapon,1 );
+        inventory.Init(stats);
 
 
+
+        return inventory;
        // Armor armor = Instantiate(data.Armor);
        // armor.transform.SetParent(base_unit.transform);
      //   inventory.AddItem(armor,1);
@@ -108,23 +110,23 @@ public class UnitFactory : MonoBehaviour
 
     private static void AttachArmor(ArmorConfig config, GameObject unit_mesh)
     {
-
+  
     }
 
 
-    private static void AttachWeapon(Weapon weapon, GameObject unit_mesh)
+    private static void AttachWeapon(ScriptableUnitConfig data, GameObject unit_mesh, UnitInventory inventory)
     {
-
+        Weapon weapon = Instantiate(data.Weapon);
+        weapon.transform.SetParent(unit_mesh.transform);
+        inventory.AddItem(weapon, 1);
     }
-    static void MakeStats(GameObject target, ScriptableUnitConfig conf, Unit_EffectManager effects, int start_initiative)
+    static UnitStats MakeStats(GameObject target, ScriptableUnitConfig conf, Unit_EffectManager effects, int start_initiative)
     {
-        UnitStats stats;
-        // int stats_count = conf.stats.Length;
 
-
-        stats = target.AddComponent<UnitStats>();
+        UnitStats stats = target.AddComponent<UnitStats>();
         stats.Init(StatsHelper.GetStatListForInit(conf.BaseStats), effects);
 
+        return stats;
     }
 
     /// <summary>

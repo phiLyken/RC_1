@@ -12,8 +12,7 @@ public class UnitStats : MonoBehaviour
     List<Stat> CurrentStats;
   
     Unit_EffectManager m_Effects;
-
-    
+        
     public static string StatToString(StatType t)
     {
         switch (t)
@@ -38,7 +37,6 @@ public class UnitStats : MonoBehaviour
             effect_manager.OnEffectAdded += s => { UpdatedBuffs(); };
             effect_manager.OnEffectRemoved += s => { UpdatedBuffs(); };
         }
-
     }
 
     public Stat GetStat(StatType type)
@@ -76,13 +74,11 @@ public class UnitStats : MonoBehaviour
     }
     protected void Updated()
     {
-        if (OnStatUpdated != null) OnStatUpdated();  
-        
+        if (OnStatUpdated != null) OnStatUpdated();          
     }
 
     float GetBuffAmountForStat(StatType type)
-    {     
-       
+    {            
         if (m_Effects != null)
         {
             List<StatBuff> buffs = new List<StatBuff>();
@@ -101,7 +97,6 @@ public class UnitStats : MonoBehaviour
                 return buffs.Where(st => st.Type == type).ToList().Sum(buff => buff.Modifier);
             }
         }
-
         return 0;
     }
 
@@ -126,8 +121,8 @@ public class UnitStats : MonoBehaviour
         {
             OnHPDepleted();
         }
-
     }
+
     public void AddInt(int amount, bool consumeWill, out int removed_will, out int added_int)
     {
         removed_will = 0;
@@ -181,6 +176,7 @@ public class UnitStats : MonoBehaviour
         SetStatAmount(StatType.adrenaline, 0);
         SetStatAmount(StatType.oxygen,(int) GetStatAmount(StatType.vitality));
     }
+
     public void AddWill(int amount)
     {
         int Max = (int) GetStatAmount(StatType.vitality);

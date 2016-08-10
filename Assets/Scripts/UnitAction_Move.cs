@@ -48,7 +48,7 @@ public class UnitAction_Move : UnitActionBase {
         ResetAttackPreview();
         
         VisualStateConfig attack_state = TileStateConfigs.GetMaterialForstate("attack_range_move_preview");
-        List<Tile> in_range = (Owner.Actions.GetAcionOfType<UnitAction_ApplyEffectFromWeapon>().GetTargetableTilesForUnit(t));
+        List<Tile> in_range = (Owner.Actions.GetActionOfType<UnitAction_ApplyEffectFromWeapon>().GetTargetableTilesForUnit(t));
         List<Tile> border = TileManager.GetBorderTiles(in_range, TileManager.Instance,true);
         attack_preview_highlight = new MeshViewGroup(border, attack_state);
     }

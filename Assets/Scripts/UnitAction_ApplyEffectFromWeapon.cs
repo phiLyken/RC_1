@@ -27,7 +27,7 @@ public class UnitAction_ApplyEffectFromWeapon : UnitAction_ApplyEffect {
 
         WeaponBehavior Behavior = GetBehavior();
 
-        List <UnitEffect> effects = Behavior.Effects.Select(container => container.GetEffect()).ToList();
+        List<UnitEffect> effects = Behavior.Effects;
         
         if(Behavior.IntBonus != null) {
 
@@ -38,6 +38,8 @@ public class UnitAction_ApplyEffectFromWeapon : UnitAction_ApplyEffect {
 
         return effects;
     }
+
+
 
     public override float GetRange()
     {
@@ -51,5 +53,10 @@ public class UnitAction_ApplyEffectFromWeapon : UnitAction_ApplyEffect {
         int weaponDelay = GetBehavior().TimeDelay;
 
         return   (float)  Constants.GetAttackTimeDelay(base_cost, weaponDelay);
+    }
+
+    public override Sprite GetImage()
+    {
+        return GetBehavior().Icon;
     }
 }

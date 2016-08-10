@@ -6,10 +6,8 @@ using System.Linq;
 public class UnitInventory : Inventory {
     
     public Weapon EquipedWeapon;
-    public Armor EquipedArmor;
 
-    Unit m_unit;
-   
+    UnitStats m_stats;   
 
     public override int GetMax(ItemTypes type)
     {
@@ -32,14 +30,11 @@ public class UnitInventory : Inventory {
                 
         }
 
-        return (int) m_unit.Stats.GetStatAmount(maxtype);
+       
+        return (int) m_stats.GetStatAmount(maxtype);
     }
     public override void AddItem(IInventoryItem item, int count)
     {
-        if(item.GetItemType() == ItemTypes.armor)
-        {
-            EquipedArmor = item as Armor;
-        }
 
         if (item.GetItemType() == ItemTypes.weapon)
         {
@@ -49,9 +44,9 @@ public class UnitInventory : Inventory {
         base.AddItem(item, count);
     }
 
-    public void Init(Unit u)
+    public void Init(UnitStats stats)
     {
-        m_unit = u;
+        m_stats = stats;
     }
 
 }

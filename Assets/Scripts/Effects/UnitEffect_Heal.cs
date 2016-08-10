@@ -8,9 +8,6 @@ using System;
 [System.Serializable]
 public class UnitEffect_Heal : UnitEffect
 {
-
-
-
     public override UnitEffect MakeCopy(UnitEffect origin)
     {
         UnitEffect_Heal heal = (UnitEffect_Heal)origin;

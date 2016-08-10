@@ -10,7 +10,7 @@ public class UnitAction_ApplyEffect : UnitActionBase
     public bool TargetSelf;
 
     public float Range = 4;
-    public List<UnitEffect_Container> Effects;
+    public List<UnitEffect> Effects;
        
     List<Unit>  targets;
 
@@ -50,7 +50,7 @@ public class UnitAction_ApplyEffect : UnitActionBase
         {
             Debug.LogError("NO EFFECTS FOUND "+gameObject.name);
         }
-        return Effects.Select(e => e.GetEffect()).ToList();
+        return Effects;
     }
 
     void OnUnitHover(Unit u)

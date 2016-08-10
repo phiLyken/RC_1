@@ -17,7 +17,7 @@ public class UnitAnimationController : MonoBehaviour {
                 anim.SetBool("moving", true);
                 
             } else { 
-              anim.SetTrigger(action.Animation.ToString());
+                anim.SetTrigger(action.Animation.ToString());
             }
         };
 

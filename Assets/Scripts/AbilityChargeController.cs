@@ -34,7 +34,7 @@ public class AbilityChargeController
 
             if (item_config == null)
             {
-                Debug.LogWarning("CAN FIND A CONSUMABLE FOR " + ChargeItemType.ToString());
+                Debug.LogWarning("CAN NOT FIND A CONSUMABLE FOR " + ChargeItemType.ToString());
                 return;
             }
             m_unit.Inventory.AddItem(item_config, m_unit.Inventory.GetMax(ChargeItemType));
