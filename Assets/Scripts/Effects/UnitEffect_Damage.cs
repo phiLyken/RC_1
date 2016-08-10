@@ -10,6 +10,8 @@ public delegate void DamageEventHandler(UnitEffect_Damage dmg);
 [System.Serializable]
 public class UnitEffect_Damage : UnitEffect
 {
+    public bool UseAttackStat;
+
     public MyMath.R_Range DamageRange;
 
     int baked_damage = -1;
@@ -21,8 +23,13 @@ public class UnitEffect_Damage : UnitEffect
     public override UnitEffect MakeCopy(UnitEffect origin)
     {
         UnitEffect_Damage _cc = (UnitEffect_Damage)( (UnitEffect_Damage) origin).MemberwiseClone() ;
-
-        _cc.baked_damage = (int) _cc.DamageRange.Value();
+        MyMath.R_Range range = _cc.DamageRange;
+        if (UseAttackStat)
+        {
+            range.min += ((Unit) Instigator).Stats.GetStatAmount(StatType.attack_extra_damage_min);
+            range.max += ((Unit) Instigator).Stats.GetStatAmount(StatType.attack_extra_damage_max);
+        }
+        _cc.baked_damage = (int) range.Value();
 
         return _cc;
     }

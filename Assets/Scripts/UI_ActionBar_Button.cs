@@ -34,8 +34,6 @@ public class UI_ActionBar_Button : MonoBehaviour, IToolTip{
            
             SetBaseState(m_action);
         }
-
-       
     }
 
     public UnitActionBase GetAction()
@@ -55,10 +53,12 @@ public class UI_ActionBar_Button : MonoBehaviour, IToolTip{
         SetBaseState(action);
        
     }
+
     public void SetBaseState()
     {
         SetBaseState(m_action);
     }
+
     public void SetBaseState(UnitActionBase action)
     {
         ActionIcon.sprite = action.Image;
@@ -68,13 +68,13 @@ public class UI_ActionBar_Button : MonoBehaviour, IToolTip{
 
     public void UpdateChargers(UnitActionBase action)
     {
-        ChargesCounterIMG.gameObject.SetActive(action.UseCharges);
-        ChargesCounterTF.gameObject.SetActive(action.UseCharges);
+        ChargesCounterIMG.gameObject.SetActive(action.ChargeController.useCharges);
+        ChargesCounterTF.gameObject.SetActive(action.ChargeController.useCharges);
 
-        ChargesCounterIMG.color = action.HasCharges() ? Color.white : Color.red;
-        ChargesCounterTF.text = action.GetChargesForType().ToString() + "/" + action.ChargeMax;
+        ChargesCounterIMG.color = action.ChargeController.HasCharges() ? Color.white : Color.red;
+        ChargesCounterTF.text = action.ChargeController.HasCharges().ToString() + "/" + action.ChargeController.GetMax();
 
-        ChargesCounterTF.color = action.HasCharges() ? Color.black : Color.white;
+        ChargesCounterTF.color = action.ChargeController.HasCharges() ? Color.black : Color.white;
     }
 
     public void SelectAction()

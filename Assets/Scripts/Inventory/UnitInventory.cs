@@ -8,10 +8,31 @@ public class UnitInventory : Inventory {
     public Weapon EquipedWeapon;
     public Armor EquipedArmor;
 
+    Unit m_unit;
+   
 
     public override int GetMax(ItemTypes type)
     {
-        return 3;
+        StatType maxtype;
+
+        switch (type)
+        {
+            case ItemTypes.int_charge:
+                maxtype = StatType.stimpack_charges_max;
+                break;
+            case ItemTypes.rest_pack:
+                maxtype = StatType.rest_charges_max;
+                break;
+            case ItemTypes.stim_pack:
+                maxtype = StatType.stimpack_charges_max;
+                break;
+            default:
+                maxtype = StatType.stimpack_charges_max;
+                break;
+                
+        }
+
+        return (int) m_unit.Stats.GetStatAmount(maxtype);
     }
     public override void AddItem(IInventoryItem item, int count)
     {
@@ -28,5 +49,9 @@ public class UnitInventory : Inventory {
         base.AddItem(item, count);
     }
 
+    public void Init(Unit u)
+    {
+        m_unit = u;
+    }
 
 }

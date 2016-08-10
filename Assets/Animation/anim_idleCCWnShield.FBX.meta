@@ -1,0 +1,427 @@
+fileFormatVersion: 2
+guid: 2a98fd9bde6baaf4c957529d8bae7557
+timeCreated: 1470480911
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: Attach_Backpack
+    100004: Attach_Lhand
+    100006: Attach_Rhand
+    100008: humanoid
+    100010: humanoid Head
+    100012: humanoid HeadNub
+    100014: humanoid L Calf
+    100016: humanoid L Clavicle
+    100018: humanoid L Finger0
+    100020: humanoid L Finger01
+    100022: humanoid L Finger02
+    100024: humanoid L Finger0Nub
+    100026: humanoid L Finger1
+    100028: humanoid L Finger11
+    100030: humanoid L Finger12
+    100032: humanoid L Finger1Nub
+    100034: humanoid L Finger2
+    100036: humanoid L Finger21
+    100038: humanoid L Finger22
+    100040: humanoid L Finger2Nub
+    100042: humanoid L Finger3
+    100044: humanoid L Finger31
+    100046: humanoid L Finger32
+    100048: humanoid L Finger3Nub
+    100050: humanoid L Foot
+    100052: humanoid L Forearm
+    100054: humanoid L Hand
+    100056: humanoid L Thigh
+    100058: humanoid L Toe0
+    100060: humanoid L Toe0Nub
+    100062: humanoid L UpperArm
+    100064: humanoid Neck
+    100066: humanoid Pelvis
+    100068: humanoid R Calf
+    100070: humanoid R Clavicle
+    100072: humanoid R Finger0
+    100074: humanoid R Finger01
+    100076: humanoid R Finger02
+    100078: humanoid R Finger0Nub
+    100080: humanoid R Finger1
+    100082: humanoid R Finger11
+    100084: humanoid R Finger12
+    100086: humanoid R Finger1Nub
+    100088: humanoid R Finger2
+    100090: humanoid R Finger21
+    100092: humanoid R Finger22
+    100094: humanoid R Finger2Nub
+    100096: humanoid R Finger3
+    100098: humanoid R Finger31
+    100100: humanoid R Finger32
+    100102: humanoid R Finger3Nub
+    100104: humanoid R Foot
+    100106: humanoid R Forearm
+    100108: humanoid R Hand
+    100110: humanoid R Thigh
+    100112: humanoid R Toe0
+    100114: humanoid R Toe0Nub
+    100116: humanoid R UpperArm
+    100118: humanoid Spine
+    100120: humanoid Spine1
+    400000: //RootNode
+    400002: Attach_Backpack
+    400004: Attach_Lhand
+    400006: Attach_Rhand
+    400008: humanoid
+    400010: humanoid Head
+    400012: humanoid HeadNub
+    400014: humanoid L Calf
+    400016: humanoid L Clavicle
+    400018: humanoid L Finger0
+    400020: humanoid L Finger01
+    400022: humanoid L Finger02
+    400024: humanoid L Finger0Nub
+    400026: humanoid L Finger1
+    400028: humanoid L Finger11
+    400030: humanoid L Finger12
+    400032: humanoid L Finger1Nub
+    400034: humanoid L Finger2
+    400036: humanoid L Finger21
+    400038: humanoid L Finger22
+    400040: humanoid L Finger2Nub
+    400042: humanoid L Finger3
+    400044: humanoid L Finger31
+    400046: humanoid L Finger32
+    400048: humanoid L Finger3Nub
+    400050: humanoid L Foot
+    400052: humanoid L Forearm
+    400054: humanoid L Hand
+    400056: humanoid L Thigh
+    400058: humanoid L Toe0
+    400060: humanoid L Toe0Nub
+    400062: humanoid L UpperArm
+    400064: humanoid Neck
+    400066: humanoid Pelvis
+    400068: humanoid R Calf
+    400070: humanoid R Clavicle
+    400072: humanoid R Finger0
+    400074: humanoid R Finger01
+    400076: humanoid R Finger02
+    400078: humanoid R Finger0Nub
+    400080: humanoid R Finger1
+    400082: humanoid R Finger11
+    400084: humanoid R Finger12
+    400086: humanoid R Finger1Nub
+    400088: humanoid R Finger2
+    400090: humanoid R Finger21
+    400092: humanoid R Finger22
+    400094: humanoid R Finger2Nub
+    400096: humanoid R Finger3
+    400098: humanoid R Finger31
+    400100: humanoid R Finger32
+    400102: humanoid R Finger3Nub
+    400104: humanoid R Foot
+    400106: humanoid R Forearm
+    400108: humanoid R Hand
+    400110: humanoid R Thigh
+    400112: humanoid R Toe0
+    400114: humanoid R Toe0Nub
+    400116: humanoid R UpperArm
+    400118: humanoid Spine
+    400120: humanoid Spine1
+    7400000: anim_IdleCCWnShield
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleRotations: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: anim_IdleCCWnShield
+      takeName: Take 001
+      firstFrame: 0
+      lastFrame: 61
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Attach_Lhand
+        weight: 1
+      - path: Attach_Rhand
+        weight: 1
+      - path: humanoid
+        weight: 1
+      - path: humanoid/humanoid Pelvis
+        weight: 1
+      - path: humanoid/humanoid Pelvis/humanoid Spine
+        weight: 1
+      - path: humanoid/humanoid Pelvis/humanoid Spine/humanoid L Thigh
+        weight: 1
+      - path: humanoid/humanoid Pelvis/humanoid Spine/humanoid L Thigh/humanoid L
+          Calf
+        weight: 1
+      - path: humanoid/humanoid Pelvis/humanoid Spine/humanoid L Thigh/humanoid L
+          Calf/humanoid L Foot
+        weight: 1
+      - path: humanoid/humanoid Pelvis/humanoid Spine/humanoid L Thigh/humanoid L
+          Calf/humanoid L Foot/humanoid L Toe0
+        weight: 1
+      - path: humanoid/humanoid Pelvis/humanoid Spine/humanoid L Thigh/humanoid L
+          Calf/humanoid L Foot/humanoid L Toe0/humanoid L Toe0Nub
+        weight: 1
+      - path: humanoid/humanoid Pelvis/humanoid Spine/humanoid R Thigh
+        weight: 1
+      - path: humanoid/humanoid Pelvis/humanoid Spine/humanoid R Thigh/humanoid R
+          Calf
+        weight: 1
+      - path: humanoid/humanoid Pelvis/humanoid Spine/humanoid R Thigh/humanoid R
+          Calf/humanoid R Foot
+        weight: 1
+      - path: humanoid/humanoid Pelvis/humanoid Spine/humanoid R Thigh/humanoid R
+          Calf/humanoid R Foot/humanoid R Toe0
+        weight: 1
+      - path: humanoid/humanoid Pelvis/humanoid Spine/humanoid R Thigh/humanoid R
+          Calf/humanoid R Foot/humanoid R Toe0/humanoid R Toe0Nub
+        weight: 1
+      - path: humanoid/humanoid Pelvis/humanoid Spine/humanoid Spine1
+        weight: 1
+      - path: humanoid/humanoid Pelvis/humanoid Spine/humanoid Spine1/Attach_Backpack
+        weight: 1
+      - path: humanoid/humanoid Pelvis/humanoid Spine/humanoid Spine1/humanoid Neck
+        weight: 1
+      - path: humanoid/humanoid Pelvis/humanoid Spine/humanoid Spine1/humanoid Neck/humanoid
+          Head
+        weight: 1
+      - path: humanoid/humanoid Pelvis/humanoid Spine/humanoid Spine1/humanoid Neck/humanoid
+          Head/humanoid HeadNub
+        weight: 1
+      - path: humanoid/humanoid Pelvis/humanoid Spine/humanoid Spine1/humanoid Neck/humanoid
+          L Clavicle
+        weight: 1
+      - path: humanoid/humanoid Pelvis/humanoid Spine/humanoid Spine1/humanoid Neck/humanoid
+          L Clavicle/humanoid L UpperArm
+        weight: 1
+      - path: humanoid/humanoid Pelvis/humanoid Spine/humanoid Spine1/humanoid Neck/humanoid
+          L Clavicle/humanoid L UpperArm/humanoid L Forearm
+        weight: 1
+      - path: humanoid/humanoid Pelvis/humanoid Spine/humanoid Spine1/humanoid Neck/humanoid
+          L Clavicle/humanoid L UpperArm/humanoid L Forearm/humanoid L Hand
+        weight: 1
+      - path: humanoid/humanoid Pelvis/humanoid Spine/humanoid Spine1/humanoid Neck/humanoid
+          L Clavicle/humanoid L UpperArm/humanoid L Forearm/humanoid L Hand/humanoid
+          L Finger0
+        weight: 1
+      - path: humanoid/humanoid Pelvis/humanoid Spine/humanoid Spine1/humanoid Neck/humanoid
+          L Clavicle/humanoid L UpperArm/humanoid L Forearm/humanoid L Hand/humanoid
+          L Finger0/humanoid L Finger01
+        weight: 1
+      - path: humanoid/humanoid Pelvis/humanoid Spine/humanoid Spine1/humanoid Neck/humanoid
+          L Clavicle/humanoid L UpperArm/humanoid L Forearm/humanoid L Hand/humanoid
+          L Finger0/humanoid L Finger01/humanoid L Finger02
+        weight: 1
+      - path: humanoid/humanoid Pelvis/humanoid Spine/humanoid Spine1/humanoid Neck/humanoid
+          L Clavicle/humanoid L UpperArm/humanoid L Forearm/humanoid L Hand/humanoid
+          L Finger0/humanoid L Finger01/humanoid L Finger02/humanoid L Finger0Nub
+        weight: 1
+      - path: humanoid/humanoid Pelvis/humanoid Spine/humanoid Spine1/humanoid Neck/humanoid
+          L Clavicle/humanoid L UpperArm/humanoid L Forearm/humanoid L Hand/humanoid
+          L Finger1
+        weight: 1
+      - path: humanoid/humanoid Pelvis/humanoid Spine/humanoid Spine1/humanoid Neck/humanoid
+          L Clavicle/humanoid L UpperArm/humanoid L Forearm/humanoid L Hand/humanoid
+          L Finger1/humanoid L Finger11
+        weight: 1
+      - path: humanoid/humanoid Pelvis/humanoid Spine/humanoid Spine1/humanoid Neck/humanoid
+          L Clavicle/humanoid L UpperArm/humanoid L Forearm/humanoid L Hand/humanoid
+          L Finger1/humanoid L Finger11/humanoid L Finger12
+        weight: 1
+      - path: humanoid/humanoid Pelvis/humanoid Spine/humanoid Spine1/humanoid Neck/humanoid
+          L Clavicle/humanoid L UpperArm/humanoid L Forearm/humanoid L Hand/humanoid
+          L Finger1/humanoid L Finger11/humanoid L Finger12/humanoid L Finger1Nub
+        weight: 1
+      - path: humanoid/humanoid Pelvis/humanoid Spine/humanoid Spine1/humanoid Neck/humanoid
+          L Clavicle/humanoid L UpperArm/humanoid L Forearm/humanoid L Hand/humanoid
+          L Finger2
+        weight: 1
+      - path: humanoid/humanoid Pelvis/humanoid Spine/humanoid Spine1/humanoid Neck/humanoid
+          L Clavicle/humanoid L UpperArm/humanoid L Forearm/humanoid L Hand/humanoid
+          L Finger2/humanoid L Finger21
+        weight: 1
+      - path: humanoid/humanoid Pelvis/humanoid Spine/humanoid Spine1/humanoid Neck/humanoid
+          L Clavicle/humanoid L UpperArm/humanoid L Forearm/humanoid L Hand/humanoid
+          L Finger2/humanoid L Finger21/humanoid L Finger22
+        weight: 1
+      - path: humanoid/humanoid Pelvis/humanoid Spine/humanoid Spine1/humanoid Neck/humanoid
+          L Clavicle/humanoid L UpperArm/humanoid L Forearm/humanoid L Hand/humanoid
+          L Finger2/humanoid L Finger21/humanoid L Finger22/humanoid L Finger2Nub
+        weight: 1
+      - path: humanoid/humanoid Pelvis/humanoid Spine/humanoid Spine1/humanoid Neck/humanoid
+          L Clavicle/humanoid L UpperArm/humanoid L Forearm/humanoid L Hand/humanoid
+          L Finger3
+        weight: 1
+      - path: humanoid/humanoid Pelvis/humanoid Spine/humanoid Spine1/humanoid Neck/humanoid
+          L Clavicle/humanoid L UpperArm/humanoid L Forearm/humanoid L Hand/humanoid
+          L Finger3/humanoid L Finger31
+        weight: 1
+      - path: humanoid/humanoid Pelvis/humanoid Spine/humanoid Spine1/humanoid Neck/humanoid
+          L Clavicle/humanoid L UpperArm/humanoid L Forearm/humanoid L Hand/humanoid
+          L Finger3/humanoid L Finger31/humanoid L Finger32
+        weight: 1
+      - path: humanoid/humanoid Pelvis/humanoid Spine/humanoid Spine1/humanoid Neck/humanoid
+          L Clavicle/humanoid L UpperArm/humanoid L Forearm/humanoid L Hand/humanoid
+          L Finger3/humanoid L Finger31/humanoid L Finger32/humanoid L Finger3Nub
+        weight: 1
+      - path: humanoid/humanoid Pelvis/humanoid Spine/humanoid Spine1/humanoid Neck/humanoid
+          R Clavicle
+        weight: 1
+      - path: humanoid/humanoid Pelvis/humanoid Spine/humanoid Spine1/humanoid Neck/humanoid
+          R Clavicle/humanoid R UpperArm
+        weight: 1
+      - path: humanoid/humanoid Pelvis/humanoid Spine/humanoid Spine1/humanoid Neck/humanoid
+          R Clavicle/humanoid R UpperArm/humanoid R Forearm
+        weight: 1
+      - path: humanoid/humanoid Pelvis/humanoid Spine/humanoid Spine1/humanoid Neck/humanoid
+          R Clavicle/humanoid R UpperArm/humanoid R Forearm/humanoid R Hand
+        weight: 1
+      - path: humanoid/humanoid Pelvis/humanoid Spine/humanoid Spine1/humanoid Neck/humanoid
+          R Clavicle/humanoid R UpperArm/humanoid R Forearm/humanoid R Hand/humanoid
+          R Finger0
+        weight: 1
+      - path: humanoid/humanoid Pelvis/humanoid Spine/humanoid Spine1/humanoid Neck/humanoid
+          R Clavicle/humanoid R UpperArm/humanoid R Forearm/humanoid R Hand/humanoid
+          R Finger0/humanoid R Finger01
+        weight: 1
+      - path: humanoid/humanoid Pelvis/humanoid Spine/humanoid Spine1/humanoid Neck/humanoid
+          R Clavicle/humanoid R UpperArm/humanoid R Forearm/humanoid R Hand/humanoid
+          R Finger0/humanoid R Finger01/humanoid R Finger02
+        weight: 1
+      - path: humanoid/humanoid Pelvis/humanoid Spine/humanoid Spine1/humanoid Neck/humanoid
+          R Clavicle/humanoid R UpperArm/humanoid R Forearm/humanoid R Hand/humanoid
+          R Finger0/humanoid R Finger01/humanoid R Finger02/humanoid R Finger0Nub
+        weight: 1
+      - path: humanoid/humanoid Pelvis/humanoid Spine/humanoid Spine1/humanoid Neck/humanoid
+          R Clavicle/humanoid R UpperArm/humanoid R Forearm/humanoid R Hand/humanoid
+          R Finger1
+        weight: 1
+      - path: humanoid/humanoid Pelvis/humanoid Spine/humanoid Spine1/humanoid Neck/humanoid
+          R Clavicle/humanoid R UpperArm/humanoid R Forearm/humanoid R Hand/humanoid
+          R Finger1/humanoid R Finger11
+        weight: 1
+      - path: humanoid/humanoid Pelvis/humanoid Spine/humanoid Spine1/humanoid Neck/humanoid
+          R Clavicle/humanoid R UpperArm/humanoid R Forearm/humanoid R Hand/humanoid
+          R Finger1/humanoid R Finger11/humanoid R Finger12
+        weight: 1
+      - path: humanoid/humanoid Pelvis/humanoid Spine/humanoid Spine1/humanoid Neck/humanoid
+          R Clavicle/humanoid R UpperArm/humanoid R Forearm/humanoid R Hand/humanoid
+          R Finger1/humanoid R Finger11/humanoid R Finger12/humanoid R Finger1Nub
+        weight: 1
+      - path: humanoid/humanoid Pelvis/humanoid Spine/humanoid Spine1/humanoid Neck/humanoid
+          R Clavicle/humanoid R UpperArm/humanoid R Forearm/humanoid R Hand/humanoid
+          R Finger2
+        weight: 1
+      - path: humanoid/humanoid Pelvis/humanoid Spine/humanoid Spine1/humanoid Neck/humanoid
+          R Clavicle/humanoid R UpperArm/humanoid R Forearm/humanoid R Hand/humanoid
+          R Finger2/humanoid R Finger21
+        weight: 1
+      - path: humanoid/humanoid Pelvis/humanoid Spine/humanoid Spine1/humanoid Neck/humanoid
+          R Clavicle/humanoid R UpperArm/humanoid R Forearm/humanoid R Hand/humanoid
+          R Finger2/humanoid R Finger21/humanoid R Finger22
+        weight: 1
+      - path: humanoid/humanoid Pelvis/humanoid Spine/humanoid Spine1/humanoid Neck/humanoid
+          R Clavicle/humanoid R UpperArm/humanoid R Forearm/humanoid R Hand/humanoid
+          R Finger2/humanoid R Finger21/humanoid R Finger22/humanoid R Finger2Nub
+        weight: 1
+      - path: humanoid/humanoid Pelvis/humanoid Spine/humanoid Spine1/humanoid Neck/humanoid
+          R Clavicle/humanoid R UpperArm/humanoid R Forearm/humanoid R Hand/humanoid
+          R Finger3
+        weight: 1
+      - path: humanoid/humanoid Pelvis/humanoid Spine/humanoid Spine1/humanoid Neck/humanoid
+          R Clavicle/humanoid R UpperArm/humanoid R Forearm/humanoid R Hand/humanoid
+          R Finger3/humanoid R Finger31
+        weight: 1
+      - path: humanoid/humanoid Pelvis/humanoid Spine/humanoid Spine1/humanoid Neck/humanoid
+          R Clavicle/humanoid R UpperArm/humanoid R Forearm/humanoid R Hand/humanoid
+          R Finger3/humanoid R Finger31/humanoid R Finger32
+        weight: 1
+      - path: humanoid/humanoid Pelvis/humanoid Spine/humanoid Spine1/humanoid Neck/humanoid
+          R Clavicle/humanoid R UpperArm/humanoid R Forearm/humanoid R Hand/humanoid
+          R Finger3/humanoid R Finger31/humanoid R Finger32/humanoid R Finger3Nub
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 0.01
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

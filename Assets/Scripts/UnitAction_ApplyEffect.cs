@@ -48,7 +48,7 @@ public class UnitAction_ApplyEffect : UnitActionBase
     {
         if(Effects == null)
         {
-            Debug.LogError("NO EFFECTS FOUND " + ActionID);
+            Debug.LogError("NO EFFECTS FOUND "+gameObject.name);
         }
         return Effects.Select(e => e.GetEffect()).ToList();
     }

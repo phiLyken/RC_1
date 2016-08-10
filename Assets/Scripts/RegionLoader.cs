@@ -5,16 +5,16 @@ using System.Linq;
 
 public static class RegionLoader  {
 
-    public static RegionConfig GetStartRegion()
+    public static RegionConfig GetStartRegion(RegionConfigDataBase regions)
     {
-        return RegionConfigDataBase.GetDataBase().StartRegion;
+        return regions.StartRegion;
     }
 
-    public static RegionConfig GetWeightedRegionForLevel(int level, List<RegionConfig> exclude)
+    public static RegionConfig GetWeightedRegionForLevel(RegionConfigDataBase regions, int level, List<RegionConfig> exclude)
     {
         // get regions for level
-        List<WeightedRegion> configs = 
-            RegionConfigDataBase.GetPoolConfig(level).Regions.Where( r =>  !exclude.Contains(r.Region ) ).ToList();
+        List<WeightedRegion> configs =
+            regions.GetPool(level).Regions.Where( r =>  !exclude.Contains(r.Region ) ).ToList();
         
         if(configs.Count == 0)
         {
@@ -28,6 +28,18 @@ public static class RegionLoader  {
         
         return wr.Region;
             
+    }
+
+
+    public static RegionPool GetPoolConfi(RegionConfigDataBase regions, int index)
+    {
+        RegionConfigDataBase db = regions;
+
+        if (index >= db.AllPools.Count)
+            Debug.LogWarning("Not sufficient index for Region Pools " + index + " items in pool" + db.AllPools.Count);
+
+        return db.AllPools[Mathf.Min(index, db.AllPools.Count - 1)];
+
     }
 
     public static List<WeightedUnit> GetUnitsForGroupPower(UnitSpawnGroupConfig group) { 
@@ -107,9 +119,9 @@ public static class RegionLoader  {
     }
 
 
-    public static RegionConfig GetCamp(int level)
+    public static RegionConfig GetCamp(RegionConfigDataBase region_balance, int level)
     {
-        return WeightableFactory.GetWeighted(RegionConfigDataBase.GetPoolConfig(level).Camps).Region;
+        return WeightableFactory.GetWeighted(region_balance.GetPool(level).Camps).Region;
        
     }
 }

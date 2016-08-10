@@ -34,12 +34,8 @@ public class LootBalance : MonoBehaviour {
     {
         return (Resources.Load("Items/LootBalance") as GameObject).GetComponent<LootBalance>() ;
     }
-
- 
+     
 }
-
-
-
 
 [System.Serializable]
 public class LootContentConfig : IWeightable
@@ -61,7 +57,6 @@ public class LootContentConfig : IWeightable
         }
     }
 }
-
 
 [System.Serializable]
 public class EnemyDropConfig

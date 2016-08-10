@@ -14,6 +14,7 @@ public class UI_ActiveUnit : MonoBehaviour {
     void Awake()
     {
         Instance = this;
+        Unit.OnTurnStart += SetActiveUnit;
     }
 
     public void SetActiveUnit(Unit unit)

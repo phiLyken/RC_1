@@ -88,7 +88,7 @@ class TileTools : EditorWindow
 
         if (GUILayout.Button("Spawn Random Region"))
         {           
-           WorldExtender.SpawnRegion(  RegionLoader.GetWeightedRegionForLevel(0, new List<RegionConfig>()), Grid);
+         //  WorldExtender.SpawnRegion(  RegionLoader.GetWeightedRegionForLevel(0, new List<RegionConfig>()), Grid);
           
             if(CurrentTileSelection != null) { 
                 CurrentTileSelection.Clear();
@@ -108,7 +108,7 @@ class TileTools : EditorWindow
         if (GUILayout.Button("Spawn Camp Region"))
         {
 
-            WorldExtender.SpawnRegion(RegionLoader.GetCamp(0), Grid);
+           // WorldExtender.SpawnRegion(RegionLoader.GetCamp(0), Grid);
          
             if (CurrentTileSelection != null)
             {

@@ -8,7 +8,7 @@ using System;
 public class UnitEffect_ModifyStat : UnitEffect
 {
 
-    public UnitStats.StatType type;
+    public StatType type;
    
     public float Percent;
 
@@ -47,8 +47,8 @@ public class UnitEffect_ModifyStat : UnitEffect
     protected  override void EffectTick()
     {
         Ticked();
-        if (!Effect_Host.IsDead()) { 
-            Effect_Host.Stats.GetStat(type).Amount += GetAmount() ;
+        if (!Effect_Host.IsDead()) {
+            Effect_Host.Stats.GetStat(type);
            
         }
     }

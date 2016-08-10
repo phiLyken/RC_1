@@ -13,7 +13,7 @@ public class TurnSystem : MonoBehaviour {
     public static TurnSystem Instance;
     public IntEventHandler OnGlobalTurn;
     public TurnListEventHandler OnListUpdated;
-
+   
     public 
     bool forceNext;
 

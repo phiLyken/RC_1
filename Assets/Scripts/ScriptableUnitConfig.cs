@@ -5,8 +5,8 @@ public class ScriptableUnitConfig : ScriptableObject
 {
 
     public string ID;
-  
-    public StatInfo[] stats;
+
+    public UnitBaseStats BaseStats;
 
     public UnitActionBase[] Actions;
 
@@ -18,13 +18,8 @@ public class ScriptableUnitConfig : ScriptableObject
     public int UnitPower;
 
     public Weapon Weapon;
-    public Armor Armor;
+
+    public ArmorConfig Armor;
 
     public EnemyDropCategory LootCategory;
-}
-
-[System.Serializable]
-public enum StatType
-{
-    complex, simple
 }

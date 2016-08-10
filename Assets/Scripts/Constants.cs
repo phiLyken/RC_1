@@ -98,11 +98,37 @@ public class Constants : MonoBehaviour {
     /// player level is the number of checkpoints reached (start counts as 1)
     /// </summary>
     /// <param name="base_amount"></param>
-    /// <param name="player_level"></param>
+    /// <param name="checkpoints_reached"></param>
     /// <returns></returns>
-    public static int GetDustForProgress(int base_amount, int player_level)
+    public static int GetDustForProgress(int base_amount, int checkpoints_reached)
     {
-        return base_amount * Mathf.Max(1, player_level);
+        return base_amount * Mathf.Max(1, checkpoints_reached);
     }
 
+    public static int GetGainedAdrenaline(UnitStats stats, int rolls)
+    {
+        float min = stats.GetStatAmount(StatType.adrenaline_conversion_min);
+        float max = stats.GetStatAmount(StatType.adrenaline_conversion_max);
+
+        float result = 0;
+        for (int i = 0; i < rolls; i++)
+        {
+            result += Random.Range(min, max);
+        }
+
+        return (int)Mathf.Round(result);
+    }
+
+    public static  int GetGainedAdrenaline(Unit unit, int rolls)
+    {
+        return GetGainedAdrenaline(unit.Stats, rolls);
+    }
+
+
+    public static int GetAttackTimeDelay(float base_delay_from_stats, float delay_from_weapon)
+    {
+        int time_cost = (int) (base_delay_from_stats + delay_from_weapon);
+        Debug.Log(" Attack Cost Calculation :" + time_cost);
+        return time_cost;
+    }
 }

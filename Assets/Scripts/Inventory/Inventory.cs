@@ -64,7 +64,7 @@ public class Inventory : MonoBehaviour {
 
         IInventoryItem item = GetItem(type);
         int old_count = item.GetCount();
-        if (item != null) item.SetCount( Mathf.Max(0, Mathf.Min(GetMax(type),item.GetCount() + _delta)));
+        if (item != null) item.SetCount( Mathf.Max(0, Mathf.Min( GetMax(type),item.GetCount() + _delta)));
 
         if (OnInventoryUpdated != null) OnInventoryUpdated(item, item.GetCount() - old_count );
       

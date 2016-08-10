@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ToggleActiveOnTurn : MonoBehaviour {
+public class ToggleActiveOnTurn : MonoBehaviour
+{
 
     public GameObject Target;
 
@@ -13,14 +14,16 @@ public class ToggleActiveOnTurn : MonoBehaviour {
 
         Target.SetActive(false);
 
-        unit.OnTurnStart += u =>
+        Unit.OnTurnStart += u =>
         {
-            Target.SetActive(true);
+            if (u == unit)
+                Target.SetActive(true);
         };
 
-        unit.OnTurnEnded += u =>
+        Unit.OnTurnEnded += u =>
         {
-            Target.SetActive(false);
+            if (u == unit)
+                Target.SetActive(false);
         };
     }
 

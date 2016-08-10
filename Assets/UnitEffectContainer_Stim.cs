@@ -2,11 +2,12 @@
 using System.Collections;
 using System;
 
-public class UnitEffectContainer_Stim : UnitEffect_Container {
+public class UnitEffectContainer_GainAdrenalinee : UnitEffect_Container {
 
-    public UnitEffect_stim Stim;
+    public UnitEffect_GainAdrenaline Effect;
+
     public override UnitEffect GetEffect()
     {
-        return Stim;
+        return Effect;
     }
 }

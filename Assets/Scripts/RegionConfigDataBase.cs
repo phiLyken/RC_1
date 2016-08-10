@@ -6,7 +6,7 @@ using System.Collections.Generic;
 public class RegionConfigDataBase : ScriptableObject {
 	
 	[SerializeField]
-	private List<RegionPool> AllPools;
+	public List<RegionPool> AllPools;
 
     public RegionConfig StartRegion;
 
@@ -16,23 +16,11 @@ public class RegionConfigDataBase : ScriptableObject {
 		}
 	}
 
-    public static RegionConfigDataBase GetDataBase()
+    public RegionPool GetPool(int i)
     {
-        return Resources.Load("Regions/region_balancing_config") as RegionConfigDataBase; 
+        return AllPools[i];
     }
-
-    public static RegionPool GetPoolConfig(int index)
-    {
-        RegionConfigDataBase db = GetDataBase();
-
-        if(index >= db.AllPools.Count)
-            Debug.LogWarning("Not sufficient index for Region Pools " + index + " items in pool" + db.AllPools.Count);
-
-        return db.AllPools[Mathf.Min(index, db.AllPools.Count - 1)];
-       
-    }
-
-}
+ }
 	
 [System.Serializable]
 public class RegionPool{

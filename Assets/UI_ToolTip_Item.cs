@@ -14,7 +14,5 @@ public class UI_ToolTip_Item : UI_ToolTip_Base
 
         Title.text = item.GetItemType().ToString();
         descr.text = "BLa bla bla";
-    }
-
-   
+    }   
 }

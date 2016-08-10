@@ -30,7 +30,7 @@ public class UI_EffectQueue : MonoBehaviour {
 
         PlayerInventory.Instance.OnInventoryUpdated += SpawnInventoryNotification;
 
-        m_Unit.OnTurnStart += ShowActiveEffects;
+        Unit.OnTurnStart += ShowActiveEffects;
 
         Unit.OnUnitKilled += u =>
         {
@@ -93,6 +93,8 @@ public class UI_EffectQueue : MonoBehaviour {
     }
     void ShowActiveEffects(Unit unit)
     {
+        if (unit != m_Unit) return;
+
         List<UnitEffect> effects = unit.GetComponent<Unit_EffectManager>().ActiveEffects;
         if (effects == null) return;
 
@@ -105,7 +107,7 @@ public class UI_EffectQueue : MonoBehaviour {
     void RemoveListeners()
     {
         m_Unit.GetComponent<Unit_EffectManager>().OnEffectTick -= SpawnEffectTickNotification;
-        m_Unit.OnTurnStart -= ShowActiveEffects;
+        Unit.OnTurnStart -= ShowActiveEffects;
     }
 
 

@@ -27,10 +27,8 @@ public class UnitFactory : MonoBehaviour
 
         MakeMesh(data, base_unit);
 
-
-
         Unit_EffectManager  effect_manager = base_unit.AddComponent<Unit_EffectManager>();
-        MakeStats(base_unit, data, turntime);
+        MakeStats(base_unit, data, effect_manager, turntime);
         Unit m_unit = base_unit.AddComponent<Unit>();
         effect_manager.SetUnit(m_unit);
 
@@ -60,6 +58,9 @@ public class UnitFactory : MonoBehaviour
         mesh.transform.SetParent(base_unit.transform, false);
         mesh.transform.localPosition = Vector3.zero + Vector3.up * 0.5f;
         mesh.transform.localScale = Vector3.one;
+
+        AttachWeapon(data.Weapon, mesh);
+        AttachArmor(data.Armor, mesh);
     }
 
     private static void GetName(ScriptableUnitConfig data, GameObject base_unit)
@@ -99,29 +100,31 @@ public class UnitFactory : MonoBehaviour
         inventory.AddItem(  weapon,1 );
 
 
-        Armor armor = Instantiate(data.Armor);
-        armor.transform.SetParent(base_unit.transform);
-        inventory.AddItem(armor,1);
+       // Armor armor = Instantiate(data.Armor);
+       // armor.transform.SetParent(base_unit.transform);
+     //   inventory.AddItem(armor,1);
 
     }
 
-    static void MakeStats(GameObject target, ScriptableUnitConfig conf, int start_initiative)
+    private static void AttachArmor(ArmorConfig config, GameObject unit_mesh)
+    {
+
+    }
+
+
+    private static void AttachWeapon(Weapon weapon, GameObject unit_mesh)
+    {
+
+    }
+    static void MakeStats(GameObject target, ScriptableUnitConfig conf, Unit_EffectManager effects, int start_initiative)
     {
         UnitStats stats;
-        int stats_count = conf.stats.Length;
+        // int stats_count = conf.stats.Length;
 
 
-        stats = target.AddComponent<PlayerUnitStats>();
+        stats = target.AddComponent<UnitStats>();
+        stats.Init(StatsHelper.GetStatListForInit(conf.BaseStats), effects);
 
-      
-        stats.Stats = new StatInfo[stats_count + 1];
-        for (int i = 0; i < stats_count; i++)
-        {
-                stats.Stats[i] = new StatInfo(conf.stats[i].Stat, conf.stats[i].Amount);
-        }
-
-        stats.Stats[stats_count] = new StatInfo(UnitStats.StatType.current_initiative, start_initiative);
-        
     }
 
     /// <summary>
@@ -131,7 +134,6 @@ public class UnitFactory : MonoBehaviour
     /// <param name="tile"></param>
     public static void SpawnUnit(Unit u, Tile tile)
     {
-        
         u.SetTile(tile, true);
     }
 }

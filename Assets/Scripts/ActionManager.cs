@@ -18,7 +18,7 @@ public class ActionManager : MonoBehaviour {
     {
         foreach(UnitActionBase action in Actions)
         {
-            action.ResetCharge();
+            action.ChargeController.ResetCharge();
         }
     }
     public static ActionManagerEventHander OnActionManagerActivated;
@@ -34,6 +34,7 @@ public class ActionManager : MonoBehaviour {
     public ActionEventHandler OnActionSelected;
     public ActionEventHandler OnActionUnselected;
     public ActionEventHandler OnActionComplete;
+    public ActionEventHandler OnActionStarted;
 
     public UnitActionBase GetCurrentAction()
     {
@@ -48,8 +49,7 @@ public class ActionManager : MonoBehaviour {
                 if(action.ActionInProgress) return true;
 
              return false;
-    }
-           
+         }           
     }
 
     void CheckOwnerKilled(Unit u)
@@ -71,18 +71,19 @@ public class ActionManager : MonoBehaviour {
     public void SetOwner(Unit owner)
     {
         Owner = owner;
-        Owner.OnTurnEnded += unit =>
+        Unit.OnTurnEnded += unit =>
         {
-            Reset();
+            if(unit == owner)
+                Reset();
         };
 
-        Owner.OnTurnStart += unit =>
+        Unit.OnTurnStart += unit =>
         {
-            AP_Used = 0;
-            if (OnActionManagerActivated != null) OnActionManagerActivated(this);        
-        };
-
-       
+            if (unit == owner) { 
+                AP_Used = 0;
+                if (OnActionManagerActivated != null) OnActionManagerActivated(this);
+            }
+        };      
     }
 
 
@@ -114,8 +115,7 @@ public class ActionManager : MonoBehaviour {
     }
 
     public void SkipTurn()
-    {
-       
+    {       
         Debug.Log("Skip");
         AP_Used = MaxAP;
         CurrentTurnCost = 5;
@@ -173,8 +173,7 @@ public class ActionManager : MonoBehaviour {
     }
     public UnitActionBase SelectAbility(UnitActionBase ability)
     {
-        //  Debug.Log("Select Ability " + index);
-        //  if (index > Actions.Length) return;
+
         if (Unit.SelectedUnit != Owner || !HasAP()) return null;
         if (currentAction != null && currentAction == ability)
         {
@@ -207,7 +206,7 @@ public class ActionManager : MonoBehaviour {
         currentAction = null;    
 
         if (OnActionUnselected != null) OnActionUnselected(currentAction);
-       // if (OnActionManagerActivated != null) OnActionManagerActivated(this);
+   
 
     }
 
@@ -215,41 +214,25 @@ public class ActionManager : MonoBehaviour {
     {
         AP_Used += action.EndTurnOnUse ? MaxAP : action.AP_Cost;
 
-        CurrentTurnCost += action.TurnTimeCost;
+        CurrentTurnCost += (int) action.GetTimeCost();
 
         if (OnActionComplete != null) OnActionComplete(action);
-
       
         if (TurnSystem.HasTurn(Owner) && PanCamera.Instance != null) {
             PanCamera.Instance.PanToPos(Owner.currentTile.GetPosition());
         }
 
         UnsetCurrentAction();
+        if (OnActionStarted != null) OnActionStarted(action);
+
         // Debug.Log(Owner.GetID() + " Action used" + action.ActionID);
        
     }
 
-	string GetActionInfos(UnitActionBase[] actions)
-    {
-        string s = "";
-		for (int i = 0; i < actions.Length; i++)
-        {
-            string charges = "";
-			if (actions[i].UseCharges) charges = "   ["+actions[i].GetChargesForType().ToString()+"]";
 
-			s += (i + 1).ToString() + ": " + actions[i].ActionID + charges+"\n";
-        }
-        return s;
-    }
     public T GetAcionOfType <T>()
     {
         return Actions.OfType<T>().ToList()[0];
     }
-    public UnitActionBase GetAction(string id)
-    {
-        foreach (var action in Actions) if (action.ActionID == id) return action;
 
-        Debug.LogWarning("Could not find action " + id);
-        return null;
-    }
 }

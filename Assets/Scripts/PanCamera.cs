@@ -3,9 +3,6 @@ using System.Collections;
 
 public class PanCamera : MonoBehaviour {
 
-   
-    private EventHandler cameraActionCallBack;
-
     int currentZoomLevel;
 
 	bool drag;
@@ -28,10 +25,14 @@ public class PanCamera : MonoBehaviour {
 		inputEnabled = false;
 	}
 
-	void Awake(){
-		Instance = this;
-	}
-	
+    void Awake() {
+        Instance = this;
+        Unit.OnTurnStart += u =>
+        {
+            PanToPos(u.transform.position);
+        };
+
+    }
 	void Start(){    
 		SetCameraStart();
 	}
@@ -61,9 +62,7 @@ public class PanCamera : MonoBehaviour {
 				StartCoroutine(Pan ());						
 				yield break;
 			} 
-			
-			
-			
+					
 			yield return null;
 		}
 	}
@@ -93,8 +92,7 @@ public class PanCamera : MonoBehaviour {
 			LastTouchDistance =  CurrentTouchDistance;
 
             Zoom(CurrentTouchDistance / 75);
-			yield return null;
-			
+			yield return null;			
 		}
 		
 		StartCoroutine( DelayedStopZoom() );
@@ -147,19 +145,14 @@ public class PanCamera : MonoBehaviour {
         DisableInput();
         Reset();
         StartCoroutine(PanToWorldPos(pos, 5,cb));
-
-
     }
 
 	IEnumerator PanToWorldPos(Vector3 pos, float speed, EventHandler callback)
-    {
-       
+    {       
         pos.y = 0;
         drag = true;
   
-        Vector3 delta = pos -MyMath.GetCameraCenter() ;
-
-       
+        Vector3 delta = pos -MyMath.GetCameraCenter() ;     
 
         while ( delta.magnitude > 0.1f)
         {
@@ -175,6 +168,7 @@ public class PanCamera : MonoBehaviour {
         inputEnabled = true;
         drag = false;
     }
+
 	IEnumerator Pan(){
 		drag = true;
     

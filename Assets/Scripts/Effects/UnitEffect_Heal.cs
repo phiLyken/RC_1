@@ -20,7 +20,7 @@ public class UnitEffect_Heal : UnitEffect
     protected override void EffectTick()
     {
         Debug.Log("heal effect..");
-        (Effect_Host.Stats as PlayerUnitStats).Rest();
+        (Effect_Host.Stats).Rest();
         Ticked();
     }
 

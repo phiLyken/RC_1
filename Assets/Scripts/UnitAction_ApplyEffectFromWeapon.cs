@@ -30,8 +30,8 @@ public class UnitAction_ApplyEffectFromWeapon : UnitAction_ApplyEffect {
         List <UnitEffect> effects = Behavior.Effects.Select(container => container.GetEffect()).ToList();
         
         if(Behavior.IntBonus != null) {
-           
-            UnitEffect intBonus = Behavior.IntBonus.GetEffectForInstigator(   (int)Owner.Stats.GetStat(UnitStats.StatType.intensity).Amount);
+
+            UnitEffect intBonus = Behavior.IntBonus.GetEffectForInstigator( (int) Owner.Stats.GetStatAmount(StatType.adrenaline));
            
             effects.AddRange(MyMath.GetListFromObject(intBonus));
         }
@@ -42,5 +42,14 @@ public class UnitAction_ApplyEffectFromWeapon : UnitAction_ApplyEffect {
     public override float GetRange()
     {
         return Owner.GetComponent<UnitInventory>().EquipedWeapon.Range;
+    }
+
+    public override float GetTimeCost()
+    {
+        float base_cost =  base.GetTimeCost();
+
+        int weaponDelay = GetBehavior().TimeDelay;
+
+        return   (float)  Constants.GetAttackTimeDelay(base_cost, weaponDelay);
     }
 }

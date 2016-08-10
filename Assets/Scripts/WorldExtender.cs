@@ -12,6 +12,8 @@ public class WorldExtender : MonoBehaviour {
      //keep track of spawned
     List<RegionConfig> spawned;
 
+    public RegionConfigDataBase RegionBalance;
+
     public int MinTilesLastUnit;
 
     public int CurrentStageOverride;
@@ -36,7 +38,7 @@ public class WorldExtender : MonoBehaviour {
 
     void SetupGame()
     {
-        SpawnRegion(RegionLoader.GetStartRegion(), TileManager.Instance);
+        SpawnRegion(RegionLoader.GetStartRegion(RegionBalance), TileManager.Instance);
         SpawnNext();
     }
 
@@ -70,13 +72,13 @@ public class WorldExtender : MonoBehaviour {
 
         if (TilesUntilCamp <= TileManager.Instance.GridHeight)
         {
-            region = RegionLoader.GetCamp(CurrentStage);
+            region = RegionLoader.GetCamp(RegionBalance, CurrentStage);
             CurrentStage++;
             TilesUntilCamp = GetNextCampSpawn();
         }
         else
         {
-            region = RegionLoader.GetWeightedRegionForLevel(CurrentStage, spawned);
+            region = RegionLoader.GetWeightedRegionForLevel(RegionBalance, CurrentStage, spawned);
             spawned.Add(region);
         }
 

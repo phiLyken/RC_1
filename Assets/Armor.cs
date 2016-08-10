@@ -10,7 +10,7 @@ public class Armor : MonoBehaviour, IInventoryItem {
     [HideInInspector]
     public int _count;
 
-    public StatInfo[] BuffedStats;
+    public Stat[] BuffedStats;
 
     ItemTypes IInventoryItem.GetItemType()
     {

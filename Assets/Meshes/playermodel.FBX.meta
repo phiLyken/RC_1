@@ -1,0 +1,324 @@
+fileFormatVersion: 2
+guid: 2fdc86bdf8aa1884b846e66c795d333b
+timeCreated: 1468703097
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: head01
+    100002: legs001
+    100004: //RootNode
+    100006: suit1
+    100008: suit1inside
+    100010: suit_cap
+    100012: suit_fishbowl
+    100014: suit_tubes
+    100016: backpack tanks
+    100018: backpack1
+    100020: Brunt-Body
+    100022: brunt-head
+    100024: ground 1x1x1
+    100026: hands
+    100028: legs
+    100030: low poly head
+    100032: Object001
+    100034: suit base
+    100036: Torso
+    100038: Attach_Backpack
+    100040: humanoid
+    100042: humanoid Head
+    100044: humanoid L Calf
+    100046: humanoid L Clavicle
+    100048: humanoid L Finger0
+    100050: humanoid L Finger01
+    100052: humanoid L Finger02
+    100054: humanoid L Finger1
+    100056: humanoid L Finger11
+    100058: humanoid L Finger12
+    100060: humanoid L Finger2
+    100062: humanoid L Finger21
+    100064: humanoid L Finger22
+    100066: humanoid L Finger3
+    100068: humanoid L Finger31
+    100070: humanoid L Finger32
+    100072: humanoid L Foot
+    100074: humanoid L Forearm
+    100076: humanoid L Hand
+    100078: humanoid L Thigh
+    100080: humanoid L Toe0
+    100082: humanoid L UpperArm
+    100084: humanoid Neck
+    100086: humanoid Pelvis
+    100088: humanoid R Calf
+    100090: humanoid R Clavicle
+    100092: humanoid R Finger0
+    100094: humanoid R Finger01
+    100096: humanoid R Finger02
+    100098: humanoid R Finger1
+    100100: humanoid R Finger11
+    100102: humanoid R Finger12
+    100104: humanoid R Finger2
+    100106: humanoid R Finger21
+    100108: humanoid R Finger22
+    100110: humanoid R Finger3
+    100112: humanoid R Finger31
+    100114: humanoid R Finger32
+    100116: humanoid R Foot
+    100118: humanoid R Forearm
+    100120: humanoid R Hand
+    100122: humanoid R Thigh
+    100124: humanoid R Toe0
+    100126: humanoid R UpperArm
+    100128: humanoid Spine
+    100130: humanoid Spine1
+    100132: suit01_backpack tanks
+    100134: suit01_backpack1
+    100136: suit01_fishbowl
+    100138: suit01_helmet
+    100140: suit01_insideneck
+    100142: suit01_legs
+    100144: suit01_torso
+    100146: suit01_tubes
+    100148: Attach_Lhand
+    100150: Attach_Rhand
+    100152: humanoid Footsteps
+    100154: humanoid HeadNub
+    100156: humanoid L Finger0Nub
+    100158: humanoid L Finger1Nub
+    100160: humanoid L Finger2Nub
+    100162: humanoid L Finger3Nub
+    100164: humanoid L Toe0Nub
+    100166: humanoid R Finger0Nub
+    100168: humanoid R Finger1Nub
+    100170: humanoid R Finger2Nub
+    100172: humanoid R Finger3Nub
+    100174: humanoid R Toe0Nub
+    400000: head01
+    400002: legs001
+    400004: //RootNode
+    400006: suit1
+    400008: suit1inside
+    400010: suit_cap
+    400012: suit_fishbowl
+    400014: suit_tubes
+    400016: backpack tanks
+    400018: backpack1
+    400020: Brunt-Body
+    400022: brunt-head
+    400024: ground 1x1x1
+    400026: hands
+    400028: legs
+    400030: low poly head
+    400032: Object001
+    400034: suit base
+    400036: Torso
+    400038: Attach_Backpack
+    400040: humanoid
+    400042: humanoid Head
+    400044: humanoid L Calf
+    400046: humanoid L Clavicle
+    400048: humanoid L Finger0
+    400050: humanoid L Finger01
+    400052: humanoid L Finger02
+    400054: humanoid L Finger1
+    400056: humanoid L Finger11
+    400058: humanoid L Finger12
+    400060: humanoid L Finger2
+    400062: humanoid L Finger21
+    400064: humanoid L Finger22
+    400066: humanoid L Finger3
+    400068: humanoid L Finger31
+    400070: humanoid L Finger32
+    400072: humanoid L Foot
+    400074: humanoid L Forearm
+    400076: humanoid L Hand
+    400078: humanoid L Thigh
+    400080: humanoid L Toe0
+    400082: humanoid L UpperArm
+    400084: humanoid Neck
+    400086: humanoid Pelvis
+    400088: humanoid R Calf
+    400090: humanoid R Clavicle
+    400092: humanoid R Finger0
+    400094: humanoid R Finger01
+    400096: humanoid R Finger02
+    400098: humanoid R Finger1
+    400100: humanoid R Finger11
+    400102: humanoid R Finger12
+    400104: humanoid R Finger2
+    400106: humanoid R Finger21
+    400108: humanoid R Finger22
+    400110: humanoid R Finger3
+    400112: humanoid R Finger31
+    400114: humanoid R Finger32
+    400116: humanoid R Foot
+    400118: humanoid R Forearm
+    400120: humanoid R Hand
+    400122: humanoid R Thigh
+    400124: humanoid R Toe0
+    400126: humanoid R UpperArm
+    400128: humanoid Spine
+    400130: humanoid Spine1
+    400132: suit01_backpack tanks
+    400134: suit01_backpack1
+    400136: suit01_fishbowl
+    400138: suit01_helmet
+    400140: suit01_insideneck
+    400142: suit01_legs
+    400144: suit01_torso
+    400146: suit01_tubes
+    400148: Attach_Lhand
+    400150: Attach_Rhand
+    400152: humanoid Footsteps
+    400154: humanoid HeadNub
+    400156: humanoid L Finger0Nub
+    400158: humanoid L Finger1Nub
+    400160: humanoid L Finger2Nub
+    400162: humanoid L Finger3Nub
+    400164: humanoid L Toe0Nub
+    400166: humanoid R Finger0Nub
+    400168: humanoid R Finger1Nub
+    400170: humanoid R Finger2Nub
+    400172: humanoid R Finger3Nub
+    400174: humanoid R Toe0Nub
+    2300000: head01
+    2300002: legs001
+    2300004: suit1
+    2300006: suit1inside
+    2300008: suit_cap
+    2300010: suit_fishbowl
+    2300012: suit_tubes
+    2300014: backpack tanks
+    2300016: backpack1
+    2300018: Brunt-Body
+    2300020: brunt-head
+    2300022: ground 1x1x1
+    2300024: hands
+    2300026: legs
+    2300028: low poly head
+    2300030: Object001
+    2300032: suit base
+    2300034: Torso
+    2300036: suit01_backpack tanks
+    2300038: suit01_backpack1
+    3300000: head01
+    3300002: legs001
+    3300004: suit1
+    3300006: suit1inside
+    3300008: suit_cap
+    3300010: suit_fishbowl
+    3300012: suit_tubes
+    3300014: backpack tanks
+    3300016: backpack1
+    3300018: Brunt-Body
+    3300020: brunt-head
+    3300022: ground 1x1x1
+    3300024: hands
+    3300026: legs
+    3300028: low poly head
+    3300030: Object001
+    3300032: suit base
+    3300034: Torso
+    3300036: suit01_backpack tanks
+    3300038: suit01_backpack1
+    4300000: suit1
+    4300002: suit_fishbowl
+    4300004: suit1inside
+    4300006: suit_tubes
+    4300008: legs001
+    4300010: suit_cap
+    4300012: head01
+    4300014: brunt-head
+    4300016: Brunt-Body
+    4300018: ground 1x1x1
+    4300020: low poly head
+    4300022: legs
+    4300024: Torso
+    4300026: hands
+    4300028: Object001
+    4300030: suit base
+    4300032: backpack tanks
+    4300034: backpack1
+    4300036: suit01_torso
+    4300038: suit01_fishbowl
+    4300040: suit01_insideneck
+    4300042: suit01_backpack tanks
+    4300044: suit01_backpack1
+    4300046: suit01_tubes
+    4300048: suit01_legs
+    4300050: suit01_helmet
+    7400000: Take 001
+    9500000: //RootNode
+    13700000: suit01_backpack tanks
+    13700002: suit01_backpack1
+    13700004: suit01_fishbowl
+    13700006: suit01_helmet
+    13700008: suit01_insideneck
+    13700010: suit01_legs
+    13700012: suit01_torso
+    13700014: suit01_tubes
+    13700016: head01
+  materials:
+    importMaterials: 0
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleRotations: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 0.01
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

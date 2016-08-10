@@ -12,22 +12,27 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     public UnitStats Stats;
     public ActionManager Actions;
 
+    [HideInInspector]
+    public UnitInventory Inventory;
+
     public static List<Unit> AllUnits = new List<Unit>();
     public static Unit SelectedUnit;
+   
     public static Unit HoveredUnit;
     public static UnitEventHandler OnUnitKilled;
     public static UnitEventHandler OnUnitHover;
     public static UnitEventHandler OnUnitHoverEnd;
     public static UnitEventHandler OnUnitSelect;
-    
+    public static UnitEventHandler OnTurnStart;
+    public static UnitEventHandler OnTurnEnded;
+        
     public DamageEventHandler OnDamageReceived;
   
     public UnitEventHandler OnActionSelectedInUnit;
 
-    public TurnableEventHandler OnUpdateTurnTime; 
-    
-    public UnitEventHandler OnTurnStart;
-    public UnitEventHandler OnTurnEnded;
+    public TurnableEventHandler OnUpdateTurnTime;
+
+    public LootCategory Loot;
     
     public bool PrePlaced = true;
 
@@ -48,6 +53,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
 
     void Awake()
     {
+        Inventory = GetComponent<UnitInventory>();
         Stats = GetComponent<UnitStats>();
         Stats.OnHPDepleted += KillUnit;
 
@@ -194,7 +200,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     }
     public void RemoveUnitFromGame()
     {
-        //TODO: CLEAN UP THIS DEPENCY MESS
+      
         currentTile.OnDeactivate -= OnCurrentTileDeactivate;
         TurnSystem.Instance.OnGlobalTurn -= GlobalTurn;
 
@@ -207,34 +213,31 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     }
 
     public int GetCurrentTurnCost()
-    {
-       // if (!TurnSystem.HasTurn(this)) return 0;
-
+    {     
         int turncost = 0;
         var _currentAction = Actions.GetCurrentAction();
-       // Debug.Log(_currentAction);
+     
         if (_currentAction != null)
         {
-            turncost += _currentAction.TurnTimeCost;
-           // Debug.Log(_currentAction.ActionID+ " "+ _currentAction.TurnTimeCost);
+            turncost += (int) _currentAction.GetTimeCost();
+           
         }
         int cost = turncost + Actions.CurrentTurnCost;
-       // Debug.Log("Current turn cost " + gameObject.name + " :" + cost);
+
         return cost;
     }
 
     public int GetTurnTime()
     {
-        //Debug.Log("ID "+GetID()+" "+time+ "  "+time);
-        // if (TurnSystem.HasTurn(this)) return 0;
-        return (int) Stats.GetStat(UnitStats.StatType.current_initiative).Amount;
+
+        return (int) Stats.GetStatAmount(StatType.current_turn_time);
     }
    
     public void SetNextTurnTime(int turns)
     {
         if (_isDead) return;
-        // Debug.Log(gameObject.name+" next turn time " + turns);
-        Stats.GetStat(UnitStats.StatType.current_initiative).Amount += turns;
+
+        Stats.SetStatAmount(StatType.current_turn_time, Stats.GetStatAmount(StatType.current_turn_time) + turns);
     }
 
     public void EndTurn()
@@ -250,17 +253,9 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     {
         starting_order++;
 
-        Debug.Log("NEW TURN:" + GetID()); 
-        
-        //TODO Add Listener for this 
-        if(UI_ActiveUnit.Instance != null) {
-            UI_ActiveUnit.Instance.SetActiveUnit(this);
-        }
-        UnSelectCurrent();
+        Debug.Log("NEW TURN:" + GetID());         
 
-        //TODO ADD Listener for this
-       if(PanCamera.Instance != null)
-        PanCamera.Instance.PanToPos(currentTile.GetPosition());
+        UnSelectCurrent();
 
         SelectedUnit = this;
         if (OnTurnStart != null) OnTurnStart(this);
@@ -273,7 +268,8 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
 
         if (IsActive)
         {
-            Stats.GetStat(UnitStats.StatType.current_initiative).Amount--;
+
+            Stats.SetStatAmount(StatType.current_turn_time, Stats.GetStatAmount(StatType.current_turn_time) - 1);
 
             if (currentTile.isCamp)
                 BaseCampTurn();            
@@ -282,14 +278,10 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
 
     void BaseCampTurn()
     {
+
         Actions.RestCharges();
-
-        PlayerUnitStats stats = Stats as PlayerUnitStats;
-
-        if(stats != null)
-        {
-            stats.Rest();       
-        }
+        Stats.Rest();       
+       
     }
 
     public bool HasEndedTurn()

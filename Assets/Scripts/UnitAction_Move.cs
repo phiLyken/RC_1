@@ -3,9 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class UnitAction_Move : UnitActionBase {
-
-
-
+    
     Tile currentTargetTile;
     List<Tile> currentPath;
     PathDisplay pathpreview;
@@ -16,7 +14,6 @@ public class UnitAction_Move : UnitActionBase {
     {
         orderID = 0;
     }
-
 
     public override void SelectAction()
     {       
@@ -155,6 +152,8 @@ public class UnitAction_Move : UnitActionBase {
     {
         return GetWalkableTiles(Owner.currentTile);
     }
+
+
     public List<Tile> GetWalkableTiles(Tile origin)
     {
         int moveRange = GetMoveRange();
@@ -165,7 +164,7 @@ public class UnitAction_Move : UnitActionBase {
 
     public int GetMoveRange()
     {
-        return (Owner.Stats as PlayerUnitStats).GetStatAmount(UnitStats.StatType.move_range);
+        return (int) Owner.Stats.GetStatAmount(StatType.move_range);
     }
 
 }

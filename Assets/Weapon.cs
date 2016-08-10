@@ -8,15 +8,16 @@ public class Weapon : MonoBehaviour,  IInventoryItem
     public string ID;
     public Sprite Icon;
 
+    public int BaseDelay;
+
+    public WeaponAnimationStates AnimationState;
+
     [HideInInspector]
     public int _count;
     public int Range;
 
     public WeaponBehavior RegularBehavior;
     public WeaponBehavior IntAttackBehavior;
-
-    public StatInfo[] BuffedStats;
-
 
     ItemTypes IInventoryItem.GetItemType()
     {

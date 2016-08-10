@@ -24,7 +24,7 @@ public class UnitAI : MonoBehaviour, ITriggerable {
         Triggered = false;
         m_unit = GetComponent<Unit>();
         m_Actions = GetComponent<ActionManager>();
-        m_unit.OnTurnStart += StartTurn;
+        Unit.OnTurnStart += StartTurn;
         startTile = m_unit.currentTile;
 
         m_unit.OnDamageReceived += dmg =>
@@ -37,12 +37,12 @@ public class UnitAI : MonoBehaviour, ITriggerable {
 
     void StartTurn(Unit u)
     {     
-        StartCoroutine(AISequence());
+        if(u == m_unit)
+            StartCoroutine(AISequence());
     }
 
     UnitAction_ApplyEffectFromWeapon getAttack()
     {
-        //TODO: Remove reference by string for actions
         return m_Actions.GetAcionOfType<UnitAction_ApplyEffectFromWeapon>();
     }
 

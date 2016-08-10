@@ -23,7 +23,7 @@ ModelImporter:
     4300002: cursor_highlight
     4300004: cursor_billboard
   materials:
-    importMaterials: 1
+    importMaterials: 0
     materialName: 0
     materialSearch: 1
   animations:

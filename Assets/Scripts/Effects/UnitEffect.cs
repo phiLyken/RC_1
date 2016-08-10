@@ -6,7 +6,7 @@ using System;
 
 public delegate void EffectEventHandler(UnitEffect effect);
 [System.Serializable]
-public class UnitEffect 
+public class UnitEffect : MonoBehaviour
 {
     public enum TargetModes
     {   Owner, Target  }
@@ -87,13 +87,6 @@ public class UnitEffect
         return origin.MemberwiseClone() as UnitEffect;
     }
 
-    protected T MakeGenericCopy<T>(T bla, Unit target) where T : UnitEffect
-    {
-        T copy = bla.MemberwiseClone() as T;
-        copy.Effect_Host = target;
-
-        return copy;
-    }
 
     protected virtual void PostEffectCopy(UnitEffect eff)
     {
@@ -163,8 +156,6 @@ public class UnitEffect
 
 
 
-
-public UnitEffect() { }
 
     public virtual void SetPreview(UI_DmgPreview prev, Unit target) { }
     #endregion

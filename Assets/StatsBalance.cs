@@ -19,13 +19,31 @@ public class StatsBalance : MonoBehaviour {
         return DustCostToLevel[ Mathf.Min(level, DustCostToLevel.Length)];
     }
 
-    public int GetLevelForStat(UnitStats.StatType type, PlayerUnitStats stats)
+    public float GetValueForStat(StatType type, int perk_level)
+    {
+        foreach(StatLevelConfig config in StatConfigs)
+        {
+            foreach(SubStatConfig sub_config in config.SubConfigs)
+            {
+                if(sub_config.SubStat == type)
+                {
+                    return sub_config.Values[perk_level];
+                }
+            }
+        }
+
+        return 0;
+    }
+    public float GetValueForStat(StatType type, UnitStats stats)
     {
       
         foreach(StatLevelConfig config in StatConfigs)
         {
-            if(config.RootStat == type)
+            StatType root_type = config.Perk;
+
+            if (root_type == type)
             {
+                Debug.Log("perk value " + type);
                 return stats.GetStatAmount(type);
             }
 
@@ -33,10 +51,9 @@ public class StatsBalance : MonoBehaviour {
             {
                 
                 if(sub_config.SubStat == type)
-                {
-                    UnitStats.StatType root_type = config.RootStat;
+                {                   
 
-                    int current_level_root = stats.GetStatAmount(root_type);
+                    int current_level_root = (int) stats.GetStatAmount(root_type);
 
                     return sub_config.Values[current_level_root];
                    
@@ -44,20 +61,21 @@ public class StatsBalance : MonoBehaviour {
             }
         }
 
-        return stats.GetStatAmount(type);
+        return 0;
+        ;
     }
 }
 
 [System.Serializable]
 public class StatLevelConfig
 {
-    public UnitStats.StatType RootStat;
+    public StatType Perk;
     public List<SubStatConfig> SubConfigs;
 }
 
 [System.Serializable]
 public class SubStatConfig
 {
-    public UnitStats.StatType SubStat;
-    public int[] Values;
+    public StatType SubStat;
+    public float[] Values;
 }
