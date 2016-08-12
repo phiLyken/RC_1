@@ -32,4 +32,14 @@ public class UnitAnimationController : MonoBehaviour {
         anim.SetFloat("WeaponIndex",(int) unit.GetComponent<UnitInventory>().EquipedWeapon.AnimationState);
         
     }
+
+    public void HideWeapon()
+    {
+        
+    }
+
+    public void ShowWeapon()
+    {
+
+    }
 }

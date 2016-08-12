@@ -89,6 +89,7 @@ public class UnitAI : MonoBehaviour, ITriggerable {
     IEnumerator MovePatrol()
     {
         Tile patrolDest = GetPatrolTile(m_unit.currentTile);
+        Debug.Log("Patrol");
         if(patrolDest != null)
         {
             yield return StartCoroutine( Move(patrolDest)) ;
@@ -144,7 +145,7 @@ public class UnitAI : MonoBehaviour, ITriggerable {
 
         List<Tile> walkable_tiles = move.GetWalkableTiles(m_unit.currentTile);
       //  Debug.Log("walkable tiles " + walkable_tiles.Count);
-
+       
         List<Unit> enemy_group = Unit.GetAllUnitsOfOwner(0, false);
 
         Dictionary<Unit, List<Tile>> unit_map = new Dictionary<Unit, List<Tile>>();
@@ -230,8 +231,9 @@ public class UnitAI : MonoBehaviour, ITriggerable {
 
     Tile GetBestAttackPosition(Unit target, List<Tile> from_tiles)
     {
+        Debug.Log("choosing from " + from_tiles.Count);
         List<GenericWeightable<Tile>> weighted_tiles = new List<GenericWeightable<Tile>>();
-
+        
         foreach(Tile t in from_tiles)
         {
             float weight = 30 / Vector3.Distance( target.transform.position, t.transform.position);
@@ -257,6 +259,7 @@ public class UnitAI : MonoBehaviour, ITriggerable {
 
         if (Triggered)
         {
+            Debug.Log("What to do..`?");
             UnitAction_ApplyEffectFromWeapon attack = getAttack();
 
             if (preferred_target == null || preferred_target.IsDead())
@@ -265,8 +268,8 @@ public class UnitAI : MonoBehaviour, ITriggerable {
             }
 
             Dictionary<Unit, List<Tile>> map = GetEnemiesAttackableWithin1Move();
-            
-            if(attack.CanTarget(preferred_target))
+            Debug.Log(map.Count);
+            if(map.Count > 0 && (attack.CanTarget(preferred_target)))
             {
                 if (!m_Actions.HasAP(2)) { 
                      yield return StartCoroutine(Attack(preferred_target));
@@ -275,7 +278,7 @@ public class UnitAI : MonoBehaviour, ITriggerable {
                     yield return StartCoroutine(Move(GetBestAttackPosition(preferred_target, map[preferred_target])));
                 }
 
-            } else
+            } else if(map.Count > 0)
             {
                 if (map.ContainsKey(preferred_target))
                 {
@@ -295,21 +298,33 @@ public class UnitAI : MonoBehaviour, ITriggerable {
 
                     yield return StartCoroutine(Move(GetBestAttackPosition(preferred_target, move_to_tiles)));
                 }
-            }  
-        } else if(m_Actions.HasAP(2) && Random.value < Constants.AI_PATROL_CHANCE)
+                Debug.Log("adsddd d");
+            } else
+            {
+               
+                    Debug.Log("adsddd d");
+                    SkipTurn();
+                    yield return null;
+         
+            }
+            Debug.Log("adsddd d");
+        } else if(m_Actions.HasAP(2) && Random.value < Constants.AI_PATROL_CHANCE && m_unit.Stats.GetStatAmount(StatType.move_range) > 0)
         {
+            Debug.Log("adsddd d");
             yield return StartCoroutine(MovePatrol());
         } else
         {
+            Debug.Log("adsddd d");
             SkipTurn();
+            yield return null;
         }
-
+        Debug.Log("adsddd d");
     }
 
 
     void SkipTurn()
     {
-       // Debug.Log("ai skip turn");
+        Debug.Log("ai skip turn");
         m_unit.SkipTurn();
     }
 
@@ -337,7 +352,7 @@ public class UnitAI : MonoBehaviour, ITriggerable {
 
         TriggerUnitsForGroup(this, triggerer);
     }
-
+  
     public static void TriggerUnitsForGroup(UnitAI unit, Unit triggerer)
     {
         int id = unit.group_id;

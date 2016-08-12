@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using System.Collections.Generic;
 
 [System.Serializable]
 public class Weapon : MonoBehaviour,  IInventoryItem
@@ -8,7 +9,9 @@ public class Weapon : MonoBehaviour,  IInventoryItem
     public string ID;
     public Sprite Icon;
 
-       public WeaponAnimationStates AnimationState;
+    public List<AttachmentConfig> Attachments;
+
+    public WeaponAnimationStates AnimationState;
 
     [HideInInspector]
     public int _count;
@@ -16,6 +19,8 @@ public class Weapon : MonoBehaviour,  IInventoryItem
 
     public WeaponBehavior RegularBehavior;
     public WeaponBehavior IntAttackBehavior;
+
+
 
     ItemTypes IInventoryItem.GetItemType()
     {

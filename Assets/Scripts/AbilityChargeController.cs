@@ -26,7 +26,7 @@ public class AbilityChargeController
 
     public void ResetCharge()
     {
-        if (m_unit.Inventory.HasItem(ChargeItemType, 0))
+        if (useCharges && m_unit.Inventory.HasItem(ChargeItemType, 0))
         {
             //  Debug.Log(LootBalance.GetBalance().LootConfigs.Count);
 
