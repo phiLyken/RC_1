@@ -45,15 +45,49 @@ public class AnimationTestController : MonoBehaviour
 
         GUI.BeginGroup(new Rect(Screen.width - 200, 0, 350, 500), "WEAPON STATES");
 
-        for (int i = 0; i < 7; i++)
+        if (GUI.Button(new Rect(0, 30, 100, 25), "CCW"))
         {
-            if (GUI.Button(new Rect(0, i * 30, 150, 25), "set weaponindex " + i))
-            {
-                Anim.SetFloat("WeaponIndex", i);
-            }
-
+            Anim.SetFloat("WeaponIndex", 0);
+        }
+        if (GUI.Button(new Rect(0, 60, 100, 25), "CCWnShield"))
+        {
+            Anim.SetFloat("WeaponIndex", 1);
+        }
+        if (GUI.Button(new Rect(0, 90, 100, 25), "Pistol"))
+        {
+            Anim.SetFloat("WeaponIndex", 2);
+        }
+        if (GUI.Button(new Rect(0, 120, 100, 25), "Dual Pistol"))
+        {
+            Anim.SetFloat("WeaponIndex", 3);
+        }
+        if (GUI.Button(new Rect(0, 150, 100, 25), "Rifle"))
+        {
+            Anim.SetFloat("WeaponIndex", 4);
+        }
+        if (GUI.Button(new Rect(0, 180, 100, 25), "BFG"))
+        {
+            Anim.SetFloat("WeaponIndex", 5);
+        }
+        if (GUI.Button(new Rect(0, 210, 100, 25), "Greatweapon"))
+        {
+            Anim.SetFloat("WeaponIndex", 6);
         }
 
+
+
+
+
+
+        /*      for (int i = 0; i < 7; i++)
+              {
+                  if (GUI.Button(new Rect(0, i * 30, 150, 25), "set weaponindex " + i))
+                  {
+                      Anim.SetFloat("WeaponIndex", i);
+                  }
+
+              }
+      */
         GUI.EndGroup();
 
 
