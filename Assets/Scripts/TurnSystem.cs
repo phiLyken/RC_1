@@ -21,7 +21,7 @@ public class TurnSystem : MonoBehaviour {
     public static bool HasTurn(ITurn t)
     {
      //   Debug.Log("t " + t.GetID() + "  current" + Instance.Current.GetID());
-        if (Instance.Current == null || Instance.Current != t) return false;
+        if (Instance == null || Instance.Current == null || Instance.Current != t) return false;
         return true;
     }
     public int GetCurrentTurn()

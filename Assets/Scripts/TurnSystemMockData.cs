@@ -2,17 +2,23 @@
 using System.Collections;
 using System;
 using System.Linq;
+using System.Collections.Generic;
 
 public class TurnSystemMockData : MonoBehaviour {
 
-    public TurnSystemMock[] MockData;
-    
+    public TurnSystemMock[] MockDataStart;
+
+    public List<ITurn> turnables;
 
     void Awake()
     {
-        MockData.ToList().ForEach(md => md.RegisterTurn());
+        turnables = GetMockTurnList();
     }
 
+    public List<ITurn> GetMockTurnList()
+    {
+        return MockDataStart.Cast<ITurn>().ToList();
+    }
     [System.Serializable]
     public class TurnSystemMock : ITurn
     {

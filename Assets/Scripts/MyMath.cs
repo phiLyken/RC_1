@@ -524,4 +524,21 @@ public static class MyMath  {
     {
         return GetRandomObject(GetObjectsInRangeAroundCenter(center, group, distance));
     }
+
+    public static List<T> SpawnObjectsToTransform<T>(GameObject prefab, Transform target, int count) where T : Component
+    {
+        List<T> items = new List<T>();
+
+        for(int i = 0; i<count; i++)
+        {
+            items.Add(GameObject.Instantiate(prefab).GetComponent<T>());
+            items[i].transform.position = target.transform.position;
+            items[i].transform.SetParent(target, false);
+        }
+
+        return items;
+    }
+
+  
 }
+
