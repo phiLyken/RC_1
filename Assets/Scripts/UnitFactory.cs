@@ -20,7 +20,7 @@ public class UnitFactory : MonoBehaviour
         }
 
         GameObject base_unit                = Instantiate(Resources.Load("base_unit")) as GameObject;
-
+        SpawnLootOnDeath loot               = base_unit.AddComponent<SpawnLootOnDeath>();
         Unit_EffectManager effect_manager   = base_unit.AddComponent<Unit_EffectManager>();
         UnitStats stats                     = MakeStats(base_unit, data, effect_manager, turntime);
         UnitInventory inventory             = MakeInventory(data, base_unit, stats);
@@ -28,13 +28,13 @@ public class UnitFactory : MonoBehaviour
         GameObject mesh                     = MakeMesh(data, base_unit);
 
         GetName(data, base_unit);
-       
+     
 
     
         AttachWeapon(data, mesh, inventory);
 
         Unit m_unit = base_unit.AddComponent<Unit>();
-
+        loot.Init(m_unit);
         effect_manager.SetUnit(m_unit);
 
         m_unit.OwnerID = data.Owner;      
