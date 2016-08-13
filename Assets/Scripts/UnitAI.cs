@@ -231,7 +231,7 @@ public class UnitAI : MonoBehaviour, ITriggerable {
 
     Tile GetBestAttackPosition(Unit target, List<Tile> from_tiles)
     {
-        Debug.Log("choosing from " + from_tiles.Count);
+       
         List<GenericWeightable<Tile>> weighted_tiles = new List<GenericWeightable<Tile>>();
         
         foreach(Tile t in from_tiles)
@@ -247,7 +247,7 @@ public class UnitAI : MonoBehaviour, ITriggerable {
             //Debug.Log(weight);
         }
 
-        Debug.Log("choosing from " + weighted_tiles.Count);
+       
         return WeightableFactory.GetWeighted (weighted_tiles).Value;
 
     }
@@ -268,7 +268,7 @@ public class UnitAI : MonoBehaviour, ITriggerable {
             }
 
             Dictionary<Unit, List<Tile>> map = GetEnemiesAttackableWithin1Move();
-            Debug.Log(map.Count);
+          
             if(map.Count > 0 && (attack.CanTarget(preferred_target)))
             {
                 if (!m_Actions.HasAP(2)) { 
@@ -298,27 +298,26 @@ public class UnitAI : MonoBehaviour, ITriggerable {
 
                     yield return StartCoroutine(Move(GetBestAttackPosition(preferred_target, move_to_tiles)));
                 }
-                Debug.Log("adsddd d");
+              
             } else
             {
-               
-                    Debug.Log("adsddd d");
+
                     SkipTurn();
                     yield return null;
          
             }
-            Debug.Log("adsddd d");
+           
         } else if(m_Actions.HasAP(2) && Random.value < Constants.AI_PATROL_CHANCE && m_unit.Stats.GetStatAmount(StatType.move_range) > 0)
         {
-            Debug.Log("adsddd d");
+           
             yield return StartCoroutine(MovePatrol());
         } else
         {
-            Debug.Log("adsddd d");
+           
             SkipTurn();
             yield return null;
         }
-        Debug.Log("adsddd d");
+
     }
 
 

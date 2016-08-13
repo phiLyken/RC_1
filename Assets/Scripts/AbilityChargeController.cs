@@ -20,13 +20,15 @@ public class AbilityChargeController
     {
         if (useCharges)
         {
+
             m_unit.Inventory.ModifyItem(ChargeItemType, -1);
         }
     }
 
     public void ResetCharge()
     {
-        if (useCharges && m_unit.Inventory.HasItem(ChargeItemType, 0))
+
+        if (useCharges)
         {
             //  Debug.Log(LootBalance.GetBalance().LootConfigs.Count);
 
@@ -37,7 +39,9 @@ public class AbilityChargeController
                 Debug.LogWarning("CAN NOT FIND A CONSUMABLE FOR " + ChargeItemType.ToString());
                 return;
             }
+
             m_unit.Inventory.AddItem(item_config, m_unit.Inventory.GetMax(ChargeItemType));
+            
         }
 
     }

@@ -140,7 +140,7 @@ public class UnitActionBase : MonoBehaviour {
      protected virtual void ActionExecuted()
     {
 
-
+        ChargeController.UseCharge();
         if (OnExecuteAction != null) OnExecuteAction(this);
     }
 

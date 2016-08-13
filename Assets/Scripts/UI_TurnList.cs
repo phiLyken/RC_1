@@ -89,6 +89,7 @@ public class UI_TurnList : MonoBehaviour {
     {
         anchors = MyMath.SpawnObjectsToTransform<RectTransform>(TurnListAnchorPrefab, parent_container, TurnListEntries);
         Debug.Log("ANCHORS " + anchors.Count);
+        Canvas.ForceUpdateCanvases();
     }
 
     void SetItemsToPosition()
@@ -100,6 +101,7 @@ public class UI_TurnList : MonoBehaviour {
             pair.Value.GetComponent<RectTransform>().position = GetTargetSlotPos(i);
                  i++;
         }
+
     }
 
     Vector3 GetTargetSlotPos(int pos)

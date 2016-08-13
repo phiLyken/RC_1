@@ -80,6 +80,11 @@ public class UnitEffect : MonoBehaviour
 
     }
 
+    public virtual UnitEffect MakeCopy(UnitEffect origin, Unit host)
+    {
+
+        return origin.MemberwiseClone() as UnitEffect;
+    }
 
     public virtual UnitEffect MakeCopy(UnitEffect origin)
     {

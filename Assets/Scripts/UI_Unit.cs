@@ -116,7 +116,8 @@ public class UI_Unit : MonoBehaviour
     }
     bool GetCanHideUI()
     {
-        return !TurnSystem.HasTurn(m_unit) && !GetComponent<UI_EffectQueue>().GetQueueActive() && !hovered;
+       
+        return m_unit == null || ( !TurnSystem.HasTurn(m_unit) && !GetComponent<UI_EffectQueue>().GetQueueActive() && !hovered);
     }
 
     void CheckHoverEnd(Unit _hovered)
@@ -139,15 +140,10 @@ public class UI_Unit : MonoBehaviour
     }
     void UpdateUI(Unit u)
     {
-        StatBar.SetBarValues(
-            (int)m_unit.Stats.GetStatAmount(StatType.oxygen),
-            (int)m_unit.Stats.GetStatAmount(StatType.adrenaline),
-            (int)m_unit.Stats.GetStatAmount(StatType.vitality)
-        );
-        
-        MoveField.SetNumber(u.Actions.GetAPLeft());
+        if (u != m_unit)
+            return;
 
-        if (TurnSystem.HasTurn(m_unit))
+        if (!m_unit.IsDead() && TurnSystem.HasTurn(m_unit))
         {
             Toggle(true);
         }
@@ -156,6 +152,15 @@ public class UI_Unit : MonoBehaviour
             Toggle(false);
             return;
         }
+        StatBar.SetBarValues(
+            (int)m_unit.Stats.GetStatAmount(StatType.oxygen),
+            (int)m_unit.Stats.GetStatAmount(StatType.adrenaline),
+            (int)m_unit.Stats.GetStatAmount(StatType.vitality)
+        );
+        
+        MoveField.SetNumber(m_unit.Actions.GetAPLeft());
+
+        
     }
 
 

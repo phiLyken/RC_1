@@ -13,10 +13,11 @@ public class UnitEffect_GainAdrenaline : UnitEffect
     int removed = -1;
     int added = -1;
 
-    public override UnitEffect MakeCopy(UnitEffect origin)
+    public override UnitEffect MakeCopy(UnitEffect origin, Unit effect_host)
     {
+      
         UnitEffect_GainAdrenaline stim = (UnitEffect_GainAdrenaline)( (UnitEffect_GainAdrenaline) origin).MemberwiseClone();
-        stim.baked_adrenaline = Constants.GetGainedAdrenaline(Effect_Host, Rolls) ;
+        stim.baked_adrenaline = Constants.GetGainedAdrenaline(effect_host, Rolls) ;
         return stim;
     }
 
