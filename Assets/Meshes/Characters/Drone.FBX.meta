@@ -28,6 +28,10 @@ ModelImporter:
     100040: LegFR_0
     100042: LegFR_0 1
     100044: LegFR_1
+    100046: LegBL_nub
+    100048: LegBR_nub
+    100050: LegFL_nub
+    100052: LegFR_nub
     400000: Attach_Drone
     400002: //RootNode
     400004: Drone
@@ -51,6 +55,10 @@ ModelImporter:
     400040: LegFR_0
     400042: LegFR_0 1
     400044: LegFR_1
+    400046: LegBL_nub
+    400048: LegBR_nub
+    400050: LegFL_nub
+    400052: LegFR_nub
     2300000: Dronebody
     2300002: DroneHead
     2300004: Dronehinge
