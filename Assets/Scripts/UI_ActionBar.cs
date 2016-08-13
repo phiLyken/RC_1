@@ -18,6 +18,7 @@ public class UI_ActionBar : MonoBehaviour {
         instance = this;
         CurrentButtons = new List<UI_ActionBar_Button>();
         ActionManager.OnActionManagerActivated += SetActions;
+       
     }
 
     public static void SetActions(ActionManager manager)

@@ -13,29 +13,49 @@ public class UI_ActionBar_Button : MonoBehaviour, IToolTip{
 
     public Image ActionIcon;
     public ActionEventHandler OnActionHovered;
-     
+
+    UnitInventory inventory;
+      
     public void SetAction(UnitActionBase action, ActionManager manager)
     {
-       // Debug.Log("set action " + action.ActionID);
-        if(m_action != null)
+
+        m_manager = manager;
+        manager.OnActionComplete += OnActionComplete;
+        // Debug.Log("set action " + action.ActionID);
+        if (m_action != null)
         {
             action.OnSelectAction -= OnActionSelect;
             action.OnUnselectAction -= OnActionUnselect;
-         
+            inventory.OnInventoryUpdated -= OnInventoryUpdate;
+
         }
+        
+        
 
         m_action = action;
-        m_manager = manager;
 
         if (m_action != null)
         {
+            inventory = action.GetOwner().Inventory;
+            inventory.OnInventoryUpdated += OnInventoryUpdate;
             action.OnSelectAction += OnActionSelect;
             action.OnUnselectAction += OnActionUnselect;
-           
+            action.OnActionComplete += OnActionComplete;
             SetBaseState(m_action);
         }
     }
 
+   
+    void OnActionComplete(UnitActionBase _action)
+    {
+
+            SetBaseState();
+   
+    }
+    void OnInventoryUpdate(IInventoryItem item, int count)
+    {
+        SetBaseState();
+    }
     public UnitActionBase GetAction()
     {
         return m_action;
@@ -49,7 +69,7 @@ public class UI_ActionBar_Button : MonoBehaviour, IToolTip{
 
     public void OnActionUnselect(UnitActionBase action)
     {
-      //  Debug.Log("Action unselect");
+         Debug.Log("Action unselect");
         SetBaseState(action);
        
     }

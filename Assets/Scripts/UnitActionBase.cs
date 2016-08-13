@@ -12,6 +12,7 @@ public class UnitActionBase : MonoBehaviour {
     public ActionEventHandler OnExecuteAction;
     public ActionEventHandler OnSelectAction;
     public ActionEventHandler OnUnselectAction;
+    public ActionEventHandler OnActionComplete;
 
     public ActionTargetEventHandler OnTargetHover;
     public ActionTargetEventHandler OnTargetUnhover;
@@ -54,6 +55,10 @@ public class UnitActionBase : MonoBehaviour {
         ChargeController.Init(o);
     }
 
+    public Unit GetOwner()
+    {
+        return Owner;
+    }
 
 
     public virtual void SelectAction()
@@ -135,6 +140,8 @@ public class UnitActionBase : MonoBehaviour {
     protected virtual void ActionCompleted()
     {
         ActionInProgress = false;
+        if (OnActionComplete != null)
+            OnActionComplete(this);
     }
 
      protected virtual void ActionExecuted()
