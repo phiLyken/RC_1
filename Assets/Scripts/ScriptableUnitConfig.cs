@@ -19,7 +19,7 @@ public class ScriptableUnitConfig : ScriptableObject
 
     public Weapon Weapon;
 
-    public ArmorConfig Armor;
+    public GameObject Armor;
 
     public EnemyDropCategory LootCategory;
 }

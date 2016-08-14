@@ -9,7 +9,8 @@ public class Weapon : MonoBehaviour,  IInventoryItem
     public string ID;
     public Sprite Icon;
 
-    public List<AttachmentConfig> Attachments;
+    public GameObject AttachmentRight;
+    public GameObject AttachmentLeft;
 
     public WeaponAnimationStates AnimationState;
 

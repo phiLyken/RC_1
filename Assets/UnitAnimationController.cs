@@ -2,44 +2,58 @@
 using System.Collections;
 
 
-public class UnitAnimationController : MonoBehaviour {
-    
-    Animator anim;
+public class UnitAnimationController : MonoBehaviour
+{
+    public UnitAnimation UnitAnimator;
+    public Unit m_Unit;
 
-    public void Init(Unit unit)
+    public void Init(Unit u)
     {
-        anim = unit.GetComponent<Animator>();
+        m_Unit = u;
+        UnitAnimator = new UnitAnimation();
 
-        unit.Actions.OnActionStarted += action =>
-        {
-            if( action.GetType() == typeof(UnitAction_Move))
-            {
-                anim.SetBool("moving", true);
-                
-            } else { 
-                anim.SetTrigger(action.Animation.ToString());
-            }
-        };
+        GameObject left_weapon = u.Inventory.EquipedWeapon.AttachmentLeft;
+        GameObject right_weapon = u.Inventory.EquipedWeapon.AttachmentRight;
 
-        unit.Actions.OnActionComplete += action =>
+        UnitAnimator.Init(
+            m_Unit.GetComponent<Animator>(),
+            new WeaponAnimator(right_weapon),
+            new WeaponAnimator(left_weapon)
+        );
+      
+
+        m_Unit.Actions.OnActionStarted += action =>
         {
             if (action.GetType() == typeof(UnitAction_Move))
             {
-                anim.SetBool("moving", false);
+                UnitAnimator.SetWalking(true);
+
+            }
+            else
+            {
+                UnitAnimator.SetWalking(true);
             }
         };
 
-        anim.SetFloat("WeaponIndex",(int) unit.GetComponent<UnitInventory>().EquipedWeapon.AnimationState);
-        
+        m_Unit.Actions.OnActionComplete += action =>
+        {
+            if (action.GetType() == typeof(UnitAction_Move))
+            {
+                UnitAnimator.SetWalking(false);
+            }
+        };
+
+        UnitAnimator.SetWeaponIndex((int) m_Unit.GetComponent<UnitInventory>().EquipedWeapon.AnimationState);
     }
 
-    public void HideWeapon()
+    public void WeaponShow()
     {
-        
+        UnitAnimator.WeaponShow();
     }
 
-    public void ShowWeapon()
+    public void WeaponHide()
     {
-
+        UnitAnimator.WeaponHide();
     }
 }
+

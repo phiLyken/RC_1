@@ -27,9 +27,7 @@ public class UI_ActionBar_Button : MonoBehaviour, IToolTip{
             action.OnSelectAction -= OnActionSelect;
             action.OnUnselectAction -= OnActionUnselect;
             inventory.OnInventoryUpdated -= OnInventoryUpdate;
-
-        }
-        
+        }    
         
 
         m_action = action;

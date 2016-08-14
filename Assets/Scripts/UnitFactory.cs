@@ -31,7 +31,7 @@ public class UnitFactory : MonoBehaviour
      
 
     
-        AttachWeapon(data, mesh, inventory);
+        GiveWeapon(data, mesh, inventory);
 
         Unit m_unit = base_unit.AddComponent<Unit>();
         loot.Init(m_unit);
@@ -114,12 +114,28 @@ public class UnitFactory : MonoBehaviour
     }
 
 
-    private static void AttachWeapon(ScriptableUnitConfig data, GameObject unit_mesh, UnitInventory inventory)
+    private static void GiveWeapon(ScriptableUnitConfig data, GameObject unit_mesh, UnitInventory inventory)
     {
-        Weapon weapon = Instantiate(data.Weapon);
+        Weapon weapon = SpawnWeaponToUnit(unit_mesh, data.Weapon);
+
+
         weapon.transform.SetParent(unit_mesh.transform);
         inventory.AddItem(weapon, 1);
     }
+
+    public static Weapon SpawnWeaponToUnit(GameObject unit_mesh, Weapon weapon)
+    {
+        Weapon instance = Instantiate(weapon.gameObject).GetComponent<Weapon>();
+
+        if(instance.AttachmentLeft != null)
+            UnitMesh_Attachment.AttachObjectToBone(unit_mesh, instance.AttachmentLeft, AttachmentPoints.left_hand);
+
+        if(instance.AttachmentRight != null)
+            UnitMesh_Attachment.AttachObjectToBone(unit_mesh, instance.AttachmentRight, AttachmentPoints.right_hand);
+
+        return instance;
+    }
+
     static UnitStats MakeStats(GameObject target, ScriptableUnitConfig conf, Unit_EffectManager effects, int start_initiative)
     {
 
