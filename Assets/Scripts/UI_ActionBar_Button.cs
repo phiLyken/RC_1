@@ -6,7 +6,7 @@ using System;
 public class UI_ActionBar_Button : MonoBehaviour, IToolTip{
 
     UnitActionBase m_action;
-
+    ActionManager m_manager;
 
     public Image ChargesCounterIMG;
     public Text ChargesCounterTF;
@@ -16,17 +16,21 @@ public class UI_ActionBar_Button : MonoBehaviour, IToolTip{
 
     UnitInventory inventory;
       
-    public void SetAction(UnitActionBase action)
+    public void SetAction(UnitActionBase action, ActionManager manager)
     {
 
-
+        m_manager = manager;
+        //   manager.OnActionComplete += OnActionComplete;
         // Debug.Log("set action " + action.ActionID);
         if (m_action != null)
         {
             action.OnSelectAction -= OnActionSelect;
             action.OnUnselectAction -= OnActionUnselect;
             inventory.OnInventoryUpdated -= OnInventoryUpdate;
+
         }
+        
+        
 
         m_action = action;
 
