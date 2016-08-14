@@ -56,5 +56,10 @@ public class UnitAnimationController : MonoBehaviour
     {
         UnitAnimator.WeaponHide();
     }
+
+    public void AbilityCallback(string id)
+    {
+        UnitAnimator.AbilityCallback(id);
+    }
 }
 

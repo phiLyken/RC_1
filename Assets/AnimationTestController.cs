@@ -29,6 +29,9 @@ public class AnimationTestController : MonoBehaviour
         m_Animator = UnitFactory.MakeUnitAnimations(gameObject, current, current.WeaponIndex);
     }
 
+
+
+
     void OnGUI()
     {
         GUI.BeginGroup(new Rect(10, 10, 500, 500));
@@ -112,5 +115,21 @@ public class AnimationTestController : MonoBehaviour
         GUI.EndGroup();
 
 
+    }
+
+
+    public void WeaponShow()
+    {
+        m_Animator.WeaponShow();
+    }
+
+    public void WeaponHide()
+    {
+        m_Animator.WeaponHide();
+    }
+
+    public void AbilityCallback(string id)
+    {
+        m_Animator.AbilityCallback(id);
     }
 }

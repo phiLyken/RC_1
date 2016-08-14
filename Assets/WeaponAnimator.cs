@@ -36,7 +36,7 @@ public class WeaponAnimator
     {
         if (animator == null)
             return;
-
+        Debug.Log("Play Shoot " + animator.gameObject.name);
         animator.SetTrigger("bShooting");
         //TODO EFFECT PLAYING GOES HERE
     }

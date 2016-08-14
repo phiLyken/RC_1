@@ -29,6 +29,7 @@ public class UnitAnimation
 
     public void AbilityCallback(string id)
     {
+        Debug.Log("Ability call back " + id);
         switch (id)
         {
             case "shoot_left":
