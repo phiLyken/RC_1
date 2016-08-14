@@ -123,17 +123,38 @@ public class UnitFactory : MonoBehaviour
         inventory.AddItem(weapon, 1);
     }
 
+    public static UnitAnimation MakeUnitAnimations(GameObject unit_mesh, WeaponMesh weapon, int index)
+    {
+        WeaponAnimator animator_right = new WeaponAnimator(weapon.AttachmentRight);
+        WeaponAnimator animator_left = new WeaponAnimator(weapon.AttachmentRight);
+        Animator unit_animator = unit_mesh.GetComponent<Animator>();
+
+        return new UnitAnimation().Init(unit_animator, animator_right, animator_left, index);
+    }
+
+    public static WeaponMesh SpawnWeaponMeshToUnit(GameObject unit_mesh, WeaponMesh weapon_mesh_prefab)
+    {
+        WeaponMesh weapon_mesh = Instantiate(weapon_mesh_prefab.gameObject).GetComponent<WeaponMesh>();
+
+        weapon_mesh.transform.SetParent(unit_mesh.transform);
+
+        if (weapon_mesh.AttachmentLeft != null)
+          UnitMesh_Attachment.AttachToBone(unit_mesh, weapon_mesh.AttachmentLeft, AttachmentPoints.left_hand);
+
+        if (weapon_mesh.AttachmentRight != null)
+           UnitMesh_Attachment.AttachToBone(unit_mesh, weapon_mesh.AttachmentRight, AttachmentPoints.right_hand);
+
+        return weapon_mesh;
+    }
+
     public static Weapon SpawnWeaponToUnit(GameObject unit_mesh, Weapon weapon)
     {
+
         Weapon instance = Instantiate(weapon.gameObject).GetComponent<Weapon>();
+        instance.gameObject.transform.SetParent(unit_mesh.transform);
+        return instance;   
 
-        if(instance.AttachmentLeft != null)
-            UnitMesh_Attachment.AttachObjectToBone(unit_mesh, instance.AttachmentLeft, AttachmentPoints.left_hand);
-
-        if(instance.AttachmentRight != null)
-            UnitMesh_Attachment.AttachObjectToBone(unit_mesh, instance.AttachmentRight, AttachmentPoints.right_hand);
-
-        return instance;
+       
     }
 
     static UnitStats MakeStats(GameObject target, ScriptableUnitConfig conf, Unit_EffectManager effects, int start_initiative)

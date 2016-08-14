@@ -8,9 +8,8 @@ public class Weapon : MonoBehaviour,  IInventoryItem
 {
     public string ID;
     public Sprite Icon;
-
-    public GameObject AttachmentRight;
-    public GameObject AttachmentLeft;
+    public WeaponMesh WeaponMesh;
+   
 
     public WeaponAnimationStates AnimationState;
 
@@ -64,3 +63,4 @@ public class Weapon : MonoBehaviour,  IInventoryItem
         _count = new_count;
     }
 }
+

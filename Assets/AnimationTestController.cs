@@ -4,15 +4,30 @@ using System.Collections;
 public class AnimationTestController : MonoBehaviour
 {
 
-    Animator Anim;
+    UnitAnimation m_Animator;
+    WeaponMesh current;
+
+    public WeaponMesh[] TestWeapons;
 
 
     void Awake()
     {
-        Anim = GetComponent<Animator>();
 
+        Init(TestWeapons[0]);
     }
 
+    public void Init(WeaponMesh mesh)
+    {
+        if(current != null)
+        {
+            Destroy(current.AttachmentLeft);
+            Destroy(current.AttachmentRight);
+            Destroy(current.gameObject);
+        }
+
+        current = UnitFactory.SpawnWeaponMeshToUnit(gameObject, mesh);
+        m_Animator = UnitFactory.MakeUnitAnimations(gameObject, current, current.WeaponIndex);
+    }
 
     void OnGUI()
     {
@@ -20,24 +35,33 @@ public class AnimationTestController : MonoBehaviour
         GUI.BeginGroup(new Rect(0, 0, 350, 500), "ONE SHOTS");
 
         if (GUI.Button(new Rect(0, 30, 100, 25), "GET HIT"))
-            Anim.SetTrigger("bHit");
+            m_Animator.SetTrigger("bHit");
         if (GUI.Button(new Rect(0, 60, 100, 25), "RAGE"))
-            Anim.SetTrigger("bRage");
+            m_Animator.SetTrigger("bRage");
         if (GUI.Button(new Rect(0, 90, 100, 25), "LOOT"))
-            Anim.SetTrigger("bLooting");
+            m_Animator.SetTrigger("bLooting");
         if (GUI.Button(new Rect(0, 120, 100, 25), "HEAL"))
-            Anim.SetTrigger("bHealing");
+            m_Animator.SetTrigger("bHealing");
         if (GUI.Button(new Rect(0, 150, 100, 25), "SHOOT"))
-            Anim.SetTrigger("bShooting");
+            m_Animator.SetTrigger("bShooting");
         if (GUI.Button(new Rect(0, 180, 100, 25), "INT ATTACK"))
-            Anim.SetTrigger("bIntAttack");
+            m_Animator.SetTrigger("bIntAttack");
         if (GUI.Button(new Rect(0, 210, 100, 25), "DIE"))
-            Anim.SetTrigger("bDying");
+            m_Animator.SetTrigger("bDying");
 
         GUI.EndGroup();
 
         GUI.BeginGroup(new Rect(0, 350, 350, 200), "OTHER STATES");
-        Anim.SetBool("bMoving", GUI.Toggle(new Rect(0, 30, 100, 25), Anim.GetBool("bMoving"), "Moving"));
+
+        if (GUI.Button(new Rect(0, 30, 100, 25), "MOVE: True"))
+        {
+            m_Animator.SetWalking(true);
+        }
+
+        if (GUI.Button(new Rect(0, 60, 100, 25), "MOVE: False"))
+        {
+            m_Animator.SetWalking(false);
+        }
 
         GUI.EndGroup();
 
@@ -47,47 +71,44 @@ public class AnimationTestController : MonoBehaviour
 
         if (GUI.Button(new Rect(0, 30, 100, 25), "CCW"))
         {
-            Anim.SetFloat("WeaponIndex", 0);
+            m_Animator.SetWeaponIndex(0);
         }
         if (GUI.Button(new Rect(0, 60, 100, 25), "CCWnShield"))
         {
-            Anim.SetFloat("WeaponIndex", 1);
+            m_Animator.SetWeaponIndex(1);
         }
         if (GUI.Button(new Rect(0, 90, 100, 25), "Pistol"))
         {
-            Anim.SetFloat("WeaponIndex", 2);
+            m_Animator.SetWeaponIndex(2);
         }
         if (GUI.Button(new Rect(0, 120, 100, 25), "Dual Pistol"))
         {
-            Anim.SetFloat("WeaponIndex", 3);
+            m_Animator.SetWeaponIndex(3);
         }
         if (GUI.Button(new Rect(0, 150, 100, 25), "Rifle"))
         {
-            Anim.SetFloat("WeaponIndex", 4);
+            m_Animator.SetWeaponIndex(4);
         }
         if (GUI.Button(new Rect(0, 180, 100, 25), "BFG"))
         {
-            Anim.SetFloat("WeaponIndex", 5);
+            m_Animator.SetWeaponIndex(5);
         }
         if (GUI.Button(new Rect(0, 210, 100, 25), "Greatweapon"))
         {
-            Anim.SetFloat("WeaponIndex", 6);
+            m_Animator.SetWeaponIndex(6);
         }
 
+        GUI.EndGroup();
+        GUI.BeginGroup(new Rect(Screen.width - 200, Screen.height-250, 350, 500), "WEAPON MESHES");
 
+        for(int i = 0; i <= TestWeapons.Length-1; i++)
+        {
+            if (GUI.Button(new Rect(0, 30 + i*30, 100, 25), "wpn mesh "+i))
+            {
+                Init(TestWeapons[i]);
+            }
+        }
 
-
-
-
-        /*      for (int i = 0; i < 7; i++)
-              {
-                  if (GUI.Button(new Rect(0, i * 30, 150, 25), "set weaponindex " + i))
-                  {
-                      Anim.SetFloat("WeaponIndex", i);
-                  }
-
-              }
-      */
         GUI.EndGroup();
 
 

@@ -12,13 +12,14 @@ public class UnitAnimationController : MonoBehaviour
         m_Unit = u;
         UnitAnimator = new UnitAnimation();
 
-        GameObject left_weapon = u.Inventory.EquipedWeapon.AttachmentLeft;
-        GameObject right_weapon = u.Inventory.EquipedWeapon.AttachmentRight;
+        GameObject left_weapon = u.Inventory.EquipedWeapon.WeaponMesh.AttachmentLeft;
+        GameObject right_weapon = u.Inventory.EquipedWeapon.WeaponMesh.AttachmentRight;
 
+        int index = u.Inventory.EquipedWeapon.WeaponMesh.WeaponIndex;
         UnitAnimator.Init(
             m_Unit.GetComponent<Animator>(),
             new WeaponAnimator(right_weapon),
-            new WeaponAnimator(left_weapon)
+            new WeaponAnimator(left_weapon), index
         );
       
 

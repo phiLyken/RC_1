@@ -39,10 +39,8 @@ public class UnitMesh_Attachment : MonoBehaviour {
         return target.transform.FindDeepChild(bone_name);
        
     }
-    public static GameObject AttachObjectToBone(GameObject target_rig, GameObject part, AttachmentPoints point)
+    public static void AttachToBone(GameObject target_rig, GameObject part, AttachmentPoints point)
     {
-
-        
 
         string bone_name = GetBoneForPart(point);
         Transform bone = GetBone(target_rig, bone_name);
@@ -50,12 +48,14 @@ public class UnitMesh_Attachment : MonoBehaviour {
         if (bone == null)
         {
             Debug.LogWarning("COULD NOT FIND BONE " + bone_name);
-            return null;
+         
         }
-        GameObject part_instance = Instantiate(target_rig, bone.transform.position, bone.transform.rotation) as GameObject;
-        part_instance.transform.SetParent(bone);
+        //  GameObject part_instance = Instantiate(part, bone.transform.position, bone.transform.rotation) as GameObject;
+        part.transform.rotation = bone.transform.rotation;
+        part.transform.position = bone.transform.position;
+        part.transform.SetParent(bone);
 
-        return part_instance;
+       
     }
 }
 

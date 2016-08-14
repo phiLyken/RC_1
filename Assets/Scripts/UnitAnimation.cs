@@ -7,11 +7,14 @@ public class UnitAnimation
     WeaponAnimator WeaponAnimator_Right;
     WeaponAnimator WeaponAnimator_Left;
 
-    public void Init(Animator unit, WeaponAnimator right, WeaponAnimator left)
+    public UnitAnimation Init(Animator unit, WeaponAnimator right, WeaponAnimator left, float index)
     {
         WeaponAnimator_Left = left;
         WeaponAnimator_Right = right;
         unit_animator = unit;
+
+        SetWeaponIndex(index);
+        return this;
     }
 
     public void SetWeaponIndex(float f)
@@ -21,7 +24,7 @@ public class UnitAnimation
 
     public void SetWalking(bool b)
     {
-        unit_animator.SetBool("moving", b);
+        unit_animator.SetBool("bMoving", b);
     }
 
     public void AbilityCallback(string id)
@@ -48,5 +51,10 @@ public class UnitAnimation
     {
         WeaponAnimator_Left.ShowWeapon();
         WeaponAnimator_Right.ShowWeapon();
+    }
+
+    public void SetTrigger(string id)
+    {
+        unit_animator.SetTrigger(id);
     }
 }
