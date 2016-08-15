@@ -142,7 +142,7 @@ public static class MyMath  {
 		
 	}
 
-    public static void DeleteChildren(GameObject obj)
+    public static void DeleteChildren(this GameObject obj)
     {
   
         for(int i = obj.transform.childCount-1; i >= 0; i--)
@@ -152,7 +152,7 @@ public static class MyMath  {
     }
 
 
-    public static int FloatDirection(float f)
+    public static int Direction(this float f)
     {
         return (int)(f / Mathf.Abs(f));
     }
@@ -310,6 +310,21 @@ public static class MyMath  {
         return ret;
     }
 
+    public static void DetachChildren(this Transform tr)
+    {
+        DetachChildren(tr, null);
+    }
+    public static void DetachChildren(this Transform tr, Transform target)
+    {
+        List<Transform> _children = new List<Transform>();
+        foreach (Transform transform in tr)
+        {
+            _children.Add(transform);
+            Debug.Log("detach "+transform.gameObject.name);
+        }
+
+        _children.ForEach(child => child.SetParent(tr));
+    }
 
     public static void FadeText(Text t, int cycles, Color Color1, Color Color2, float time1, float time2)
     {
@@ -353,6 +368,45 @@ public static class MyMath  {
 
     }
 
+    public class DummyMono : MonoBehaviour
+    {
+    }
+
+
+    public static void StopAndKill(this ParticleSystem particle_system)
+    {
+
+        particle_system.PauseEmission();
+
+        
+        particle_system.gameObject.AddComponent<DummyMono>().
+            StartCoroutine(
+            WaitForEmptyParticles(particle_system, () =>
+            { GameObject.Destroy(particle_system.gameObject);
+            }
+        ));
+
+
+    }
+    public static void PauseEmission(this ParticleSystem system)
+    {
+     
+        var em = system.emission;
+        em.enabled = false;
+
+       
+    }
+
+   static IEnumerator WaitForEmptyParticles(ParticleSystem system, EventHandler callback)
+    {
+        while(system.particleCount > 0)
+        {
+
+            yield return null;
+        }
+        callback();
+        yield break;
+    }
     public static bool MouseTouchUp()
     {
 
