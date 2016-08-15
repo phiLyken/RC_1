@@ -538,7 +538,14 @@ public static class MyMath  {
 
         return items;
     }
+    public static List<GameObject> InsantiateObjects(List<GameObject> source)
+    {
+        List<GameObject> objects = new List<GameObject>();
 
+        source.ForEach(src => objects.Add(GameObject.Instantiate(src)));
+
+        return objects;
+    }
   
 }
 
