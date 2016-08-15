@@ -44,12 +44,14 @@ public class UnitAnimation
 
     public void WeaponHide()
     {
-        WeaponAnimator_Left.HideWeaon();
-        WeaponAnimator_Right.HideWeaon();
+        Debug.Log(" *ANIMATION CALL BACK* Weapon Hide");
+        WeaponAnimator_Left.HideWeapon();
+        WeaponAnimator_Right.HideWeapon();
     }
 
     public void WeaponShow()
     {
+        Debug.Log(" *ANIMATION CALL BACK* Weapon Show");
         WeaponAnimator_Left.ShowWeapon();
         WeaponAnimator_Right.ShowWeapon();
     }

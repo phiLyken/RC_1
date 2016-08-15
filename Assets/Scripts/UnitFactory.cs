@@ -107,14 +107,54 @@ public class UnitFactory : MonoBehaviour
      //   inventory.AddItem(armor,1);
 
     }
-
-    private static void AttachArmor(ArmorConfig config, GameObject unit_mesh)
-    {
   
+    public static List<GameObject> SpawnSkinnedMeshToUnit(GameObject target_unit, GameObject head, GameObject suit)
+    {
+
+        Transform target_skeleton_root = target_unit.transform.FindDeepChild("humanoid");
+
+        List<SkinnedMeshRenderer> suitobjects = suit.GetComponentsInChildren<SkinnedMeshRenderer>().ToList();
+
+        suitobjects.Add(head.GetComponentsInChildren<SkinnedMeshRenderer>().First());
+
+        List<GameObject> skinned_objects = MyMath.InsantiateObjects(suitobjects.Select(skn => skn.gameObject).ToList());
+
+        skinned_objects.ForEach(obj => SkinnedMeshTools.AddSkinnedMeshTo(obj.gameObject, target_skeleton_root));
+        Debug.Log("spawn skinned " + skinned_objects.Count);
+        return skinned_objects;
     }
 
+    /// <summary>
+    /// http://answers.unity3d.com/questions/44355/shared-skeleton-and-animation-state.html
+    /// </summary>
+    /// <param name="target"></param>
+    /// <param name="attachment"></param>
+    public static void AttachSkinnedMesh(SkinnedMeshRenderer target, SkinnedMeshRenderer attachment)
+    {
+       
+        SkinnedMeshRenderer targetRenderer = target;
+        Dictionary<string, Transform> boneMap = new Dictionary<string, Transform>();
+        foreach (Transform bone in targetRenderer.bones)
+        {
+            boneMap[bone.name] = bone;
+        }
 
-    private static void GiveWeapon(ScriptableUnitConfig data, GameObject unit_mesh, UnitInventory inventory)
+          
+        Transform[] boneArray = targetRenderer.bones;
+        for (int idx = 0; idx < boneArray.Length; ++idx)
+        {
+            string boneName = boneArray[idx].name;
+            if (false == boneMap.TryGetValue(boneName, out boneArray[idx]))
+            {
+                Debug.LogError("failed to get bone: " + boneName);
+                Debug.Break();
+            }
+        }
+        attachment.bones = boneArray; //take effect
+        
+    }
+
+    public static void GiveWeapon(ScriptableUnitConfig data, GameObject unit_mesh, UnitInventory inventory)
     {
         Weapon weapon = SpawnWeaponToUnit(unit_mesh, data.Weapon);
 

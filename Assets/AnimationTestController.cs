@@ -7,26 +7,43 @@ public class AnimationTestController : MonoBehaviour
     UnitAnimation m_Animator;
     WeaponMesh current;
 
+    public GameObject TargetUnit;
+
     public WeaponMesh[] TestWeapons;
 
 
     void Awake()
     {
-
         Init(TestWeapons[0]);
     }
 
     public void Init(WeaponMesh mesh)
     {
-        if(current != null)
+    
+
+        if (current != null)
         {
             Destroy(current.AttachmentLeft);
             Destroy(current.AttachmentRight);
             Destroy(current.gameObject);
         }
 
-        current = UnitFactory.SpawnWeaponMeshToUnit(gameObject, mesh);
-        m_Animator = UnitFactory.MakeUnitAnimations(gameObject, current, current.WeaponIndex);
+        /*
+        if(m_Animator != null)
+        {
+            caster.OnAbilityTrigger -= m_Animator.AbilityCallback;
+            caster.OnWeaponHide -= m_Animator.WeaponHide;
+            caster.OnWeaponShow -= m_Animator.WeaponShow;
+        }*/
+
+        current = UnitFactory.SpawnWeaponMeshToUnit(TargetUnit, mesh);
+        m_Animator = UnitFactory.MakeUnitAnimations(TargetUnit, current, current.WeaponIndex);
+
+        AnimationCallbackCaster caster = TargetUnit.GetComponent<AnimationCallbackCaster>();
+        //No multicast so we dont need to remove listeners
+        caster.OnAbilityTrigger = m_Animator.AbilityCallback;
+        caster.OnWeaponHide = m_Animator.WeaponHide;
+        caster.OnWeaponShow = m_Animator.WeaponShow;
     }
 
 
@@ -118,18 +135,5 @@ public class AnimationTestController : MonoBehaviour
     }
 
 
-    public void WeaponShow()
-    {
-        m_Animator.WeaponShow();
-    }
 
-    public void WeaponHide()
-    {
-        m_Animator.WeaponHide();
-    }
-
-    public void AbilityCallback(string id)
-    {
-        m_Animator.AbilityCallback(id);
-    }
 }

@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 using System.IO;
 
+
+
 public static class MyMath  {
 	
 	public static GameObject GetClosestGameObject(Vector3 originPosition, GameObject[] objects){
@@ -538,7 +540,14 @@ public static class MyMath  {
 
         return items;
     }
+    public static List<GameObject> InsantiateObjects(List<GameObject> source)
+    {
+        List<GameObject> objects = new List<GameObject>();
 
+        source.ForEach(src => objects.Add(GameObject.Instantiate(src)));
+
+        return objects;
+    }
   
 }
 
@@ -563,19 +572,19 @@ public static class TransformDeepChildExtension
     }
 
 
-    /*
-    //Depth-first search
-    public static Transform FindDeepChild(this Transform aParent, string aName)
-    {
-        foreach(Transform child in aParent)
+        /*
+        //Depth-first search
+        public static Transform FindDeepChild(this Transform aParent, string aName)
         {
-            if(child.name == aName )
-                return child;
-            var result = child.FindDeepChild(aName);
-            if (result != null)
-                return result;
+            foreach(Transform child in aParent)
+            {
+                if(child.name == aName )
+                    return child;
+                var result = child.FindDeepChild(aName);
+                if (result != null)
+                    return result;
+            }
+            return null;
         }
-        return null;
+        */
     }
-    */
-}
