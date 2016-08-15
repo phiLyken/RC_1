@@ -108,17 +108,19 @@ public class UnitFactory : MonoBehaviour
 
     }
   
-    public static List<SkinnedMeshRenderer> SpawnSkinnedMeshToUnit(GameObject target, GameObject head, GameObject suit)
+    public static List<GameObject> SpawnSkinnedMeshToUnit(GameObject target_unit, GameObject head, GameObject suit)
     {
-        SkinnedMeshRenderer target_rig = target.GetComponent<SkinnedMeshRenderer>();
-        List<SkinnedMeshRenderer> suitobjects = target.GetComponentsInChildren<SkinnedMeshRenderer>().ToList();
+
+        Transform target_skeleton_root = target_unit.transform.FindDeepChild("humanoid");
+
+        List<SkinnedMeshRenderer> suitobjects = suit.GetComponentsInChildren<SkinnedMeshRenderer>().ToList();
 
         suitobjects.Add(head.GetComponentsInChildren<SkinnedMeshRenderer>().First());
 
-        List<SkinnedMeshRenderer> skinned_objects = MyMath.InsantiateObjects(suitobjects.Select(skn => skn.gameObject).ToList()).Select(go => go.GetComponent<SkinnedMeshRenderer>()).ToList();
+        List<GameObject> skinned_objects = MyMath.InsantiateObjects(suitobjects.Select(skn => skn.gameObject).ToList());
 
-        skinned_objects.ForEach(obj => AttachSkinnedMesh(target_rig, obj));
-
+        skinned_objects.ForEach(obj => SkinnedMeshTools.AddSkinnedMeshTo(obj.gameObject, target_skeleton_root));
+        Debug.Log("spawn skinned " + skinned_objects.Count);
         return skinned_objects;
     }
 

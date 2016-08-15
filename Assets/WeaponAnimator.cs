@@ -6,9 +6,10 @@ using System.Collections;
 public class WeaponAnimator
 {
     Animator animator;
-
+    GameObject part;
     public WeaponAnimator(GameObject weapon_part)
     {
+        part = weapon_part;
         animator = weapon_part.GetComponent<Animator>();
         if(animator == null)
         {
@@ -18,18 +19,19 @@ public class WeaponAnimator
 
     public void ShowWeapon()
     {
-        if (animator == null)
+        if (part == null)
             return;
 
-        animator.gameObject.SetActive(true);
+
+        part.SetActive(true);
     }
-    public void HideWeaon()
+    public void HideWeapon()
     {
-        if (animator == null)
+        if (part == null)
             return;
 
 
-        animator.gameObject.SetActive(false);
+        part.SetActive(false);
     }
 
     public void PlayShoot()

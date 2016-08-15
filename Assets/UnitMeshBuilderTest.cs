@@ -4,8 +4,8 @@ using System.Collections.Generic;
 
 public class UnitMeshBuilderTest : MonoBehaviour {
 
-    List<SkinnedMeshRenderer> current;
-
+    List<GameObject> current;
+    public GameObject Target_Unit;
     public UnitMeshConfig MeshConfig;
 
     void Start()
@@ -17,15 +17,15 @@ public class UnitMeshBuilderTest : MonoBehaviour {
     {
        if(current != null)
         {
-           List<SkinnedMeshRenderer> to_remove = new List<SkinnedMeshRenderer>();
+        //   List<GameObject> to_remove = new List<GameObject>();
 
-            foreach(SkinnedMeshRenderer rend in current)
+            foreach(var rend in current)
             {
                 Destroy(rend.gameObject);             
             }          
         }
 
-        current = UnitFactory.SpawnSkinnedMeshToUnit(this.gameObject, MeshConfig.Head, MeshConfig.Suit);
+        current = UnitFactory.SpawnSkinnedMeshToUnit(Target_Unit, MeshConfig.Head, MeshConfig.Suit);
     }
 
 
