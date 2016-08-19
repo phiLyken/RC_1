@@ -18,26 +18,29 @@ public class MovementTest : MonoBehaviour {
 
 
 
-			target.OnMoveToWayPoint = wp => {
-				Debug.Log("move to "+wp.GetPosition());
-			};
+            target.OnMoveToWayPoint += LogPos;
 
-			target.OnWayPointreached = wp => {
-				Debug.Log("reached  "+wp.GetPosition());
-			};
 
-			target.OnMovementEnd = wp => {
-				Debug.Log("moved to "+wp.GetPosition());
-				target.OnMovementEnd = null;
-				target.OnMoveToWayPoint = null;
-				target.OnWayPointreached = null;
-			};
+            target.OnWayPointreached += LogPos;
+
+            target.OnMovementEnd += Ended;
+
 			target.MoveOnPath(waypoints, Speed);
 
 		}
 	}
 
-	
+	void Ended(IWayPoint point)
+    {
+       
+        target.OnMovementEnd -= Ended;
+        target.OnMoveToWayPoint -= LogPos;
+        target.OnWayPointreached -= LogPos;
+    }
+    void LogPos(IWayPoint wp)
+    {
+        Debug.Log(wp.GetPosition());
+    }
     void Update()
     {
        

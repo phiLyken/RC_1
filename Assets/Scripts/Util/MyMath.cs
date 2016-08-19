@@ -331,7 +331,21 @@ public static class MyMath  {
             yield return null;
         }
     }
+    public static Quaternion RotateToYSnapped(  Vector3 from, Vector3 to, float snap)
+    {
+        Vector3 dir = (to - from);
+        dir.y = 0;
+        dir.Normalize();
+        Debug.DrawRay(from, dir);
 
+        Quaternion look = Quaternion.LookRotation(dir);
+
+        float y = look.eulerAngles.y;
+        float locked = Mathf.RoundToInt(y / snap) * snap;
+
+        return   Quaternion.Euler(look.eulerAngles.x, locked, look.eulerAngles.z);
+        
+    }
     static IEnumerator FadeTextOnce(Text tf, Color targetColor, float t)
     {
         Color startcolor = tf.color;
