@@ -16,9 +16,36 @@ public class BulletEmitterTest : MonoBehaviour {
 
             sq.Append(Shoot.Shoot(Target.transform));
 
-            sq.AppendCallback(() => { Debug.Log("Sequence over"); });
+           
+        }
+
+        if (Input.GetButtonDown("Fire2"))
+        {
+            Sequence sq = DOTween.Sequence().Append(d(1))
+            ;
+            sq.AppendInterval(1);
+            sq.AppendCallback(() => { Debug.Log(1); });
+        
+            sq.AppendCallback(() => { Debug.Log(2); });
+            sq.Append(d(2));
+            sq.Append(d(3));
+            sq.AppendCallback(() => { Debug.Log(5); });
+     //       sq.Play();
+
         }
     }
-    
 
+    Tween d(int id)
+    {
+        Sequence s = DOTween.Sequence();
+       
+        s.AppendInterval(1);
+        s.AppendCallback(() => { Debug.Log(" -"+id); });
+
+        Sequence r = DOTween.Sequence();
+        r.AppendInterval(5);
+        r.AppendCallback(() => { Debug.Log("     -" + id); });
+        return s;
+        ;
+    }
 }

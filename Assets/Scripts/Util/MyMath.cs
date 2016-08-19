@@ -368,25 +368,28 @@ public static class MyMath  {
 
     }
 
-    public class DummyMono : MonoBehaviour
+
+    /// <summary>
+    /// pauses emission on all attached particles systems
+    /// </summary>
+    /// <param name="particle_system"></param>
+    public static void StopAll(this ParticleSystem particle_system)
     {
+      List<ParticleSystem>  systems = new List<ParticleSystem>();
+        systems.Add(particle_system);
+        systems.AddRange(particle_system.GetComponentsInChildren<ParticleSystem>().ToList());
+
+        systems.ForEach(sys => sys.PauseEmission());
+
     }
 
-
-    public static void StopAndKill(this ParticleSystem particle_system)
+    /// <summary>
+    /// removes the toplevel gameobject when all child particles (and the one passed as ´param) are inactive
+    /// </summary>
+    /// <param name="system"></param>
+    public static void RemoveAllParticlesWhenInactive(this ParticleSystem system)
     {
-
-        particle_system.PauseEmission();
-
-        
-        particle_system.gameObject.AddComponent<DummyMono>().
-            StartCoroutine(
-            WaitForEmptyParticles(particle_system, () =>
-            { GameObject.Destroy(particle_system.gameObject);
-            }
-        ));
-
-
+        system.gameObject.AddComponent<RemoveParticles>();
     }
     public static void PauseEmission(this ParticleSystem system)
     {
@@ -397,16 +400,7 @@ public static class MyMath  {
        
     }
 
-   static IEnumerator WaitForEmptyParticles(ParticleSystem system, EventHandler callback)
-    {
-        while(system.particleCount > 0)
-        {
 
-            yield return null;
-        }
-        callback();
-        yield break;
-    }
     public static bool MouseTouchUp()
     {
 

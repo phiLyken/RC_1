@@ -9,7 +9,6 @@ public class ShootBullet : MonoBehaviour
     public BulletConfig Bullet;
     public EffectSpawner ShootEffectOnWeapon;
     public EffectSpawner HitEffect;
-
     
     public Sequence Shoot(Transform target)
     {
@@ -19,31 +18,47 @@ public class ShootBullet : MonoBehaviour
     public Sequence ShootBullets(Transform target)
     {
 
-        Sequence seq = DOTween.Sequence();
-        Sequence ret = DOTween.Sequence().AppendInterval(intervall * bullet_count);
+
+        Sequence ret = DOTween.Sequence();
+        Sequence seq = DOTween.Sequence().AppendInterval(intervall * bullet_count);
 
         for (int i = 0; i < bullet_count; i++)
         {
-            if (i == bullet_count - 1)
-            {
-                ret.Append(ShootOneBullet(target));
-                break;
 
+            if(i == bullet_count - 1)
+            {
+                 ret.Append (ShootOneBullet(target));
             }
-            seq.AppendCallback ( () => ShootOneBullet(target));
-            seq.AppendInterval(intervall);           
+            if (i < bullet_count-1)
+            {
+                ret.AppendInterval(intervall);
+                ret.AppendCallback(() => ShootOneBullet(target));
+            }
         }
 
-     
+        Debug.Log(ret);
         return ret;
     }
 
+    void SpawnHitEffect(Transform target)
+    {
+    
+         if (HitEffect != null)
+            HitEffect.Init(target.gameObject);
+      
+    }
     Sequence ShootOneBullet(Transform target)
     {
         if (ShootEffectOnWeapon != null)
-            ShootEffectOnWeapon.Init(transform.gameObject);
+            ShootEffectOnWeapon.Init(this.gameObject);
 
-        return BulletEmitter.SpawnBullet(Bullet, gameObject.transform, target);
+        Sequence seq = DOTween.Sequence().Append(BulletEmitter.SpawnBullet(Bullet, gameObject.transform, target));
+
+        Debug.Log(seq.Duration());
+        seq.AppendCallback(() => SpawnHitEffect(target));
+      
+
+        return seq;
         
     }
 }
@@ -64,7 +79,9 @@ public class EffectSpawner{
 
         if(Particle != null)
         {
+
             GameObject go = GameObject.Instantiate(Particle, target.transform.position, target.transform.rotation) as GameObject;
+          
   
 
         }
@@ -93,10 +110,10 @@ public class LightFlash
         
         Light l =  new_go.AddComponent<Light>();
         l.range = flash.radius;
-        l.intensity = flash.base_intensity;
+        l.intensity =0;
 
         Sequence FlashSequence = DOTween.Sequence();
-        FlashSequence.Append(    DOTween.To(() => l.intensity, _l => l.intensity = _l,0, flash.duration).SetEase(flash.intensity));
+        FlashSequence.Append(    DOTween.To(() => l.intensity, _l => l.intensity = _l,flash.base_intensity, flash.duration).SetEase(flash.intensity));
         FlashSequence.AppendCallback(() => GameObject.Destroy(new_go));
 
         l.color = flash.startColor;
