@@ -166,7 +166,7 @@ public class UnitFactory : MonoBehaviour
     public static UnitAnimation MakeUnitAnimations(GameObject unit_mesh, WeaponMesh weapon, int index)
     {
         WeaponAnimator animator_right = new WeaponAnimator(weapon.AttachmentRight);
-        WeaponAnimator animator_left = new WeaponAnimator(weapon.AttachmentRight);
+        WeaponAnimator animator_left = new WeaponAnimator(weapon.AttachmentLeft);
         Animator unit_animator = unit_mesh.GetComponent<Animator>();
 
         return new UnitAnimation().Init(unit_animator, animator_right, animator_left, index);

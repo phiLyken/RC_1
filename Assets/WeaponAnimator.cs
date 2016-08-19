@@ -9,12 +9,14 @@ public class WeaponAnimator
     GameObject part;
     public WeaponAnimator(GameObject weapon_part)
     {
-        part = weapon_part;
-        animator = weapon_part.GetComponent<Animator>();
-        if(animator == null)
-        {
-            Debug.LogWarning("No Animator on Weaponpart " + weapon_part.name);
-        }
+		if(weapon_part != null){
+	        part = weapon_part;
+	        animator = weapon_part.GetComponent<Animator>();
+	        if(animator == null)
+	        {
+	            Debug.LogWarning("No Animator on Weaponpart " + weapon_part.name);
+	        }
+		}
     }
 
     public void ShowWeapon()
