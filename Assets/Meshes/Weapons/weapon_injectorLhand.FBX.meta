@@ -1,0 +1,399 @@
+fileFormatVersion: 2
+guid: 1381b7c1fc978f247ad2f0d3c80b4b09
+timeCreated: 1471608461
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: b_injectorfluid
+    100002: b_root
+    100004: prop_injectorLhand
+    100006: //RootNode
+    100008: prop_injectorLhand_fluid
+    100010: Attach_Backpack
+    100012: Attach_Lhand
+    100014: Attach_Rhand
+    100016: b_barrel
+    100018: b_injectorpump
+    100020: b_root 1
+    100022: b_root 2
+    100024: Cylinder001
+    100026: ground 1x1x1
+    100028: head01
+    100030: humanoid
+    100032: humanoid Footsteps
+    100034: humanoid Head
+    100036: humanoid HeadNub
+    100038: humanoid L Calf
+    100040: humanoid L Clavicle
+    100042: humanoid L Finger0
+    100044: humanoid L Finger01
+    100046: humanoid L Finger02
+    100048: humanoid L Finger0Nub
+    100050: humanoid L Finger1
+    100052: humanoid L Finger11
+    100054: humanoid L Finger12
+    100056: humanoid L Finger1Nub
+    100058: humanoid L Finger2
+    100060: humanoid L Finger21
+    100062: humanoid L Finger22
+    100064: humanoid L Finger2Nub
+    100066: humanoid L Finger3
+    100068: humanoid L Finger31
+    100070: humanoid L Finger32
+    100072: humanoid L Finger3Nub
+    100074: humanoid L Foot
+    100076: humanoid L Forearm
+    100078: humanoid L Hand
+    100080: humanoid L Thigh
+    100082: humanoid L Toe0
+    100084: humanoid L Toe0Nub
+    100086: humanoid L UpperArm
+    100088: humanoid Neck
+    100090: humanoid Pelvis
+    100092: humanoid R Calf
+    100094: humanoid R Clavicle
+    100096: humanoid R Finger0
+    100098: humanoid R Finger01
+    100100: humanoid R Finger02
+    100102: humanoid R Finger0Nub
+    100104: humanoid R Finger1
+    100106: humanoid R Finger11
+    100108: humanoid R Finger12
+    100110: humanoid R Finger1Nub
+    100112: humanoid R Finger2
+    100114: humanoid R Finger21
+    100116: humanoid R Finger22
+    100118: humanoid R Finger2Nub
+    100120: humanoid R Finger3
+    100122: humanoid R Finger31
+    100124: humanoid R Finger32
+    100126: humanoid R Finger3Nub
+    100128: humanoid R Foot
+    100130: humanoid R Forearm
+    100132: humanoid R Hand
+    100134: humanoid R Thigh
+    100136: humanoid R Toe0
+    100138: humanoid R Toe0Nub
+    100140: humanoid R UpperArm
+    100142: humanoid Spine
+    100144: humanoid Spine1
+    100146: prop_bfg
+    100148: prop_greatweapon
+    100150: prop_injectorRhand
+    100152: prop_mace
+    100154: prop_pistol
+    100156: prop_pistol_offhand
+    100158: prop_rifle
+    100160: prop_rifle_animtest
+    100162: prop_riflestock
+    100164: prop_shield
+    100166: suit01_backpack tanks
+    100168: suit01_backpack1
+    100170: suit01_fishbowl
+    100172: suit01_helmet
+    100174: suit01_insideneck
+    100176: suit01_legs
+    100178: suit01_torso
+    100180: suit01_tubes
+    100182: Torso
+    400000: b_injectorfluid
+    400002: b_root
+    400004: prop_injectorLhand
+    400006: //RootNode
+    400008: prop_injectorLhand_fluid
+    400010: Attach_Backpack
+    400012: Attach_Lhand
+    400014: Attach_Rhand
+    400016: b_barrel
+    400018: b_injectorpump
+    400020: b_root 1
+    400022: b_root 2
+    400024: Cylinder001
+    400026: ground 1x1x1
+    400028: head01
+    400030: humanoid
+    400032: humanoid Footsteps
+    400034: humanoid Head
+    400036: humanoid HeadNub
+    400038: humanoid L Calf
+    400040: humanoid L Clavicle
+    400042: humanoid L Finger0
+    400044: humanoid L Finger01
+    400046: humanoid L Finger02
+    400048: humanoid L Finger0Nub
+    400050: humanoid L Finger1
+    400052: humanoid L Finger11
+    400054: humanoid L Finger12
+    400056: humanoid L Finger1Nub
+    400058: humanoid L Finger2
+    400060: humanoid L Finger21
+    400062: humanoid L Finger22
+    400064: humanoid L Finger2Nub
+    400066: humanoid L Finger3
+    400068: humanoid L Finger31
+    400070: humanoid L Finger32
+    400072: humanoid L Finger3Nub
+    400074: humanoid L Foot
+    400076: humanoid L Forearm
+    400078: humanoid L Hand
+    400080: humanoid L Thigh
+    400082: humanoid L Toe0
+    400084: humanoid L Toe0Nub
+    400086: humanoid L UpperArm
+    400088: humanoid Neck
+    400090: humanoid Pelvis
+    400092: humanoid R Calf
+    400094: humanoid R Clavicle
+    400096: humanoid R Finger0
+    400098: humanoid R Finger01
+    400100: humanoid R Finger02
+    400102: humanoid R Finger0Nub
+    400104: humanoid R Finger1
+    400106: humanoid R Finger11
+    400108: humanoid R Finger12
+    400110: humanoid R Finger1Nub
+    400112: humanoid R Finger2
+    400114: humanoid R Finger21
+    400116: humanoid R Finger22
+    400118: humanoid R Finger2Nub
+    400120: humanoid R Finger3
+    400122: humanoid R Finger31
+    400124: humanoid R Finger32
+    400126: humanoid R Finger3Nub
+    400128: humanoid R Foot
+    400130: humanoid R Forearm
+    400132: humanoid R Hand
+    400134: humanoid R Thigh
+    400136: humanoid R Toe0
+    400138: humanoid R Toe0Nub
+    400140: humanoid R UpperArm
+    400142: humanoid Spine
+    400144: humanoid Spine1
+    400146: prop_bfg
+    400148: prop_greatweapon
+    400150: prop_injectorRhand
+    400152: prop_mace
+    400154: prop_pistol
+    400156: prop_pistol_offhand
+    400158: prop_rifle
+    400160: prop_rifle_animtest
+    400162: prop_riflestock
+    400164: prop_shield
+    400166: suit01_backpack tanks
+    400168: suit01_backpack1
+    400170: suit01_fishbowl
+    400172: suit01_helmet
+    400174: suit01_insideneck
+    400176: suit01_legs
+    400178: suit01_torso
+    400180: suit01_tubes
+    400182: Torso
+    2300000: Cylinder001
+    2300002: ground 1x1x1
+    2300004: head01
+    2300006: prop_bfg
+    2300008: prop_greatweapon
+    2300010: prop_mace
+    2300012: prop_pistol
+    2300014: prop_pistol_offhand
+    2300016: prop_rifle
+    2300018: prop_rifle_animtest
+    2300020: prop_riflestock
+    2300022: prop_shield
+    2300024: suit01_backpack tanks
+    2300026: suit01_backpack1
+    2300028: suit01_fishbowl
+    2300030: suit01_helmet
+    2300032: suit01_insideneck
+    2300034: suit01_legs
+    2300036: suit01_torso
+    2300038: suit01_tubes
+    2300040: Torso
+    3300000: Cylinder001
+    3300002: ground 1x1x1
+    3300004: head01
+    3300006: prop_bfg
+    3300008: prop_greatweapon
+    3300010: prop_mace
+    3300012: prop_pistol
+    3300014: prop_pistol_offhand
+    3300016: prop_rifle
+    3300018: prop_rifle_animtest
+    3300020: prop_riflestock
+    3300022: prop_shield
+    3300024: suit01_backpack tanks
+    3300026: suit01_backpack1
+    3300028: suit01_fishbowl
+    3300030: suit01_helmet
+    3300032: suit01_insideneck
+    3300034: suit01_legs
+    3300036: suit01_torso
+    3300038: suit01_tubes
+    3300040: Torso
+    4300000: prop_injectorLhand
+    4300002: prop_injectorLhand_fluid
+    4300004: ground 1x1x1
+    4300006: suit01_torso
+    4300008: suit01_fishbowl
+    4300010: suit01_insideneck
+    4300012: suit01_backpack tanks
+    4300014: suit01_backpack1
+    4300016: suit01_tubes
+    4300018: suit01_legs
+    4300020: suit01_helmet
+    4300022: head01
+    4300024: Torso
+    4300026: prop_shield
+    4300028: prop_bfg
+    4300030: prop_greatweapon
+    4300032: prop_mace
+    4300034: prop_pistol
+    4300036: prop_pistol_offhand
+    4300038: prop_rifle_animtest
+    4300040: Cylinder001
+    4300042: prop_rifle
+    4300044: prop_riflestock
+    4300046: prop_injectorRhand
+    7400000: weapon_healLhand_idle
+    7400002: weapon_healLhand_shoot
+    9500000: //RootNode
+    13700000: prop_injectorLhand
+    13700002: prop_injectorLhand_fluid
+    13700004: prop_injectorRhand
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleRotations: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: weapon_healLhand_shoot
+      takeName: Take 001
+      firstFrame: 3
+      lastFrame: 10
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: b_root
+        weight: 1
+      - path: b_root/b_injectorfluid
+        weight: 1
+      - path: prop_injectorLhand
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: weapon_healLhand_idle
+      takeName: Take 001
+      firstFrame: 0
+      lastFrame: 2
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: b_root
+        weight: 1
+      - path: b_root/b_injectorfluid
+        weight: 1
+      - path: prop_injectorLhand
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 0.01
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
