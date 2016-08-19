@@ -1,30 +1,55 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 public class MovementTest : MonoBehaviour {
-    public Tile Target;
+
+	public WaypointMover target;
+	public List<Transform> waypoints;
     public float Speed;
 
-    public bool Start;
-    bool started;
+ 
 
+	void Run(){
+		
+		if(!target.Moving){
+
+
+
+
+			target.OnMoveToWayPoint = wp => {
+				Debug.Log("move to "+wp.GetPosition());
+			};
+
+			target.OnWayPointreached = wp => {
+				Debug.Log("reached  "+wp.GetPosition());
+			};
+
+			target.OnMovementEnd = wp => {
+				Debug.Log("moved to "+wp.GetPosition());
+				target.OnMovementEnd = null;
+				target.OnMoveToWayPoint = null;
+				target.OnWayPointreached = null;
+			};
+			target.MoveOnPath(waypoints, Speed);
+
+		}
+	}
+
+	
     void Update()
     {
-        if(Start && !started)
-        {
-            started = true;
-            Tile start = TileManager.Instance.GetClosestTile(transform.position);
-            WaypointMover m = GetComponent<WaypointMover>();
-            m.OnMovementEnd += OnEnd;
-            m.MoveToDestination(start, Target, Speed);
-        }    
+       
+	
+		if(Input.GetButtonDown("Jump")){
+			Run();
+		}
+    
     }
 
-    public void OnEnd(IWayPoint t)
-    {
-        Debug.Log("end on " + ((Tile)t).name);
-        Start = false;
-        started = false;
-    }
+
+
+
     
 }

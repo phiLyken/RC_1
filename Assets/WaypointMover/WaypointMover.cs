@@ -11,6 +11,7 @@ public class WaypointMover : MonoBehaviour {
     public bool Moving;
 
     public WaypointEvent OnWayPointreached;
+	public WaypointEvent OnMoveToWayPoint;
     public WaypointEvent OnMovementEnd;
 	public AnimationCurve MoveCurve;    
 
@@ -38,15 +39,15 @@ public class WaypointMover : MonoBehaviour {
         Vector3 lastPos = transform.position;
         List<WaypointInfo> waypoints = new List<WaypointInfo>();
 
-        foreach (Tile t in path)
+        foreach (IWayPoint wp in path)
         {
-            float distance = Vector3.Magnitude(lastPos - t.GetPosition());
+			float distance = Vector3.Magnitude(lastPos - wp.GetPosition());
             if (distance == 0)
             {
                 continue;
             }
-            waypoints.Add(new WaypointInfo(t, distance / speed, MoveCurve));
-            lastPos = t.GetPosition();
+			waypoints.Add(new WaypointInfo(wp, distance / speed, MoveCurve));
+			lastPos = wp.GetPosition();
         }
         return waypoints;
     }
@@ -57,7 +58,16 @@ public class WaypointMover : MonoBehaviour {
         List<IWayPoint> waypoints = tiles.Cast<IWayPoint>().ToList();
         StartCoroutine(PatrolWaypoints(CreateWaypoints(waypoints, speed)));
     }
-	
+
+	public void MoveOnPath(List<Transform> transforms, float speed)
+	{
+		StopAllCoroutines();
+		List<IWayPoint> waypoints = transforms.Select( tr => new TransformWaypoint(tr)).Cast<IWayPoint>().ToList();
+
+		StartCoroutine(PatrolWaypoints(CreateWaypoints(waypoints, speed)));
+	}
+
+
 	IEnumerator PatrolWaypoints(List<WaypointInfo> CurrentMoveWaypoints)
     {
 
@@ -66,6 +76,9 @@ public class WaypointMover : MonoBehaviour {
         Moving = true;
         while (currentIndex < CurrentMoveWaypoints.Count) {
 			
+			if(OnMoveToWayPoint != null){
+				OnMoveToWayPoint(CurrentMoveWaypoints[currentIndex].Waypoint);
+			}
 			yield return StartCoroutine(MoveToWaypoint(CurrentMoveWaypoints[currentIndex]));
             if (OnWayPointreached != null)
             {
@@ -105,7 +118,31 @@ public interface IWayPoint
     Vector3 GetPosition();
 }
 
+public class Waypoint : IWayPoint {
 
+	Vector3 Position;
+
+	public Vector3 GetPosition(){
+		return Position;
+	}
+
+	public Waypoint(Vector3 pos){
+		Position = pos;
+	}
+}
+
+public class TransformWaypoint : IWayPoint {
+
+	Transform tr;
+
+	public Vector3 GetPosition(){
+		return tr.position;
+	}
+
+	public TransformWaypoint(Transform _tr){
+		tr = _tr;
+	}
+}
 
 [System.Serializable]
 public class WaypointInfo
