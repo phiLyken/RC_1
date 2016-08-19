@@ -7,6 +7,7 @@ public class RotationControllerTest : MonoBehaviour {
 
     void Start()
     {
+
         Debug.Log(" target");
         target.OnMoveToWayPoint += wp =>
         {
@@ -14,13 +15,30 @@ public class RotationControllerTest : MonoBehaviour {
             StopAllCoroutines();
             StartCoroutine(TurnToWaypoint(wp));
         };
+
+        target.OnMovementEnd += wp =>
+        {
+            Debug.Log(" stop");
+            StopAllCoroutines();
+            StartCoroutine(TurnToFinalPosition());
+        };
     }
 
-
+    IEnumerator TurnToFinalPosition()
+    {
+        Debug.Log("Turn to");
+        yield return new WaitForRotation(target.transform, MyMath.RotateToYSnapped(target.transform.position, ( target.transform.position + target.transform.forward), 45), 0.35f);
+        Debug.Log("Rotated");
+    }
     IEnumerator TurnToWaypoint(IWayPoint wp)
     {
         Debug.Log("Turn to");
-        yield return new WaitForRotation(target.transform, MyMath.RotateToYSnapped(target.transform.position, wp.GetPosition(), 45), 0.5f);
+        yield return new WaitForRotation(target.transform, MyMath.RotateToYFlat(target.transform.position, wp.GetPosition()), 0.35f);
         Debug.Log("Rotated");
+    }
+
+    void Update()
+    {
+      //  transform.rotation = MyMath.RotateToYSnapped(target.transform.position, target.transform.position, 45);
     }
 }

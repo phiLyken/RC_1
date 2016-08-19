@@ -328,23 +328,28 @@ public static class MyMath  {
                 yield return t.StartCoroutine(FadeTextOnce(t, Color2, time2));
             }
             m_cycles--;
-            yield return null;
+            yield return null;  
         }
     }
     public static Quaternion RotateToYSnapped(  Vector3 from, Vector3 to, float snap)
     {
+
+        Quaternion target = RotateToYFlat(from, to);
+        float y = target.eulerAngles.y;
+        float locked = Mathf.RoundToInt(y / snap) * snap;
+
+        return   Quaternion.Euler(target.eulerAngles.x, locked, target.eulerAngles.z);
+        
+    }
+
+    public static Quaternion RotateToYFlat(Vector3 from, Vector3 to)
+    {
         Vector3 dir = (to - from);
         dir.y = 0;
         dir.Normalize();
-        Debug.DrawRay(from, dir);
+        Debug.DrawRay(from, dir * 5);
 
-        Quaternion look = Quaternion.LookRotation(dir);
-
-        float y = look.eulerAngles.y;
-        float locked = Mathf.RoundToInt(y / snap) * snap;
-
-        return   Quaternion.Euler(look.eulerAngles.x, locked, look.eulerAngles.z);
-        
+        return Quaternion.LookRotation(dir);
     }
     static IEnumerator FadeTextOnce(Text tf, Color targetColor, float t)
     {
