@@ -67,6 +67,9 @@ public class UnitAction_Loot : UnitActionBase
     protected override void ActionExecuted()
     {
         base.ActionExecuted();
+        if (OnTarget != null)
+            OnTarget(this, FIXME_selected.transform);
+
         Tile_Loot l = FIXME_selected.GetComponent<Tile_Loot>();
         l.OnLoot(Owner);
 

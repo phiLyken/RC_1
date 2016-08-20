@@ -22,8 +22,15 @@ public class RotationControllerTest : MonoBehaviour {
             StopAllCoroutines();
             StartCoroutine(TurnToFinalPosition());
         };
-    }
 
+        TileSelecter.OnTileSelect += t => { StartCoroutine(TurnToTargetPositiom(t.transform)); };
+    }
+    IEnumerator TurnToTargetPositiom(Transform _target)
+    {
+        Debug.Log("Turn to");
+        yield return new WaitForRotation(target.transform, MyMath.RotateToYSnapped(target.transform.position, _target.transform.position, 45), 0.35f);
+        Debug.Log("Rotated");
+    }
     IEnumerator TurnToFinalPosition()
     {
         Debug.Log("Turn to");
