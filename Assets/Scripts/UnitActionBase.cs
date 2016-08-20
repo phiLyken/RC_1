@@ -9,6 +9,7 @@ public class UnitActionBase : MonoBehaviour {
     [HideInInspector]
     public bool ActionInProgress;
 
+    public TargetedAction OnTarget;
     public ActionEventHandler OnExecuteAction;
     public ActionEventHandler OnSelectAction;
     public ActionEventHandler OnUnselectAction;

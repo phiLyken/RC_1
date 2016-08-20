@@ -32,7 +32,7 @@ public class UnitAnimationController : MonoBehaviour
             }
             else
             {
-                UnitAnimator.SetWalking(true);
+                UnitAnimator.SetTrigger(action.Animation.ToString());
             }
         };
 

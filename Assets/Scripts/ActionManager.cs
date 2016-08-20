@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Linq;
 
+public delegate void TargetedAction(UnitActionBase action, Transform target);
 public delegate void ActionEventHandler(UnitActionBase action);
 public delegate void ActionManagerEventHander(ActionManager mngr);
 public delegate void ActionTargetEventHandler(object target);
@@ -31,6 +32,7 @@ public class ActionManager : MonoBehaviour {
     public UnitActionBase[] Actions;
     UnitActionBase currentAction;
 
+    public TargetedAction OnTargetAction;
     public ActionEventHandler OnActionSelected;
     public ActionEventHandler OnActionUnselected;
     public ActionEventHandler OnActionComplete;
@@ -51,6 +53,7 @@ public class ActionManager : MonoBehaviour {
              return false;
          }           
     }
+
 
     void CheckOwnerKilled(Unit u)
     {
@@ -191,6 +194,7 @@ public class ActionManager : MonoBehaviour {
         currentAction = ability;
         currentAction.OnExecuteAction += OnActionUsed;
         currentAction.SelectAction();
+        currentAction.OnTarget += OnTargetAction;
 
         if (OnActionSelected != null) OnActionSelected(currentAction);
         return currentAction;
@@ -202,7 +206,8 @@ public class ActionManager : MonoBehaviour {
         if (currentAction == null) return;
 
         currentAction.UnSelectAction();
-        currentAction.OnExecuteAction -= OnActionUsed;       
+        currentAction.OnExecuteAction -= OnActionUsed;
+        currentAction.OnTarget -= OnTargetAction;
         currentAction = null;    
 
         if (OnActionUnselected != null) OnActionUnselected(currentAction);
