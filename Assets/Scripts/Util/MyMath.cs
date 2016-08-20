@@ -142,7 +142,7 @@ public static class MyMath  {
 		
 	}
 
-    public static void DeleteChildren(GameObject obj)
+    public static void DeleteChildren(this GameObject obj)
     {
   
         for(int i = obj.transform.childCount-1; i >= 0; i--)
@@ -152,7 +152,7 @@ public static class MyMath  {
     }
 
 
-    public static int FloatDirection(float f)
+    public static int Direction(this float f)
     {
         return (int)(f / Mathf.Abs(f));
     }
@@ -310,6 +310,21 @@ public static class MyMath  {
         return ret;
     }
 
+    public static void DetachChildren(this Transform tr)
+    {
+        DetachChildren(tr, null);
+    }
+    public static void DetachChildren(this Transform tr, Transform target)
+    {
+        List<Transform> _children = new List<Transform>();
+        foreach (Transform transform in tr)
+        {
+            _children.Add(transform);
+            Debug.Log("detach "+transform.gameObject.name);
+        }
+
+        _children.ForEach(child => child.SetParent(tr));
+    }
 
     public static void FadeText(Text t, int cycles, Color Color1, Color Color2, float time1, float time2)
     {
@@ -352,6 +367,39 @@ public static class MyMath  {
         return Vector2.Dot(perp, _in);
 
     }
+
+
+    /// <summary>
+    /// pauses emission on all attached particles systems
+    /// </summary>
+    /// <param name="particle_system"></param>
+    public static void StopAll(this ParticleSystem particle_system)
+    {
+      List<ParticleSystem>  systems = new List<ParticleSystem>();
+        systems.Add(particle_system);
+        systems.AddRange(particle_system.GetComponentsInChildren<ParticleSystem>().ToList());
+
+        systems.ForEach(sys => sys.PauseEmission());
+
+    }
+
+    /// <summary>
+    /// removes the toplevel gameobject when all child particles (and the one passed as ´param) are inactive
+    /// </summary>
+    /// <param name="system"></param>
+    public static void RemoveAllParticlesWhenInactive(this ParticleSystem system)
+    {
+        system.gameObject.AddComponent<RemoveParticles>();
+    }
+    public static void PauseEmission(this ParticleSystem system)
+    {
+     
+        var em = system.emission;
+        em.enabled = false;
+
+       
+    }
+
 
     public static bool MouseTouchUp()
     {
