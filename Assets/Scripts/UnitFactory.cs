@@ -18,7 +18,7 @@ public class UnitFactory : MonoBehaviour
             Debug.LogWarning("cant create unit, data == null");
             return null;
         }
-
+        Debug.Log("Creating Unit " + data.ID);
         GameObject base_unit                = Instantiate(Resources.Load("base_unit")) as GameObject;
         SpawnLootOnDeath loot               = base_unit.AddComponent<SpawnLootOnDeath>();
         Unit_EffectManager effect_manager   = base_unit.AddComponent<Unit_EffectManager>();

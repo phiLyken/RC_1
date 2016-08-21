@@ -89,9 +89,9 @@ public class UnitBaseStats
 {
     public int Survival;
     public int Mobility;
-    public int Tech;
+	public int Focus;
     public int Combat;
-    public int Focus;
+	public int Tech;
 
     public MyMath.R_Range StartTurnTime;
 }
