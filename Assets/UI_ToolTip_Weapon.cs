@@ -20,7 +20,7 @@ public class UI_ToolTip_Weapon : UI_ToolTip_Base {
         Title.text = weapon.GetID();
         Range.text = weapon.Range.ToString();
 
-        IntBonus.text = weapon.RegularBehavior.IntBonus.IntBonusText();
+      //  IntBonus.text = weapon.RegularBehavior.IntBonus.IntBonusText();
 
       //  IntAttack.text = weapon.IntAttackBehavior.Get
 
