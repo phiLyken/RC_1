@@ -35,15 +35,12 @@ public class AnimationTestController : MonoBehaviour
             caster.OnWeaponHide -= m_Animator.WeaponHide;
             caster.OnWeaponShow -= m_Animator.WeaponShow;
         }*/
+        AnimationCallbackCaster caster = TargetUnit.GetComponent<AnimationCallbackCaster>();
 
         current = UnitFactory.SpawnWeaponMeshToUnit(TargetUnit, mesh);
-        m_Animator = UnitFactory.MakeUnitAnimations(TargetUnit, current, current.WeaponIndex);
+        m_Animator = UnitFactory.MakeUnitAnimations(TargetUnit, current, current.WeaponIndex, caster);
 
-        AnimationCallbackCaster caster = TargetUnit.GetComponent<AnimationCallbackCaster>();
-        //No multicast so we dont need to remove listeners
-        caster.OnAbilityTrigger = m_Animator.AbilityCallback;
-        caster.OnWeaponHide = m_Animator.WeaponHide;
-        caster.OnWeaponShow = m_Animator.WeaponShow;
+
     }
 
 

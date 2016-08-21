@@ -22,8 +22,8 @@ public static class SkinnedMeshTools
         foreach (SkinnedMeshRenderer smr in BonedObjects)
             result.Add(ProcessBonedObject(smr, root));
 
-        if (hideFromObj)
-            attachment.SetActiveRecursively(false);
+        //if (hideFromObj)
+         //   attachment.SetActiveRecursively(false);
 
         return result;
     }
@@ -31,11 +31,11 @@ public static class SkinnedMeshTools
     private static GameObject ProcessBonedObject(SkinnedMeshRenderer ThisRenderer, Transform root)
     {
         // Create the SubObject
-        GameObject newObject = new GameObject(ThisRenderer.gameObject.name);
+        GameObject newObject = ThisRenderer.gameObject;
         newObject.transform.parent = root;
-
+     
         // Add the renderer
-        SkinnedMeshRenderer NewRenderer = newObject.AddComponent(typeof(SkinnedMeshRenderer)) as SkinnedMeshRenderer;
+       // SkinnedMeshRenderer NewRenderer = newObject.AddComponent(typeof(SkinnedMeshRenderer)) as SkinnedMeshRenderer;
 
         // Assemble Bone Structure	
         Transform[] MyBones = new Transform[ThisRenderer.bones.Length];
@@ -45,9 +45,11 @@ public static class SkinnedMeshTools
             MyBones[i] =  root.FindDeepChild(ThisRenderer.bones[i].name);
 
         // Assemble Renderer	
-        NewRenderer.bones = MyBones;
-        NewRenderer.sharedMesh = ThisRenderer.sharedMesh;
-        NewRenderer.materials = ThisRenderer.materials;
+        ThisRenderer.bones = MyBones;
+        ThisRenderer.updateWhenOffscreen = true;
+        
+        // ThisRenderer.sharedMesh = ThisRenderer.sharedMesh;
+        // ThisRenderer.materials = ThisRenderer.materials;
 
         return newObject;
     }

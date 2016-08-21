@@ -26,16 +26,18 @@ public class UnitFactory : MonoBehaviour
         UnitInventory inventory             = MakeInventory(data, base_unit, stats);
         ActionManager actions               = MakeActions(data, base_unit);
         GameObject mesh                     = MakeMesh(data, base_unit);
+        
+        UnitAnimationController animations  = mesh.AddComponent<UnitAnimationController>();
+        UnitRotationController rotator      = mesh.AddComponent<UnitRotationController>();
+        Unit m_unit                         = base_unit.AddComponent<Unit>();
 
         GetName(data, base_unit);
-     
-
-    
         GiveWeapon(data, mesh, inventory);
-
-        Unit m_unit = base_unit.AddComponent<Unit>();
+        
+        rotator.Init(m_unit.GetComponent<WaypointMover>());
         loot.Init(m_unit);
         effect_manager.SetUnit(m_unit);
+        animations.Init(m_unit, mesh);
 
         m_unit.OwnerID = data.Owner;      
         
@@ -56,11 +58,14 @@ public class UnitFactory : MonoBehaviour
 
     private static GameObject MakeMesh(ScriptableUnitConfig data, GameObject base_unit)
     {
-        GameObject mesh = Instantiate(data.Mesh);
-        mesh.transform.SetParent(base_unit.transform, false);
-        mesh.transform.localPosition = Vector3.zero + Vector3.up * 0.5f;
-        mesh.transform.localScale = Vector3.one;
+        GameObject mesh = Instantiate( Resources.Load("Units/playermodel")) as GameObject;
 
+
+        SpawnSkinnedMeshToUnit(mesh, data.MeshConfig.Head , data.MeshConfig.Suit);
+
+        mesh.transform.SetParent(base_unit.transform, false);
+        mesh.transform.localPosition = Vector3.zero;
+        mesh.transform.localScale = Vector3.one;
 
         return mesh;
     }
@@ -101,6 +106,7 @@ public class UnitFactory : MonoBehaviour
 
 
 
+
         return inventory;
        // Armor armor = Instantiate(data.Armor);
        // armor.transform.SetParent(base_unit.transform);
@@ -119,8 +125,9 @@ public class UnitFactory : MonoBehaviour
 
         List<GameObject> skinned_objects = MyMath.InsantiateObjects(suitobjects.Select(skn => skn.gameObject).ToList());
 
+
         skinned_objects.ForEach(obj => SkinnedMeshTools.AddSkinnedMeshTo(obj.gameObject, target_skeleton_root));
-        Debug.Log("spawn skinned " + skinned_objects.Count);
+      //  Debug.Log("spawn skinned " + skinned_objects.Count);
         return skinned_objects;
     }
 
@@ -163,13 +170,13 @@ public class UnitFactory : MonoBehaviour
         inventory.AddItem(weapon, 1);
     }
 
-    public static UnitAnimation MakeUnitAnimations(GameObject unit_mesh, WeaponMesh weapon, int index)
+    public static UnitAnimation MakeUnitAnimations(GameObject unit_mesh, WeaponMesh weapon, int index, AnimationCallbackCaster callbacks)
     {
         WeaponAnimator animator_right = new WeaponAnimator(weapon.AttachmentRight);
         WeaponAnimator animator_left = new WeaponAnimator(weapon.AttachmentLeft);
         Animator unit_animator = unit_mesh.GetComponent<Animator>();
 
-        return new UnitAnimation().Init(unit_animator, animator_right, animator_left, index);
+        return new UnitAnimation().Init(unit_animator, animator_right, animator_left, index, callbacks);
     }
 
     public static WeaponMesh SpawnWeaponMeshToUnit(GameObject unit_mesh, WeaponMesh weapon_mesh_prefab)
@@ -189,9 +196,11 @@ public class UnitFactory : MonoBehaviour
 
     public static Weapon SpawnWeaponToUnit(GameObject unit_mesh, Weapon weapon)
     {
+      
 
         Weapon instance = Instantiate(weapon.gameObject).GetComponent<Weapon>();
         instance.gameObject.transform.SetParent(unit_mesh.transform);
+        instance.WeaponMesh =  SpawnWeaponMeshToUnit(unit_mesh, weapon.WeaponMesh);
         return instance;   
 
        

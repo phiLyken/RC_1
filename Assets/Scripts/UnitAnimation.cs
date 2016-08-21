@@ -7,18 +7,26 @@ public class UnitAnimation
     WeaponAnimator WeaponAnimator_Right;
     WeaponAnimator WeaponAnimator_Left;
 
-    public UnitAnimation Init(Animator unit, WeaponAnimator right, WeaponAnimator left, float index)
+    public UnitAnimation Init(Animator unit, WeaponAnimator right, WeaponAnimator left, float index, AnimationCallbackCaster callback)
     {
         WeaponAnimator_Left = left;
         WeaponAnimator_Right = right;
         unit_animator = unit;
 
         SetWeaponIndex(index);
+
+
+        //No multicast so we dont need to remove listeners
+        callback.OnAbilityTrigger = AbilityCallback;
+        callback.OnWeaponHide = WeaponHide;
+        callback.OnWeaponShow = WeaponShow;
+
         return this;
     }
 
     public void SetWeaponIndex(float f)
     {
+        Debug.Log("set weapon index " + f);
         unit_animator.SetFloat("WeaponIndex", (int) f);
     }
 

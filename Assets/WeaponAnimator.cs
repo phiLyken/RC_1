@@ -16,7 +16,10 @@ public class WeaponAnimator
 	        {
 	            Debug.LogWarning("No Animator on Weaponpart " + weapon_part.name);
 	        }
-		}
+		} else
+        {
+           // Debug.Log("no weapon part");
+        }
     }
 
     public void ShowWeapon()

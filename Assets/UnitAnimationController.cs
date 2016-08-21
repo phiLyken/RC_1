@@ -7,7 +7,7 @@ public class UnitAnimationController : MonoBehaviour
     public UnitAnimation UnitAnimator;
     public Unit m_Unit;
 
-    public void Init(Unit u)
+    public void Init(Unit u, GameObject mesh)
     {
         m_Unit = u;
         UnitAnimator = new UnitAnimation();
@@ -16,50 +16,45 @@ public class UnitAnimationController : MonoBehaviour
         GameObject right_weapon = u.Inventory.EquipedWeapon.WeaponMesh.AttachmentRight;
 
         int index = u.Inventory.EquipedWeapon.WeaponMesh.WeaponIndex;
+
+     //   Debug.Log(index);
         UnitAnimator.Init(
-            m_Unit.GetComponent<Animator>(),
+            mesh.GetComponent<Animator>(),
             new WeaponAnimator(right_weapon),
-            new WeaponAnimator(left_weapon), index
-        );
-      
+            new WeaponAnimator(left_weapon), index,
+            mesh.AddComponent<AnimationCallbackCaster>()
+            );
+
+      //  m_Unit.Actions.GetActionOfType<UnitAction_Move>().OnActionComplete += OnMoveEnd;
+     //   m_Unit.Actions.GetActionOfType<UnitAction_Move>().OnExecuteAction += OnMoveStart;
+
 
         m_Unit.Actions.OnActionStarted += action =>
         {
             if (action.GetType() == typeof(UnitAction_Move))
             {
-                UnitAnimator.SetWalking(true);
-
-            }
-            else
-            {
-                UnitAnimator.SetTrigger(action.Animation.ToString());
+                OnMoveStart(action as UnitAction_Move);
             }
         };
 
-        m_Unit.Actions.OnActionComplete += action =>
-        {
-            if (action.GetType() == typeof(UnitAction_Move))
-            {
-                UnitAnimator.SetWalking(false);
-            }
-        };
 
-        UnitAnimator.SetWeaponIndex((int) m_Unit.GetComponent<UnitInventory>().EquipedWeapon.AnimationState);
+
+        
     }
 
-    public void WeaponShow()
+    void OnMoveStart(UnitAction_Move m)
     {
-        UnitAnimator.WeaponShow();
+        UnitAnimator.SetWalking(true);
+        m.OnActionComplete += OnMoveEnd;
+
     }
 
-    public void WeaponHide()
+    void OnMoveEnd(UnitActionBase m)
     {
-        UnitAnimator.WeaponHide();
+        UnitAnimator.SetWalking(false);
+        m.OnActionComplete -= OnMoveEnd;
     }
 
-    public void AbilityCallback(string id)
-    {
-        UnitAnimator.AbilityCallback(id);
-    }
+   
 }
 

@@ -3,49 +3,20 @@ using System.Collections;
 
 public class RotationControllerTest : MonoBehaviour {
 
-    public WaypointMover target;
-
+    public UnitRotationController rotator;
+    public WaypointMover movement;
     void Start()
     {
 
-        Debug.Log(" target");
-        target.OnMoveToWayPoint += wp =>
-        {
-            Debug.Log(" Start");
-            StopAllCoroutines();
-            StartCoroutine(TurnToWaypoint(wp));
-        };
+        rotator.Init(movement);
 
-        target.OnMovementEnd += wp =>
-        {
-            Debug.Log(" stop");
-            StopAllCoroutines();
-            StartCoroutine(TurnToFinalPosition());
-        };
-
-        TileSelecter.OnTileSelect += t => { StartCoroutine(TurnToTargetPositiom(t.transform)); };
+        TileSelecter.OnTileSelect += t => { rotator.TurnToPosition(t.transform, CB); };
     }
-    IEnumerator TurnToTargetPositiom(Transform _target)
+   
+    void CB()
     {
-        Debug.Log("Turn to");
-        yield return new WaitForRotation(target.transform, MyMath.RotateToYSnapped(target.transform.position, _target.transform.position, 45), 0.35f);
-        Debug.Log("Rotated");
-    }
-    IEnumerator TurnToFinalPosition()
-    {
-        Debug.Log("Turn to");
-        yield return new WaitForRotation(target.transform, MyMath.RotateToYSnapped(target.transform.position, ( target.transform.position + target.transform.forward), 45), 0.35f);
-        Debug.Log("Rotated");
-    }
-    IEnumerator TurnToWaypoint(IWayPoint wp)
-    {
-        Debug.Log("Turn to");
-        yield return new WaitForRotation(target.transform, MyMath.RotateToYFlat(target.transform.position, wp.GetPosition()), 0.35f);
-        Debug.Log("Rotated");
+        Debug.Log(" turned");
     }
 
-    void Update()
-    {
-      //  transform.rotation = MyMath.RotateToYSnapped(target.transform.position, target.transform.position, 45);
-    }
+   
 }

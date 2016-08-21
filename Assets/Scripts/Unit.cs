@@ -34,8 +34,6 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
 
     public LootCategory Loot;
     
-    public bool PrePlaced = true;
-
     [HideInInspector]
     public Tile currentTile;
         
@@ -78,8 +76,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
         GameObject obj = (Instantiate(Resources.Load("selected_effect"))) as GameObject;
         obj.GetComponent<ToggleActiveOnTurn>().SetUnit(this);
         
-        if(PrePlaced)
-            SetTile(TileManager.Instance.GetClosestTile(transform.position), true);
+      
     }
 
     void ActionChanged(UnitActionBase b)
@@ -153,10 +150,6 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     }
 
 
-    void SetOwner(int playerID)
-    {
-        OwnerID = playerID;
-    }  
 
    //Unselects the currently selected (static) unit
     void UnSelectCurrent()
