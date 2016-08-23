@@ -8,10 +8,10 @@ public static class StatsHelper
 
     public static List<Stat> GetStatListForInit(UnitBaseStats stats)
     {
-        return GetStatListForInit(stats.Survival, stats.Mobility, stats.Tech, stats.Combat, stats.Focus, stats.StartTurnTime);
+        return GetStatListForInit(stats.Survival, stats.Mobility, stats.Tech, stats.Combat, stats.Focus, stats.StartAdrenaline, stats.StartOxyGen, stats.StartTurnTime);
     }
 
-    public static List<Stat> GetStatListForInit(int perk_survival, int perk_mobility, int perk_tech, int perk_combat, int perk_focus, MyMath.R_Range current_delay)
+    public static List<Stat> GetStatListForInit(int perk_survival, int perk_mobility, int perk_tech, int perk_combat, int perk_focus, int start_adr, int start_oxygen, MyMath.R_Range current_delay)
     {
         List<Stat> stats = new List<Stat>();
 
@@ -23,8 +23,8 @@ public static class StatsHelper
         stats.Add(new ModifiableStat(StatType.focus, perk_focus));
        
         //RUNTIME STATS
-        stats.Add(new ModifiableStat(StatType.oxygen, StatsBalance.GetStatsBalance().GetValueForStat(StatType.oxygen, perk_survival)));
-        stats.Add(new ModifiableStat(StatType.adrenaline, 0));
+        stats.Add(new ModifiableStat(StatType.oxygen,  Mathf.Max(1, start_oxygen)));
+        stats.Add(new ModifiableStat(StatType.adrenaline, start_adr));
         stats.Add(new ModifiableStat(StatType.current_turn_time, current_delay.Value()));
 
         //DUMMY STATS
@@ -92,6 +92,8 @@ public class UnitBaseStats
 	public int Focus;
     public int Combat;
 	public int Tech;
+    public int StartOxyGen;
+    public int StartAdrenaline;
 
     public MyMath.R_Range StartTurnTime;
 }
