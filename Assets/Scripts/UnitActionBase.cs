@@ -23,7 +23,9 @@ public class UnitActionBase : MonoBehaviour {
     public StatInfo[] Requirements;
 
     public AbilityChargeController ChargeController;
-    public AbilityTurnCostConfig TimeCost;
+
+    public UseStat TimeCost;
+ 
 
     public bool UsableInBaseCamp;
     public bool EndTurnOnUse;
@@ -52,7 +54,7 @@ public class UnitActionBase : MonoBehaviour {
     public void SetOwner(Unit o)
     {
         Owner = o;
-        TimeCost.Init(o);
+   
         ChargeController.Init(o);
     }
 
@@ -160,7 +162,7 @@ public class UnitActionBase : MonoBehaviour {
 
     public virtual float GetTimeCost()
     {
-        return TimeCost.GetCost();
+        return TimeCost.GetValue(Owner);
     }
     
 

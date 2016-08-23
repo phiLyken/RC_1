@@ -43,7 +43,7 @@ public class UnitAction_ApplyEffectFromWeapon : UnitAction_ApplyEffect {
 
     public override float GetRange()
     {
-        return Owner.GetComponent<UnitInventory>().EquipedWeapon.Range;
+        return GetBehavior().Range + GetBehavior().RangeModifier.GetValue(Owner);
     }
 
     public override float GetTimeCost()

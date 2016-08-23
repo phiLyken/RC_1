@@ -68,6 +68,7 @@ public static class StatsHelper
         combat,
         attack_normal_power,
         attack_normal_delay,
+        attack_range_modifier,
         attack_extra_damage_min,
         attack_extra_damage_max,
 
@@ -103,6 +104,20 @@ public class StatInfo
 {
     public StatType StatType;
     public float Value;
+}
+
+[System.Serializable]
+public class UseStat
+{
+    public bool Use;
+    public StatType StatType;
+    public float DefaultValue;
+
+    public float GetValue(Unit u)
+    {
+        return Use ? u.Stats.GetStatAmount(StatType) : DefaultValue;
+    }
+
 }
 [System.Serializable]
 public class Stat
