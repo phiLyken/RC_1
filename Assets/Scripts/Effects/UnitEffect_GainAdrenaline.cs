@@ -14,16 +14,16 @@ public class UnitEffect_GainAdrenaline : UnitEffect
     int added = -1;
 
     public override UnitEffect MakeCopy(UnitEffect origin, Unit effect_host)
-    {
-      
+    { 
         UnitEffect_GainAdrenaline stim = (UnitEffect_GainAdrenaline)( (UnitEffect_GainAdrenaline) origin).MemberwiseClone();
         stim.baked_adrenaline = Constants.GetGainedAdrenaline(effect_host, Rolls) ;
+        
         return stim;
     }
 
     protected override void EffectTick()
-    {     
-
+    {
+        Debug.Log("Ticked Adrenealin Baked Adrenaline " + baked_adrenaline);
         Effect_Host.Stats.AddInt(baked_adrenaline, ConsumeWill, out removed, out added);
         Ticked();
     }

@@ -22,9 +22,9 @@ public class UnitEffect_Damage : UnitEffect
     /// clones itself to the target
     /// </summary>
     /// <param name="target"></param>
-    public override UnitEffect MakeCopy(UnitEffect origin)
+    public override UnitEffect MakeCopy(UnitEffect original, Unit host)
     {
-        UnitEffect_Damage _cc = (UnitEffect_Damage)( (UnitEffect_Damage) origin).MemberwiseClone() ;
+        UnitEffect_Damage _cc = (UnitEffect_Damage)( (UnitEffect_Damage) original).MemberwiseClone() ;
 
         MyMath.R_Range range = _cc.DamageRange;
 

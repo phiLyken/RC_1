@@ -2,7 +2,6 @@
 
 public class IntBonus : MonoBehaviour
 {
-   
 
     /// <summary>
     /// returns an effect based on the users int

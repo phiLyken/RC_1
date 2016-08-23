@@ -74,8 +74,7 @@ public class UnitEffect : MonoBehaviour
         {
             GameObject.Instantiate(ApplyEffectOnTargetPrefab, target.transform.position, Quaternion.identity);
         }
-
-
+        
         AttemptApplyEffect(target, this);
 
     }
@@ -85,18 +84,7 @@ public class UnitEffect : MonoBehaviour
 
         return origin.MemberwiseClone() as UnitEffect;
     }
-
-    public virtual UnitEffect MakeCopy(UnitEffect origin)
-    {
-        
-        return origin.MemberwiseClone() as UnitEffect;
-    }
-
-
-    protected virtual void PostEffectCopy(UnitEffect eff)
-    {
-
-    }
+ 
 
 
     protected virtual bool CanApplyEffect(Unit target, UnitEffect effect)
@@ -107,7 +95,7 @@ public class UnitEffect : MonoBehaviour
     private void AttemptApplyEffect(Unit target, UnitEffect effect)
     {
         //Make copy
-        UnitEffect copy = MakeCopy(effect);
+        UnitEffect copy = MakeCopy(effect, target);
         copy.Effect_Host = target;
    
 
@@ -148,7 +136,7 @@ public class UnitEffect : MonoBehaviour
     protected void Ticked()
     {
         if (OnEffectTick != null) OnEffectTick(this);
-       // Debug.Log(GetString() + " TICKED");
+        Debug.Log(GetString() + " TICKED");
         _durationActive++;
 
         if (_durationActive > MaxDuration)

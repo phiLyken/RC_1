@@ -7,9 +7,9 @@ public class UnitEffect_BuffStats : UnitEffect {
 
     public StatBuff[] Buffs;
     
-    public override UnitEffect MakeCopy(UnitEffect origin)
+    public override UnitEffect MakeCopy(UnitEffect original, Unit host)
     {
-        return (UnitEffect_BuffStats)((UnitEffect_BuffStats)origin).MemberwiseClone();
+        return (UnitEffect_BuffStats)((UnitEffect_BuffStats) original).MemberwiseClone();
     }
 
 

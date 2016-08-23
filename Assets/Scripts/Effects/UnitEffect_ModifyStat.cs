@@ -38,7 +38,7 @@ public class UnitEffect_ModifyStat : UnitEffect
     /// clones itself to the target
     /// </summary>
     /// <param name="target"></param>
-    public override UnitEffect MakeCopy(UnitEffect origin)
+    public override UnitEffect MakeCopy(UnitEffect origin, Unit host)
     {
         UnitEffect_ModifyStat _cc = (UnitEffect_ModifyStat) origin;
         return _cc.MemberwiseClone() as UnitEffect_ModifyStat;

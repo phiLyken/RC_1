@@ -8,7 +8,7 @@ using System;
 [System.Serializable]
 public class UnitEffect_Heal : UnitEffect
 {
-    public override UnitEffect MakeCopy(UnitEffect origin)
+    public override UnitEffect MakeCopy(UnitEffect origin, Unit host)
     {
         UnitEffect_Heal heal = (UnitEffect_Heal)origin;
         return (UnitEffect_Heal)heal.MemberwiseClone();
