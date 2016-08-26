@@ -8,8 +8,6 @@ public class UI_ShowToolTip_Base :  MonoBehaviour  {
     public GameObject Prefab;
     public MonoBehaviour _target;
 
-    IToolTip Target;
-
     IEnumerator ShowToolTipDelayed()
     {
         yield return new WaitForSeconds(0.1f);

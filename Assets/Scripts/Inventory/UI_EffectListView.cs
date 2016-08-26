@@ -3,80 +3,55 @@ using System.Collections;
 using UnityEngine.UI;
 using System;
 using System.Collections.Generic;
-
+using System.Linq;
 
 public class UI_EffectListView : MonoBehaviour
 {
 
-    public Dictionary<UnitEffect , UI_EffectItemView> views;
+    public ViewList<UnitEffect, UI_EffectItemView> views;
 
     Unit_EffectManager effects;
 
+
+    List<UnitEffect> GetDisplayableEffects(List<UnitEffect> effects)
+    {
+        return effects.Where(eff => eff.MaxDuration > 0).ToList();
+    }
+
     public void SetEffects(Unit_EffectManager new_effects)
     {
+        views = new ViewList<UnitEffect, UI_EffectItemView>();
+        views.Init(MakeNewView);
+        
         if (effects != null)
         {
-            effects.OnEffectAdded -= OnUpdated;
-            effects.OnEffectRemoved -= OnUpdated;
+            effects.OnEffectAdded -= OnEffectUpdated;
+            effects.OnEffectRemoved -= OnEffectUpdated;
         }
 
         effects = new_effects;
 
         if (effects != null)
         {
-            effects.OnEffectAdded += OnUpdated;
-            effects.OnEffectRemoved += OnUpdated;
+            effects.OnEffectAdded += OnEffectUpdated;
+            effects.OnEffectRemoved += OnEffectUpdated;
         }
-      
-        OnUpdated(null);
+
+        OnEffectUpdated(null);
     }
 
-    void OnUpdated(UnitEffect _effect)
+    void OnEffectUpdated(UnitEffect eff)
     {
-       
-        if (views == null)
-        {
-            views = new Dictionary<UnitEffect, UI_EffectItemView>();
-        }
-        
-        foreach (var item in effects.ActiveEffects)
-        {
-            if (!views.ContainsKey(item) && item.MaxDuration > 0)
-            {
-                Debug.Log("Create Key ");
-                MakeNewView(item);
-            }
-        }
-
-        List<UnitEffect> to_remove = new List<UnitEffect>();
-
-        foreach (var item in views.Keys)
-        {
-
-            if (!effects.ActiveEffects.Contains(item))
-            {
-                to_remove.Add(item);
-            }
-        }
-
-        foreach (var item in to_remove)
-        {
-            Debug.Log("removing items not in inventory " + views[item].gameObject.name);
-
-            Destroy(views[item].gameObject);
-            views.Remove(item);
-
-        }
+        views.UpdateList( GetDisplayableEffects(effects.ActiveEffects));
     }
-    static int id;
-    void MakeNewView(UnitEffect item)
+
+    UI_EffectItemView MakeNewView(UnitEffect item)
     {
-        id++;
+ 
         UI_EffectItemView view1 = (Instantiate(Resources.Load("UI/ui_effect_list_view") as GameObject).GetComponent<UI_EffectItemView>());
         view1.SetEffect(item);
         view1.transform.SetParent(this.transform, false);
-        view1.gameObject.name = id.ToString();
-        views.Add(item, view1);
+        return view1;
 
     }
 }
