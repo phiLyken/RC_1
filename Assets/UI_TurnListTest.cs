@@ -13,14 +13,14 @@ public class UI_TurnListTest : MonoBehaviour {
     {
         turnables = MockData.GetMockTurnList();
         TurnList.Init(null);
-        TurnList.UpdateList(turnables);
+        
     }
 	// Update is called once per frame
 	void Update () {
 	    if(Input.GetButtonDown("Fire1"))
         {
             turnables.Shuffle();
-            TurnList.UpdateList(turnables);
+            TurnList.OnListUpdate(turnables);
         }
 	}
 }
