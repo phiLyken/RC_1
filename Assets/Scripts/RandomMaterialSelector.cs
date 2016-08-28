@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+
 [RequireComponent(typeof(Renderer))]
+
 public class RandomMaterialSelector : MonoBehaviour {
        
     public Material[] randomMaterials;
