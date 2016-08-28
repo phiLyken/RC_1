@@ -7,6 +7,7 @@ public class UI_ShowToolTip_Base :  MonoBehaviour  {
     protected GameObject ToolTipInstance;
     public GameObject Prefab;
     public MonoBehaviour _target;
+    public RectTransform ToolTipAnchor;
 
     IEnumerator ShowToolTipDelayed()
     {
@@ -39,7 +40,7 @@ public class UI_ShowToolTip_Base :  MonoBehaviour  {
     protected virtual void InitializeToolTip(object _obj)
     {
         ToolTipInstance.GetComponent<UI_ToolTip_Base>().SetItem(_obj);
-        ToolTipInstance.GetComponent<RectTransform>().SetParent(this.transform, false);
+        ToolTipInstance.GetComponent<RectTransform>().SetParent(ToolTipAnchor, false);
         ToolTipInstance.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 0);
     }
 

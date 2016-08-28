@@ -8,7 +8,7 @@ public delegate void TargetListEvent(List<GameObject> targets);
 public class UnitActionBase : MonoBehaviour {
     [HideInInspector]
     public bool ActionInProgress;
-
+    public UI_ToolTip_AbilityBase ToolTipPrefab;
     public ActionEventHandler OnExecuteAction;
     public ActionEventHandler OnSelectAction;
     public ActionEventHandler OnUnselectAction;
@@ -31,8 +31,7 @@ public class UnitActionBase : MonoBehaviour {
     public int AP_Cost = 1;
 
     protected Unit Owner;
-   
- 
+    
     public Sprite Image;
 
     public virtual Sprite GetImage()

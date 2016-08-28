@@ -3,14 +3,14 @@ using System.Collections;
 using UnityEngine.UI;
 using System;
 
-public class UI_ToolTip_Ability : UI_ToolTip_Base {
+public class UI_ToolTip_AbilityBase : UI_ToolTip_Base {
 
     public GameObject EndsTurnIndicator;
     public Image Icon;
     public Text Name;
     public Text Description;
  
-    public void SetAbility(UnitActionBase ability)
+    public virtual void SetAbility(UnitActionBase ability)
     {
         Icon.sprite = ability.GetImage();
         Name.text = ability.ActionID;
@@ -23,4 +23,6 @@ public class UI_ToolTip_Ability : UI_ToolTip_Base {
     {
         SetAbility((UnitActionBase)obj);
     }
+
+
 }
