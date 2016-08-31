@@ -5,13 +5,17 @@ using System;
 [System.Serializable]
 public class UnitEffect_BuffStats : UnitEffect {
 
-    public StatBuff[] Buffs;
+    public StatBuff  Buff ;
     
     public override UnitEffect MakeCopy(UnitEffect origin)
     {
         return (UnitEffect_BuffStats)((UnitEffect_BuffStats)origin).MemberwiseClone();
     }
 
+    public override string GetString()
+    {
+        return Buff.Type + " " + Buff.Modifier;
+    }
 
 }
 

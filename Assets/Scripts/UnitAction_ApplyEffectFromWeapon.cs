@@ -4,16 +4,22 @@ using System.Collections.Generic;
 using System.Linq;
 
 
-public enum WeaponMode { regular, int_attack }
+ 
 public class UnitAction_ApplyEffectFromWeapon : UnitAction_ApplyEffect {
     
-    public WeaponMode Mode;
+    public int WeaponBehaviorIndex;
 
     WeaponBehavior GetBehavior()
     {
         Weapon wp = Owner.GetComponent<UnitInventory>().EquipedWeapon;
-        return Mode == WeaponMode.regular ? wp.RegularBehavior : wp.IntAttackBehavior; 
+        if(WeaponBehaviorIndex > wp.Behaviors.Count)
+        {
+            Debug.LogError("SEMJON!!!! Weaponindex is higher than your mom");
+            return null;
+        }
+        return wp.Behaviors[WeaponBehaviorIndex];
     }
+
 
     public override List<Tile> GetPreviewTiles()
     {
@@ -64,5 +70,10 @@ public class UnitAction_ApplyEffectFromWeapon : UnitAction_ApplyEffect {
     public override Sprite GetImage()
     {
         return GetBehavior().Icon;
+    }
+
+    protected override StatInfo[] GetRequirements()
+    {
+        return GetBehavior().Requirements;
     }
 }

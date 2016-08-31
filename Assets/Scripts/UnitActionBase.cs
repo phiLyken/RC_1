@@ -96,10 +96,14 @@ public class UnitActionBase : MonoBehaviour {
         return r;
     }
 
+    protected virtual StatInfo[] GetRequirements()
+    {
+        return Requirements;
+    }
   
     public bool HasRequirements(bool displayToast)
     {
-        foreach (StatInfo s in Requirements)
+        foreach (StatInfo s in GetRequirements())
         {
             if (Owner.Stats.GetStatAmount(s.StatType) < s.Value)
             {
