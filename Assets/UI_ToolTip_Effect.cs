@@ -5,6 +5,7 @@ using System;
 
 public class UI_ToolTip_Effect : UI_ToolTip_Base {
     
+    
     public Text Description;
 
     public void SetEffect(UnitEffect effect)
