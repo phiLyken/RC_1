@@ -4,42 +4,54 @@ using System.Collections.Generic;
 using System.Linq;
 
 
-public enum WeaponMode { regular, int_attack }
+ 
 public class UnitAction_ApplyEffectFromWeapon : UnitAction_ApplyEffect {
     
-    public WeaponMode Mode;
+    public int WeaponBehaviorIndex;
 
     WeaponBehavior GetBehavior()
     {
         Weapon wp = Owner.GetComponent<UnitInventory>().EquipedWeapon;
-        return Mode == WeaponMode.regular ? wp.RegularBehavior : wp.IntAttackBehavior; 
+        if(WeaponBehaviorIndex > wp.Behaviors.Count)
+        {
+            Debug.LogError("SEMJON!!!! Weaponindex is higher than your mom");
+            return null;
+        }
+        return wp.Behaviors[WeaponBehaviorIndex];
     }
+
 
     public override List<Tile> GetPreviewTiles()
     {
         return base.GetPreviewTiles(); 
-    }
-    
-    
+    }    
 
     protected override List<UnitEffect> GetEffects()
-    {     
+    {
+        List<UnitEffect> effects = GetRegularEffects();
 
-        WeaponBehavior Behavior = GetBehavior();
+        UnitEffect intBonus = GetIntBonus();
 
-        List<UnitEffect> effects = Behavior.Effects;
-        
-        if(Behavior.IntBonus != null) {
-
-            UnitEffect intBonus = Behavior.IntBonus.GetEffectForInstigator( (int) Owner.Stats.GetStatAmount(StatType.adrenaline));
-           
-            effects.AddRange(MyMath.GetListFromObject(intBonus));
+        if(intBonus != null)
+        {
+            effects.Add(intBonus );
         }
 
         return effects;
     }
 
+    public UnitEffect GetIntBonus()
+    {
+        if (GetBehavior().IntBonus == null)
+            return null;
 
+        return GetBehavior().IntBonus.GetEffectForInstigator((int) Owner.Stats.GetStatAmount(StatType.adrenaline));
+    }
+
+    public List<UnitEffect> GetRegularEffects()
+    {
+        return GetBehavior().Effects;
+    }
 
     public override float GetRange()
     {
@@ -58,5 +70,10 @@ public class UnitAction_ApplyEffectFromWeapon : UnitAction_ApplyEffect {
     public override Sprite GetImage()
     {
         return GetBehavior().Icon;
+    }
+
+    protected override StatInfo[] GetRequirements()
+    {
+        return GetBehavior().Requirements;
     }
 }

@@ -5,6 +5,8 @@ using System.Collections.Generic;
 [System.Serializable]
 public class WeaponBehavior :   MonoBehaviour {
 
+    public StatInfo[] Requirements;
+
     public Sprite Icon;
     public int TimeDelay;
     public int Range;

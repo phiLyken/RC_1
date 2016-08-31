@@ -1,28 +1,60 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using UnityEngine.UI;
+using UnityEngine.Events;
+using System;
+using DG.Tweening;
+public class UI_TurnList : MonoBehaviour {
 
-public class UI_TurnList : MonoBehaviour
-{
+    public int TurnListEntries;
+    ViewList<ITurn, UI_TurnListItem> views;
+    public TurnSystem m_turnsystem;
+    public RectTransform parent_container;    
+    public UI_TurnListItem TurnListItemPrefab;
+    public UI_AnchoredList AnchoredList;
 
-    UI_TurnListItem[] turnlist_items;
-
-    void UpdateList(List<ITurn> list)
+    public void Init(TurnSystem turn_system)
     {
-        for (int i = 0; i < turnlist_items.Length; i++)
+        AnchoredList.Init(TurnListEntries);
+
+        views = new ViewList<ITurn, UI_TurnListItem>();
+ 
+        views.Init(MakeItem);
+        
+        if(turn_system != null)
         {
-            turnlist_items[i].gameObject.SetActive(i < list.Count);
-            if (i < list.Count)
-            {
-                turnlist_items[i].SetTurnItem(list[i]);
-            }
+            turn_system.OnListUpdated += OnListUpdate;
+        }
+    }
+    
+    public void OnListUpdate(List<ITurn> items)
+    {
+        ViewsUpdated(views.UpdateList(items));
+    }
+
+    UI_TurnListItem MakeItem(ITurn u)
+    {     
+        UI_TurnListItem new_item = Instantiate(TurnListItemPrefab.gameObject).GetComponent<UI_TurnListItem>();
+        new_item.transform.SetParent(this.transform,false); 
+        new_item.SetTurnItem(u);
+
+        return new_item;
+    }
+
+
+
+    void ViewsUpdated(Dictionary<ITurn, UI_TurnListItem> list)
+    {
+        int i = 0;
+        foreach(var pair in list)
+        {
+            RectTransform tr = pair.Value.GetComponent<RectTransform>();
+            AnchoredList.UpdateSlotPosition(tr, i);           
+            i++;
         }
     }
 
-    void Start()
-    {
-        turnlist_items = GetComponentsInChildren<UI_TurnListItem>();
-
-        TurnSystem.Instance.OnListUpdated += UpdateList;
-    }
+  
 }

@@ -17,11 +17,12 @@ public class Weapon : MonoBehaviour,  IInventoryItem
     public int _count;
     public int Range;
 
-    public WeaponBehavior RegularBehavior;
-    public WeaponBehavior IntAttackBehavior;
 
+    public List<WeaponBehavior> Behaviors;
 
-
+ //   public WeaponBehavior RegularBehavior;
+   // public WeaponBehavior IntAttackBehavior;
+    
     ItemTypes IInventoryItem.GetItemType()
     {
         return ItemTypes.weapon;

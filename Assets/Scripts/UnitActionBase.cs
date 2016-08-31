@@ -8,12 +8,10 @@ public delegate void TargetListEvent(List<GameObject> targets);
 public class UnitActionBase : MonoBehaviour {
     [HideInInspector]
     public bool ActionInProgress;
-
-    public TargetedAction OnTarget;
+    public UI_ToolTip_AbilityBase ToolTipPrefab;
     public ActionEventHandler OnExecuteAction;
     public ActionEventHandler OnSelectAction;
     public ActionEventHandler OnUnselectAction;
-    public ActionEventHandler OnActionComplete;
 
     public ActionTargetEventHandler OnTargetHover;
     public ActionTargetEventHandler OnTargetUnhover;
@@ -23,9 +21,7 @@ public class UnitActionBase : MonoBehaviour {
     public StatInfo[] Requirements;
 
     public AbilityChargeController ChargeController;
-
-    public UseStat TimeCost;
- 
+    public AbilityTurnCostConfig TimeCost;
 
     public bool UsableInBaseCamp;
     public bool EndTurnOnUse;
@@ -35,8 +31,7 @@ public class UnitActionBase : MonoBehaviour {
     public int AP_Cost = 1;
 
     protected Unit Owner;
-   
- 
+    
     public Sprite Image;
 
     public virtual Sprite GetImage()
@@ -54,14 +49,10 @@ public class UnitActionBase : MonoBehaviour {
     public void SetOwner(Unit o)
     {
         Owner = o;
-   
+        TimeCost.Init(o);
         ChargeController.Init(o);
     }
 
-    public Unit GetOwner()
-    {
-        return Owner;
-    }
 
 
     public virtual void SelectAction()
@@ -105,10 +96,14 @@ public class UnitActionBase : MonoBehaviour {
         return r;
     }
 
+    protected virtual StatInfo[] GetRequirements()
+    {
+        return Requirements;
+    }
   
     public bool HasRequirements(bool displayToast)
     {
-        foreach (StatInfo s in Requirements)
+        foreach (StatInfo s in GetRequirements())
         {
             if (Owner.Stats.GetStatAmount(s.StatType) < s.Value)
             {
@@ -143,8 +138,6 @@ public class UnitActionBase : MonoBehaviour {
     protected virtual void ActionCompleted()
     {
         ActionInProgress = false;
-        if (OnActionComplete != null)
-            OnActionComplete(this);
     }
 
      protected virtual void ActionExecuted()
@@ -162,7 +155,7 @@ public class UnitActionBase : MonoBehaviour {
 
     public virtual float GetTimeCost()
     {
-        return TimeCost.GetValue(Owner);
+        return TimeCost.GetCost();
     }
     
 

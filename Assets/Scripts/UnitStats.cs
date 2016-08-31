@@ -87,7 +87,7 @@ public class UnitStats : MonoBehaviour
                    {
                        if (eff.GetType() == typeof(UnitEffect_BuffStats))
                        {
-                           buffs.AddRange(((UnitEffect_BuffStats) eff).Buffs);
+                           buffs.Add(((UnitEffect_BuffStats) eff).Buff);
                        }
                    }
              );

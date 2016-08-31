@@ -3,80 +3,42 @@ using System.Collections;
 using UnityEngine.UI;
 using System;
 using System.Collections.Generic;
-
+using System.Linq;
 
 public class UI_EffectListView : MonoBehaviour
 {
 
-    public Dictionary<UnitEffect , UI_EffectItemView> views;
+    public GameObject Prefab;
+    public ViewList<UnitEffect, UI_EffectItemView> views;     
 
-    Unit_EffectManager effects;
-
-    public void SetEffects(Unit_EffectManager new_effects)
+    protected  virtual List<UnitEffect>  GetDisplayableEffects(List<UnitEffect> effects)
     {
-        if (effects != null)
-        {
-            effects.OnEffectAdded -= OnUpdated;
-            effects.OnEffectRemoved -= OnUpdated;
-        }
-
-        effects = new_effects;
-
-        if (effects != null)
-        {
-            effects.OnEffectAdded += OnUpdated;
-            effects.OnEffectRemoved += OnUpdated;
-        }
-      
-        OnUpdated(null);
+        return effects;
     }
 
-    void OnUpdated(UnitEffect _effect)
+    public void SetEffects(List<UnitEffect> new_effects)
     {
-       
-        if (views == null)
-        {
-            views = new Dictionary<UnitEffect, UI_EffectItemView>();
-        }
-        
-        foreach (var item in effects.ActiveEffects)
-        {
-            if (!views.ContainsKey(item) && item.MaxDuration > 0)
-            {
-                Debug.Log("Create Key ");
-                MakeNewView(item);
-            }
-        }
-
-        List<UnitEffect> to_remove = new List<UnitEffect>();
-
-        foreach (var item in views.Keys)
-        {
-
-            if (!effects.ActiveEffects.Contains(item))
-            {
-                to_remove.Add(item);
-            }
-        }
-
-        foreach (var item in to_remove)
-        {
-            Debug.Log("removing items not in inventory " + views[item].gameObject.name);
-
-            Destroy(views[item].gameObject);
-            views.Remove(item);
-
-        }
+        views = new ViewList<UnitEffect, UI_EffectItemView>();
+        views.Init(MakeNewView);
+        UpdateViews(new_effects);
     }
-    static int id;
-    void MakeNewView(UnitEffect item)
+
+    /// <summary>
+    ///  passes the effects to the view manager, after filtering them
+    /// </summary>
+    /// <param name="effects"></param>
+    protected void UpdateViews(List<UnitEffect> effects)
     {
-        id++;
-        UI_EffectItemView view1 = (Instantiate(Resources.Load("UI/ui_effect_list_view") as GameObject).GetComponent<UI_EffectItemView>());
+        views.UpdateList(GetDisplayableEffects(effects));
+    }
+
+
+    UI_EffectItemView MakeNewView(UnitEffect item)
+    {
+        UI_EffectItemView view1 = (Prefab).GetComponent<UI_EffectItemView>();
         view1.SetEffect(item);
         view1.transform.SetParent(this.transform, false);
-        view1.gameObject.name = id.ToString();
-        views.Add(item, view1);
+        return view1;
 
     }
 }
