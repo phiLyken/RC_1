@@ -9,9 +9,11 @@ public class UnitActionBase : MonoBehaviour {
     [HideInInspector]
     public bool ActionInProgress;
     public UI_ToolTip_AbilityBase ToolTipPrefab;
+    public TargetedAction OnTarget;
     public ActionEventHandler OnExecuteAction;
     public ActionEventHandler OnSelectAction;
     public ActionEventHandler OnUnselectAction;
+    public ActionEventHandler OnActionComplete;
 
     public ActionTargetEventHandler OnTargetHover;
     public ActionTargetEventHandler OnTargetUnhover;
@@ -117,7 +119,10 @@ public class UnitActionBase : MonoBehaviour {
         }
         return true;
     }
-
+    public Unit GetOwner()
+    {
+        return Owner;
+    }
     public virtual void UnSelectAction()
     {
         if (OnUnselectAction != null) OnUnselectAction(this);
@@ -138,6 +143,8 @@ public class UnitActionBase : MonoBehaviour {
     protected virtual void ActionCompleted()
     {
         ActionInProgress = false;
+        if (OnActionComplete != null)
+            OnActionComplete(this);
     }
 
      protected virtual void ActionExecuted()

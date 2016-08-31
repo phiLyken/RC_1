@@ -15,7 +15,7 @@ public class Weapon : MonoBehaviour,  IInventoryItem
 
     [HideInInspector]
     public int _count;
-    public int Range;
+ 
 
 
     public List<WeaponBehavior> Behaviors;

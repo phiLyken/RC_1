@@ -10,7 +10,7 @@ public class UI_TurnList : MonoBehaviour {
 
     public int TurnListEntries;
     ViewList<ITurn, UI_TurnListItem> views;
-    public TurnSystem m_turnsystem;
+ 
     public RectTransform parent_container;    
     public UI_TurnListItem TurnListItemPrefab;
     public UI_AnchoredList AnchoredList;
@@ -26,6 +26,7 @@ public class UI_TurnList : MonoBehaviour {
         if(turn_system != null)
         {
             turn_system.OnListUpdated += OnListUpdate;
+            OnListUpdate(turn_system.Turnables);
         }
     }
     

@@ -67,7 +67,7 @@ public class UI_ActionBar_Button : MonoBehaviour, IToolTip{
 
     public void OnActionUnselect(UnitActionBase action)
     {
-         Debug.Log("Action unselect");
+       //  Debug.Log("Action unselect");
         SetBaseState(action);
        
     }

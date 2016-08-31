@@ -96,9 +96,9 @@ public class UI_AnchoredList : MonoBehaviour {
 
         Sequence move = DOTween.Sequence();
 
-        move.Append(view.DOMove(first_pos, 0.5f));
-        move.Append(view.DOMove(second_pos, 1f));
-        move.Append(view.DOMove(final_pos, 0.5f));
+        move.Append(view.DOMove(first_pos, 0.05f));
+        move.Append(view.DOMove(second_pos, 0.15f));
+        move.Append(view.DOMove(final_pos, 0.05f));
         move.AppendCallback(() => move_sequences.Remove(view));
 
         move_sequences.Add(view, move);
@@ -112,7 +112,7 @@ public class UI_AnchoredList : MonoBehaviour {
         Vector3 target_position = GetTargetSlotPos(slot_id);
         Sequence move = DOTween.Sequence();
 
-        move.Append(rect.DOMove(target_position, 0.4f));
+        move.Append(rect.DOMove(target_position, 0.1f));
         move.AppendCallback(() => move_sequences.Remove(view));
 
         move_sequences.Add(view, move);
