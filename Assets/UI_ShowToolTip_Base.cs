@@ -3,7 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class UI_ShowToolTip_Base :  MonoBehaviour  {
+    public enum TooltipTypes
+    {
 
+    }
     protected GameObject ToolTipInstance;
     public GameObject Prefab;
     public MonoBehaviour _target;

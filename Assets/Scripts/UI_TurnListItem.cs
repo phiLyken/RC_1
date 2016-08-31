@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using System;
 
-public class UI_TurnListItem : MonoBehaviour {
+public class UI_TurnListItem : MonoBehaviour, IToolTip {
 
     public Image Frame;
     public Image Image;
@@ -34,10 +35,9 @@ public class UI_TurnListItem : MonoBehaviour {
         if (OnSetTurnAble != null) OnSetTurnAble(m_turn);
 
         Image.color = turn.GetColor();
-     //   Debug.Log(turn.HasEndedTurn());
+     
         Frame.enabled = TurnSystem.HasTurn(turn);
-       // Frame.enabled = false;
-        TF.text = turn.GetID();
+ 
         SetActiveIndicator(false);
     }
 
@@ -46,5 +46,8 @@ public class UI_TurnListItem : MonoBehaviour {
         OrderId.text = id.ToString();
     }
 
-   
+    public object GetItem()
+    {
+        return m_turn;
+    }
 }
