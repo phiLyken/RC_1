@@ -28,15 +28,20 @@ public class UnitEffect_GainAdrenaline : UnitEffect
         Ticked();
     }
 
-    public override string GetString()
+    public override string GetToolTipText()
     {
-        string str = "+" + added+" A";
-        if(removed > 0)
-        {
-            str += " -" + removed +" O";
-        }
+            
+      string str =   "Infuses adrenaline.";
+        if (ConsumeWill)
+            str += "\nConsumes Oxygen if the units stamina is exceeded.";
+
         return str;
         
+    }
+
+    public override string GetEffectName()
+    {
+        return "Rage";
     }
 
 

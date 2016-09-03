@@ -28,16 +28,30 @@ public class UnitEffect_Damage : UnitEffect
 
         MyMath.R_Range range = _cc.DamageRange;
 
-        if (UseAttackStat)
-        {
-            range.min += ((Unit) Instigator).Stats.GetStatAmount(StatToUseMin);
-            range.max += ((Unit) Instigator).Stats.GetStatAmount(StatToUseMax);
-        }
-        _cc.baked_damage = (int) range.Value();
+
+        _cc.baked_damage = UnityEngine.Random.Range(GetMin(), GetMax());
 
         return _cc;
     }
 
+    int GetMin()
+    {
+        if(Instigator != null && UseAttackStat)
+        { 
+        return (int) ( DamageRange.min +  ((Unit) Instigator).Stats.GetStatAmount(StatToUseMin) );
+        }
+        return (int) DamageRange.min;
+    }
+
+    int GetMax()
+    {
+        if (Instigator != null && UseAttackStat)
+        {
+            return (int) (DamageRange.max + ((Unit) Instigator).Stats.GetStatAmount(StatToUseMin));
+        }
+
+        return (int) DamageRange.max;
+    }
     public int GetDamage()
     {
         if (baked_damage < 0)
@@ -46,16 +60,20 @@ public class UnitEffect_Damage : UnitEffect
         }
         return baked_damage;
     }
-    public UnitEffect_Damage()
+ 
+
+    public override string GetToolTipText()
     {
-        baked_damage = 5;
+        return GetEffectName() ;
     }
 
-    public override string GetString()
+    public override string GetEffectName()
     {
-        return GetDamage() + " DAMAGE";
-    }
+        if (baked_damage >= 0)
+            return baked_damage + " DAMAGE";
 
+        return GetMin() + "-" + GetMax() + " Damage";
+    }
     protected override void  EffectTick()
     {
         Ticked();

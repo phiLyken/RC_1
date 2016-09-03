@@ -127,16 +127,13 @@ public class UnitEffect : MonoBehaviour
     {
     }
 
-
-
-
     /// <summary>
     /// Call After Ticking
     /// </summary>
     protected void Ticked()
     {
         if (OnEffectTick != null) OnEffectTick(this);
-        Debug.Log(GetString() + " TICKED");
+        Debug.Log(GetToolTipText() + " TICKED");
         _durationActive++;
 
         if (_durationActive > MaxDuration)
@@ -147,9 +144,6 @@ public class UnitEffect : MonoBehaviour
         }
     }
 
-
-
-
     public virtual void SetPreview(UI_DmgPreview prev, Unit target) { }
     #endregion
 
@@ -158,13 +152,25 @@ public class UnitEffect : MonoBehaviour
         if (!Effect_Host.IsDead())
             GlobalTurnTick();
     }
-   
-      
 
-    public virtual string GetString()
+    public virtual string GetToolTipText()
     {
         return " null";
     }
 
+    public virtual string GetEffectName()
+    {
+        return  " no name";
+    }
+ 
+    public int   GetMaxDuration()
+    {
+        return MaxDuration;
+    }
+
+    public  int GetDurationLeft()
+    {
+        return (MaxDuration - _durationActive);
+    }
 
 }

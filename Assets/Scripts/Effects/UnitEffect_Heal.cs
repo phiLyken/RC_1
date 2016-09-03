@@ -21,7 +21,7 @@ public class UnitEffect_Heal : UnitEffect
         Ticked();
     }
 
-    public override string GetString()
+    public override string GetToolTipText()
     {
         return "RESTED";
     }

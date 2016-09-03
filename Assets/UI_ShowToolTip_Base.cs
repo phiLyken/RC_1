@@ -92,10 +92,11 @@ public static class ToolTipFactory {
         switch (type)
         {
             case TooltipTypes.ability_generic:
-                if( _obj is UnitAction_ApplyEffect )
-                    return LoadFromSource("ability_apply_effect");
                 if (_obj is UnitAction_ApplyEffectFromWeapon)
                     return LoadFromSource("ability_attack");
+
+                if ( _obj is UnitAction_ApplyEffect )
+                    return LoadFromSource("ability_apply_effect");
 
                 if (_obj is UnitActionBase)
                     return LoadFromSource("ability");
