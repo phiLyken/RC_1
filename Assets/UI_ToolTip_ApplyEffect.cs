@@ -11,7 +11,7 @@ public class UI_ToolTip_ApplyEffect : UI_ToolTip_AbilityBase {
         base.SetAbility(ability);
 
         UnitAction_ApplyEffect ap = ability as UnitAction_ApplyEffect;
-        Debug.Log(ap.Effects.Count);
+    //    Debug.Log(ap.Effects.Count);
         EffectList.SetEffects(ap.Effects);
     }
 }

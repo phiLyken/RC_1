@@ -13,7 +13,7 @@ public class UI_ToolTipAbility_Header : MonoBehaviour
 
     public virtual void SetAbility(UnitActionBase ability)
     {
-        Debug.Log("header");
+ 
         Icon.sprite = ability.GetImage();
         Name.text = ability.ActionID;
         Description.text = ability.Descr;

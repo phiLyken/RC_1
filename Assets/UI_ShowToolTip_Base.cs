@@ -12,8 +12,8 @@ public class UI_ShowToolTip_Base :  MonoBehaviour  {
 
     public TooltipTypes ToolTipType;
     public string DisplayText;
-
-    protected GameObject ToolTipInstance;
+ 
+    protected UI_ToolTip_Base ToolTipInstance;
  
     public MonoBehaviour _target;
     public RectTransform ToolTipAnchor;
@@ -25,6 +25,13 @@ public class UI_ShowToolTip_Base :  MonoBehaviour  {
         SetItemToolTip( ((IToolTip)_target).GetItem() );
     }
 
+    IEnumerator HideToolTipDelayed()
+    {
+        yield return null ;
+        yield return null;
+        RemoveOldTooltip();
+
+    }
     public void ShowItemToolTip()
     {
         StartCoroutine(ShowToolTipDelayed());
@@ -39,9 +46,9 @@ public class UI_ShowToolTip_Base :  MonoBehaviour  {
 
     protected virtual void RemoveOldTooltip()
     {
-        if (ToolTipInstance != null)
+        if (ToolTipInstance != null && ToolTipInstance.AttemptHide() )
         {
-            Destroy(ToolTipInstance);
+            Destroy(ToolTipInstance.gameObject);
         }
 
     }
@@ -49,8 +56,22 @@ public class UI_ShowToolTip_Base :  MonoBehaviour  {
     protected virtual void InitializeToolTip(object _obj)
     {
         ToolTipInstance.GetComponent<UI_ToolTip_Base>().SetItem(_obj);
-        ToolTipInstance.GetComponent<RectTransform>().SetParent(ToolTipAnchor, false);
-        ToolTipInstance.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 0);
+
+        UI_ToolTip_Base parent = gameObject.GetComponent<UI_ToolTip_Base>();
+
+        if (parent == null)
+            parent = gameObject.GetComponentInParent<UI_ToolTip_Base>();
+
+
+        if (parent != null)
+            parent.RegisterChild(ToolTipInstance.GetComponent<UI_ToolTip_Base>());
+
+        Debug.Log(" finding uui object in " + gameObject + " p " + parent);
+        //       ToolTipInstance.GetComponent<RectTransform>().SetParent(ToolTipAnchor, false);
+        //  ToolTipInstance.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 0);
+        ToolTipInstance.transform.SetParent(GameObject.FindWithTag("UI_Overlay").transform, true);
+       
+        ToolTipInstance.GetComponent<RectTransform>().position = ToolTipAnchor.position ;
     }
 
     protected virtual void SpawnToolTip(TooltipTypes type, object _obj)
@@ -58,7 +79,7 @@ public class UI_ShowToolTip_Base :  MonoBehaviour  {
         bool make_generic = false;
         string generic_text = "";
 
-        ToolTipInstance = Instantiate(ToolTipFactory.GetPrefab(type, _obj, out make_generic, out generic_text));
+        ToolTipInstance = Instantiate(ToolTipFactory.GetPrefab(type, _obj, out make_generic, out generic_text)).GetComponent<UI_ToolTip_Base>();
 
         if (make_generic)
         {
@@ -73,9 +94,8 @@ public class UI_ShowToolTip_Base :  MonoBehaviour  {
     {
 
         StopAllCoroutines();
+        StartCoroutine(HideToolTipDelayed());
 
-        if (ToolTipInstance != null)
-            ToolTipInstance.SetActive(false);
     }
 
 }
@@ -88,7 +108,7 @@ public static class ToolTipFactory {
     {
         _make_generic = false;
         text = "";
-        Debug.Log(_obj.ToString());
+      //  Debug.Log(_obj.ToString());
         switch (type)
         {
             case TooltipTypes.ability_generic:
@@ -113,7 +133,7 @@ public static class ToolTipFactory {
 
             case TooltipTypes.generic_text:
                 _make_generic = true;
-                return LoadFromSource("effect");
+                return LoadFromSource("simple");
 
 
             case TooltipTypes.turn_list_item:
@@ -146,7 +166,7 @@ public static class ToolTipFactory {
 
     static GameObject LoadFromSource(string _suffix)
     {
-        Debug.Log("load " + PATH + _suffix);
+       // Debug.Log("load " + PATH + _suffix);
         return Resources.Load(PATH + _suffix) as GameObject;
     }
 }
