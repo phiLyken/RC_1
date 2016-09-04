@@ -10,9 +10,11 @@ public class UI_ToolTip_Attack : UI_ToolTip_AbilityBase
     {
         UnitAction_ApplyEffectFromWeapon ae = ability as UnitAction_ApplyEffectFromWeapon;
 
-        RegularList.SetEffects(MyMath.GetListFromObject(ae.GetIntBonus()));
-        EffectList.SetEffects(ae.GetRegularEffects());
+        Debug.Log("set Aability");
+        EffectList.SetEffects(MyMath.GetListFromObject(ae.GetIntBonus()));
+        RegularList.SetEffects(ae.GetRegularEffects());
 
         base.SetAbility(ability);
     }
+ 
 }

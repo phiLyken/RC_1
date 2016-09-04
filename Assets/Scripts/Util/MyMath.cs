@@ -283,7 +283,8 @@ public static class MyMath  {
     public static List<T> GetListFromObject<T>(T obj)
     {
         List<T> list = new List<T>();
-        list.Add(obj);
+        if(obj != null)
+             list.Add(obj);
         return list;
     }
 

@@ -4,12 +4,25 @@ using UnityEngine.UI;
 using System;
 
 public class UI_ToolTip_Effect : UI_ToolTip_Base {
-    
+
+    public Image DurationIcon;
+    public Text DurationTF;
+        
     public Text Description;
 
     public void SetEffect(UnitEffect effect)
     {
-        Description.text = "Some information about " + effect.GetType().ToString();
+        Description.text = effect.GetToolTipText();
+
+        if(effect.GetMaxDuration()> 0)
+        {
+            DurationTF.text = effect.GetDurationLeft().ToString();
+            DurationIcon.gameObject.SetActive(true);
+        } else
+        {
+            //DurationIcon.gameObject.SetActive(false);
+            DurationTF.text = "instant";
+        }
     }
 
     public override void SetItem(object obj)

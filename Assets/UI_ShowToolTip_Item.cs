@@ -8,6 +8,7 @@ public class UI_ShowToolTip_Item : UI_ShowToolTip_Base {
     public GameObject WeaponToolTipPrefab;
     public GameObject GenericItemPrefab;
 
+    /*
     protected override void SpawnToolTip(object _obj)
     {
 
@@ -34,5 +35,5 @@ public class UI_ShowToolTip_Item : UI_ShowToolTip_Base {
       
     }
 
-
+    */
 }

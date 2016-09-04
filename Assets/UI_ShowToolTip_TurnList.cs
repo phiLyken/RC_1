@@ -7,6 +7,7 @@ public class UI_ShowToolTip_TurnList : UI_ShowToolTip_Base {
     public GameObject UnitTooltip;
     public GameObject TestTooltip;
 
+    /*
     protected override void SpawnToolTip(object _obj)
     {
         ITurn item = (_obj as ITurn);
@@ -34,5 +35,6 @@ public class UI_ShowToolTip_TurnList : UI_ShowToolTip_Base {
         }
         base.InitializeToolTip(_obj);
     }
+    */
 
 }

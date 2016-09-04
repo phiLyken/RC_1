@@ -12,10 +12,18 @@ public class UnitEffect_BuffStats : UnitEffect {
         return (UnitEffect_BuffStats)((UnitEffect_BuffStats) original).MemberwiseClone();
     }
 
-    public override string GetString()
+    public override string GetToolTipText()
     {
-        return Buff.Type + " " + Buff.Modifier;
+        return TargetMode.ToString() + " " + GetEffectName();
     }
+
+    public override string GetEffectName()
+    {
+        return  Buff.Type + " " + Buff.Modifier.ToString("+#;-#;0");
+       
+    }
+
+
 
 }
 

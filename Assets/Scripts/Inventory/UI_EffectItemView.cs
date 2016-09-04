@@ -15,9 +15,13 @@ public class UI_EffectItemView : MonoBehaviour, IToolTip {
     }
     public void SetEffect(UnitEffect new_effeect)
     {
+        
         m_effect = new_effeect;
-        Icon.sprite = new_effeect.Icon;
-        Text.text = new_effeect.GetString();
+        
+        if(new_effeect.Icon != null)
+             Icon.sprite = new_effeect.Icon;
+
+        Text.text = new_effeect.GetEffectName();
 
     }
 

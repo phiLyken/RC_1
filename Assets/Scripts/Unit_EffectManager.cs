@@ -37,7 +37,7 @@ public class Unit_EffectManager : MonoBehaviour {
 
             new_effect.OnEffectTick += OnEffectTick;
 
-            Debug.Log(" EFFECT_ADDED " + new_effect.GetString());
+            Debug.Log(" EFFECT_ADDED " + new_effect.GetToolTipText());
             new_effect.OnEffectExpired += OnEffectExpired;
            
             if (OnEffectAdded != null) OnEffectAdded(new_effect);
@@ -72,7 +72,7 @@ public class Unit_EffectManager : MonoBehaviour {
         effect.OnEffectExpired -= OnEffectRemoved;
         effect.OnEffectTick -= OnEffectTick;
         effect.OnEffectExpired -= OnEffectExpired;
-        Debug.Log(" EFFECT_REMOVED " + effect.GetString());
+        Debug.Log(" EFFECT_REMOVED " + effect.GetToolTipText());
         ActiveEffects.Remove(effect);
 
     }

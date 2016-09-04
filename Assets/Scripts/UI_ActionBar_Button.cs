@@ -26,7 +26,9 @@ public class UI_ActionBar_Button : MonoBehaviour, IToolTip{
         {
             action.OnSelectAction -= OnActionSelect;
             action.OnUnselectAction -= OnActionUnselect;
-            inventory.OnInventoryUpdated -= OnInventoryUpdate;
+            
+            if(inventory != null)
+             inventory.OnInventoryUpdated -= OnInventoryUpdate;
         }    
         
 
@@ -34,8 +36,12 @@ public class UI_ActionBar_Button : MonoBehaviour, IToolTip{
 
         if (m_action != null)
         {
+            //so we can test it also without owner
+            if(action.GetOwner() != null)
+            {
             inventory = action.GetOwner().Inventory;
             inventory.OnInventoryUpdated += OnInventoryUpdate;
+            }
             action.OnSelectAction += OnActionSelect;
             action.OnUnselectAction += OnActionUnselect;
             action.OnActionComplete += OnActionComplete;

@@ -5,6 +5,7 @@ public class UI_ShowToolTip_Ability : UI_ShowToolTip_Base {
 
    
 
+    /*
     protected override void SpawnToolTip(object _obj)
     {
         UnitActionBase action = _obj as UnitActionBase;
@@ -12,5 +13,6 @@ public class UI_ShowToolTip_Ability : UI_ShowToolTip_Base {
         ToolTipInstance = Instantiate(action.ToolTipPrefab.gameObject);
 
     }
+    */
 
 }

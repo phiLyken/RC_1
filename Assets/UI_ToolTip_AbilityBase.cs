@@ -5,18 +5,15 @@ using System;
 
 public class UI_ToolTip_AbilityBase : UI_ToolTip_Base {
 
-    public GameObject EndsTurnIndicator;
-    public Image Icon;
-    public Text Name;
-    public Text Description;
- 
+    public RectTransform HeaderTarget;
     public virtual void SetAbility(UnitActionBase ability)
     {
-        Icon.sprite = ability.GetImage();
-        Name.text = ability.ActionID;
-        Description.text = ability.Descr;
 
-        EndsTurnIndicator.SetActive(ability.EndTurnOnUse);
+ 
+        GameObject header = Instantiate( Resources.Load("UI/ToolTips/ui_toolip_ability_header") as GameObject);
+        header.transform.SetParent(HeaderTarget, false);
+        header.GetComponent<UI_ToolTipAbility_Header>().SetAbility(ability);
+ 
     }
 
     public override void SetItem(object obj)

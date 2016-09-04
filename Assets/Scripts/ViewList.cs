@@ -17,19 +17,64 @@ public class ViewList<Item, View> where View : MonoBehaviour
 
     public void Init(ViewBuilderDelegate view_builder)
     {
+        if(views != null)
+        {
+            foreach (var pair in views)
+                GameObject.Destroy(pair.Value.gameObject);
+            Debug.Log("clear view list");
+            views = null;
+        }
         MakeView = view_builder;
     }
 
+    void RemoveViews()
+    {
+
+    }
     public Dictionary<Item, View> UpdateList(List<Item> items)
     {
-        if (views == null)
+     
+        
+        List<Item> to_create = new List<Item>();
+        List<Item> items_to_delete = new List<Item>();
+
+      
+        if (views == null || views.Count == 0)
         {
             views = new Dictionary<Item, View>();
+            
+        }
+        if (items != null && items.Count > 0)
+        {
+          //  Debug.Log(items.Count + " " +views.Count);
+            if (views.Count > 0)
+            {
+                   to_create = items.Where(item => !views.ContainsKey(item)).ToList();
+                   items_to_delete = views.Where(item => !items.Contains(item.Key)).Select(item => item.Key).ToList();
+            } else
+            {
+                to_create = new List<Item>(items);
+            } 
+
+            foreach (Item i in to_create)
+            {
+               // Debug.Log(i.ToString());
+                views.Add(i, MakeView(i));
+            }
+
+
+            Dictionary<Item, View> new_list = new Dictionary<Item, View>();
+
+            foreach (Item item in items)
+            {
+                new_list.Add(item, views[item]);
+            }
+            views = new Dictionary<Item, View>(new_list);
+        } else
+        {
+            items_to_delete = views.Select(pair => pair.Key).ToList();
         }
 
-        List<Item> to_create = items.Where(item => !views.ContainsKey(item)).ToList();
-
-        List<Item> items_to_delete = views.Where(item => !items.Contains(item.Key)).Select(item => item.Key).ToList();
 
         items_to_delete.ForEach(item => {
 
@@ -37,21 +82,6 @@ public class ViewList<Item, View> where View : MonoBehaviour
             views.Remove(item);
 
         });
-
-
-        foreach (Item i in to_create)
-        {
-
-            views.Add(i, MakeView(i));
-        }
-
-
-        Dictionary<Item, View> new_list = new Dictionary<Item, View>();
-        foreach (Item item in items)
-        {
-            new_list.Add(item, views[item]);
-        }
-        views = new Dictionary<Item, View>(new_list);
 
         return views;
     }

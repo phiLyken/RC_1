@@ -22,12 +22,13 @@ public class WorldCrumbler : MonoBehaviour, ITurn {
         get{return true; } set { }
     }
 
-    void Awake()
+    public void Init(TurnSystem system)
     {
         Instance = this;
         TurnSystem.Instance.OnGlobalTurn += GlobalTurn;
         RegisterTurn();
     }
+ 
     public void EndTurn()
     {
         SetNextTurnTime(CrumbleTurnCost);

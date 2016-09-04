@@ -18,7 +18,9 @@ public class UI_EffectListView : MonoBehaviour
 
     public void SetEffects(List<UnitEffect> new_effects)
     {
-        views = new ViewList<UnitEffect, UI_EffectItemView>();
+ 
+        if(views == null)
+          views = new ViewList<UnitEffect, UI_EffectItemView>();
         views.Init(MakeNewView);
         UpdateViews(new_effects);
     }
@@ -35,7 +37,8 @@ public class UI_EffectListView : MonoBehaviour
 
     UI_EffectItemView MakeNewView(UnitEffect item)
     {
-        UI_EffectItemView view1 = (Prefab).GetComponent<UI_EffectItemView>();
+        Debug.Log(item.Unique_ID);
+        UI_EffectItemView view1 = Instantiate(Prefab).GetComponent<UI_EffectItemView>();
         view1.SetEffect(item);
         view1.transform.SetParent(this.transform, false);
         return view1;

@@ -29,7 +29,7 @@ public class UnitEffect_ModifyStat : UnitEffect
     }
 
 
-    public override string GetString()
+    public override string GetToolTipText()
     {
         return GetAmount()+" "+ UnitStats.StatToString(type);
     }
