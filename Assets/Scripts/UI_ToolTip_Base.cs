@@ -11,19 +11,19 @@ public abstract class UI_ToolTip_Base : MonoBehaviour {
     public void SetMouseOver()
     {
         Hovered = true;
-        Debug.Log("hovered");
+       // Debug.Log("hovered");
     }
 
     public void SetMouseExit()
     {
-        Debug.Log("exit");
+       // Debug.Log("exit");
         Hovered = false;
         AttemptHide();
     }
     public bool AttemptHide()
     {
 
-        Debug.Log("Attempt Hide " + gameObject + "  hover:" + Hovered);
+       // Debug.Log("Attempt Hide " + gameObject + "  hover:" + Hovered);
         if (!Hovered && (child == null || !child.gameObject.activeSelf))
         {
             gameObject.SetActive(false);

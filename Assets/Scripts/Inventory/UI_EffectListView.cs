@@ -37,7 +37,7 @@ public class UI_EffectListView : MonoBehaviour
 
     UI_EffectItemView MakeNewView(UnitEffect item)
     {
-        Debug.Log(item.Unique_ID);
+     //   Debug.Log(item.Unique_ID);
         UI_EffectItemView view1 = Instantiate(Prefab).GetComponent<UI_EffectItemView>();
         view1.SetEffect(item);
         view1.transform.SetParent(this.transform, false);

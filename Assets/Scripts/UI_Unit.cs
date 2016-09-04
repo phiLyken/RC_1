@@ -46,6 +46,7 @@ public class UI_Unit : MonoBehaviour
 
     public void SetUnitInfo(Unit u)
     {
+        Debug.Log("setUnitinfo");
         GetComponent<UI_EffectQueue>().SetUnit(u, this);
 
         m_unit = u;
@@ -60,7 +61,7 @@ public class UI_Unit : MonoBehaviour
         Unit.OnUnitKilled += CheckKilled;
 
         m_unit.Actions.OnActionComplete += ActionComplete;
-        UpdateUI(u);
+        UpdateUI(m_unit);
     }
 
     void ActionComplete(UnitActionBase action)
@@ -150,7 +151,7 @@ public class UI_Unit : MonoBehaviour
         else
         {
             Toggle(false);
-            return;
+            
         }
         StatBar.SetBarValues(
             (int)m_unit.Stats.GetStatAmount(StatType.oxygen),

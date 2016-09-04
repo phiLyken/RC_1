@@ -26,7 +26,7 @@ public class UnitAnimation
 
     public void SetWeaponIndex(float f)
     {
-        Debug.Log("set weapon index " + f);
+      //  Debug.Log("set weapon index " + f);
         unit_animator.SetFloat("WeaponIndex", (int) f);
     }
 
@@ -37,7 +37,7 @@ public class UnitAnimation
 
     public void AbilityCallback(string id)
     {
-        Debug.Log("Ability call back " + id);
+      //  Debug.Log("Ability call back " + id);
         switch (id)
         {
             case "shoot_left":
