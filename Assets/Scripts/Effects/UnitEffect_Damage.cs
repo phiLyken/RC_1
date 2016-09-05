@@ -43,6 +43,10 @@ public class UnitEffect_Damage : UnitEffect
         return (int) DamageRange.min;
     }
 
+    public UnitEffect_Damage(int dmg)
+    {
+        baked_damage = dmg;
+    }
     int GetMax()
     {
         if (Instigator != null && UseAttackStat)

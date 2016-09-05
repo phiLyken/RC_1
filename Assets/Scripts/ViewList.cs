@@ -32,12 +32,10 @@ public class ViewList<Item, View> where View : MonoBehaviour
 
     }
     public Dictionary<Item, View> UpdateList(List<Item> items)
-    {
-     
+    {    
         
         List<Item> to_create = new List<Item>();
-        List<Item> items_to_delete = new List<Item>();
-
+        List<View> viewstoDelete = new List<View>();
       
         if (views == null || views.Count == 0)
         {
@@ -50,7 +48,7 @@ public class ViewList<Item, View> where View : MonoBehaviour
             if (views.Count > 0)
             {
                    to_create = items.Where(item => !views.ContainsKey(item)).ToList();
-                   items_to_delete = views.Where(item => !items.Contains(item.Key)).Select(item => item.Key).ToList();
+                   viewstoDelete = views.Where(pair => pair.Key == null || !items.Contains(pair.Key)  ).Select(item => item.Value).ToList();
             } else
             {
                 to_create = new List<Item>(items);
@@ -72,20 +70,22 @@ public class ViewList<Item, View> where View : MonoBehaviour
             views = new Dictionary<Item, View>(new_list);
         } else
         {
-            items_to_delete = views.Select(pair => pair.Key).ToList();
+            viewstoDelete = views.Select(pair => pair.Value).ToList();
         }
 
 
-        items_to_delete.ForEach(item => {
+        viewstoDelete.ForEach(item => {
 
-            GameObject.Destroy(views[item].gameObject);
-            views.Remove(item);
+            GameObject.Destroy(item.gameObject);
+
+            var to_delete = views.FirstOrDefault(kvp => kvp.Value == item);
+
+            if(to_delete.Key != null)
+             views.Remove(to_delete.Key);
 
         });
 
         return views;
     }
-
-
-
+    
 }

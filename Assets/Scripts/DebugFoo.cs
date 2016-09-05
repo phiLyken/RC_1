@@ -23,7 +23,7 @@ public class DebugFoo : MonoBehaviour {
         if (hoveredUnit != null && Input.GetKeyDown(KeyCode.Alpha0))
         {
 
-            hoveredUnit.ReceiveDamage(new UnitEffect_Damage());
+            hoveredUnit.ReceiveDamage(new UnitEffect_Damage(5));
         }
     }
 }

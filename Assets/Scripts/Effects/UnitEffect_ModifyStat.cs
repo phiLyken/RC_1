@@ -16,6 +16,7 @@ public class UnitEffect_ModifyStat : UnitEffect
 
     int GetAmount()
     {
+ 
         int _base = (int) Effect_Host.Stats.GetStatAmount(type);
 
         int value = Absolute;
@@ -28,10 +29,15 @@ public class UnitEffect_ModifyStat : UnitEffect
         return value;
     }
 
+    public override string GetEffectName()
+    {
+        return GetToolTipText();
+    }
 
     public override string GetToolTipText()
     {
-        return GetAmount()+" "+ UnitStats.StatToString(type);
+        string amount = (Percent != 0) ? (Percent * 100).ToString("##.0") : Absolute.ToString();
+        return amount + " "+ UnitStats.StatToString(type);
     }
 
     /// <summary>
@@ -48,7 +54,7 @@ public class UnitEffect_ModifyStat : UnitEffect
     {
         Ticked();
         if (!Effect_Host.IsDead()) {
-            Effect_Host.Stats.GetStat(type).SetAmountDelta(Effect_Host.Stats, GetAmount());
+           Effect_Host.Stats.GetStat(type).SetAmountDelta( Effect_Host.Stats, GetAmount());
            
         }
     }

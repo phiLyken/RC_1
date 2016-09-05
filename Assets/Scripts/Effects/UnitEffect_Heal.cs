@@ -23,6 +23,13 @@ public class UnitEffect_Heal : UnitEffect
 
     public override string GetToolTipText()
     {
-        return "RESTED";
+        return "Restores the full stamina with oxygen.";
     }
+
+    public override string GetEffectName()
+    {
+        return "Restore O2";
+    }
+
+     
 }
