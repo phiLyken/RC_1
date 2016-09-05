@@ -9,16 +9,17 @@ public class WeaponBehavior :   MonoBehaviour {
 
     public Sprite Icon;
     public int TimeDelay;
-    public int Range;
+ 
     public List<  UnitEffect > Effects;
     public IntBonus IntBonus;
 
-    public UseStat RangeModifier;
+    public TargetInfo TargetRule;
 
-    public int GetRange()
+    public float GetRange(Unit u)
     {
-        return Range;
+        return TargetRule.GetRange(u);
     }
+ 
 }
 
 

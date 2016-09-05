@@ -184,7 +184,7 @@ public class UnitAI : MonoBehaviour, ITriggerable {
         {
             foreach(Unit u in all_enemies)
             {
-                if (UnitAction_ApplyEffect.IsInRangeAndHasLOS(m_unit, u, atk.GetRange() )){
+                if (TargetInfo.IsInRangeAndHasLOS(m_unit, u, atk.GetRange() )){
                     yield return StartCoroutine(Move(t));
                     yield break;
                 }

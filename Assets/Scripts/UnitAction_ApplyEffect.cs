@@ -5,13 +5,11 @@ using System.Linq;
 
 public class UnitAction_ApplyEffect : UnitActionBase
 {
-    public bool TargetFriendly;
-    public bool TargetEnemies;
-    public bool TargetSelf;
 
-    public float Range = 4;
     public List<UnitEffect> Effects;
-       
+
+    public TargetInfo TargetRules;
+
     List<Unit>  targets;
 
     void Awake()
@@ -41,7 +39,7 @@ public class UnitAction_ApplyEffect : UnitActionBase
     
     public virtual float GetRange()
     {
-        return Range;
+        return TargetRules.GetRange(Owner);
     }
 
     protected virtual List<UnitEffect> GetEffects()
@@ -173,20 +171,11 @@ public class UnitAction_ApplyEffect : UnitActionBase
         return targets;
     }
 
-    /// <summary>
-    /// Returns true if the target is targetable (according to the specified targeting rules)
-    /// </summary>
-    /// <param name="target"></param>
-    /// <param name="fromTile"></param>
-    /// <returns></returns>
-    public bool CanTarget(Unit target, Tile fromTile)
-    {
-        if (target == Owner && !TargetSelf) return false;
-        if (!TargetSelf && (!TargetFriendly && target.OwnerID == Owner.OwnerID)) return false;
-        if (!TargetEnemies && target.OwnerID != Owner.OwnerID) return false;
-        if (!IsInRangeAndHasLOS(Owner, target, GetRange(), fromTile)) return false;
 
-        return true;
+
+    public bool CanTarget( Unit target, Tile fromTile)
+    {
+        return  TargetInfo.CanTarget(TargetRules, Owner, target, fromTile);
 
     }
 
@@ -197,20 +186,10 @@ public class UnitAction_ApplyEffect : UnitActionBase
     /// <returns></returns>
     public bool CanTarget(Unit target)
     {        
-        return CanTarget(target, Owner.currentTile);
+        return CanTarget( target, Owner.currentTile);
     }
 
-    public static bool IsInRangeAndHasLOS(Unit instigator, Unit target, float range)
-    {
-        return IsInRangeAndHasLOS(instigator, target, range, instigator.currentTile);
 
-    }
-    public static bool IsInRangeAndHasLOS(Unit instigator, Unit target, float range, Tile origin)
-    {
-        List<Tile> in_range = LOSCheck.GetTilesVisibleTileInRange(origin, (int)range);
-
-        return in_range.Contains(target.currentTile);
-    }
 
 
 }
