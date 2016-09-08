@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 2b5bb71a284a8f74890af026e40ce199
-timeCreated: 1470134297
+guid: 304154f94fad7464b8a5cfdb141da549
+timeCreated: 1473295706
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
@@ -64,7 +64,7 @@ ModelImporter:
     100112: humanoid Spine
     100114: humanoid Spine1
     100116: //RootNode
-    100118: prisoner_torso02
+    100118: prisoneruniform_torso003
     400000: Attach_Backpack
     400002: humanoid
     400004: humanoid Head
@@ -124,10 +124,10 @@ ModelImporter:
     400112: humanoid Spine
     400114: humanoid Spine1
     400116: //RootNode
-    400118: prisoner_torso02
-    4300000: prisoner_torso02
+    400118: prisoneruniform_torso003
+    4300000: prisoneruniform_torso003
     9500000: //RootNode
-    13700000: prisoner_torso02
+    13700000: prisoneruniform_torso003
   materials:
     importMaterials: 0
     materialName: 0
@@ -172,7 +172,7 @@ ModelImporter:
     normalImportMode: 0
     tangentImportMode: 3
   importAnimation: 1
-  copyAvatar: 1
+  copyAvatar: 0
   humanDescription:
     human: []
     skeleton: []
@@ -183,10 +183,9 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    rootMotionBoneName: humanoid
+    rootMotionBoneName: 
     hasTranslationDoF: 0
-  lastHumanDescriptionAvatarSource: {fileID: 9000000, guid: 2fdc86bdf8aa1884b846e66c795d333b,
-    type: 3}
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
   animationType: 2
   humanoidOversampling: 1
   additionalBone: 0

@@ -121,7 +121,7 @@ ModelImporter:
     13700000: suit01_backpack tanks
     13700002: suit01_backpack1
   materials:
-    importMaterials: 1
+    importMaterials: 0
     materialName: 0
     materialSearch: 1
   animations:

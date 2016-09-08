@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 1521db5ed9d419840b1ab643170f02dc
-timeCreated: 1469947911
+guid: a908f05b561f9ed44aaa471aeadeffb1
+timeCreated: 1473291752
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
@@ -52,11 +52,21 @@ ModelImporter:
     100088: humanoid R UpperArm
     100090: humanoid Spine
     100092: humanoid Spine1
-    100094: suit01_fishbowl
-    100096: suit01_insideneck
-    100098: suit01_torso
-    100100: //RootNode
-    100102: suit01_tubes
+    100094: //RootNode
+    100096: prisoner_legs01
+    100098: Attach_Lhand
+    100100: Attach_Rhand
+    100102: humanoid HeadNub
+    100104: humanoid L Finger0Nub
+    100106: humanoid L Finger1Nub
+    100108: humanoid L Finger2Nub
+    100110: humanoid L Finger3Nub
+    100112: humanoid L Toe0Nub
+    100114: humanoid R Finger0Nub
+    100116: humanoid R Finger1Nub
+    100118: humanoid R Finger2Nub
+    100120: humanoid R Finger3Nub
+    100122: humanoid R Toe0Nub
     400000: Attach_Backpack
     400002: humanoid
     400004: humanoid Head
@@ -104,20 +114,24 @@ ModelImporter:
     400088: humanoid R UpperArm
     400090: humanoid Spine
     400092: humanoid Spine1
-    400094: suit01_fishbowl
-    400096: suit01_insideneck
-    400098: //RootNode
-    400100: suit01_torso
-    400102: suit01_tubes
-    4300000: suit01_torso
-    4300002: suit01_fishbowl
-    4300004: suit01_insideneck
-    4300006: suit01_tubes
+    400094: //RootNode
+    400096: prisoner_legs01
+    400098: Attach_Lhand
+    400100: Attach_Rhand
+    400102: humanoid HeadNub
+    400104: humanoid L Finger0Nub
+    400106: humanoid L Finger1Nub
+    400108: humanoid L Finger2Nub
+    400110: humanoid L Finger3Nub
+    400112: humanoid L Toe0Nub
+    400114: humanoid R Finger0Nub
+    400116: humanoid R Finger1Nub
+    400118: humanoid R Finger2Nub
+    400120: humanoid R Finger3Nub
+    400122: humanoid R Toe0Nub
+    4300000: prisoner_legs01
     9500000: //RootNode
-    13700000: suit01_fishbowl
-    13700002: suit01_insideneck
-    13700004: suit01_torso
-    13700006: suit01_tubes
+    13700000: prisoner_legs01
   materials:
     importMaterials: 0
     materialName: 0
