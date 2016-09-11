@@ -68,6 +68,7 @@ ModelImporter:
     100120: uniform_headset
     100122: //RootNode
     100124: uniform_shades
+    100126: uniform_headsetsymmetiy
     400000: Attach_Backpack
     400002: Attach_Lhand
     400004: Attach_Rhand
@@ -131,11 +132,14 @@ ModelImporter:
     400120: uniform_headset
     400122: //RootNode
     400124: uniform_shades
+    400126: uniform_headsetsymmetiy
     4300000: uniform_headset
     4300002: uniform_shades
+    4300004: uniform_headsetsymmetiy
     9500000: //RootNode
     13700000: uniform_headset
     13700002: uniform_shades
+    13700004: uniform_headsetsymmetiy
   materials:
     importMaterials: 0
     materialName: 0
