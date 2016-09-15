@@ -117,7 +117,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
         HoveredUnit = this;    
     }
 
-    void OnHoverEnd()
+    public void OnHoverEnd()
     {
         if (OnUnitHoverEnd != null) OnUnitHoverEnd(this);
     }

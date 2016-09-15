@@ -16,7 +16,7 @@ public class UI_Unit : MonoBehaviour
     {
         GameObject obj = (Instantiate(Resources.Load("unit_ui")) as GameObject);
 
-        GameObject ui_parent = GameObject.FindGameObjectWithTag("UI");
+        GameObject ui_parent = GameObject.FindGameObjectWithTag("UI_World");
 
         if (ui_parent != null)
         {
@@ -46,7 +46,7 @@ public class UI_Unit : MonoBehaviour
 
     public void SetUnitInfo(Unit u)
     {
-        Debug.Log("setUnitinfo");
+        
         GetComponent<UI_EffectQueue>().SetUnit(u, this);
 
         m_unit = u;
