@@ -346,7 +346,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
         int firstPlayerUnit = firstPlayer.currentTile.TilePos.z;
         int enemyPos = enemyUnit.currentTile.TilePos.z;
       //  Debug.Log(firstPlayerUnit+ " - "+enemyPos);
-        return Mathf.Abs(firstPlayerUnit - enemyPos) <= 8;
+        return Mathf.Abs(firstPlayerUnit - enemyPos) <= Constants.UNIT_ACTIVATION_RANGE;
     }
 
  
