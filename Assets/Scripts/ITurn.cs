@@ -22,7 +22,7 @@ public interface ITurn {
     /// Time used for sorting of all turn items
     /// </summary>
     /// <returns></returns>
-    int GetTurnTime();
+    float GetTurnTime();
 
 
 
@@ -32,7 +32,7 @@ public interface ITurn {
     /// <summary>
     /// When a turn has ended, the turnsystem uses this to determine the next turn time
     /// </summary>
-    void SetNextTurnTime(int turns);
+    void SetNextTurnTime(float delta);
 
     /// <summary>
     /// Returns whether the turn for this item has been ended

@@ -13,7 +13,7 @@ public class WorldCrumbler : MonoBehaviour, ITurn {
     public static  WorldCrumbler Instance;
     public CrumbleEvent OnCrumble;
     public int CrumbleTurnCost;
-    public int TurnTime;
+    public float TurnTime;
     int starting_order;
     bool hasCrumbled;
 
@@ -47,13 +47,13 @@ public class WorldCrumbler : MonoBehaviour, ITurn {
 
         return 0;
     }
-    public int GetTurnTime()
+    public float GetTurnTime()
     {
        
         return TurnTime;
     }
 
-    public void SetNextTurnTime(int turns)
+    public void SetNextTurnTime(float turns)
     {
 		//Debug.Log("set turns: "+turns);
         TurnTime += turns;

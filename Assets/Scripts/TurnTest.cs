@@ -10,7 +10,7 @@ public class TurnTest : MonoBehaviour, ITurn {
 
 	TurnableEventHandler UpdateCostPreview;
 
-	int currentTurnTime;
+	float currentTurnTime;
 	int actionsMade;
 	int currentTurnCost;
 
@@ -91,15 +91,15 @@ public class TurnTest : MonoBehaviour, ITurn {
 		if(UpdateCostPreview != null) UpdateCostPreview(this);
 
 	}
-	public int GetTurnTime() { 
+	public float GetTurnTime() { 
 
         return   currentTurnTime;
        
 	}
 
-	public void SetNextTurnTime (int turns)
+	public void SetNextTurnTime (float delta)
 	{
-		currentTurnTime = turns;
+		currentTurnTime += delta;
 	}
 
 	public bool HasEndedTurn ()

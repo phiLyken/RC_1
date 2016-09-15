@@ -122,9 +122,9 @@ public class TurnSystem : MonoBehaviour {
    /// Gets the lowest turn time from the current turnables
    /// </summary>
    /// <returns></returns>
-    int getLowestTurnTime()
+    public float GetLowestTurnTime()
     {
-        int lowest = 999;
+        float lowest = 999;
         foreach (ITurn t in Turnables)
         {
             if (t.GetTurnTime() <= lowest)
@@ -141,7 +141,7 @@ public class TurnSystem : MonoBehaviour {
 	/// </summary>
     void NormalizeList()
     {
-        int lowest = getLowestTurnTime();
+        float lowest = GetLowestTurnTime();
    //     Debug.Log("normalizing list lowest time " + lowest);
         foreach(ITurn t in Turnables)
         {
@@ -180,10 +180,17 @@ public class TurnSystem : MonoBehaviour {
 
         if (!Instance.Turnables.Contains(new_turnable))
         {
-           // Debug.Log("TURNABLE: register " + new_turnable.GetID());
+            Debug.Log("TURNABLE: register " + new_turnable.GetID());
+            Instance.NormalizeList();
             Instance.Turnables.Add(new_turnable);
+            Instance.SortListByTime();
+
+            if (Instance.OnListUpdated != null)
+                Instance.OnListUpdated(Instance.Turnables);
+
 			return Instance.Turnables.Count;
         }
+
         Instance.SortListByTime();
         return -1;
     }

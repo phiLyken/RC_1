@@ -220,13 +220,13 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
         return cost;
     }
 
-    public int GetTurnTime()
+    public float GetTurnTime()
     {
 
-        return (int) Stats.GetStatAmount(StatType.current_turn_time);
+        return  Stats.GetStatAmount(StatType.current_turn_time);
     }
    
-    public void SetNextTurnTime(int turns)
+    public void SetNextTurnTime(float turns)
     {
         if (_isDead) return;
 

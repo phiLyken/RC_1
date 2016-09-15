@@ -24,7 +24,7 @@ public class TurnSystemMockData : MonoBehaviour {
     {
         TurnableEventHandler onUpdate;
         public Color color;
-        public int turnTime;
+        public float turnTime;
         public string ID;
         int _order;
 
@@ -64,7 +64,7 @@ public class TurnSystemMockData : MonoBehaviour {
             }
         }
 
-        public int GetTurnTime()
+        public float GetTurnTime()
         {
             return turnTime;
         }
@@ -74,9 +74,9 @@ public class TurnSystemMockData : MonoBehaviour {
             return UnityEngine.Random.Range(5, 10);
         }
 
-        public void SetNextTurnTime(int turns)
+        public void SetNextTurnTime(float turns)
         {
-            turnTime = turns;
+            turnTime += turns;
         }
 
         public bool HasEndedTurn()
