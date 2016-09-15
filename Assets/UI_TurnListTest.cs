@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 public class UI_TurnListTest : MonoBehaviour {
 
+    public TurnSystem TurnSystem;
+
     public TurnSystemMockData MockData;
     public UI_TurnList TurnList;
     List<ITurn> turnables;
@@ -12,6 +14,14 @@ public class UI_TurnListTest : MonoBehaviour {
     void Start()
     {
         turnables = MockData.GetMockTurnList();
+
+        if(TurnSystem != null)
+
+        {
+        foreach (var t in turnables)
+            t.RegisterTurn();
+        }
+
         TurnList.Init(null);
         
     }

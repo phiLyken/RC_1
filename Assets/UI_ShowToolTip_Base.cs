@@ -27,7 +27,7 @@ public class UI_ShowToolTip_Base :  MonoBehaviour  {
 
     IEnumerator HideToolTipDelayed()
     {
-        Debug.Log("hide");
+        
         yield return null;
         RemoveOldTooltip();
 

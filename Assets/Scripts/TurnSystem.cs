@@ -9,12 +9,15 @@ public delegate void TurnableEventHandler(ITurn turn);
 public delegate void TurnListEventHandler(List<ITurn> turnables);
 
 public class TurnSystem : MonoBehaviour {
-    public Text TURNTF;
+    public Text DebugOutPut;
     public static TurnSystem Instance;
     public IntEventHandler OnGlobalTurn;
     public TurnListEventHandler OnListUpdated;
-   
-    public 
+    public TurnableEventHandler OnStartTurn;
+     
+    int currentTurn;
+    public List<ITurn> Turnables;
+
     bool forceNext;
 
     public ITurn Current;
@@ -33,8 +36,7 @@ public class TurnSystem : MonoBehaviour {
     {
         Current.SkipTurn(); 
     }
-    int currentTurn;
-    public List<ITurn> Turnables;
+
 
     void Awake()
     {
@@ -55,7 +57,7 @@ public class TurnSystem : MonoBehaviour {
     IEnumerator RunTurns()
     {
         //Skip first frame to give time to register
-        yield return new WaitForSeconds(0.25f);
+        yield return new WaitForSeconds(0.1f);
         SortListByTime();
 
         Current = GetNext();
@@ -66,7 +68,12 @@ public class TurnSystem : MonoBehaviour {
             if (OnListUpdated != null) OnListUpdated(Turnables);
             Current.TurnTimeUpdated +=OnTurnPreview;
 
-            Current.StartTurn();           
+            Current.StartTurn();   
+                    
+            if(OnStartTurn != null)
+            {
+                OnStartTurn(Current);
+            }
 
             yield return StartCoroutine(WaitForTurn(Current));
 
@@ -81,7 +88,7 @@ public class TurnSystem : MonoBehaviour {
                         
             GlobalTurn(currentTurn);
 
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.25f);
             NormalizeList();
             SortListByTime();
 
@@ -159,8 +166,8 @@ public class TurnSystem : MonoBehaviour {
            s+= str + "\n";
         }
 
-		if(TURNTF != null)
-        TURNTF.text = s;
+		if(DebugOutPut != null)
+        DebugOutPut.text = s;
 
     }
 
