@@ -10,6 +10,7 @@ public class UI_TurnListMouseOverHandler : MonoBehaviour {
         Unit.OnUnitHover += OnUnitHover;
         Unit.OnUnitHoverEnd += OnUnitUnHover;
         m_ui = GetComponent<UI_TurnListItem>();
+        m_ui.MouseOverIndicator.SetActive(false);
     }
 
     bool isMyItem(Unit u, ITurn t)

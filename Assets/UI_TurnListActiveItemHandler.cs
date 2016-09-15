@@ -12,6 +12,7 @@ public class UI_TurnListActiveItemHandler : MonoBehaviour {
         if(TurnSystem.Instance != null)
         {
             TurnSystem.Instance.OnStartTurn += OnStartTurn;
+            m_ui.UpdateActiveTurnIndicator();
         }
     }
 

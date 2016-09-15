@@ -21,12 +21,8 @@ public class UI_TurnListItem : MonoBehaviour, IToolTip {
     public GameObject MouseOverIndicator;
 
     public TurnableEventHandler OnSetTurnAble;
+     
 
- 
-    public void UpdateActiveTurnIndicator( )
-    {
-        ActiveTurnIndicator.SetActive(TurnSystem.HasTurn(m_turn));       
-    }
     public void SetTurnItem(ITurn turn)
     {
         m_turn = turn;
@@ -36,9 +32,14 @@ public class UI_TurnListItem : MonoBehaviour, IToolTip {
  
 
         UpdateActiveTurnIndicator( );
+        
     }
 
- 
+    public void UpdateActiveTurnIndicator()
+    {
+        ActiveTurnIndicator.SetActive(TurnSystem.HasTurn(m_turn));
+    }
+
 
     public void SetOrder(int id)
     {
