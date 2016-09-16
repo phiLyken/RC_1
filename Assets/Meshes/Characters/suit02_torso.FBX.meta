@@ -137,7 +137,7 @@ ModelImporter:
     13700000: suit02_torso
     13700002: suit02_torsodoodad
   materials:
-    importMaterials: 1
+    importMaterials: 0
     materialName: 0
     materialSearch: 1
   animations:
