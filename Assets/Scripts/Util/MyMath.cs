@@ -3,7 +3,7 @@ using System.Collections;
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine.UI;
-
+using System;
 using System.IO;
 
 
@@ -138,26 +138,8 @@ public static class MyMath  {
 		float dist = Vector3.Dot (Vector3.up, Vector3.zero - ray.origin) / Vector3.Dot (Vector3.up, ray.direction.normalized);
 		
 		return ray.origin + ray.direction.normalized * dist;
-		
-		
-	}
-
-    public static void DeleteChildren(this GameObject obj)
-    {
-  
-        for(int i = obj.transform.childCount-1; i >= 0; i--)
-        {
-            MonoBehaviour.DestroyImmediate(obj.transform.GetChild(i).gameObject);
-        }
-    }
-
-
-    public static int Direction(this float f)
-    {
-        return (int)(f / Mathf.Abs(f));
-    }
-
-
+		 
+	} 
 
     public static int GetSecondsNow()
     {
@@ -263,19 +245,19 @@ public static class MyMath  {
 
     public static T GetRandomObject<T>(List<T> objects)
     {      
-        return objects[Random.Range(0, objects.Count)];
+        return objects[UnityEngine.Random.Range(0, objects.Count)];
     }
 
     public static T GetRandomObject<T>(T[] objects)
     {
-        return objects[Random.Range(0, objects.Length)];
+        return objects[UnityEngine.Random.Range(0, objects.Length)];
     }
 
     public static T GetRandomObjectAndRemove<T>(List<T> objects)
     {
         if (objects.Count == 0) return default(T);
 
-        T chosen = objects[Random.Range(0, objects.Count)];
+        T chosen = objects[UnityEngine.Random.Range(0, objects.Count)];
         objects.Remove(chosen);
         return chosen;
     }
@@ -311,21 +293,7 @@ public static class MyMath  {
         return ret;
     }
 
-    public static void DetachChildren(this Transform tr)
-    {
-        DetachChildren(tr, null);
-    }
-    public static void DetachChildren(this Transform tr, Transform target)
-    {
-        List<Transform> _children = new List<Transform>();
-        foreach (Transform transform in tr)
-        {
-            _children.Add(transform);
-            Debug.Log("detach "+transform.gameObject.name);
-        }
-
-        _children.ForEach(child => child.SetParent(tr));
-    }
+    
 
     public static void FadeText(Text t, int cycles, Color Color1, Color Color2, float time1, float time2)
     {
@@ -381,45 +349,13 @@ public static class MyMath  {
         yield break;
     }
 
+
     public static float OrthogonalStrength(Vector2 _ref, Vector2 _in)
     {
         Vector2 perp = Vector3.Cross(_ref, new Vector3(0, 0, 1));
         return Vector2.Dot(perp, _in);
 
     }
-
-
-    /// <summary>
-    /// pauses emission on all attached particles systems
-    /// </summary>
-    /// <param name="particle_system"></param>
-    public static void StopAll(this ParticleSystem particle_system)
-    {
-      List<ParticleSystem>  systems = new List<ParticleSystem>();
-        systems.Add(particle_system);
-        systems.AddRange(particle_system.GetComponentsInChildren<ParticleSystem>().ToList());
-
-        systems.ForEach(sys => sys.PauseEmission());
-
-    }
-
-    /// <summary>
-    /// removes the toplevel gameobject when all child particles (and the one passed as ´param) are inactive
-    /// </summary>
-    /// <param name="system"></param>
-    public static void RemoveAllParticlesWhenInactive(this ParticleSystem system)
-    {
-        system.gameObject.AddComponent<RemoveParticles>();
-    }
-    public static void PauseEmission(this ParticleSystem system)
-    {
-     
-        var em = system.emission;
-        em.enabled = false;
-
-       
-    }
-
 
     public static bool MouseTouchUp()
     {
@@ -433,6 +369,7 @@ public static class MyMath  {
             return Input.touchCount > 0 && (Input.touches[0].phase == TouchPhase.Canceled || Input.touches[0].phase == TouchPhase.Ended);
         }
     }
+
     public static void SetListAsChild<T>(List<T> objects, Transform transform)
     {
         foreach (var item in objects)
@@ -440,10 +377,9 @@ public static class MyMath  {
             (item as MonoBehaviour).transform.SetParent(transform);
         }
     }
+
     public static bool MouseTouchDown()
     {
-
-
         if (Application.isEditor)
         {
             return Input.GetMouseButtonDown(0);
@@ -530,20 +466,8 @@ public static class MyMath  {
     }
 
 #endif
-    private static System.Random rng = new System.Random();
+   
 
-    public static void Shuffle<T>(this IList<T> list)
-    {
-        int n = list.Count;
-        while (n > 1)
-        {
-            n--;
-            int k = rng.Next(n + 1);
-            T value = list[k];
-            list[k] = list[n];
-            list[n] = value;
-        }
-    }
     public static string StringArrToLines(string[] str)
     {
         if (str == null || str.Length == 0) return "";
@@ -564,9 +488,9 @@ public static class MyMath  {
         {
             if (asInt)
             {
-                return Random.Range((int)min, (int)max);
+                return UnityEngine.Random.Range((int)min, (int)max);
             } else { 
-                return Random.Range(min, max);
+                return UnityEngine.Random.Range(min, max);
             }
         }
 
@@ -616,6 +540,8 @@ public static class MyMath  {
 
         return objects;
     }
+
+
   
 }
 

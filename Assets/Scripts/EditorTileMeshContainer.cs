@@ -66,7 +66,8 @@ public class EditorTileMeshContainer : MonoBehaviour {
             return;
         }
         container.map = new Dictionary<Tile, TileMesh>();
-        MyMath.DeleteChildren(container.gameObject);
+        container.gameObject.DeleteChildren();
+        
     }
     void Awake()
     {

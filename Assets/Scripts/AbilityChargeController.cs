@@ -59,7 +59,7 @@ public class AbilityChargeController
 
     public int GetChargesForType()
     {
-        ItemInInventory item = m_unit.Inventory.GetInventoryItem(ChargeItemType);
+        ItemInInventory item = m_unit.Inventory.GetItem(ChargeItemType);
         if (item == null)
         {
             Debug.LogWarning("COULDNT FIND ITEM FOR TYPE " + ChargeItemType);

@@ -63,6 +63,7 @@ public class Inventory : MonoBehaviour {
         if (Items.Count == 0) return;
 
         IInventoryItem item = GetItem(type);
+
         int old_count = item.GetCount();
         if (item != null) item.SetCount( Mathf.Max(0, Mathf.Min( GetMax(type),item.GetCount() + _delta)));
 
@@ -75,14 +76,15 @@ public class Inventory : MonoBehaviour {
         return Items.Where(it => it.GetItemType() == ItemTypes.armor || it.GetItemType() == ItemTypes.weapon).Select(ii => ii.GetItem()).ToList();
     }
 
-    public IInventoryItem GetItem(ItemTypes type)
+  /*  public IInventoryItem GetItem(ItemTypes type)
     {
         return Items.Where(it => it.GetItemType() == type).FirstOrDefault();
     }
 
-    public ItemInInventory GetInventoryItem(ItemTypes type)
+    */
+    public ItemInInventory GetItem(ItemTypes type)
     {
-        return Items.Where(it => it.m_item.GetItemType() == type).FirstOrDefault();
+        return Items.Where(it => it.GetItem().GetItemType() == type).FirstOrDefault();
     }
 
 }
@@ -96,11 +98,12 @@ public class ItemInInventory : IInventoryItem
 
   
     public int count;
-    public IInventoryItem m_item;
+    IInventoryItem m_item;
     public IInventoryItem GetItem()
     {
         return m_item;
     }
+
     public ItemInInventory(IInventoryItem _base, int startCount)
     {
         m_item = _base;

@@ -47,7 +47,8 @@ public class PathDisplay : MonoBehaviour {
         points = v3list;
         if (Line == null) Line = GetComponent<LineRenderer>();
 
-        MyMath.DeleteChildren(gameObject);
+        gameObject.DeleteChildren();
+       
 
         Line.SetVertexCount(v3list.Count);
         for (int i = 0; i < v3list.Count; i++)
