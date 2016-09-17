@@ -1,7 +1,7 @@
 // Shader created with Shader Forge v1.26 
 // Shader Forge (c) Neat Corporation / Joachim Holmer - http://www.acegikmo.com/shaderforge/
 // Note: Manually altering this data may prevent you from opening it in Shader Forge
-/*SF_DATA;ver:1.26;sub:START;pass:START;ps:flbk:,iptp:0,cusa:False,bamd:0,lico:1,lgpr:1,limd:1,spmd:1,trmd:0,grmd:0,uamb:True,mssp:True,bkdf:False,hqlp:False,rprd:False,enco:False,rmgx:True,rpth:0,vtps:0,hqsc:True,nrmq:1,nrsp:0,vomd:0,spxs:False,tesm:0,olmd:1,culm:0,bsrc:0,bdst:1,dpts:2,wrdp:True,dith:0,rfrpo:True,rfrpn:Refraction,coma:15,ufog:True,aust:True,igpj:False,qofs:0,qpre:1,rntp:1,fgom:False,fgoc:False,fgod:False,fgor:False,fgmd:0,fgcr:0.5,fgcg:0.5,fgcb:0.5,fgca:1,fgde:0.01,fgrn:0,fgrf:300,stcl:False,stva:128,stmr:255,stmw:255,stcp:6,stps:0,stfa:0,stfz:0,ofsf:0,ofsu:0,f2p0:False,fnsp:False,fnfb:False;n:type:ShaderForge.SFN_Final,id:4013,x:32719,y:32712,varname:node_4013,prsc:2|diff-1553-RGB,spec-7167-RGB,emission-194-OUT;n:type:ShaderForge.SFN_Tex2d,id:1553,x:32429,y:32638,ptovrint:False,ptlb:Main_tex,ptin:_Main_tex,varname:node_1553,prsc:2,glob:False,taghide:False,taghdr:False,tagprd:False,tagnsco:False,tagnrm:False,ntxv:0,isnm:False;n:type:ShaderForge.SFN_Tex2d,id:8303,x:32143,y:33020,ptovrint:False,ptlb:Emissive,ptin:_Emissive,varname:node_8303,prsc:2,glob:False,taghide:False,taghdr:False,tagprd:False,tagnsco:False,tagnrm:False,ntxv:0,isnm:False;n:type:ShaderForge.SFN_Tex2d,id:7167,x:32280,y:32778,ptovrint:False,ptlb:Spec,ptin:_Spec,varname:node_7167,prsc:2,glob:False,taghide:False,taghdr:False,tagprd:False,tagnsco:False,tagnrm:False,ntxv:0,isnm:False;n:type:ShaderForge.SFN_Multiply,id:194,x:32462,y:32990,varname:node_194,prsc:2|A-8303-RGB,B-89-OUT;n:type:ShaderForge.SFN_Slider,id:89,x:32036,y:33204,ptovrint:False,ptlb:Brightness,ptin:_Brightness,varname:node_89,prsc:2,glob:False,taghide:False,taghdr:False,tagprd:False,tagnsco:False,tagnrm:False,min:0,cur:0,max:2;proporder:1553-8303-7167-89;pass:END;sub:END;*/
+/*SF_DATA;ver:1.26;sub:START;pass:START;ps:flbk:,iptp:0,cusa:False,bamd:0,lico:1,lgpr:1,limd:1,spmd:1,trmd:0,grmd:0,uamb:True,mssp:True,bkdf:False,hqlp:False,rprd:False,enco:False,rmgx:True,rpth:0,vtps:0,hqsc:True,nrmq:1,nrsp:0,vomd:0,spxs:False,tesm:0,olmd:1,culm:0,bsrc:0,bdst:1,dpts:2,wrdp:True,dith:0,rfrpo:True,rfrpn:Refraction,coma:15,ufog:True,aust:True,igpj:False,qofs:0,qpre:1,rntp:1,fgom:False,fgoc:False,fgod:False,fgor:False,fgmd:0,fgcr:0.5,fgcg:0.5,fgcb:0.5,fgca:1,fgde:0.01,fgrn:0,fgrf:300,stcl:False,stva:128,stmr:255,stmw:255,stcp:6,stps:0,stfa:0,stfz:0,ofsf:0,ofsu:0,f2p0:False,fnsp:False,fnfb:False;n:type:ShaderForge.SFN_Final,id:4013,x:32719,y:32712,varname:node_4013,prsc:2|diff-1553-RGB,spec-3938-OUT,emission-194-OUT;n:type:ShaderForge.SFN_Tex2d,id:1553,x:32429,y:32638,ptovrint:False,ptlb:Main_tex,ptin:_Main_tex,varname:node_1553,prsc:2,glob:False,taghide:False,taghdr:False,tagprd:False,tagnsco:False,tagnrm:False,ntxv:0,isnm:False;n:type:ShaderForge.SFN_Tex2d,id:8303,x:32143,y:33020,ptovrint:False,ptlb:Emissive,ptin:_Emissive,varname:node_8303,prsc:2,glob:False,taghide:False,taghdr:False,tagprd:False,tagnsco:False,tagnrm:False,ntxv:0,isnm:False;n:type:ShaderForge.SFN_Tex2d,id:7167,x:32280,y:32778,ptovrint:False,ptlb:Spec,ptin:_Spec,varname:node_7167,prsc:2,glob:False,taghide:False,taghdr:False,tagprd:False,tagnsco:False,tagnrm:False,ntxv:0,isnm:False;n:type:ShaderForge.SFN_Multiply,id:194,x:32462,y:32990,varname:node_194,prsc:2|A-8303-RGB,B-89-OUT;n:type:ShaderForge.SFN_Slider,id:89,x:32036,y:33204,ptovrint:False,ptlb:Brightness,ptin:_Brightness,varname:node_89,prsc:2,glob:False,taghide:False,taghdr:False,tagprd:False,tagnsco:False,tagnrm:False,min:0,cur:0,max:2;n:type:ShaderForge.SFN_Slider,id:3863,x:32218,y:32953,ptovrint:False,ptlb:gloss,ptin:_gloss,varname:node_3863,prsc:2,glob:False,taghide:False,taghdr:False,tagprd:False,tagnsco:False,tagnrm:False,min:0,cur:0,max:1;n:type:ShaderForge.SFN_Multiply,id:3938,x:32528,y:32778,varname:node_3938,prsc:2|A-7167-RGB,B-3863-OUT;proporder:1553-8303-7167-89-3863;pass:END;sub:END;*/
 
 Shader "Redcliffe/RC_weapons" {
     Properties {
@@ -9,6 +9,7 @@ Shader "Redcliffe/RC_weapons" {
         _Emissive ("Emissive", 2D) = "white" {}
         _Spec ("Spec", 2D) = "white" {}
         _Brightness ("Brightness", Range(0, 2)) = 0
+        _gloss ("gloss", Range(0, 1)) = 0
     }
     SubShader {
         Tags {
@@ -36,6 +37,7 @@ Shader "Redcliffe/RC_weapons" {
             uniform sampler2D _Emissive; uniform float4 _Emissive_ST;
             uniform sampler2D _Spec; uniform float4 _Spec_ST;
             uniform float _Brightness;
+            uniform float _gloss;
             struct VertexInput {
                 float4 vertex : POSITION;
                 float3 normal : NORMAL;
@@ -76,7 +78,7 @@ Shader "Redcliffe/RC_weapons" {
 ////// Specular:
                 float NdotL = max(0, dot( normalDirection, lightDirection ));
                 float4 _Spec_var = tex2D(_Spec,TRANSFORM_TEX(i.uv0, _Spec));
-                float3 specularColor = _Spec_var.rgb;
+                float3 specularColor = (_Spec_var.rgb*_gloss);
                 float3 directSpecular = (floor(attenuation) * _LightColor0.xyz) * pow(max(0,dot(halfDirection,normalDirection)),specPow)*specularColor;
                 float3 specular = directSpecular;
 /////// Diffuse:
@@ -121,6 +123,7 @@ Shader "Redcliffe/RC_weapons" {
             uniform sampler2D _Emissive; uniform float4 _Emissive_ST;
             uniform sampler2D _Spec; uniform float4 _Spec_ST;
             uniform float _Brightness;
+            uniform float _gloss;
             struct VertexInput {
                 float4 vertex : POSITION;
                 float3 normal : NORMAL;
@@ -161,7 +164,7 @@ Shader "Redcliffe/RC_weapons" {
 ////// Specular:
                 float NdotL = max(0, dot( normalDirection, lightDirection ));
                 float4 _Spec_var = tex2D(_Spec,TRANSFORM_TEX(i.uv0, _Spec));
-                float3 specularColor = _Spec_var.rgb;
+                float3 specularColor = (_Spec_var.rgb*_gloss);
                 float3 directSpecular = attenColor * pow(max(0,dot(halfDirection,normalDirection)),specPow)*specularColor;
                 float3 specular = directSpecular;
 /////// Diffuse:
