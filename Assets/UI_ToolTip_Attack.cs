@@ -9,8 +9,7 @@ public class UI_ToolTip_Attack : UI_ToolTip_AbilityBase
     public override void SetAbility(UnitActionBase ability)
     {
         UnitAction_ApplyEffectFromWeapon ae = ability as UnitAction_ApplyEffectFromWeapon;
-
-        Debug.Log("set Aability");
+             
         EffectList.SetEffects(MyMath.GetListFromObject(ae.GetIntBonus()));
         RegularList.SetEffects(ae.GetRegularEffects());
 
