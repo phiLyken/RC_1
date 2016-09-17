@@ -36,9 +36,9 @@ public class UnitAction_ApplyEffectFromWeapon : UnitAction_ApplyEffect {
         {
             effects.Add(intBonus );
         }
-
         return effects;
     }
+
 
     public UnitEffect GetIntBonus()
     {
@@ -75,5 +75,10 @@ public class UnitAction_ApplyEffectFromWeapon : UnitAction_ApplyEffect {
     protected override StatInfo[] GetRequirements()
     {
         return GetBehavior().Requirements;
+    }
+
+    protected override TargetInfo GetTargetRules()
+    {
+        return GetBehavior().TargetRule;
     }
 }

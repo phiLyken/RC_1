@@ -9,6 +9,7 @@ public class UI_TurnListMouseOverHandler : MonoBehaviour {
     {
         Unit.OnUnitHover += OnUnitHover;
         Unit.OnUnitHoverEnd += OnUnitUnHover;
+
         m_ui = GetComponent<UI_TurnListItem>();
         m_ui.MouseOverIndicator.SetActive(false);
     }
@@ -22,8 +23,7 @@ public class UI_TurnListMouseOverHandler : MonoBehaviour {
     }
 
     void OnUnitHover(Unit u)
-    {
- 
+    { 
         m_ui.MouseOverIndicator.SetActive(isMyItem(u, m_ui.GetTurnable()));
     }
 
@@ -46,5 +46,11 @@ public class UI_TurnListMouseOverHandler : MonoBehaviour {
         {
             (m_ui.GetTurnable() as Unit).OnHoverEnd();
         }
+    }
+
+    void OnDestroy()
+    {
+        Unit.OnUnitHover -= OnUnitHover;
+        Unit.OnUnitHoverEnd -= OnUnitUnHover;
     }
 }

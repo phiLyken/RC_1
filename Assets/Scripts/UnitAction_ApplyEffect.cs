@@ -39,9 +39,13 @@ public class UnitAction_ApplyEffect : UnitActionBase
     
     public virtual float GetRange()
     {
-        return TargetRules.GetRange(Owner);
+        return GetTargetRules().GetRange(Owner);
     }
 
+    protected virtual TargetInfo GetTargetRules()
+    {
+        return TargetRules;
+    }
     protected virtual List<UnitEffect> GetEffects()
     {
         if(Effects == null)
@@ -175,7 +179,7 @@ public class UnitAction_ApplyEffect : UnitActionBase
 
     public bool CanTarget( Unit target, Tile fromTile)
     {
-        return  TargetInfo.CanTarget(TargetRules, Owner, target, fromTile);
+        return  TargetInfo.CanTarget(GetTargetRules(), Owner, target, fromTile);
 
     }
 

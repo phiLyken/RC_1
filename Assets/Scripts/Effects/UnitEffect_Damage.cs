@@ -17,6 +17,7 @@ public class UnitEffect_Damage : UnitEffect
     public MyMath.R_Range DamageRange;
 
     int baked_damage = -1;
+    bool isCopy = false;
 
     /// <summary>
     /// clones itself to the target
@@ -24,15 +25,15 @@ public class UnitEffect_Damage : UnitEffect
     /// <param name="target"></param>
     public override UnitEffect MakeCopy(UnitEffect original, Unit host)
     {
+
         UnitEffect_Damage _cc = (UnitEffect_Damage)( (UnitEffect_Damage) original).MemberwiseClone() ;
 
         MyMath.R_Range range = _cc.DamageRange;
 
-
         _cc.baked_damage = UnityEngine.Random.Range(GetMin(), GetMax());
-
+        _cc.isCopy = true;
         return _cc;
-    }
+    } 
 
     int GetMin()
     {
@@ -47,6 +48,7 @@ public class UnitEffect_Damage : UnitEffect
     {
         baked_damage = dmg;
     }
+
     int GetMax()
     {
         if (Instigator != null && UseAttackStat)
@@ -58,13 +60,13 @@ public class UnitEffect_Damage : UnitEffect
     }
     public int GetDamage()
     {
-        if (baked_damage < 0)
+        if (!isCopy)
         {
             Debug.LogWarning("DMG NOT BAKED");
         }
         return baked_damage;
     }
- 
+    
 
     public override string GetToolTipText()
     {
@@ -73,12 +75,12 @@ public class UnitEffect_Damage : UnitEffect
 
     public override string GetEffectName()
     {
-        if (baked_damage >= 0)
+        if (isCopy)
             return baked_damage + " DAMAGE";
 
         return GetMin() + "-" + GetMax() + " Damage";
     }
-    protected override void  EffectTick()
+    protected override void EffectTick()
     {
         Ticked();
         Effect_Host.ReceiveDamage(this);      
