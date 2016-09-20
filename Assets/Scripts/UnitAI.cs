@@ -179,7 +179,7 @@ public class UnitAI : MonoBehaviour, ITriggerable {
         foreach ( Tile t in tiles)
         {
             List<Tile> path = TileManager.Instance.FindPath(m_unit.currentTile, t, m_unit);
-            if(path.Count > 0)
+            if(path.HasItems())
             {
                 path_list.Add(path);
             }
@@ -197,7 +197,7 @@ public class UnitAI : MonoBehaviour, ITriggerable {
         foreach(Unit enemy in enemy_group)
         {
             List<Tile> attack_tiles = GetTilesFromWhichUnitCanAttack(enemy);
-            if(attack_tiles.Count > 0)
+            if(attack_tiles.HasItems() )
             {
                 unit_map.Add(enemy, attack_tiles);
             }
@@ -277,7 +277,7 @@ public class UnitAI : MonoBehaviour, ITriggerable {
 
     }
 
-    IEnumerator AttackOrMove2()
+    IEnumerator AttackOrMove()
     {
         Debug.Log("What to do..`?");
 
@@ -291,8 +291,7 @@ public class UnitAI : MonoBehaviour, ITriggerable {
 
         List<Unit> units_move_attackable = attack_map.Where(kvp => CanFinishPathInMoves(1, kvp.Value)).Select(kvp => kvp.Key).ToList();
         List<Unit> units_movable = attack_map.Where(kvp => !units_move_attackable.Contains(kvp.Key)).Select(kvp => kvp.Key).ToList();
-
-       
+              
 
         if(attack_map.Count > 0 && ( preferred_target == null || !preferred_target.IsActive))
         {
@@ -303,11 +302,9 @@ public class UnitAI : MonoBehaviour, ITriggerable {
         {
             yield return StartCoroutine(MoveRandom());
             yield break;
-        }
-
- 
+        } 
            
-        if (!units_attackable.Contains(preferred_target) && (units_attackable.Count > 0 && ( !attack_map.ContainsKey(preferred_target) || Random.value < Constants.AI_TARGET_SWITCH_WHEN_OUT_OF_ATTACK_RANGE)))
+        if (!units_attackable.Contains(preferred_target) && (!units_attackable.IsNullOrEmpty() && ( !attack_map.ContainsKey(preferred_target) || Random.value < Constants.AI_TARGET_SWITCH_WHEN_OUT_OF_ATTACK_RANGE)))
         {
             preferred_target = MyMath.GetRandomObject(units_attackable );
         }
@@ -331,13 +328,13 @@ public class UnitAI : MonoBehaviour, ITriggerable {
         {
             List<Unit> other_move_targets = units_move_attackable.Where(unit => unit != preferred_target && !units_attackable.Contains(unit)).ToList();
 
-            if (other_move_targets.Count > 0 && Random.value < Constants.AI_TARGET_SWITCH_WHEN_OUT_OF_MOVE_ATTACK_RANGE)
+            if (!other_move_targets.IsNullOrEmpty()   && Random.value < Constants.AI_TARGET_SWITCH_TO_ATTACK_MOVE_WHEN_OUT_OF_MOVE_ATTACK_RANGE)
             {
                 preferred_target = MyMath.GetRandomObject(other_move_targets);
             }
             else
             {
-                if (!attack_map.ContainsKey(preferred_target) && units_movable.Count > 0 && Random.value < 0.5f)
+                if (!attack_map.ContainsKey(preferred_target) && !units_movable.IsNullOrEmpty() && Random.value < Constants.AI_TARGET_SWITCH_TO_CHASE_WHEN_OUT_OF_ATTACK_RANGE)
                 {
                     preferred_target = MyMath.GetRandomObject(units_movable);
                 }
@@ -348,7 +345,16 @@ public class UnitAI : MonoBehaviour, ITriggerable {
             {
                 if (units_move_attackable.Contains(preferred_target)){
 
-                    yield return StartCoroutine(Move( GetReachableAttackPosition(preferred_target)));
+                    Tile attack_pos = GetReachableAttackPosition(preferred_target);
+
+                    if(attack_pos != null)
+                    { 
+                        yield return StartCoroutine(Move(attack_pos));
+                    } else
+                    {
+                        yield return StartCoroutine(MoveRandom());
+                    }
+
                     yield break;
                 } else 
                 {
@@ -357,7 +363,6 @@ public class UnitAI : MonoBehaviour, ITriggerable {
                     List<Tile> final_path = TileManager.Instance.FindPath(m_unit.currentTile, Final_Target_Tile, m_unit);
 
                     Tile target = move.GetFurthestMovibleTileOnPath(final_path);
-                    
 
                     yield return StartCoroutine(Move(target));
                     yield break;
@@ -376,7 +381,7 @@ public class UnitAI : MonoBehaviour, ITriggerable {
         List<Tile> attack_tiles = GetTilesFromWhichUnitCanAttack(target);
         List<Tile> walkable_tiles = GetWalkableTiles(getMove());
 
-        if (attack_tiles.Count == 0 || walkable_tiles.Count == 0)
+        if ( attack_tiles.IsNullOrEmpty() || walkable_tiles.IsNullOrEmpty())
             return null;
 
         return GetBestAttackPosition(target, attack_tiles.Where(atk_tile => walkable_tiles.Contains(atk_tile)).ToList());
@@ -394,70 +399,7 @@ public class UnitAI : MonoBehaviour, ITriggerable {
         return false;
 
     }
-    #region
-    /*
-    IEnumerator AttackOrMove()
-    {
-        Debug.Log("What to do..`?");
-        UnitAction_ApplyEffectFromWeapon attack = getAttack();
-
-        if (preferred_target == null || preferred_target.IsDead())
-        {
-            preferred_target = FindPreferredTarget();
-        }
-
-        Dictionary<Unit, List<Tile>> map = GetEnemiesAttackableWithin1Move();
-
-        if (map.Count > 0 && (attack.CanTarget(preferred_target)))
-        {
-            if (!m_Actions.HasAP(2))
-            {
-                yield return StartCoroutine(Attack(preferred_target));
-            }
-            else
-            {
-                yield return StartCoroutine(Move(GetBestAttackPosition(preferred_target, map[preferred_target])));
-            }
-
-        }
-        else if (map.Count > 0)
-        {
-            if (map.ContainsKey(preferred_target))
-            {
-                if (Random.value < Constants.AI_TARGET_SWITCH_WHEN_OUT_OF_ATTACK_RANGE)
-                {
-                    preferred_target = FindPreferredTarget();
-                    List<Tile> move_to_tiles = map.ContainsKey(preferred_target) ? map[preferred_target] : GetWalkableTiles(getMove());
-                    yield return StartCoroutine(Move(GetBestAttackPosition(preferred_target, move_to_tiles)));
-
-                }
-                else
-                {
-                    yield return StartCoroutine(Move(GetBestAttackPosition(preferred_target, map[preferred_target])));
-                }
-            }
-            else
-            {
-                if (Random.value < Constants.AI_TARGET_SWITCH_WHEN_OUT_OF_MOVE_ATTACK_RANGE)
-                {
-                    preferred_target = FindPreferredTarget();
-                }
-
-                List<Tile> move_to_tiles = map.ContainsKey(preferred_target) ? map[preferred_target] : GetWalkableTiles(getMove());
-
-                yield return StartCoroutine(Move(GetBestAttackPosition(preferred_target, move_to_tiles)));
-            }
-
-        }
-        else
-        {
-            SkipTurn();
-            yield return null;
-
-        }
-    }
-    */
-    #endregion
+    
     IEnumerator Decide()
     {
        
@@ -466,7 +408,7 @@ public class UnitAI : MonoBehaviour, ITriggerable {
 
         if (Triggered)
         {
-            yield return StartCoroutine(AttackOrMove2());
+            yield return StartCoroutine(AttackOrMove());
            
         } else if(m_Actions.HasAP(2) && Random.value < Constants.AI_PATROL_CHANCE && m_unit.Stats.GetStatAmount(StatType.move_range) > 0)
         {

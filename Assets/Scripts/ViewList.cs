@@ -21,7 +21,7 @@ public class ViewList<Item, View> where View : MonoBehaviour
         {
             foreach (var pair in views)
                 GameObject.Destroy(pair.Value.gameObject);
-            Debug.Log("clear view list");
+          //  Debug.Log("clear view list");
             views = null;
         }
         MakeView = view_builder;
