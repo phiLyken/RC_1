@@ -16,7 +16,8 @@ public class UnitAction_Loot : UnitActionBase
         base.SelectAction();
 
         TileSelecter.OnTileSelect += OnTileSelect;
-       
+        TileSelecter.EnablePositionMarker(true);
+
         if(OnTargetsFound != null)
         {
             OnTargetsFound(GetLootableTiles().Select(t => t.gameObject).ToList());
@@ -47,6 +48,7 @@ public class UnitAction_Loot : UnitActionBase
     {
         base.UnSelectAction();
         TileSelecter.OnTileSelect-= OnTileSelect;
+        TileSelecter.EnablePositionMarker(false);
     }
 
     public List<Tile> GetLootableTiles()

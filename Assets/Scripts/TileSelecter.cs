@@ -18,13 +18,16 @@ public class TileSelecter : MonoBehaviour {
     void Awake()
     {
         _instance = this;
-
+        
         Unit.OnUnitHover += u =>
         {
             HoverTile(u.currentTile);
         };
     }
-
+    public static void EnablePositionMarker(bool enabled)
+    {
+        _instance.PositionMarker.SetActive(enabled);
+    }
     public static void SetPositionMarker(Tile t)
     {
         if (_instance == null) return;

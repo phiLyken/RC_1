@@ -20,7 +20,8 @@ public class UnitAction_Move : UnitActionBase {
         base.SelectAction();
 
         if (Owner.GetComponent<WaypointMover>().Moving) return;
-           
+
+        TileSelecter.EnablePositionMarker(true);
         TileSelecter.OnTileSelect += SetMovementTile;
         TileSelecter.OnTileHover += SetPreviewTile;
 
@@ -63,6 +64,9 @@ public class UnitAction_Move : UnitActionBase {
        // Debug.Log("setpreview tile");
 		//TODO: Send a filter list custom to the unit e.g. Enemies should walk on camp tiles, Tiles need properties as components
         List<Tile> pathToTile = TileManager.Instance.FindPath(Owner.currentTile, t, Owner);
+
+      
+
         if(PathWalkable(pathToTile))
         {
             if(pathpreview != null)
@@ -79,9 +83,8 @@ public class UnitAction_Move : UnitActionBase {
         } else
         {
             ResetAttackPreview();
-            currentPath = null;
-            currentTargetTile = null;
-          //  Debug.Log("cannot move to tile");
+            ResetPathPreview();
+            //  Debug.Log("cannot move to tile");
         }
     }
     
@@ -150,19 +153,25 @@ public class UnitAction_Move : UnitActionBase {
         return reacheable;
     }
 
-
-    public override void UnSelectAction()
+    void ResetPathPreview()
     {
-        base.UnSelectAction();
         currentPath = null;
         currentTargetTile = null;
-
-        TileSelecter.OnTileSelect -= SetMovementTile;
-        TileSelecter.OnTileHover -= SetPreviewTile;
         if (pathpreview != null)
         {
             Destroy(pathpreview.gameObject);
         }
+    }
+
+    public override void UnSelectAction()
+    {
+        base.UnSelectAction();
+
+       
+        TileSelecter.OnTileSelect -= SetMovementTile;
+        TileSelecter.OnTileHover -= SetPreviewTile;
+        TileSelecter.EnablePositionMarker(false);
+        ResetPathPreview();
         ResetAttackPreview();
         
     }
