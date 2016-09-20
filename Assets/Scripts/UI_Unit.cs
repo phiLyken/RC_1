@@ -15,11 +15,11 @@ public class UI_Unit : MonoBehaviour
     public UI_AlphaStackController AlphaStackController;
 
     AlphaStack Alphas;
-    AlphaStack.AlphaStackItem HoverItem = new AlphaStack.AlphaStackItem(1.0f);
-    AlphaStack.AlphaStackItem EffectQueueActiveItem = new AlphaStack.AlphaStackItem(1.0f);
-    AlphaStack.AlphaStackItem ValuesNeedUpdateItem = new AlphaStack.AlphaStackItem(1.0f);
-    AlphaStack.AlphaStackItem ActiveTurnItem = new AlphaStack.AlphaStackItem(0.5f);
-    AlphaStack.AlphaStackItem DefaultItem = new AlphaStack.AlphaStackItem(0.0f);
+    AlphaStack.AlphaStackItem HoverItem = new AlphaStack.AlphaStackItem(1.0f, "hover");
+    AlphaStack.AlphaStackItem EffectQueueActiveItem = new AlphaStack.AlphaStackItem(1.0f, "effect queue");
+    AlphaStack.AlphaStackItem ValuesNeedUpdateItem = new AlphaStack.AlphaStackItem(1.0f, "values need update turn");
+    AlphaStack.AlphaStackItem ActiveTurnItem = new AlphaStack.AlphaStackItem(0.5f, "active turn");
+    AlphaStack.AlphaStackItem DefaultItem = new AlphaStack.AlphaStackItem(0.0f, "default");
 
     public static void CreateUnitUI(Unit u)
     {
@@ -56,7 +56,6 @@ public class UI_Unit : MonoBehaviour
         Alphas = new AlphaStack();
         AlphaStackController.Init(Alphas);
         Alphas.AddItem(DefaultItem);
-
 
         GetComponent<UI_EffectQueue>().SetUnit(u, this);
 
@@ -132,7 +131,9 @@ public class UI_Unit : MonoBehaviour
 
     void UpdateValuesDelayed(Stat stat)
     {
-        if(stat.StatType == StatType.vitality || stat.StatType == StatType.oxygen ||stat.StatType == StatType.adrenaline)
+        if( stat.StatType == StatType.vitality ||
+            stat.StatType == StatType.oxygen ||
+            stat.StatType == StatType.adrenaline)
         { 
             Debug.Log("Update Values " + m_unit);
             Alphas.AddItem(ValuesNeedUpdateItem);

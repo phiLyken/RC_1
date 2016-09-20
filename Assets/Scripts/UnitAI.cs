@@ -85,6 +85,8 @@ public class UnitAI : MonoBehaviour, ITriggerable {
         target.OnHover();
         yield return new WaitForSeconds(0.25f);
         target.UnitSelected();
+        yield return null;
+        target.OnHoverEnd() ;
     }
     IEnumerator MovePatrol()
     {

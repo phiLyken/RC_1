@@ -5,7 +5,7 @@ using UnityEngine.Events;
 using System.Collections.Generic;
 using System.Linq;
 
-
+[System.Serializable]
 public class AlphaStack
 {
     List<AlphaStackItem> Items;
@@ -48,11 +48,14 @@ public class AlphaStack
         return Items.Select(item => item.Alpha).Max();
     }
 
+    [System.Serializable]
     public class AlphaStackItem
     {
+        string id;
         public float Alpha;
-        public AlphaStackItem(float alpha)
+        public AlphaStackItem(float alpha, string _id)
         {
+            id = _id;
             Alpha = alpha;
         }
     }
