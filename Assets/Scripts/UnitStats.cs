@@ -3,9 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
+public delegate void StatEventHandler(Stat stat);
+
 public class UnitStats : MonoBehaviour
 {
-    public EventHandler OnStatUpdated;
+    public StatEventHandler OnStatUpdated;
     public EventHandler OnHPDepleted;
 
     [HideInInspector]
@@ -66,15 +68,17 @@ public class UnitStats : MonoBehaviour
     {
         float old_value = GetStat(type).GetAmount(this);
 
-        GetStat(type).SetAmount(new_value);
+        Stat s =  GetStat(type);
+        s.SetAmount(new_value);
 
-        if(old_value != new_value) { 
-            Updated();
+        if (old_value != new_value) {            
+            Updated(s);
         }
     }
-    protected void Updated()
+
+    protected void Updated(Stat stat)
     {
-        if (OnStatUpdated != null) OnStatUpdated();          
+        if (OnStatUpdated != null) OnStatUpdated(stat);          
     }
 
     float GetBuffAmountForStat(StatType type)

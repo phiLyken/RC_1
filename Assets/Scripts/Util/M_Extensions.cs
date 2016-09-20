@@ -5,6 +5,10 @@ using System.Linq;
 using UnityEngine.UI;
 using System;
 
+
+public delegate void IntEventHandler(int _int);
+public delegate void FloatEventHandler(float f);
+
 public static class M_Extensions   {
 
 

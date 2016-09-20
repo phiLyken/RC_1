@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.UI;
 
-public delegate void IntEventHandler(int turnId);
+
 public delegate void TurnableEventHandler(ITurn turn);
 public delegate void TurnListEventHandler(List<ITurn> turnables);
 

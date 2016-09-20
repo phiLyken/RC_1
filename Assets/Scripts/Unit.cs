@@ -11,7 +11,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
 
     public UnitStats Stats;
     public ActionManager Actions;
-
+ 
     [HideInInspector]
     public UnitInventory Inventory;
 

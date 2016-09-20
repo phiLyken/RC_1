@@ -2,15 +2,24 @@
 using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using System.Collections.Generic;
+using System.Linq;
 
+ 
 public class UI_Unit : MonoBehaviour
 {
-    public Text UnitName;
+    Unit m_unit;
+
     public Counter MoveField;
     public UnitBar StatBar;
+    public UI_AlphaStackController AlphaStackController;
 
-    Unit m_unit;
-    bool hovered;
+    AlphaStack Alphas;
+    AlphaStack.AlphaStackItem HoverItem = new AlphaStack.AlphaStackItem(1.0f);
+    AlphaStack.AlphaStackItem EffectQueueActiveItem = new AlphaStack.AlphaStackItem(1.0f);
+    AlphaStack.AlphaStackItem ValuesNeedUpdateItem = new AlphaStack.AlphaStackItem(1.0f);
+    AlphaStack.AlphaStackItem ActiveTurnItem = new AlphaStack.AlphaStackItem(0.5f);
+    AlphaStack.AlphaStackItem DefaultItem = new AlphaStack.AlphaStackItem(0.0f);
 
     public static void CreateUnitUI(Unit u)
     {
@@ -24,36 +33,38 @@ public class UI_Unit : MonoBehaviour
             obj.GetComponent<UI_Unit>().SetUnitInfo(u);
         }
     }
-    public void Toggle(bool active)
-    {
-        //Either we turn it on (there is no limitation for that)
-        //or when we turn it off, we need to check if the queue is active or if it is overed
-        if (active || GetCanHideUI())
-        {
-            gameObject.SetActive(active);
-        }
-    }
+ 
     void Update()
     {
         UpdatePosition();
     }
 
+    Vector3 GetUnitToolTipPosition()
+    {
+        return m_unit.transform.position + Vector3.up * 0.5f;
+    }
     public void UpdatePosition()
     {
         UI_WorldPos worldpos = GetComponent<UI_WorldPos>();
-        worldpos.SetWorldPosObject(m_unit != null ? m_unit.transform : null);
+
+        if(m_unit != null)
+             worldpos.SetWorldPosition(GetUnitToolTipPosition());
     }
 
     public void SetUnitInfo(Unit u)
     {
-        
+        Alphas = new AlphaStack();
+        AlphaStackController.Init(Alphas);
+        Alphas.AddItem(DefaultItem);
+
+
         GetComponent<UI_EffectQueue>().SetUnit(u, this);
 
         m_unit = u;
 
-        u.Stats.OnStatUpdated += OnUpdateStat;
+        u.Stats.OnStatUpdated += UpdateValuesDelayed;
 
-        Unit.OnTurnStart += UpdateUI;
+        Unit.OnTurnStart += TurnStart;
         Unit.OnTurnEnded += TurnEnd;
 
         Unit.OnUnitHover += CheckHovered;
@@ -61,42 +72,24 @@ public class UI_Unit : MonoBehaviour
         Unit.OnUnitKilled += CheckKilled;
 
         m_unit.Actions.OnActionComplete += ActionComplete;
-        UpdateUI(m_unit);
+        UpdateAP();
+        UpdateValues( );
     }
 
-    void ActionComplete(UnitActionBase action)
-    {
-        if (m_unit.IsDead()) return;
-
-        UpdateUI(m_unit);
-    }
-    void TurnEnd(Unit u)
-    {
-        if (u == m_unit)
-            StartCoroutine(HideDelayed());
-    }
-    IEnumerator HideDelayed()
-    {
-        yield return new WaitForSeconds(0.85f);
-        Toggle(false);
-    }
-
-
-    //TODO Potential perfomance problem
-    void OnUpdateStat()
-    {
-        UpdateUI(m_unit);
-    }
-
+ 
     void CheckKilled(Unit u)
     {
         if (u == m_unit)
         {
             Unit.OnUnitKilled -= CheckKilled;
-            m_unit.Stats.OnStatUpdated -= OnUpdateStat;
+           
             Unit.OnUnitHover -= CheckHovered;
             Unit.OnUnitHoverEnd -= CheckHoverEnd;
+
+            Unit.OnTurnStart -= TurnStart;
             Unit.OnTurnEnded -= TurnEnd;
+
+            u.Stats.OnStatUpdated -= UpdateValuesDelayed;
 
             if (gameObject.activeSelf)
             {
@@ -111,58 +104,94 @@ public class UI_Unit : MonoBehaviour
 
     IEnumerator DestroyDelayed()
     {
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(0.5f);
         Destroy(this.gameObject);
-
-    }
-    bool GetCanHideUI()
-    {
-       
-        return m_unit == null || ( !TurnSystem.HasTurn(m_unit) && !GetComponent<UI_EffectQueue>().GetQueueActive() && !hovered);
-    }
+    } 
 
     void CheckHoverEnd(Unit _hovered)
     {
         if (_hovered == m_unit)
-        {
-            hovered = false;
-            Toggle(false);
-        }
-
+            Alphas.RemoveItem(HoverItem);
     }
+
     void CheckHovered(Unit _hovered)
     {
-        if (_hovered == m_unit && m_unit.IsActive)
-        {
-            hovered = true;
-            UpdateUI(m_unit);
-            Toggle(true);
+        if (_hovered == m_unit)
+            Alphas.AddItem(HoverItem);
+    }
+
+    public void UnregisterEffectQeue( )
+    {
+        Alphas.RemoveItem(EffectQueueActiveItem);
+    }
+
+   public void RegisterEffectQueue()
+    {
+        Alphas.AddItem(EffectQueueActiveItem);
+    }
+
+    void UpdateValuesDelayed(Stat stat)
+    {
+        if(stat.StatType == StatType.vitality || stat.StatType == StatType.oxygen ||stat.StatType == StatType.adrenaline)
+        { 
+            Debug.Log("Update Values " + m_unit);
+            Alphas.AddItem(ValuesNeedUpdateItem);
+            StopAllCoroutines();
+            StartCoroutine(IEUpdateValuesDelayed());
         }
     }
-    void UpdateUI(Unit u)
+
+
+    void ActionComplete(UnitActionBase action)
     {
-        if (u != m_unit)
+        if (m_unit.IsDead())
             return;
 
-        if (!m_unit.IsDead() && TurnSystem.HasTurn(m_unit))
-        {
-            Toggle(true);
-        }
-        else
-        {
-            Toggle(false);
-            
-        }
-        StatBar.SetBarValues(
-            (int)m_unit.Stats.GetStatAmount(StatType.oxygen),
-            (int)m_unit.Stats.GetStatAmount(StatType.adrenaline),
-            (int)m_unit.Stats.GetStatAmount(StatType.vitality)
-        );
-        
-        MoveField.SetNumber(m_unit.Actions.GetAPLeft());
+        UpdateAP();
+    }
 
-        
+    void TurnStart(Unit u)
+    {
+        if (u == m_unit)
+        { 
+            Alphas.AddItem(ActiveTurnItem);        
+            UpdateValues();
+            UpdateAP();
+        }
+    }
+
+    void TurnEnd(Unit u)
+    {
+        if(u == m_unit)
+            Alphas.RemoveItem(ActiveTurnItem);
+    }
+    void UpdateAP()
+    {
+        MoveField.SetNumber(m_unit.Actions.GetAPLeft());
     }
 
 
+    void UpdateValues()
+    {
+        StatBar.SetBarValues(
+            (int) m_unit.Stats.GetStatAmount(StatType.oxygen),
+            (int) m_unit.Stats.GetStatAmount(StatType.adrenaline),
+            (int) m_unit.Stats.GetStatAmount(StatType.vitality)
+        );
+       
+    }
+    IEnumerator IEUpdateValuesDelayed()
+    {
+
+        while( AlphaStackController.GetAlpha() < ValuesNeedUpdateItem.Alpha)
+        {
+            yield return null;
+        }
+
+        UpdateValues();
+
+        yield return new WaitForSeconds(0.25f);
+
+        Alphas.RemoveItem(ValuesNeedUpdateItem);
+    }
 }
