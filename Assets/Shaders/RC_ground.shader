@@ -1,7 +1,7 @@
 // Shader created with Shader Forge v1.26 
 // Shader Forge (c) Neat Corporation / Joachim Holmer - http://www.acegikmo.com/shaderforge/
 // Note: Manually altering this data may prevent you from opening it in Shader Forge
-/*SF_DATA;ver:1.26;sub:START;pass:START;ps:flbk:,iptp:0,cusa:False,bamd:0,lico:1,lgpr:1,limd:1,spmd:1,trmd:0,grmd:0,uamb:True,mssp:True,bkdf:True,hqlp:False,rprd:False,enco:False,rmgx:True,rpth:0,vtps:0,hqsc:True,nrmq:1,nrsp:0,vomd:0,spxs:False,tesm:0,olmd:1,culm:0,bsrc:0,bdst:1,dpts:2,wrdp:True,dith:0,rfrpo:True,rfrpn:Refraction,coma:15,ufog:True,aust:True,igpj:False,qofs:0,qpre:1,rntp:1,fgom:False,fgoc:False,fgod:False,fgor:False,fgmd:0,fgcr:0.5,fgcg:0.5,fgcb:0.5,fgca:1,fgde:0.01,fgrn:0,fgrf:300,stcl:False,stva:128,stmr:255,stmw:255,stcp:6,stps:0,stfa:0,stfz:0,ofsf:0,ofsu:0,f2p0:False,fnsp:False,fnfb:False;n:type:ShaderForge.SFN_Final,id:1291,x:32719,y:32712,varname:node_1291,prsc:2|diff-2250-OUT,normal-6896-RGB;n:type:ShaderForge.SFN_FragmentPosition,id:37,x:31267,y:32276,varname:node_37,prsc:2;n:type:ShaderForge.SFN_Tex2d,id:848,x:31692,y:32276,ptovrint:False,ptlb:MainTex,ptin:_MainTex,varname:node_848,prsc:2,glob:False,taghide:False,taghdr:False,tagprd:False,tagnsco:False,tagnrm:False,tex:156b3be5d1d342e49b47174800352b1e,ntxv:0,isnm:False|UVIN-7786-OUT;n:type:ShaderForge.SFN_ComponentMask,id:7786,x:31458,y:32276,varname:node_7786,prsc:2,cc1:0,cc2:2,cc3:-1,cc4:-1|IN-37-XYZ;n:type:ShaderForge.SFN_Tex2d,id:8485,x:31654,y:32676,ptovrint:False,ptlb:Dissolve Pattern,ptin:_DissolvePattern,varname:node_8485,prsc:2,glob:False,taghide:False,taghdr:False,tagprd:False,tagnsco:False,tagnrm:False,tex:3b5cb736a5c870a46b3f9e629e2e0e09,ntxv:0,isnm:False|UVIN-7786-OUT;n:type:ShaderForge.SFN_Tex2d,id:6896,x:31692,y:32470,ptovrint:False,ptlb:Normal,ptin:_Normal,varname:node_6896,prsc:2,glob:False,taghide:False,taghdr:False,tagprd:False,tagnsco:False,tagnrm:False,tex:74d03a97f9b9a1b4d8210e81c0fddd90,ntxv:3,isnm:True|UVIN-7786-OUT;n:type:ShaderForge.SFN_Slider,id:7840,x:31616,y:32851,ptovrint:False,ptlb:Dissolve,ptin:_Dissolve,varname:node_7840,prsc:2,glob:False,taghide:False,taghdr:False,tagprd:False,tagnsco:False,tagnrm:False,min:0,cur:1,max:1;n:type:ShaderForge.SFN_Lerp,id:2250,x:32590,y:32415,varname:node_2250,prsc:2|A-848-RGB,B-4820-OUT,T-7840-OUT;n:type:ShaderForge.SFN_Multiply,id:4820,x:32392,y:32223,varname:node_4820,prsc:2|A-848-RGB,B-3574-OUT;n:type:ShaderForge.SFN_RemapRange,id:3574,x:32025,y:32481,varname:node_3574,prsc:2,frmn:0,frmx:1,tomn:0,tomx:1.5|IN-8485-R;proporder:848-6896-8485-7840;pass:END;sub:END;*/
+/*SF_DATA;ver:1.26;sub:START;pass:START;ps:flbk:,iptp:0,cusa:False,bamd:0,lico:1,lgpr:1,limd:1,spmd:1,trmd:0,grmd:0,uamb:True,mssp:True,bkdf:True,hqlp:False,rprd:False,enco:False,rmgx:True,rpth:0,vtps:0,hqsc:True,nrmq:1,nrsp:0,vomd:0,spxs:False,tesm:0,olmd:1,culm:0,bsrc:0,bdst:1,dpts:2,wrdp:True,dith:0,rfrpo:True,rfrpn:Refraction,coma:15,ufog:True,aust:True,igpj:False,qofs:0,qpre:1,rntp:1,fgom:False,fgoc:False,fgod:False,fgor:False,fgmd:0,fgcr:0.5,fgcg:0.5,fgcb:0.5,fgca:1,fgde:0.01,fgrn:0,fgrf:300,stcl:False,stva:128,stmr:255,stmw:255,stcp:6,stps:0,stfa:0,stfz:0,ofsf:0,ofsu:0,f2p0:False,fnsp:False,fnfb:False;n:type:ShaderForge.SFN_Final,id:1291,x:32719,y:32712,varname:node_1291,prsc:2|diff-2250-OUT,normal-6896-RGB;n:type:ShaderForge.SFN_FragmentPosition,id:37,x:31267,y:32276,varname:node_37,prsc:2;n:type:ShaderForge.SFN_Tex2d,id:848,x:31692,y:32276,ptovrint:False,ptlb:MainTex,ptin:_MainTex,varname:node_848,prsc:2,glob:False,taghide:False,taghdr:False,tagprd:False,tagnsco:False,tagnrm:False,tex:156b3be5d1d342e49b47174800352b1e,ntxv:0,isnm:False|UVIN-7786-OUT;n:type:ShaderForge.SFN_ComponentMask,id:7786,x:31458,y:32276,varname:node_7786,prsc:2,cc1:0,cc2:2,cc3:-1,cc4:-1|IN-37-XYZ;n:type:ShaderForge.SFN_Tex2d,id:8485,x:31694,y:32661,ptovrint:False,ptlb:Dissolve Pattern,ptin:_DissolvePattern,varname:node_8485,prsc:2,glob:False,taghide:False,taghdr:False,tagprd:False,tagnsco:False,tagnrm:False,tex:3b5cb736a5c870a46b3f9e629e2e0e09,ntxv:0,isnm:False|UVIN-7786-OUT;n:type:ShaderForge.SFN_Tex2d,id:6896,x:31692,y:32470,ptovrint:False,ptlb:Normal,ptin:_Normal,varname:node_6896,prsc:2,glob:False,taghide:False,taghdr:False,tagprd:False,tagnsco:False,tagnrm:False,tex:74d03a97f9b9a1b4d8210e81c0fddd90,ntxv:3,isnm:True|UVIN-7786-OUT;n:type:ShaderForge.SFN_Slider,id:7840,x:31616,y:32851,ptovrint:False,ptlb:Dissolve,ptin:_Dissolve,varname:node_7840,prsc:2,glob:False,taghide:False,taghdr:False,tagprd:False,tagnsco:False,tagnrm:False,min:0,cur:1,max:1;n:type:ShaderForge.SFN_Lerp,id:2250,x:32454,y:32404,varname:node_2250,prsc:2|A-848-RGB,B-4820-OUT,T-7840-OUT;n:type:ShaderForge.SFN_Multiply,id:4820,x:32251,y:32404,varname:node_4820,prsc:2|A-848-RGB,B-3574-OUT;n:type:ShaderForge.SFN_RemapRange,id:3574,x:31992,y:32498,varname:node_3574,prsc:2,frmn:0,frmx:1,tomn:-1,tomx:2|IN-8485-R;proporder:848-6896-8485-7840;pass:END;sub:END;*/
 
 Shader "Redcliffe/RC_ground" {
     Properties {
@@ -135,7 +135,7 @@ Shader "Redcliffe/RC_ground" {
                 indirectDiffuse += gi.indirect.diffuse;
                 float4 _MainTex_var = tex2D(_MainTex,TRANSFORM_TEX(node_7786, _MainTex));
                 float4 _DissolvePattern_var = tex2D(_DissolvePattern,TRANSFORM_TEX(node_7786, _DissolvePattern));
-                float3 diffuseColor = lerp(_MainTex_var.rgb,(_MainTex_var.rgb*(_DissolvePattern_var.r*1.5+0.0)),_Dissolve);
+                float3 diffuseColor = lerp(_MainTex_var.rgb,(_MainTex_var.rgb*(_DissolvePattern_var.r*3.0+-1.0)),_Dissolve);
                 float3 diffuse = (directDiffuse + indirectDiffuse) * diffuseColor;
 /// Final Color:
                 float3 finalColor = diffuse;
@@ -224,7 +224,7 @@ Shader "Redcliffe/RC_ground" {
                 float3 directDiffuse = max( 0.0, NdotL) * attenColor;
                 float4 _MainTex_var = tex2D(_MainTex,TRANSFORM_TEX(node_7786, _MainTex));
                 float4 _DissolvePattern_var = tex2D(_DissolvePattern,TRANSFORM_TEX(node_7786, _DissolvePattern));
-                float3 diffuseColor = lerp(_MainTex_var.rgb,(_MainTex_var.rgb*(_DissolvePattern_var.r*1.5+0.0)),_Dissolve);
+                float3 diffuseColor = lerp(_MainTex_var.rgb,(_MainTex_var.rgb*(_DissolvePattern_var.r*3.0+-1.0)),_Dissolve);
                 float3 diffuse = directDiffuse * diffuseColor;
 /// Final Color:
                 float3 finalColor = diffuse;
@@ -291,7 +291,7 @@ Shader "Redcliffe/RC_ground" {
                 float2 node_7786 = i.posWorld.rgb.rb;
                 float4 _MainTex_var = tex2D(_MainTex,TRANSFORM_TEX(node_7786, _MainTex));
                 float4 _DissolvePattern_var = tex2D(_DissolvePattern,TRANSFORM_TEX(node_7786, _DissolvePattern));
-                float3 diffColor = lerp(_MainTex_var.rgb,(_MainTex_var.rgb*(_DissolvePattern_var.r*1.5+0.0)),_Dissolve);
+                float3 diffColor = lerp(_MainTex_var.rgb,(_MainTex_var.rgb*(_DissolvePattern_var.r*3.0+-1.0)),_Dissolve);
                 o.Albedo = diffColor;
                 
                 return UnityMetaFragment( o );
