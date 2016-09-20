@@ -98,6 +98,25 @@ public class UnitAction_Move : UnitActionBase {
 
     }
 
+    public Tile GetFurthestMovibleTileOnPath(List<Tile> path)
+    {
+        float longest = 0;
+        Tile t = null;
+        for(int i = 0; i < path.Count; i++)
+        {
+            List<Tile> sub_path = path.GetRange(0, i + 1);
+            
+            float length =   TilePathFinder.GetPathLengthForUnit(Owner, sub_path);
+            if(length <= GetMoveRange() && length > longest)
+            {
+                t = path[i];
+                longest = length;
+            }
+        }
+
+        return t;
+    }
+
     void OnMoveEnd(IWayPoint wp)
     {
         ActionCompleted();
