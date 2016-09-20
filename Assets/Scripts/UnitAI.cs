@@ -294,7 +294,7 @@ public class UnitAI : MonoBehaviour, ITriggerable {
 
        
 
-        if(preferred_target == null || !preferred_target.IsActive)
+        if(attack_map.Count > 0 && ( preferred_target == null || !preferred_target.IsActive))
         {
             preferred_target = MyMath.GetRandomObject(attack_map.Select(kvp => kvp.Key).ToList());
         }
@@ -375,6 +375,9 @@ public class UnitAI : MonoBehaviour, ITriggerable {
     {
         List<Tile> attack_tiles = GetTilesFromWhichUnitCanAttack(target);
         List<Tile> walkable_tiles = GetWalkableTiles(getMove());
+
+        if (attack_tiles.Count == 0 || walkable_tiles.Count == 0)
+            return null;
 
         return GetBestAttackPosition(target, attack_tiles.Where(atk_tile => walkable_tiles.Contains(atk_tile)).ToList());
     }
