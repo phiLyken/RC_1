@@ -29,20 +29,30 @@ public class UnitAction_Loot : UnitActionBase
 
     public void OnTileSelect(Tile t)
     {
-        if(GetLootableTiles().Contains(t))
-        {
-            FIXME_selected = t;
-            AttemptExection();
-        } else
+        if(!GetLootableTiles().Contains(t))
         {
             ToastNotification.SetToastMessage2("No Loot on this Tile");
+            return;
         }
+
+        FIXME_selected = t;
+
+        Tile_Loot loot = FIXME_selected.GetComponent<Tile_Loot>();
+
+        if (loot.GetLootableAmount(Owner) == 0 )
+        {
+            ToastNotification.SetToastMessage2("Unit has no space for item " + loot.GetLootType() + " " + loot.GetLootableAmount(Owner));
+            return;
+        }
+
+       
+        AttemptExection();
     }
 
     public override List<Tile> GetPreviewTiles()
     {
         return   TileManager.Instance.GetTilesInRange(Owner.currentTile, (int)Range);
-    }
+    } 
 
     public override void UnSelectAction()
     {
@@ -69,6 +79,7 @@ public class UnitAction_Loot : UnitActionBase
     protected override void ActionExecuted()
     {
         base.ActionExecuted();
+
         if (OnTarget != null)
             OnTarget(this, FIXME_selected.transform);
 

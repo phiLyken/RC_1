@@ -9,7 +9,7 @@ public class AbilityChargeController
     public bool useCharges;
     public ItemTypes ChargeItemType;
 
-    public void Init(Unit u)
+    public void Init(Unit u )
     {
         m_unit = u;
         ResetCharge();
@@ -24,23 +24,27 @@ public class AbilityChargeController
             m_unit.Inventory.ModifyItem(ChargeItemType, -1);
         }
     }
+ 
 
+    void SetCharges(int charges)
+    {
+        IInventoryItem item_config = LootBalance.GetBalance().GetItem(ChargeItemType);
+
+        if (item_config == null)
+        {
+            Debug.LogWarning("CAN NOT FIND A CONSUMABLE FOR " + ChargeItemType.ToString());
+            return;
+        }
+
+        m_unit.Inventory.AddItem(item_config, charges);
+    }
     public void ResetCharge()
     {
 
         if (useCharges)
         {
-            //  Debug.Log(LootBalance.GetBalance().LootConfigs.Count);
-
-            IInventoryItem item_config = LootBalance.GetBalance().GetItem(ChargeItemType);
-
-            if (item_config == null)
-            {
-                Debug.LogWarning("CAN NOT FIND A CONSUMABLE FOR " + ChargeItemType.ToString());
-                return;
-            }
-
-            m_unit.Inventory.AddItem(item_config, m_unit.Inventory.GetMax(ChargeItemType));
+         //   SetCharges(m_unit.Inventory.GetMax(ChargeItemType));
+            
             
         }
 
@@ -65,6 +69,6 @@ public class AbilityChargeController
             Debug.LogWarning("COULDNT FIND ITEM FOR TYPE " + ChargeItemType);
             return 0;
         }
-        return item.count;
+        return item.GetCount();
     }
 }

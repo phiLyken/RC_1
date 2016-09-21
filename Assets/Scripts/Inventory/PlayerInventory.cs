@@ -6,7 +6,7 @@ public class PlayerInventory : Inventory {
 
     public static PlayerInventory Instance;
 
-    public virtual int GetMax(ItemTypes type)
+    public override int GetMax(ItemTypes type)
     {
         return 99999999;
     }

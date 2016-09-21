@@ -97,7 +97,7 @@ public class ItemInInventory : IInventoryItem
 {
 
   
-    public int count;
+    int count;
     IInventoryItem m_item;
     public IInventoryItem GetItem()
     {

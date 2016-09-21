@@ -90,8 +90,8 @@ public class UI_AnchoredList : MonoBehaviour {
 
     Sequence LongSlotMove(RectTransform view, int start_slot, int target_slot_id)
     {
-        Vector3 first_pos = GetTargetSlotPos(start_slot) - new Vector3(0, 50, 0);
-        Vector3 second_pos = GetTargetSlotPos(target_slot_id) - new Vector3(0, 50, 0);
+        Vector3 first_pos = GetTargetSlotPos(start_slot) - new Vector3(0, 25, 0);
+        Vector3 second_pos = GetTargetSlotPos(target_slot_id) - new Vector3(0, 25, 0);
         Vector3 final_pos = GetTargetSlotPos(target_slot_id);
 
         Sequence move = DOTween.Sequence();

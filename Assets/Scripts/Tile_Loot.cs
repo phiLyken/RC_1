@@ -9,6 +9,8 @@ public class Tile_Loot : TileComponent {
 
     public LootConfig loot;
     public GameObject crate;
+    IInventoryItem item_lootable;
+
 
     public override TileComponents GetComponentType()
     {
@@ -20,9 +22,23 @@ public class Tile_Loot : TileComponent {
         loot = _loot;
         crate = Instantiate(_loot.WorldObject);
         crate.transform.position = gameObject.GetComponent<Tile>().GetPosition();
+
+        LootContentConfig content = WeightableFactory.GetWeighted(loot.Drops);
         
+
+        int amount = (int) content.BaseAmount.Value();
+
+        if (content.Item.Type  == ItemTypes.dust)
+        {
+            amount = Constants.GetDustForProgress(amount, WorldExtender.CurrentStage);
+        }
+
+        item_lootable = new ItemInInventory(content.Item, amount);
         
+
+        Debug.Log("Set loot for " + item_lootable.GetItemType() + ":" + item_lootable.GetCount());
     }
+
 
     public static void AddLoot(Tile target, LootCategory Category)
     {
@@ -30,43 +46,67 @@ public class Tile_Loot : TileComponent {
             target.gameObject.AddComponent<Tile_Loot>().SetLoot( LootBalance.GetBalance().GetLootConfig(Category));
         }
     } 
-    public void RemoveLoot()
+
+    Inventory GetInventory(Unit unit)
     {
-        Destroy(crate);
-        Destroy(this); 
+        Inventory inv = null;
+
+        if (item_lootable.GetItemType() == ItemTypes.dust)
+        {
+            
+            inv= PlayerInventory.Instance;
+        }
+        else
+        {
+            inv = unit.GetComponent<UnitInventory>();
+        }
+
+        return inv;
+
+    }
+
+    public ItemTypes GetLootType()
+    {
+        return item_lootable.GetItemType();
+    }
+
+    public int GetLootableAmount(Unit u)
+    {
+        int amount = item_lootable.GetCount();
+        Inventory inv = GetInventory(u);
+ 
+
+ 
+        int lootable_amount = Mathf.Min(inv.GetMax(item_lootable.GetItemType()) - inv.ItemCount(item_lootable.GetItemType()), amount);
+
+        Debug.Log("loot amount =" + amount + " lootable =" + lootable_amount + " max=" + inv.GetMax(item_lootable.GetItemType()));
+
+        return lootable_amount;
     }
 
     public void OnLoot(Unit _u)
     {
 
-       
-        LootContentConfig content = WeightableFactory.GetWeighted(loot.Drops);
-       
-        IInventoryItem item = content.Item;
+        int lootable_amount = GetLootableAmount(_u);
 
-        int amount = (int) content.BaseAmount.Value();
+        item_lootable.SetCount( item_lootable.GetCount() - lootable_amount);
 
-        Debug.Log("looting " + loot +" "+amount);
+        GetInventory(_u).AddItem(item_lootable, lootable_amount);
 
-        if (item.GetItemType() == ItemTypes.dust)
+        
+
+        if(item_lootable.GetCount() == 0)
         {
-           
-            amount = Constants.GetDustForProgress(amount, WorldExtender.CurrentStage);
-            Debug.Log("adding " + item.GetID() + " " + amount);
-            PlayerInventory.Instance.AddItem(item, amount);
-
-        } else
-        {
-            Debug.Log("adding " + item.GetID() + " " + amount);
-            _u.GetComponent<UnitInventory>().AddItem(item, amount);
+            RemoveLoot();
         }
 
-        Destroy(crate);
-        Destroy(this);
-        
     }
 
-    
+    public void RemoveLoot()
+    {
+        Destroy(crate);
+        Destroy(this);
+    }
 }
 
 
