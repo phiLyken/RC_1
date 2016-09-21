@@ -43,7 +43,7 @@ public class AbilityChargeController
 
         if (useCharges)
         {
-         //   SetCharges(m_unit.Inventory.GetMax(ChargeItemType));
+            SetCharges(m_unit.Inventory.GetMax(ChargeItemType));
             
             
         }
