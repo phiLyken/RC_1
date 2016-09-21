@@ -78,18 +78,31 @@ public class UnitAction_Loot : UnitActionBase
 
     protected override void ActionExecuted()
     {
+        ActionInProgress = true;
+        if (OnTarget != null)
+        {
+ 
+            OnTarget(this, FIXME_selected.transform);
+        }
         base.ActionExecuted();
 
-        if (OnTarget != null)
-            OnTarget(this, FIXME_selected.transform);
+        StartCoroutine(DelayedEnd());
+ 
 
-        Tile_Loot l = FIXME_selected.GetComponent<Tile_Loot>();
-        l.OnLoot(Owner);
 
-    
-        ActionCompleted();
+       
     }
 
+    IEnumerator DelayedEnd()
+    {
+
+        yield return new WaitForSeconds(0.35f);
+        Tile_Loot l = FIXME_selected.GetComponent<Tile_Loot>();
+        l.OnLoot(Owner);
+        yield return new WaitForSeconds(0.5f);
+
+        ActionCompleted();
+    }
       
 
 }

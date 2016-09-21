@@ -193,8 +193,9 @@ public class ActionManager : MonoBehaviour {
 
         currentAction = ability;
         currentAction.OnExecuteAction += OnActionUsed;
+        currentAction.OnTarget += TargetedAction;
         currentAction.SelectAction();
-        currentAction.OnTarget += OnTargetAction;
+       
 
         if (OnActionSelected != null) OnActionSelected(currentAction);
         return currentAction;
@@ -207,7 +208,7 @@ public class ActionManager : MonoBehaviour {
 
         currentAction.UnSelectAction();
         currentAction.OnExecuteAction -= OnActionUsed;
-        currentAction.OnTarget -= OnTargetAction;
+        currentAction.OnTarget -= TargetedAction;
         currentAction = null;    
 
         if (OnActionUnselected != null) OnActionUnselected(currentAction);
@@ -234,6 +235,14 @@ public class ActionManager : MonoBehaviour {
        
     }
 
+    void TargetedAction(UnitActionBase b, Transform tgt)
+    {
+        Debug.Log("targeted action");
+        if(OnTargetAction != null)
+        {
+            OnTargetAction(b, tgt);
+        }
+    }
 
     public T GetActionOfType <T>()
     {

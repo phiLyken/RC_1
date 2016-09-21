@@ -8,7 +8,7 @@ public class RotationControllerTest : MonoBehaviour {
     void Start()
     {
 
-        rotator.Init(movement);
+        rotator.Init(movement, null);
 
         TileSelecter.OnTileSelect += t => { rotator.TurnToPosition(t.transform, CB); };
     }

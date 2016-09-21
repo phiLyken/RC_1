@@ -142,6 +142,7 @@ public class UnitActionBase : MonoBehaviour {
 
     protected virtual void ActionCompleted()
     {
+     
         ActionInProgress = false;
         if (OnActionComplete != null)
             OnActionComplete(this);

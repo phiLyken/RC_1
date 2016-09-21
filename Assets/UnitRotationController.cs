@@ -6,7 +6,7 @@ public class UnitRotationController : MonoBehaviour {
 
     public Transform m_rotated;
 
-    public void Init(WaypointMover move)
+    public void Init(WaypointMover move, ActionManager actions)
     {
         m_rotated = move.transform;
      //   Debug.Log(" target");
@@ -23,8 +23,17 @@ public class UnitRotationController : MonoBehaviour {
             StopAllCoroutines();
             StartCoroutine(TurnToFinalPosition());
         };
+
+        if(actions != null)
+         actions.OnTargetAction += OnTargetAction;
+ 
     }
 
+    void OnTargetAction(UnitActionBase action, Transform target)
+    {
+        Debug.Log("Rotation to target");
+        TurnToPosition(target, null);
+    }
     public void TurnToPosition(Transform target, EventHandler callback)
     {
         StartCoroutine(TurnToTargetPositiom(target, callback));

@@ -99,9 +99,10 @@ public class UnitAction_ApplyEffect : UnitActionBase
 
     protected override void ActionExecuted()
     {
-        base.ActionExecuted();
+     
         
         StartCoroutine(ApplySequence( Owner, targets  ));
+        base.ActionExecuted();
         targets = null;
         //Debug.Break();
       
@@ -117,6 +118,13 @@ public class UnitAction_ApplyEffect : UnitActionBase
         
         foreach(Unit target in targets)
         {
+            if (OnTarget != null)
+            {
+                
+                OnTarget(this, target.transform);
+                yield return new WaitForSeconds(0.2F);
+            }
+
             bool first = true;
             foreach (UnitEffect effect in Effects)
             {

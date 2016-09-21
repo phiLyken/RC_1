@@ -122,9 +122,18 @@ public class UnitAction_Move : UnitActionBase {
 
     void OnMoveEnd(IWayPoint wp)
     {
-        ActionCompleted();
         Owner.GetComponent<WaypointMover>().OnMovementEnd -= OnMoveEnd;
+
+        StartCoroutine(DelayedEnd());
+
     }
+
+    IEnumerator DelayedEnd()
+    {
+        yield return new WaitForSeconds(0.15f);
+        ActionCompleted();
+    }
+
 
     public bool PathWalkable(List<Tile> p)
     {
