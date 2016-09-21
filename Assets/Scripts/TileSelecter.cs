@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+using System.Collections.Generic;
+using System.Linq;
 
 public delegate void TileEventHandler(Tile t);
 public class TileSelecter : MonoBehaviour {
@@ -27,11 +28,14 @@ public class TileSelecter : MonoBehaviour {
     public static void EnablePositionMarker(bool enabled)
     {
         _instance.PositionMarker.SetActive(enabled);
+        SetUnitColliders(!enabled);
     }
     public static void SetPositionMarker(Tile t)
     {
         if (_instance == null) return;
         if (_instance.PositionMarker != null) _instance.PositionMarker.transform.position = t.GetPosition();
+
+       
     }
     public static void SelectTile(Tile t)
     { 
@@ -50,4 +54,12 @@ public class TileSelecter : MonoBehaviour {
     }
 
     
+    static void SetUnitColliders(bool b)
+    {
+        foreach(Unit u in Unit.AllUnits)
+        {
+            Collider c = u.GetComponent<Collider>();
+            c.enabled = b;
+        }
+    }
 }
