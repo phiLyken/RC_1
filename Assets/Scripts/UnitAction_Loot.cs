@@ -5,6 +5,7 @@ using System.Linq;
 
 public class UnitAction_Loot : UnitActionBase
 {
+ 
     public float Range;
     void Awake()
     {
@@ -15,29 +16,46 @@ public class UnitAction_Loot : UnitActionBase
     {
         base.SelectAction();
 
-        TileSelecter.OnTileSelect += OnTileSelect;
-        TileSelecter.EnablePositionMarker(true);
-
-        if(OnTargetsFound != null)
+        if (OnTargetsFound != null)
         {
+            
             OnTargetsFound(GetLootableTiles().Select(t => t.gameObject).ToList());
         }
+
+        TileSelecter.OnTileSelect += OnTileSelect;
+        TileSelecter.SetUnitColliders(false);
+
+        TileSelecter.OnTileHover += OnTileHover;
+        TileSelecter.OnTileUnhover += OnTileUnhover;
     }
 
 
-    Tile FIXME_selected;
 
-    public void OnTileSelect(Tile t)
+    void OnTileHover(Tile tgt)
     {
-        if(!GetLootableTiles().Contains(t))
+
+       if(GetLootableTiles().Contains(tgt) && OnTargetHover != null)
+        {
+            OnTargetHover(tgt);
+        }
+    }
+
+    void OnTileUnhover(Tile tgt)
+    {
+        if (GetLootableTiles().Contains(tgt) && OnTargetUnhover != null)
+        {
+            OnTargetUnhover(tgt);
+        }
+    }
+    public void OnTileSelect(Tile selected_tile)
+    {
+        if(!GetLootableTiles().Contains(selected_tile))
         {
             ToastNotification.SetToastMessage2("No Loot on this Tile");
             return;
-        }
+        }       
 
-        FIXME_selected = t;
-
-        Tile_Loot loot = FIXME_selected.GetComponent<Tile_Loot>();
+        Tile_Loot loot = selected_tile.GetComponent<Tile_Loot>();
 
         if (loot.GetLootableAmount(Owner) == 0 )
         {
@@ -46,7 +64,7 @@ public class UnitAction_Loot : UnitActionBase
         }
 
        
-        AttemptExection();
+        AttemptExection(selected_tile);
     }
 
     public override List<Tile> GetPreviewTiles()
@@ -58,7 +76,7 @@ public class UnitAction_Loot : UnitActionBase
     {
         base.UnSelectAction();
         TileSelecter.OnTileSelect-= OnTileSelect;
-        TileSelecter.EnablePositionMarker(false);
+        TileSelecter.SetUnitColliders(true);
     }
 
     public List<Tile> GetLootableTiles()
@@ -76,28 +94,28 @@ public class UnitAction_Loot : UnitActionBase
         return base.CanExecAction(b);
     }
 
-    protected override void ActionExecuted()
+    protected override void ActionExecuted(object target)
     {
         ActionInProgress = true;
         if (OnTarget != null)
         {
  
-            OnTarget(this, FIXME_selected.transform);
+            OnTarget(this, (target as Tile).transform);
         }
-        base.ActionExecuted();
+        base.ActionExecuted(target);
 
-        StartCoroutine(DelayedEnd());
+        StartCoroutine(DelayedEnd( (target as Tile) ));
  
 
 
        
     }
 
-    IEnumerator DelayedEnd()
+    IEnumerator DelayedEnd(Tile target)
     {
 
         yield return new WaitForSeconds(0.35f);
-        Tile_Loot l = FIXME_selected.GetComponent<Tile_Loot>();
+        Tile_Loot l = target.GetComponent<Tile_Loot>();
         l.OnLoot(Owner);
         yield return new WaitForSeconds(0.5f);
 

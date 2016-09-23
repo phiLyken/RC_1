@@ -10,8 +10,16 @@ public class UI_ActionPreviewIcon : MonoBehaviour {
 
     public static void Disable()
     {
-        foreach (var preview in previews) preview.gameObject.SetActive(false);
+        if(previews != null)
+        {
+            foreach (var preview in previews)
+            {
+                if(preview != null && preview.gameObject != null)
+                 preview.gameObject.SetActive(false);
+            }
+        }
     }
+
     public static void PreviewOnTargets(List<Transform> tr, Sprite icon)
     {
        

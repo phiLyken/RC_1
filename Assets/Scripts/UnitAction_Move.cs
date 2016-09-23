@@ -2,11 +2,15 @@
 using System.Collections;
 using System.Collections.Generic;
 
+public delegate void TilePreviewEvent(Tile t, bool b);
+
 public class UnitAction_Move : UnitActionBase {
     
     Tile currentTargetTile;
     List<Tile> currentPath;
     PathDisplay pathpreview;
+
+    public TilePreviewEvent OnSetPreviewTile;
 
     MeshViewGroup attack_preview_highlight;
 
@@ -21,7 +25,7 @@ public class UnitAction_Move : UnitActionBase {
 
         if (Owner.GetComponent<WaypointMover>().Moving) return;
 
-        TileSelecter.EnablePositionMarker(true);
+        TileSelecter.SetUnitColliders(false);
         TileSelecter.OnTileSelect += SetMovementTile;
         TileSelecter.OnTileHover += SetPreviewTile;
 
@@ -37,7 +41,7 @@ public class UnitAction_Move : UnitActionBase {
         if (!Owner.GetComponent<WaypointMover>().Moving && currentTargetTile != null && currentPath != null)
         {
          //   Debug.Log("set movement tile");
-            AttemptExection();
+            AttemptExection(t);
         } else
         {
             Debug.LogWarning("Something prevented the move ability to execute");
@@ -80,22 +84,26 @@ public class UnitAction_Move : UnitActionBase {
             currentPath = pathToTile;
             SetAttackPreview(currentTargetTile);
 
+            if (OnSetPreviewTile != null)
+                OnSetPreviewTile(t,true);
         } else
         {
             ResetAttackPreview();
             ResetPathPreview();
-            //  Debug.Log("cannot move to tile");
+            if (OnSetPreviewTile != null)
+                OnSetPreviewTile(t,false);
+            
         }
     }
     
-    protected override void ActionExecuted()
+    protected override void ActionExecuted(object target)
     {
 
         // Debug.Log("move executed");
         ActionInProgress = true;
         SetMovementTile(currentTargetTile, currentPath);       
       
-        base.ActionExecuted();
+        base.ActionExecuted(target);
        
         // ActionCompleted();
 
@@ -179,7 +187,8 @@ public class UnitAction_Move : UnitActionBase {
        
         TileSelecter.OnTileSelect -= SetMovementTile;
         TileSelecter.OnTileHover -= SetPreviewTile;
-        TileSelecter.EnablePositionMarker(false);
+        TileSelecter.SetUnitColliders(true);
+
         ResetPathPreview();
         ResetAttackPreview();
         
