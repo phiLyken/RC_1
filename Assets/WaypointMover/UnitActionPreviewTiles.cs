@@ -3,21 +3,22 @@ using System.Collections;
 
 public class UnitActionPreviewTiles : MonoBehaviour {
 
-    public string StateID;
+    
     MeshViewGroup previewed;
 
+    protected UnitActionBase m_action;
 
     void Awake()
     {
-        UnitActionBase b = GetComponent<UnitActionBase>();
+        m_action = GetComponent<UnitActionBase>();
 
-        b.OnSelectAction += OnSelect;
-        b.OnUnselectAction += OnUnselect;
+        m_action.OnSelectAction += OnSelect;
+        m_action.OnUnselectAction += OnUnselect;
     }
 
     void OnSelect(UnitActionBase select)
     {
-        previewed = new MeshViewGroup(select.GetPreviewTiles(), TileStateConfigs.GetMaterialForstate(StateID));
+        previewed = new MeshViewGroup(select.GetPreviewTiles(), TileStateConfigs.GetMaterialForstate(m_action.GetTileViewState()));
     }
 
     void OnUnselect(UnitActionBase unselect)
@@ -25,5 +26,7 @@ public class UnitActionPreviewTiles : MonoBehaviour {
         previewed.RemoveGroup();
         previewed = null;
     }
+
+
 }
 

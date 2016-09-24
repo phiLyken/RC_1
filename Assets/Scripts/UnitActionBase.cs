@@ -6,9 +6,12 @@ using System;
 public delegate void TargetListEvent(List<GameObject> targets);
 
 public class UnitActionBase : MonoBehaviour {
+
+    public string TileViewState;
+
     [HideInInspector]
     public bool ActionInProgress;
-    public UI_ToolTip_AbilityBase ToolTipPrefab;
+
     public TargetedAction OnTarget;
     public ActionEventHandler OnExecuteAction;
     public ActionEventHandler OnSelectAction;
@@ -55,7 +58,7 @@ public class UnitActionBase : MonoBehaviour {
         ChargeController.Init(o);
     }
 
-
+    public TargetHighLight TargetHighlightPrefab;
 
     public virtual void SelectAction()
     {
@@ -128,11 +131,11 @@ public class UnitActionBase : MonoBehaviour {
         if (OnUnselectAction != null) OnUnselectAction(this);
     }
 
-    public void AttemptExection()
+    public void AttemptExection(object target)
     {       
         if (CanExecAction(true))
         { 
-            ActionExecuted();              
+            ActionExecuted(target);              
         } else
         {
            // Debug.Log("Coudlnt execute "+ActionID +" ap cost:"+AP_Cost+" / "+Owner.GetAPLeft()  );
@@ -142,12 +145,13 @@ public class UnitActionBase : MonoBehaviour {
 
     protected virtual void ActionCompleted()
     {
+     
         ActionInProgress = false;
         if (OnActionComplete != null)
             OnActionComplete(this);
     }
 
-     protected virtual void ActionExecuted()
+     protected virtual void ActionExecuted(object target)
     {
 
         ChargeController.UseCharge();
@@ -160,11 +164,20 @@ public class UnitActionBase : MonoBehaviour {
         return null;
     }
 
+
     public virtual float GetTimeCost()
     {
         return TimeCost.GetCost();
     }
-    
+    public virtual TargetHighLight GetPreviewPrefab()
+    {
+        return TargetHighlightPrefab;
+    }
+
+    public virtual string GetTileViewState()
+    {
+        return TileViewState;
+    }
 
 }
 

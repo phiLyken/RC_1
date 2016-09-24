@@ -15,11 +15,14 @@ public class WeaponBehavior :   MonoBehaviour {
 
     public TargetInfo TargetRule;
 
+    public string TileViewState;
+
     public float GetRange(Unit u)
     {
         return TargetRule.GetRange(u);
     }
- 
+
+    public TargetHighLight PreviewPrefab;
 }
 
 

@@ -34,7 +34,7 @@ public class UnitFactory : MonoBehaviour
         GetName(data, base_unit);
         GiveWeapon(data, mesh, inventory);
         
-        rotator.Init(m_unit.GetComponent<WaypointMover>());
+        rotator.Init(m_unit.GetComponent<WaypointMover>(), actions);
         loot.Init(m_unit);
         effect_manager.SetUnit(m_unit);
         animations.Init(m_unit, mesh);

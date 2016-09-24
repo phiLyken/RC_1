@@ -23,4 +23,30 @@ public class ScriptableUnitConfig : ScriptableObject
 
 
     public EnemyDropCategory LootCategory;
+
+   // UnitInventoryConfig InventoryConfig;
+
+}
+
+[System.Serializable]
+public class UnitInventoryConfig
+{
+
+ 
+    public UnitInventoryItemConfig start_heal_charges;
+    public UnitInventoryItemConfig start_special_charges;
+    public UnitInventoryItemConfig start_rage_charges;
+}
+
+[System.Serializable]
+public class UnitInventoryItemConfig
+{
+    public ItemTypes type;
+    public bool use_max = true;
+    public int fixed_amount;
+
+    public UnitInventoryItemConfig(ItemTypes _type)
+    {
+        type = _type;
+    }
 }

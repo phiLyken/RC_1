@@ -5,6 +5,10 @@ using System.Linq;
 using UnityEngine.UI;
 using System;
 
+
+public delegate void IntEventHandler(int _int);
+public delegate void FloatEventHandler(float f);
+
 public static class M_Extensions   {
 
 
@@ -102,4 +106,26 @@ public static class M_Extensions   {
         funct(to);
         
     }
+
+    public static bool IsNullOrEmpty<T>(this List<T> list)
+    {
+        return list == null || list.Count == 0;
+    }
+
+    public static bool HasItems<T>(this List<T> list)
+    {
+        return list != null && list.Count > 0;
+    }
+
+    public static bool HasItems<T,Z>(this Dictionary<T,Z> dictionary)
+    {
+        return dictionary != null && dictionary.Count > 0;
+    }
+
+    public static bool IsNullOrEmpty<T, Z>(this Dictionary<T, Z> dictionary)
+    {
+        return dictionary == null || dictionary.Count ==0;
+    }
+
+ 
 }

@@ -45,13 +45,9 @@ public class UI_EffectQueue : MonoBehaviour {
     {
         while (GetQueueActive()) yield return true;
 
-        m_UnitUI.Toggle(false);
+        m_UnitUI.UnregisterEffectQeue();
     }
-
-    void TryHide()
-    {
-        m_UnitUI.Toggle(false);
-    }
+ 
 
     void SpawnEffectExpiredNotification(UnitEffect effect)
     {
@@ -74,9 +70,7 @@ public class UI_EffectQueue : MonoBehaviour {
     }
 
     void SpawnInventoryNotification(IInventoryItem item, int count)
-    {
-
-       
+    {       
         if (count <= 0 || !TurnSystem.HasTurn(m_Unit)) return;
 
         EventNotification.SpawnInventoryNotification(EffectNotifactionPrefab, EffectNotificationsContainer, item, count, "");
@@ -85,7 +79,7 @@ public class UI_EffectQueue : MonoBehaviour {
 
     void EnableUnitUI()
     {
-        m_UnitUI.Toggle(true);
+        m_UnitUI.RegisterEffectQueue();
 
         StopAllCoroutines();
         StartCoroutine(HideWhenEmpty());

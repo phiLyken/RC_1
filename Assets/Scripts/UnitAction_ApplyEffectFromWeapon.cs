@@ -20,7 +20,10 @@ public class UnitAction_ApplyEffectFromWeapon : UnitAction_ApplyEffect {
         return wp.Behaviors[WeaponBehaviorIndex];
     }
 
-
+    public override TargetHighLight GetPreviewPrefab()
+    {
+       return GetBehavior().PreviewPrefab;
+    }
     public override List<Tile> GetPreviewTiles()
     {
         return base.GetPreviewTiles(); 
@@ -39,7 +42,7 @@ public class UnitAction_ApplyEffectFromWeapon : UnitAction_ApplyEffect {
         return effects;
     }
 
-
+    
     public UnitEffect GetIntBonus()
     {
         if (GetBehavior().IntBonus == null)
@@ -80,5 +83,10 @@ public class UnitAction_ApplyEffectFromWeapon : UnitAction_ApplyEffect {
     protected override TargetInfo GetTargetRules()
     {
         return GetBehavior().TargetRule;
+    }
+
+    public override string GetTileViewState()
+    {
+        return GetBehavior().TileViewState;
     }
 }

@@ -167,7 +167,7 @@ public class Tile : MonoBehaviour, IWayPoint
 
     void OnHoverEnd()
     {
-      //  SetVisualState("normal");
+        TileSelecter.UnhoverTile(this);
     }
 
     void DeactivateTile()

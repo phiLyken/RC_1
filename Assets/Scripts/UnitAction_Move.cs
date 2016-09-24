@@ -2,11 +2,15 @@
 using System.Collections;
 using System.Collections.Generic;
 
+public delegate void TilePreviewEvent(Tile t, bool b);
+
 public class UnitAction_Move : UnitActionBase {
     
     Tile currentTargetTile;
     List<Tile> currentPath;
     PathDisplay pathpreview;
+
+    public TilePreviewEvent OnSetPreviewTile;
 
     MeshViewGroup attack_preview_highlight;
 
@@ -20,7 +24,8 @@ public class UnitAction_Move : UnitActionBase {
         base.SelectAction();
 
         if (Owner.GetComponent<WaypointMover>().Moving) return;
-           
+
+        TileSelecter.SetUnitColliders(false);
         TileSelecter.OnTileSelect += SetMovementTile;
         TileSelecter.OnTileHover += SetPreviewTile;
 
@@ -36,7 +41,7 @@ public class UnitAction_Move : UnitActionBase {
         if (!Owner.GetComponent<WaypointMover>().Moving && currentTargetTile != null && currentPath != null)
         {
          //   Debug.Log("set movement tile");
-            AttemptExection();
+            AttemptExection(t);
         } else
         {
             Debug.LogWarning("Something prevented the move ability to execute");
@@ -63,6 +68,9 @@ public class UnitAction_Move : UnitActionBase {
        // Debug.Log("setpreview tile");
 		//TODO: Send a filter list custom to the unit e.g. Enemies should walk on camp tiles, Tiles need properties as components
         List<Tile> pathToTile = TileManager.Instance.FindPath(Owner.currentTile, t, Owner);
+
+      
+
         if(PathWalkable(pathToTile))
         {
             if(pathpreview != null)
@@ -76,33 +84,64 @@ public class UnitAction_Move : UnitActionBase {
             currentPath = pathToTile;
             SetAttackPreview(currentTargetTile);
 
+            if (OnSetPreviewTile != null)
+                OnSetPreviewTile(t,true);
         } else
         {
             ResetAttackPreview();
-            currentPath = null;
-            currentTargetTile = null;
-          //  Debug.Log("cannot move to tile");
+            ResetPathPreview();
+            if (OnSetPreviewTile != null)
+                OnSetPreviewTile(t,false);
+            
         }
     }
     
-    protected override void ActionExecuted()
+    protected override void ActionExecuted(object target)
     {
 
         // Debug.Log("move executed");
         ActionInProgress = true;
         SetMovementTile(currentTargetTile, currentPath);       
       
-        base.ActionExecuted();
+        base.ActionExecuted(target);
        
         // ActionCompleted();
 
     }
 
+    public Tile GetFurthestMovibleTileOnPath(List<Tile> path)
+    {
+        float longest = 0;
+        Tile t = null;
+        for(int i = 0; i < path.Count; i++)
+        {
+            List<Tile> sub_path = path.GetRange(0, i + 1);
+            
+            float length =   TilePathFinder.GetPathLengthForUnit(Owner, sub_path);
+            if(length <= GetMoveRange() && length > longest)
+            {
+                t = path[i];
+                longest = length;
+            }
+        }
+
+        return t;
+    }
+
     void OnMoveEnd(IWayPoint wp)
     {
-        ActionCompleted();
         Owner.GetComponent<WaypointMover>().OnMovementEnd -= OnMoveEnd;
+
+        StartCoroutine(DelayedEnd());
+
     }
+
+    IEnumerator DelayedEnd()
+    {
+        yield return new WaitForSeconds(0.15f);
+        ActionCompleted();
+    }
+
 
     public bool PathWalkable(List<Tile> p)
     {
@@ -131,19 +170,26 @@ public class UnitAction_Move : UnitActionBase {
         return reacheable;
     }
 
-
-    public override void UnSelectAction()
+    void ResetPathPreview()
     {
-        base.UnSelectAction();
         currentPath = null;
         currentTargetTile = null;
-
-        TileSelecter.OnTileSelect -= SetMovementTile;
-        TileSelecter.OnTileHover -= SetPreviewTile;
         if (pathpreview != null)
         {
             Destroy(pathpreview.gameObject);
         }
+    }
+
+    public override void UnSelectAction()
+    {
+        base.UnSelectAction();
+
+       
+        TileSelecter.OnTileSelect -= SetMovementTile;
+        TileSelecter.OnTileHover -= SetPreviewTile;
+        TileSelecter.SetUnitColliders(true);
+
+        ResetPathPreview();
         ResetAttackPreview();
         
     }

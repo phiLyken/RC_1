@@ -155,7 +155,7 @@ public class TileManager : MonoBehaviour {
     } 
     
 	
-    public List<Tile> GetTilesInRange(Tile center, int range)
+    public List<Tile> GetTilesInRange(Tile center, float range)
     {
         List<Tile> tiles = new List<Tile>();
         

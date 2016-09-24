@@ -5,12 +5,8 @@ using System.Linq;
 
 public class UnitAction_ApplyEffect : UnitActionBase
 {
-
     public List<UnitEffect> Effects;
-
     public TargetInfo TargetRules;
-
-    List<Unit>  targets;
 
     void Awake()
     {
@@ -18,19 +14,16 @@ public class UnitAction_ApplyEffect : UnitActionBase
     }
     
     public override void SelectAction()
-    {
-        targets = Unit.HoveredUnit != null ? MyMath.GetListFromObject(Unit.HoveredUnit) : null;
-
+    { 
         base.SelectAction();
 
         if (OnTargetsFound != null)
         {
-            float range = GetRange();
-            targets = GetTargetableUnits( Unit.AllUnits);
-            OnTargetsFound(
-               targets.Select(u => u.gameObject).ToList()
-             );
+            OnTargetsFound( GetTargetableUnits().Select(u => u.gameObject).ToList()  );
         }
+
+        if (Unit.HoveredUnit != null)
+            OnUnitHover(Unit.HoveredUnit);
 
         Unit.OnUnitHover += OnUnitHover;
         Unit.OnUnitHoverEnd += OnUnitUnhover;
@@ -41,6 +34,8 @@ public class UnitAction_ApplyEffect : UnitActionBase
     {
         return GetTargetRules().GetRange(Owner);
     }
+
+
 
     protected virtual TargetInfo GetTargetRules()
     {
@@ -57,28 +52,31 @@ public class UnitAction_ApplyEffect : UnitActionBase
 
     void OnUnitHover(Unit u)
     {
-
-        targets = MyMath.GetListFromObject(u);
-
-        if (OnTargetHover != null) OnTargetHover(u);
+        if(GetTargetableUnits().Contains(u) && OnTargetHover != null)
+        {
+            Debug.Log("Hovered unit on select");
+            OnTargetHover(u);
+        }
     }
 
     void OnUnitUnhover(Unit u)
     {
-        if (u != this.Owner) return;
 
-        targets = null;
-        if (OnTargetHover != null) OnTargetUnhover(u);
+        if (GetTargetableUnits().Contains(u) && OnTargetUnhover != null)
+        {
+            OnTargetUnhover(u);
+        }
+       
     }
 
     void OnUnitSelect(Unit u)
     {
-        if (targets != null && targets.Count > 0 && !GetTargetableUnits(Unit.AllUnits).Contains(targets[0]))
+        if ( !GetTargetableUnits().Contains(u))
         {
             ToastNotification.SetToastMessage1("Can't target this unit.");
             return;
         }
-        AttemptExection();
+        AttemptExection(u);
     }
 
     public override bool CanExecAction(bool displayToast)
@@ -97,40 +95,47 @@ public class UnitAction_ApplyEffect : UnitActionBase
         base.UnSelectAction();
     }
 
-    protected override void ActionExecuted()
+    protected override void ActionExecuted(object target)
     {
-        base.ActionExecuted();
+     
         
-        StartCoroutine(ApplySequence( Owner, targets  ));
-        targets = null;
+        StartCoroutine(ApplySequence( Owner, ( target  as Unit) ));
+        base.ActionExecuted(target);
+        target = null;
         //Debug.Break();
       
     }
 
 
-    IEnumerator ApplySequence(Unit atk, List<Unit> targets)
+    IEnumerator ApplySequence(Unit atk, Unit target)
     {
         ActionInProgress = true;
         List<UnitEffect> Effects = GetEffects();
 
-        Debug.Log("Applying " + Effects.Count + "effects   To " + targets.Count + " targets");
+        Debug.Log("Applying " + Effects.Count + "effects   To " + target.GetID() );
         
-        foreach(Unit target in targets)
+ 
+        if (OnTarget != null)
         {
-            bool first = true;
-            foreach (UnitEffect effect in Effects)
+                
+            OnTarget(this, target.transform);
+            yield return new WaitForSeconds(0.2F);
+        }
+
+        bool first = true;
+        foreach (UnitEffect effect in Effects)
+        {
+            if(!first) yield return new WaitForSeconds(0.5f);
+            first = false;
+            if(effect == null)
             {
-                if(!first) yield return new WaitForSeconds(0.5f);
-                first = false;
-                if(effect == null)
-                {
-                    Debug.LogError("NO EFFECT..");
-                }
-                if (!effect.GetTarget(target, atk).IsDead()) {
-                    yield return StartCoroutine(effect.ApplyEffectSequence(target, Owner));
-                }
+                Debug.LogError("NO EFFECT..");
+            }
+            if (!effect.GetTarget(target, atk).IsDead()) {
+                yield return StartCoroutine(effect.ApplyEffectSequence(target, Owner));
             }
         }
+        
       
         yield return new WaitForSeconds(2.5f);
 
@@ -163,9 +168,9 @@ public class UnitAction_ApplyEffect : UnitActionBase
     /// </summary>
     /// <param name="list"></param>
     /// <returns></returns>
-    public List<Unit> GetTargetableUnits(List<Unit> list)
+    public List<Unit> GetTargetableUnits( )
     {
-        List<Unit> targets = new List<Unit>(list);
+        List<Unit> targets = new List<Unit>(Unit.AllUnits);
 
         targets.RemoveAll(
             unit => !CanTarget(unit)    
