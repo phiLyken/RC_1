@@ -89,4 +89,9 @@ public class UnitAction_ApplyEffectFromWeapon : UnitAction_ApplyEffect {
     {
         return GetBehavior().TileViewState;
     }
+
+    public override string GetActionID()
+    {
+        return GetBehavior().ActionID;
+    }
 }

@@ -39,7 +39,7 @@ public class UnitEffect_GainAdrenaline : UnitEffect
         
     }
 
-    public override string GetEffectName()
+    public override string GetShortHandle()
     {
         return "Rage";
     }

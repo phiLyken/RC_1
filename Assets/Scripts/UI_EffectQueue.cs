@@ -53,7 +53,7 @@ public class UI_EffectQueue : MonoBehaviour {
     {
         if (!effect.ShowRemoveNotification) return;
 
-        EventNotification.SpawnEffectNotification(EffectNotifactionPrefab, EffectNotificationsContainer, effect, effect.GetToolTipText()+" removed");
+        EventNotification.SpawnEffectNotification(EffectNotifactionPrefab, EffectNotificationsContainer, effect, effect.GetShortHandle()+" removed");
         EnableUnitUI();
     }
      
@@ -65,7 +65,7 @@ public class UI_EffectQueue : MonoBehaviour {
     void SpawnEffectAppliedNotification(UnitEffect effect)
     {
         if (!effect.ShowApplyNotification) return;
-        EventNotification.SpawnEffectNotification(EffectNotifactionPrefab, EffectNotificationsContainer, effect, effect.GetToolTipText()+" applied");
+        EventNotification.SpawnEffectNotification(EffectNotifactionPrefab, EffectNotificationsContainer, effect, effect.GetShortHandle()+" applied");
         EnableUnitUI();
     }
 

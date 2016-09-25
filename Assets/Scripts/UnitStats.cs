@@ -23,6 +23,14 @@ public class UnitStats : MonoBehaviour
                 return "Adrenaline";
             case StatType.oxygen:
                 return "Oxygen";
+            case StatType.attack_extra_damage_max:
+            case StatType.attack_extra_damage_min:
+                return "Sp. Extra Dmg";
+
+            case StatType.adrenaline_conversion_max:
+            case StatType.adrenaline_conversion_min:
+                return "Adr. Conversion";
+
             default:
                 return t.ToString();
         }

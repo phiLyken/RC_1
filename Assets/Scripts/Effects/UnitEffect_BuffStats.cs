@@ -14,12 +14,12 @@ public class UnitEffect_BuffStats : UnitEffect {
 
     public override string GetToolTipText()
     {
-        return TargetMode.ToString() + " " + GetEffectName();
+        return   GetShortHandle();
     }
 
-    public override string GetEffectName()
+    public override string GetShortHandle()
     {
-        return  Buff.Type + " " + Buff.Modifier.ToString("+#;-#;0");
+        return Buff.Modifier.ToString("+#;-#;0") + " " + UnitStats.StatToString(Buff.Type) ;
        
     }
 

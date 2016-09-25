@@ -179,6 +179,10 @@ public class UnitActionBase : MonoBehaviour {
         return TileViewState;
     }
 
+    public virtual string GetActionID()
+    {
+        return ActionID;
+    }
 }
 
 

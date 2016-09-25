@@ -26,9 +26,9 @@ public class UnitEffect_Heal : UnitEffect
         return "Restores the full stamina with oxygen.";
     }
 
-    public override string GetEffectName()
+    public override string GetShortHandle()
     {
-        return "Restore O2";
+        return "Restore Oxygen";
     }
 
      

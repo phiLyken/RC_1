@@ -37,7 +37,7 @@ public class Unit_EffectManager : MonoBehaviour {
 
             new_effect.OnEffectTick += OnEffectTick;
 
-            Debug.Log(" EFFECT_ADDED " + new_effect.GetToolTipText());
+            Debug.Log(" EFFECT_ADDED " + new_effect.GetShortHandle());
             new_effect.OnEffectExpired += OnEffectExpired;
            
             if (OnEffectAdded != null) OnEffectAdded(new_effect);

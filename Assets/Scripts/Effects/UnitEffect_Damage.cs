@@ -70,10 +70,10 @@ public class UnitEffect_Damage : UnitEffect
 
     public override string GetToolTipText()
     {
-        return GetEffectName() ;
+        return GetShortHandle() ;
     }
 
-    public override string GetEffectName()
+    public override string GetShortHandle()
     {
         if (isCopy)
             return baked_damage + " DAMAGE";

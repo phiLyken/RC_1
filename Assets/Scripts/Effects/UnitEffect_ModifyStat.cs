@@ -29,14 +29,14 @@ public class UnitEffect_ModifyStat : UnitEffect
         return value;
     }
 
-    public override string GetEffectName()
+    public override string GetShortHandle()
     {
         return GetToolTipText();
     }
 
     public override string GetToolTipText()
     {
-        string amount = (Percent != 0) ? (Percent * 100).ToString("##.0") : Absolute.ToString();
+        string amount = (Percent != 0) ? (Percent * 100).ToString("##.0") : Absolute.ToString("+#;-#;0");
         return amount + " "+ UnitStats.StatToString(type);
     }
 

@@ -158,7 +158,7 @@ public class UnitEffect : MonoBehaviour
         return " null";
     }
 
-    public virtual string GetEffectName()
+    public virtual string GetShortHandle()
     {
         return  " no name";
     }

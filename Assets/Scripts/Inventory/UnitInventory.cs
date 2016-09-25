@@ -33,6 +33,9 @@ public class UnitInventory : Inventory {
        
         return (int) m_stats.GetStatAmount(maxtype);
     }
+
+
+
     public override void AddItem(IInventoryItem item, int count)
     {
 

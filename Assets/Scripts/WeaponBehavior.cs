@@ -5,6 +5,7 @@ using System.Collections.Generic;
 [System.Serializable]
 public class WeaponBehavior :   MonoBehaviour {
 
+    public string ActionID;
     public StatInfo[] Requirements;
 
     public Sprite Icon;
