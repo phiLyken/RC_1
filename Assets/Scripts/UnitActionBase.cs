@@ -7,13 +7,14 @@ public delegate void TargetListEvent(List<GameObject> targets);
 
 public class UnitActionBase : MonoBehaviour {
 
+    public UnitAnimationTypes ExecAnimation;
     public string TileViewState;
 
     [HideInInspector]
     public bool ActionInProgress;
 
     public TargetedAction OnTarget;
-    public ActionEventHandler OnExecuteAction;
+    public ActionEventHandler OnActionStart;
     public ActionEventHandler OnSelectAction;
     public ActionEventHandler OnUnselectAction;
     public ActionEventHandler OnActionComplete;
@@ -27,6 +28,8 @@ public class UnitActionBase : MonoBehaviour {
 
     public AbilityChargeController ChargeController;
     public AbilityTurnCostConfig TimeCost;
+    
+    public ActionSequence action_sequence;
 
     public bool UsableInBaseCamp;
     public bool EndTurnOnUse;
@@ -44,8 +47,6 @@ public class UnitActionBase : MonoBehaviour {
         return Image;
     }
 
-    public UnitAnimationTypes Animation;
-
     [HideInInspector]
     public int orderID;
 
@@ -56,6 +57,10 @@ public class UnitActionBase : MonoBehaviour {
         Owner = o;
         TimeCost.Init(o);
         ChargeController.Init(o);
+        action_sequence =  GetComponent<ActionSequence>();
+
+        if(action_sequence != null)
+             action_sequence.Init(o);
     }
 
     public TargetHighLight TargetHighlightPrefab;
@@ -122,6 +127,7 @@ public class UnitActionBase : MonoBehaviour {
         }
         return true;
     }
+
     public Unit GetOwner()
     {
         return Owner;
@@ -131,39 +137,64 @@ public class UnitActionBase : MonoBehaviour {
         if (OnUnselectAction != null) OnUnselectAction(this);
     }
 
-    public void AttemptExection(object target)
+    public void AttemptAction(Component target)
     {       
         if (CanExecAction(true))
-        { 
-            ActionExecuted(target);              
+        {
+            ActionInProgress = true;
+            ChargeController.UseCharge();
+
+            ActionStarted(target);
+
+            if (OnActionStart != null)
+                OnActionStart(this);
+
+            Debug.Log("executing " + gameObject.name);
+            
+            if(action_sequence != null)
+            { 
+                action_sequence.StartSequence(GetExecAnimation(), Owner, target.transform, ()=> ActionExecuted(target))  ;
+            } else
+            {
+                ActionExecuted(target);
+            }
+
         } else
         {
            // Debug.Log("Coudlnt execute "+ActionID +" ap cost:"+AP_Cost+" / "+Owner.GetAPLeft()  );
         }
     }
 
+    protected IEnumerator DelayedCompletion(float time)
+    {
+        yield return new WaitForSeconds(time);
+        ActionCompleted();
+    }
 
-    protected virtual void ActionCompleted()
+    protected void ActionCompleted()
     {
      
         ActionInProgress = false;
+
         if (OnActionComplete != null)
             OnActionComplete(this);
     }
 
-     protected virtual void ActionExecuted(object target)
+    protected virtual void ActionStarted(Component target)
     {
 
-        ChargeController.UseCharge();
-        if (OnExecuteAction != null) OnExecuteAction(this);
+       
     }
 
+    protected virtual void ActionExecuted(Component target)
+    {
+
+    }
    
     public virtual List<Tile> GetPreviewTiles()
     {
         return null;
     }
-
 
     public virtual float GetTimeCost()
     {
@@ -183,6 +214,9 @@ public class UnitActionBase : MonoBehaviour {
     {
         return ActionID;
     }
+
+    public virtual UnitAnimationTypes GetExecAnimation()
+    {
+        return ExecAnimation;
+    }
 }
-
-

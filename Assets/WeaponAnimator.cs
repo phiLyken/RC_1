@@ -39,7 +39,7 @@ public class WeaponAnimator
         part.SetActive(false);
     }
 
-    public void PlayShoot()
+    public void PlayShoot(Transform Target)
     {
         if (animator == null)
             return;

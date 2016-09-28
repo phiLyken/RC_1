@@ -43,28 +43,25 @@ public class AnimationTestController : MonoBehaviour
 
     }
 
-
-
-
     void OnGUI()
     {
         GUI.BeginGroup(new Rect(10, 10, 500, 500));
         GUI.BeginGroup(new Rect(0, 0, 350, 500), "ONE SHOTS");
 
         if (GUI.Button(new Rect(0, 30, 100, 25), "GET HIT"))
-            m_Animator.SetTrigger("bHit");
+            m_Animator.SetTrigger(UnitAnimationTypes.bHit.ToString() );
         if (GUI.Button(new Rect(0, 60, 100, 25), "RAGE"))
-            m_Animator.SetTrigger("bRage");
+            m_Animator.SetTrigger(UnitAnimationTypes.bRage.ToString());
         if (GUI.Button(new Rect(0, 90, 100, 25), "LOOT"))
-            m_Animator.SetTrigger("bLooting");
+            m_Animator.SetTrigger(UnitAnimationTypes.bLooting.ToString());
         if (GUI.Button(new Rect(0, 120, 100, 25), "HEAL"))
-            m_Animator.SetTrigger("bHealing");
+            m_Animator.SetTrigger(UnitAnimationTypes.bHealing.ToString());
         if (GUI.Button(new Rect(0, 150, 100, 25), "SHOOT"))
-            m_Animator.SetTrigger("bShooting");
+            m_Animator.SetTrigger(UnitAnimationTypes.bShooting.ToString());
         if (GUI.Button(new Rect(0, 180, 100, 25), "INT ATTACK"))
-            m_Animator.SetTrigger("bIntAttack");
+            m_Animator.SetTrigger(UnitAnimationTypes.bIntAttack.ToString());
         if (GUI.Button(new Rect(0, 210, 100, 25), "DIE"))
-            m_Animator.SetTrigger("bDying");
+            m_Animator.SetTrigger(UnitAnimationTypes.bDying.ToString());
 
         GUI.EndGroup();
 

@@ -29,16 +29,17 @@ public class UnitFactory : MonoBehaviour
         
         UnitAnimationController animations  = mesh.AddComponent<UnitAnimationController>();
         UnitRotationController rotator      = mesh.AddComponent<UnitRotationController>();
+       
         Unit m_unit                         = base_unit.AddComponent<Unit>();
 
         GetName(data, base_unit);
         GiveWeapon(data, mesh, inventory);
         
-        rotator.Init(m_unit.GetComponent<WaypointMover>(), actions);
+        rotator.Init(m_unit.GetComponent<WaypointMover>() );
         loot.Init(m_unit);
         effect_manager.SetUnit(m_unit);
         animations.Init(m_unit, mesh);
-
+       
         m_unit.OwnerID = data.Owner;      
         
         if (data.Owner == 1)

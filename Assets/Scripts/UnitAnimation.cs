@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 
 public class UnitAnimation
 {
@@ -7,12 +8,17 @@ public class UnitAnimation
     WeaponAnimator WeaponAnimator_Right;
     WeaponAnimator WeaponAnimator_Left;
 
-    public UnitAnimation Init(Animator unit, WeaponAnimator right, WeaponAnimator left, float index, AnimationCallbackCaster callback)
+    Transform AimTarget;
+
+    public  EventHandler OnExec;
+
+    public UnitAnimation Init(Animator unit, WeaponAnimator right, WeaponAnimator left, float index, AnimationCallbackCaster callback )
     {
         WeaponAnimator_Left = left;
         WeaponAnimator_Right = right;
         unit_animator = unit;
 
+       
         SetWeaponIndex(index);
 
 
@@ -30,6 +36,12 @@ public class UnitAnimation
         unit_animator.SetFloat("WeaponIndex", (int) f);
     }
 
+    public void SetAimTarget(Transform tr)
+    {
+        AimTarget = tr;
+
+    }
+
     public void SetWalking(bool b)
     {
         unit_animator.SetBool("bMoving", b);
@@ -37,15 +49,20 @@ public class UnitAnimation
 
     public void AbilityCallback(string id)
     {
-      //  Debug.Log("Ability call back " + id);
+       Debug.Log("Ability call back " + id);
         switch (id)
         {
             case "shoot_left":
-                WeaponAnimator_Left.PlayShoot();
+                WeaponAnimator_Left.PlayShoot(AimTarget);
                 break;
 
             case "shoot_right":
-                WeaponAnimator_Right.PlayShoot();
+                WeaponAnimator_Right.PlayShoot(AimTarget);
+                break;
+            case "ability_exec":
+                Debug.Log("exec");
+                if (OnExec   != null)
+                    OnExec();
                 break;
         }
     }
@@ -66,6 +83,7 @@ public class UnitAnimation
 
     public void SetTrigger(string id)
     {
+        Debug.Log(id);
         unit_animator.SetTrigger(id);
     }
 }

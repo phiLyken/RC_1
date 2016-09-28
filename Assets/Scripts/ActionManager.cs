@@ -192,7 +192,7 @@ public class ActionManager : MonoBehaviour {
         ToastNotification.StopToast();
 
         currentAction = ability;
-        currentAction.OnExecuteAction += OnActionUsed;
+        currentAction.OnActionStart += OnActionUsed;
         currentAction.OnTarget += TargetedAction;
         currentAction.SelectAction();
        
@@ -207,7 +207,7 @@ public class ActionManager : MonoBehaviour {
         if (currentAction == null) return;
 
         currentAction.UnSelectAction();
-        currentAction.OnExecuteAction -= OnActionUsed;
+        currentAction.OnActionStart -= OnActionUsed;
         currentAction.OnTarget -= TargetedAction;
         currentAction = null;    
 

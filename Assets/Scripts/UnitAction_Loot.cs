@@ -64,7 +64,7 @@ public class UnitAction_Loot : UnitActionBase
         }
 
        
-        AttemptExection(selected_tile);
+        AttemptAction(selected_tile);
     }
 
     public override List<Tile> GetPreviewTiles()
@@ -94,33 +94,17 @@ public class UnitAction_Loot : UnitActionBase
         return base.CanExecAction(b);
     }
 
-    protected override void ActionExecuted(object target)
-    {
-        ActionInProgress = true;
-        if (OnTarget != null)
-        {
+
+    protected override void ActionExecuted(Component target)
+    {   
  
-            OnTarget(this, (target as Tile).transform);
-        }
-        base.ActionExecuted(target);
-
-        StartCoroutine(DelayedEnd( (target as Tile) ));
- 
-
-
-       
-    }
-
-    IEnumerator DelayedEnd(Tile target)
-    {
-
-        yield return new WaitForSeconds(0.35f);
         Tile_Loot l = target.GetComponent<Tile_Loot>();
         l.OnLoot(Owner);
-        yield return new WaitForSeconds(0.5f);
 
-        ActionCompleted();
+        StartCoroutine(DelayedCompletion(1f));
+
     }
+ 
       
 
 }

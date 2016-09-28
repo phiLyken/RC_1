@@ -41,7 +41,7 @@ public class UnitAction_Move : UnitActionBase {
         if (!Owner.GetComponent<WaypointMover>().Moving && currentTargetTile != null && currentPath != null)
         {
          //   Debug.Log("set movement tile");
-            AttemptExection(t);
+            AttemptAction(t);
         } else
         {
             Debug.LogWarning("Something prevented the move ability to execute");
@@ -57,6 +57,7 @@ public class UnitAction_Move : UnitActionBase {
         List<Tile> border = TileManager.GetBorderTiles(in_range, TileManager.Instance,true);
         attack_preview_highlight = new MeshViewGroup(border, attack_state);
     }
+
     void ResetAttackPreview()
     {
         if(attack_preview_highlight != null) { 
@@ -67,9 +68,7 @@ public class UnitAction_Move : UnitActionBase {
     {
        // Debug.Log("setpreview tile");
 		//TODO: Send a filter list custom to the unit e.g. Enemies should walk on camp tiles, Tiles need properties as components
-        List<Tile> pathToTile = TileManager.Instance.FindPath(Owner.currentTile, t, Owner);
-
-      
+        List<Tile> pathToTile = TileManager.Instance.FindPath(Owner.currentTile, t, Owner);      
 
         if(PathWalkable(pathToTile))
         {
@@ -96,17 +95,10 @@ public class UnitAction_Move : UnitActionBase {
         }
     }
     
-    protected override void ActionExecuted(object target)
+    protected override void ActionStarted(Component target)
     {
-
-        // Debug.Log("move executed");
-        ActionInProgress = true;
-        SetMovementTile(currentTargetTile, currentPath);       
-      
-        base.ActionExecuted(target);
-       
-        // ActionCompleted();
-
+         
+       SetMovementTile(currentTargetTile, currentPath);  
     }
 
     public Tile GetFurthestMovibleTileOnPath(List<Tile> path)
@@ -131,17 +123,8 @@ public class UnitAction_Move : UnitActionBase {
     void OnMoveEnd(IWayPoint wp)
     {
         Owner.GetComponent<WaypointMover>().OnMovementEnd -= OnMoveEnd;
-
-        StartCoroutine(DelayedEnd());
-
+        StartCoroutine(DelayedCompletion(0.5f));
     }
-
-    IEnumerator DelayedEnd()
-    {
-        yield return new WaitForSeconds(0.15f);
-        ActionCompleted();
-    }
-
 
     public bool PathWalkable(List<Tile> p)
     {

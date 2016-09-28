@@ -94,4 +94,9 @@ public class UnitAction_ApplyEffectFromWeapon : UnitAction_ApplyEffect {
     {
         return GetBehavior().ActionID;
     }
+
+    public override UnitAnimationTypes GetExecAnimation()
+    {
+        return GetBehavior().ExecAnimation;
+    }
 }

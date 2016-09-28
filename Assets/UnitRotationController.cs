@@ -6,7 +6,7 @@ public class UnitRotationController : MonoBehaviour {
 
     public Transform m_rotated;
 
-    public void Init(WaypointMover move, ActionManager actions)
+    public void Init(WaypointMover move )
     {
         m_rotated = move.transform;
      //   Debug.Log(" target");
@@ -24,8 +24,7 @@ public class UnitRotationController : MonoBehaviour {
             StartCoroutine(TurnToFinalPosition());
         };
 
-        if(actions != null)
-         actions.OnTargetAction += OnTargetAction;
+ 
  
     }
 
@@ -39,7 +38,7 @@ public class UnitRotationController : MonoBehaviour {
         StartCoroutine(TurnToTargetPositiom(target, callback));
     }
 
-    IEnumerator TurnToTargetPositiom(Transform _target, EventHandler callback)
+    public  IEnumerator TurnToTargetPositiom(Transform _target, EventHandler callback)
     {
      //   Debug.Log("Turn to");
         yield return new WaitForRotation(m_rotated.transform, MyMath.RotateToYSnapped(m_rotated.transform.position, _target.transform.position, 45), 0.35f);

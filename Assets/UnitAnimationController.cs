@@ -4,30 +4,19 @@ using System.Collections;
 
 public class UnitAnimationController : MonoBehaviour
 {
+  
+
     public UnitAnimation UnitAnimator;
     public Unit m_Unit;
 
     public void Init(Unit u, GameObject mesh)
     {
         m_Unit = u;
-        UnitAnimator = new UnitAnimation();
-
-        GameObject left_weapon = u.Inventory.EquipedWeapon.WeaponMesh.AttachmentLeft;
-        GameObject right_weapon = u.Inventory.EquipedWeapon.WeaponMesh.AttachmentRight;
-
+ 
         int index = u.Inventory.EquipedWeapon.WeaponMesh.WeaponIndex;
-
-     //   Debug.Log(index);
-        UnitAnimator.Init(
-            mesh.GetComponent<Animator>(),
-            new WeaponAnimator(right_weapon),
-            new WeaponAnimator(left_weapon), index,
-            mesh.AddComponent<AnimationCallbackCaster>()
-            );
-
-      //  m_Unit.Actions.GetActionOfType<UnitAction_Move>().OnActionComplete += OnMoveEnd;
-     //   m_Unit.Actions.GetActionOfType<UnitAction_Move>().OnExecuteAction += OnMoveStart;
-
+        UnitAnimator = UnitFactory.MakeUnitAnimations(mesh, u.Inventory.EquipedWeapon.WeaponMesh, index, mesh.AddComponent<AnimationCallbackCaster>());
+        
+        m_Unit.Actions.OnTargetAction += (a, b) => { UnitAnimator.SetAimTarget(b); };
 
         m_Unit.Actions.OnActionStarted += action =>
         {
@@ -36,12 +25,9 @@ public class UnitAnimationController : MonoBehaviour
                 OnMoveStart(action as UnitAction_Move);
             }
         };
-
-
-
         
     }
-
+     
     void OnMoveStart(UnitAction_Move m)
     {
         UnitAnimator.SetWalking(true);
@@ -55,6 +41,19 @@ public class UnitAnimationController : MonoBehaviour
         m.OnActionComplete -= OnMoveEnd;
     }
 
+    public void PlayAnimation(UnitAnimationTypes anim)
+    {
+      
+        UnitAnimator.SetTrigger(anim.ToString());
+    }
    
+    public IEnumerator WaitForExection(UnitAnimationTypes anim, EventHandler on_exec)
+    {        
+        PlayAnimation(anim);
+
+        UnitAnimator.OnExec = on_exec;
+        yield return null;
+        
+    }
 }
 

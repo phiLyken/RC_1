@@ -8,24 +8,13 @@ public static class UnitAnimationControllerHelper {
     /// </summary>
     public static UnitAnimationTypes[] DisableWeapons =
     {
-        UnitAnimationTypes.get_hit, UnitAnimationTypes.shoot
+        UnitAnimationTypes.bHit, UnitAnimationTypes.bShooting
     };
 }
 
+ 
 
-
-/// <summary>
-/// The must be in the same order as weapon states in the controller
-/// </summary>
-public enum WeaponAnimationStates
-{
-    one, two, three, four
-};
-
-/// <summary>
-/// These should have the same name as the trigger in the animation controller
-/// </summary>
 public enum UnitAnimationTypes
 {
-    get_hit, shoot, heal, move
-};
+    bHit, bRage, bLooting, bHealing, bShooting, bIntAttack, bDying
+}

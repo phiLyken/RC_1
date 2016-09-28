@@ -35,8 +35,6 @@ public class UnitAction_ApplyEffect : UnitActionBase
         return GetTargetRules().GetRange(Owner);
     }
 
-
-
     protected virtual TargetInfo GetTargetRules()
     {
         return TargetRules;
@@ -61,12 +59,10 @@ public class UnitAction_ApplyEffect : UnitActionBase
 
     void OnUnitUnhover(Unit u)
     {
-
         if (GetTargetableUnits().Contains(u) && OnTargetUnhover != null)
         {
             OnTargetUnhover(u);
-        }
-       
+        }       
     }
 
     void OnUnitSelect(Unit u)
@@ -76,16 +72,10 @@ public class UnitAction_ApplyEffect : UnitActionBase
             ToastNotification.SetToastMessage1("Can't target this unit.");
             return;
         }
-        AttemptExection(u);
+        AttemptAction(u);
     }
 
-    public override bool CanExecAction(bool displayToast)
-    {
-
-        return base.CanExecAction(displayToast);
-    }
-
-
+     
 
     public override void UnSelectAction()
     {
@@ -95,19 +85,16 @@ public class UnitAction_ApplyEffect : UnitActionBase
         base.UnSelectAction();
     }
 
-    protected override void ActionExecuted(object target)
-    {
-     
+    protected override void ActionExecuted (Component target)
+    {    
         
-        StartCoroutine(ApplySequence( Owner, ( target  as Unit) ));
-        base.ActionExecuted(target);
-        target = null;
-        //Debug.Break();
-      
+       StartCoroutine( ApplyEffects( Owner, ( target  as Unit) ) );
+       target = null;
+        
     }
 
 
-    IEnumerator ApplySequence(Unit atk, Unit target)
+    IEnumerator ApplyEffects(Unit atk, Unit target)
     {
         ActionInProgress = true;
         List<UnitEffect> Effects = GetEffects();
@@ -135,13 +122,11 @@ public class UnitAction_ApplyEffect : UnitActionBase
                 yield return StartCoroutine(effect.ApplyEffectSequence(target, Owner));
             }
         }
-        
-      
-        yield return new WaitForSeconds(2.5f);
 
-        ActionCompleted();
+        StartCoroutine(DelayedCompletion(0.5f));
 
     }
+
     public static List<Tile> GetTargetableTiles(Tile t, int range)
     {
         return new LOSCheck(t, TileManager.Instance).GetTilesVisibleTileInRange((range));
@@ -180,8 +165,6 @@ public class UnitAction_ApplyEffect : UnitActionBase
         return targets;
     }
 
-
-
     public bool CanTarget( Unit target, Tile fromTile)
     {
         return  TargetInfo.CanTarget(GetTargetRules(), Owner, target, fromTile);
@@ -197,8 +180,4 @@ public class UnitAction_ApplyEffect : UnitActionBase
     {        
         return CanTarget( target, Owner.currentTile);
     }
-
-
-
-
 }

@@ -10,9 +10,6 @@ public class Weapon : MonoBehaviour,  IInventoryItem
     public Sprite Icon;
     public WeaponMesh WeaponMesh;
    
-
-    public WeaponAnimationStates AnimationState;
-
     [HideInInspector]
     public int _count;
  
