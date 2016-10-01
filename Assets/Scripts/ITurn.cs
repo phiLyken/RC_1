@@ -100,4 +100,6 @@ public interface ITurn {
 
     Color GetColor();
 
+    Sprite GetIcon();
+
 }

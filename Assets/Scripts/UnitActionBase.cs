@@ -141,6 +141,10 @@ public class UnitActionBase : MonoBehaviour {
     {       
         if (CanExecAction(true))
         {
+            if(OnTarget != null)
+            {
+                OnTarget(this, target.transform);
+            }
             ActionInProgress = true;
             ChargeController.UseCharge();
 

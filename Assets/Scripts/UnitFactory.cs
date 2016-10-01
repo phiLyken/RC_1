@@ -168,13 +168,14 @@ public class UnitFactory : MonoBehaviour
 
 
         weapon.transform.SetParent(unit_mesh.transform);
+       
         inventory.AddItem(weapon, 1);
     }
 
     public static UnitAnimation MakeUnitAnimations(GameObject unit_mesh, WeaponMesh weapon, int index, AnimationCallbackCaster callbacks)
     {
-        WeaponAnimator animator_right = new WeaponAnimator(weapon.AttachmentRight);
-        WeaponAnimator animator_left = new WeaponAnimator(weapon.AttachmentLeft);
+        WeaponAnimator animator_right = new WeaponAnimator(weapon.AttachmentRight, weapon.FX_Right, weapon.MuzzleRight);
+        WeaponAnimator animator_left = new WeaponAnimator(weapon.AttachmentLeft, weapon.FX_Left, weapon.MuzzleLeft);
         Animator unit_animator = unit_mesh.GetComponent<Animator>();
 
         return new UnitAnimation().Init(unit_animator, animator_right, animator_left, index, callbacks);
@@ -187,7 +188,7 @@ public class UnitFactory : MonoBehaviour
         weapon_mesh.transform.SetParent(unit_mesh.transform);
 
         if (weapon_mesh.AttachmentLeft != null)
-          UnitMesh_Attachment.AttachToBone(unit_mesh, weapon_mesh.AttachmentLeft, AttachmentPoints.left_hand);
+           UnitMesh_Attachment.AttachToBone(unit_mesh, weapon_mesh.AttachmentLeft, AttachmentPoints.left_hand);
 
         if (weapon_mesh.AttachmentRight != null)
            UnitMesh_Attachment.AttachToBone(unit_mesh, weapon_mesh.AttachmentRight, AttachmentPoints.right_hand);

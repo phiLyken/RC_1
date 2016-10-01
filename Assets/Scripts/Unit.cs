@@ -379,4 +379,8 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
 		starting_order =   TurnSystem.Register(this);
 	}
 
+    public Sprite GetIcon()
+    {
+        return Inventory.EquipedWeapon.Icon;
+    }
 }

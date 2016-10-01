@@ -79,6 +79,8 @@ public class WorldExtender : MonoBehaviour {
         else
         {
             region = RegionLoader.GetWeightedRegionForLevel(RegionBalance, CurrentStage, spawned);
+            if (region == null)
+                return;
             spawned.Add(region);
         }
 

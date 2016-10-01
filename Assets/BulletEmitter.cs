@@ -8,7 +8,10 @@ public class BulletEmitter   {
 
     public static Sequence SpawnBullet(BulletConfig Bullet, Transform start, Transform target)
     {
-        Debug.Log("spawn");
+        if (Bullet.projectile == null)
+            return DOTween.Sequence();
+
+       // Debug.Log("spawn bullet");
         float distance = (start.position - target.position).magnitude;
         float time = distance / Bullet.speed;
         Vector3 offset_target = Random.insideUnitSphere * Bullet.randomOffset;
@@ -32,10 +35,10 @@ public class BulletEmitter   {
       
         Sequence emit = DOTween.Sequence();
         emit.Append(    bullet.transform.DOMove(new_target.position, time).SetEase(Bullet.Animation_Curve));
-        Debug.Log("start move "+emit.Duration());
+      //  Debug.Log("start move "+emit.Duration());
         emit.AppendCallback(() =>
           {
-              Debug.Log("start kaputt");
+             // Debug.Log("start kaputt");
               bullet.transform.GetComponentInChildren<ParticleSystem>().StopAll();
               bullet.transform.GetComponentInChildren<ParticleSystem>().RemoveAllParticlesWhenInactive();
               bullet.transform.DetachChildren();

@@ -14,6 +14,11 @@ public class UnitEffect_Heal : UnitEffect
         return (UnitEffect_Heal)heal.MemberwiseClone();
     }
 
+    protected override bool CanApplyEffect(Unit target, UnitEffect effect)
+    {
+        return base.CanApplyEffect(target, effect);
+    }
+
     protected override void EffectTick()
     {
         Debug.Log("heal effect..");

@@ -19,7 +19,7 @@ public class RemoveParticles : MonoBehaviour {
     {
         if (gameObject.activeSelf)
         {
-
+ 
             foreach (ParticleSystem sys in systems)
             {
 

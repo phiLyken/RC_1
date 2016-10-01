@@ -9,7 +9,7 @@ public class UnitStats : MonoBehaviour
 {
     public StatEventHandler OnStatUpdated;
     public EventHandler OnHPDepleted;
-
+    public EventHandler OnDmgReceived;
     [HideInInspector]
     List<Stat> CurrentStats;
   
@@ -125,6 +125,12 @@ public class UnitStats : MonoBehaviour
         Debug.Log(this.name + " rcv damge " + dmg_received + "  rcvd multiplier:" + "WTF" + "  +int=" + int_received);
 
         AddWill(dmg_received);
+
+        if (dmg_received < 0 && OnDmgReceived != null)
+        { 
+            OnDmgReceived();
+
+        }
 
         int x, y = 0;
         AddInt(int_received, true, out x, out y);

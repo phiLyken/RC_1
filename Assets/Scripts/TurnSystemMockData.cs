@@ -128,5 +128,10 @@ public class TurnSystemMockData : MonoBehaviour {
         {
             return color;
         }
+
+        public Sprite GetIcon()
+        {
+            return null;
+        }
     }
 }

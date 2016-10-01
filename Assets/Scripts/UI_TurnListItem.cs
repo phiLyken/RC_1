@@ -5,7 +5,7 @@ using System;
 
 public class UI_TurnListItem : MonoBehaviour, IToolTip {
 
- 
+    public Image BackGround;
     public Image Image;
    
     public Text OrderId;
@@ -29,8 +29,10 @@ public class UI_TurnListItem : MonoBehaviour, IToolTip {
         if (OnSetTurnAble != null) OnSetTurnAble(m_turn);
 
         Image.color = turn.GetColor();
- 
+        Image.sprite = turn.GetIcon();
+        BackGround.color = turn.GetColor();
 
+        ActiveTurnIndicator.GetComponent<Image>().color = Color.white;
         UpdateActiveTurnIndicator( );
         
     }

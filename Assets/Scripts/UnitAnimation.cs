@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System;
+using System.Collections.Generic;
+using System.Collections;
 
 public class UnitAnimation
 {
@@ -11,6 +13,7 @@ public class UnitAnimation
     Transform AimTarget;
 
     public  EventHandler OnExec;
+    bool WaitForExecution;
 
     public UnitAnimation Init(Animator unit, WeaponAnimator right, WeaponAnimator left, float index, AnimationCallbackCaster callback )
     {
@@ -27,6 +30,8 @@ public class UnitAnimation
         callback.OnWeaponHide = WeaponHide;
         callback.OnWeaponShow = WeaponShow;
 
+
+
         return this;
     }
 
@@ -38,8 +43,13 @@ public class UnitAnimation
 
     public void SetAimTarget(Transform tr)
     {
-        AimTarget = tr;
+        Debug.Log("set aim target  "+tr.gameObject.name);
+        AimTarget = tr.FindDeepChild("humanoid");
 
+    }
+    void OnShotEnd()
+    {
+        AttemptExection();
     }
 
     public void SetWalking(bool b)
@@ -47,26 +57,37 @@ public class UnitAnimation
         unit_animator.SetBool("bMoving", b);
     }
 
+    void AttemptExection()
+    {
+    
+        if( OnExec != null && WaitForExecution && !WeaponAnimator_Left.ShootEffectsPlaying && !WeaponAnimator_Right.ShootEffectsPlaying)
+        {
+            WaitForExecution = false;
+            OnExec();
+        }
+
+        Debug.Log("attempted to callback");
+    }
     public void AbilityCallback(string id)
     {
        Debug.Log("Ability call back " + id);
         switch (id)
         {
             case "shoot_left":
-                WeaponAnimator_Left.PlayShoot(AimTarget);
+                WeaponAnimator_Left.PlayShoot(AimTarget, OnShotEnd);
                 break;
 
             case "shoot_right":
-                WeaponAnimator_Right.PlayShoot(AimTarget);
+                WeaponAnimator_Right.PlayShoot(AimTarget, OnShotEnd);
                 break;
             case "ability_exec":
-                Debug.Log("exec");
-                if (OnExec   != null)
-                    OnExec();
+                WaitForExecution = true;
+                AttemptExection();
                 break;
         }
     }
-
+    
+ 
     public void WeaponHide()
     {
         Debug.Log(" *ANIMATION CALL BACK* Weapon Hide");

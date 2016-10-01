@@ -12,15 +12,16 @@ public class ShootBullet : MonoBehaviour
     
     public Sequence Shoot(Transform target)
     {
+       // Debug.Log("Shoot");
         return ShootBullets(target);
     }
 
-    public Sequence ShootBullets(Transform target)
+      Sequence ShootBullets(Transform target)
     {
 
 
         Sequence ret = DOTween.Sequence();
-        Sequence seq = DOTween.Sequence().AppendInterval(intervall * bullet_count);
+      
 
         for (int i = 0; i < bullet_count; i++)
         {
@@ -31,8 +32,9 @@ public class ShootBullet : MonoBehaviour
             }
             if (i < bullet_count-1)
             {
-                ret.AppendInterval(intervall);
+               
                 ret.AppendCallback(() => ShootOneBullet(target));
+                ret.AppendInterval(intervall);
             }
         }
 
@@ -54,7 +56,7 @@ public class ShootBullet : MonoBehaviour
 
         Sequence seq = DOTween.Sequence().Append(BulletEmitter.SpawnBullet(Bullet, gameObject.transform, target));
 
-        Debug.Log(seq.Duration());
+      //  Debug.Log(seq.Duration());
         seq.AppendCallback(() => SpawnHitEffect(target));
       
 
@@ -72,6 +74,7 @@ public class EffectSpawner{
 
     public void Init(GameObject target)
     {
+       // Debug.Log("Init effect ");
         if(Sound != null)
         {
 
@@ -79,16 +82,12 @@ public class EffectSpawner{
 
         if(Particle != null)
         {
-
             GameObject go = GameObject.Instantiate(Particle, target.transform.position, target.transform.rotation) as GameObject;
-          
-  
-
         }
 
         if(Flash != null)
         {
-            Flash.Init(target);
+            Flash.FlashAtTarget(target);
         }
     }
 }
@@ -103,7 +102,7 @@ public class LightFlash
     public AnimationCurve intensity;
     public float duration;
 
-    public static void Init(LightFlash flash, GameObject target)
+    public static void Flash(LightFlash flash, GameObject target)
     {
         GameObject new_go = new GameObject("_flash");
         new_go.transform.position = target.transform.position;
@@ -116,14 +115,17 @@ public class LightFlash
         FlashSequence.Append(    DOTween.To(() => l.intensity, _l => l.intensity = _l,flash.base_intensity, flash.duration).SetEase(flash.intensity));
         FlashSequence.AppendCallback(() => GameObject.Destroy(new_go));
 
+        FlashSequence.Play();
+        Debug.Log(FlashSequence.Duration() );
+
         l.color = flash.startColor;
         l.DOColor(flash.endColor, flash.duration);
       
     }
 
-    public void Init(GameObject target)
+    public void FlashAtTarget(GameObject target)
     {
-        Init(this, target);
+        Flash(this, target);
     }
    
 }

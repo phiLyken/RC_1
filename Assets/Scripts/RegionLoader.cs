@@ -25,6 +25,8 @@ public static class RegionLoader  {
         // choose random region by weight
         WeightedRegion wr = WeightableFactory.GetWeighted(configs);
 
+        if (wr == null)
+            return null;
         
         return wr.Region;
             

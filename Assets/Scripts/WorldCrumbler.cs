@@ -14,6 +14,7 @@ public class WorldCrumbler : MonoBehaviour, ITurn {
     public CrumbleEvent OnCrumble;
     public int CrumbleTurnCost;
     public float TurnTime;
+    public Sprite CrumbleSprite;
     int starting_order;
     bool hasCrumbled;
 
@@ -149,6 +150,11 @@ public class WorldCrumbler : MonoBehaviour, ITurn {
 	{
 		starting_order =   TurnSystem.Register(this);
 	}
+
+    public Sprite GetIcon()
+    {
+        return CrumbleSprite;
+            }
 
     public List<List<Tile>> CrumbeGroups;
 }

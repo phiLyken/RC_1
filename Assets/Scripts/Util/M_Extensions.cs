@@ -53,7 +53,10 @@ public static class M_Extensions   {
         systems.Add(particle_system);
         systems.AddRange(particle_system.GetComponentsInChildren<ParticleSystem>().ToList());
 
-        systems.ForEach(sys => sys.PauseEmission());
+        systems.ForEach(sys => {
+            sys.PauseEmission();
+            sys.loop = false;
+            });
 
     }
 

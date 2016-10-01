@@ -25,6 +25,12 @@ public class UnitAnimationController : MonoBehaviour
                 OnMoveStart(action as UnitAction_Move);
             }
         };
+
+        m_Unit.Stats.OnDmgReceived += () =>
+        {
+            Debug.Log("asd d dass dad a");
+            PlayAnimation(UnitAnimationTypes.bHit);
+        };
         
     }
      

@@ -102,12 +102,7 @@ public class UnitAction_ApplyEffect : UnitActionBase
         Debug.Log("Applying " + Effects.Count + "effects   To " + target.GetID() );
         
  
-        if (OnTarget != null)
-        {
-                
-            OnTarget(this, target.transform);
-            yield return new WaitForSeconds(0.2F);
-        }
+ 
 
         bool first = true;
         foreach (UnitEffect effect in Effects)

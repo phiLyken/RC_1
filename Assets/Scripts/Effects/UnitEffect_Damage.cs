@@ -78,7 +78,17 @@ public class UnitEffect_Damage : UnitEffect
         if (isCopy)
             return baked_damage + " DAMAGE";
 
-        return GetMin() + "-" + GetMax() + " Damage";
+        int min = GetMin();
+        int max = GetMax();
+        string dmg_text = "";
+        if(min == max)
+        {
+            dmg_text = max.ToString();
+        } else
+        {
+            dmg_text = GetMin() + "-" + GetMax();
+        }
+        return dmg_text + " Damage";
     }
     protected override void EffectTick()
     {

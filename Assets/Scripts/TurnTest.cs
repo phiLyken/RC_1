@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class TurnTest : MonoBehaviour, ITurn {
 	public string id;
@@ -177,6 +178,11 @@ public class TurnTest : MonoBehaviour, ITurn {
 		starting_order =   TurnSystem.Register(this);
 	}
 
-	int starting_order;
+    public Sprite GetIcon()
+    {
+        return null;
+    }
+
+    int starting_order;
 	#endregion
 }

@@ -78,6 +78,7 @@ public class UI_Unit : MonoBehaviour
  
     void CheckKilled(Unit u)
     {
+        Debug.Log("Check killed "+u + "  "+ m_unit);
         if (u == m_unit)
         {
             Unit.OnUnitKilled -= CheckKilled;

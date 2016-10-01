@@ -20,7 +20,7 @@ public class UI_ShowToolTip_Base :  MonoBehaviour  {
 
     IEnumerator ShowToolTipDelayed()
     {
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.4f);
         object target = null;;
         if(_target != null) target = ((IToolTip) _target).GetItem();
         SetItemToolTip(target);
