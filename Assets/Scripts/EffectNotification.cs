@@ -16,7 +16,7 @@ public class EventNotification  {
 
     public static void SpawnEffectNotification(GameObject prefab, Transform target_parent, UnitEffect effect)
     {
-        SpawnEffectNotification(prefab, target_parent, effect, effect.GetShortHandle());
+        SpawnEffectNotification(prefab, target_parent, effect, effect.GetNotificationText ());
     }
 
 

@@ -101,4 +101,8 @@ public class UnitEffect_Damage : UnitEffect
         EffectTick();
     }
 
+    public override string GetNotificationText()
+    {
+        return baked_damage + " DAMAGE";
+    }
 }

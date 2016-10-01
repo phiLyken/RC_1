@@ -33,8 +33,13 @@ public class UnitEffect_Heal : UnitEffect
 
     public override string GetShortHandle()
     {
-        return "Restore Oxygen";
+        return "Restores Oxygen";
     }
 
-     
+    public override string GetNotificationText()
+    {
+        return "Oxygen Restored";
+    }
+
+
 }

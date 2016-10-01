@@ -141,7 +141,10 @@ public class UnitEffect : MonoBehaviour
     {
         return  " no name";
     }
- 
+    public virtual string GetNotificationText()
+    {
+        return " foo";
+    }
     public int   GetMaxDuration()
     {
         return MaxDuration;

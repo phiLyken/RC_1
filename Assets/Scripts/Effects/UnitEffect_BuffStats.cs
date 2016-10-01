@@ -23,6 +23,10 @@ public class UnitEffect_BuffStats : UnitEffect {
        
     }
 
+    public override string GetNotificationText()
+    {
+        return GetShortHandle();
+    }
 
 
 }

@@ -25,6 +25,7 @@ public class UnitEffect_GainAdrenaline : UnitEffect
     {
         Debug.Log("Ticked Adrenealin Baked Adrenaline " + baked_adrenaline);
         Effect_Host.Stats.AddInt(baked_adrenaline, ConsumeWill, out removed, out added);
+        Debug.Log(removed + " " + added);
         Ticked();
     }
 
@@ -44,5 +45,9 @@ public class UnitEffect_GainAdrenaline : UnitEffect
         return "Rage";
     }
 
+    public override string GetNotificationText()
+    {
+        return "Rage (" + baked_adrenaline.ToString() + ")";
+    }
 
 }

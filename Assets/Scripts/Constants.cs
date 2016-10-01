@@ -112,8 +112,8 @@ public class Constants : MonoBehaviour {
 
     public static int GetGainedAdrenaline(UnitStats stats, int rolls)
     {
-        float min = stats.GetStatAmount(StatType.adrenaline_conversion_min);
-        float max = stats.GetStatAmount(StatType.adrenaline_conversion_max);
+        float min = Mathf.Max(0, stats.GetStatAmount(StatType.adrenaline_conversion_min));
+        float max = Mathf.Max(0, stats.GetStatAmount(StatType.adrenaline_conversion_max));
 
         float result = 0;
         for (int i = 0; i < rolls; i++)

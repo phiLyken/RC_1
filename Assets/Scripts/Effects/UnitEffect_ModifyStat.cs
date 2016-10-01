@@ -40,6 +40,10 @@ public class UnitEffect_ModifyStat : UnitEffect
         return amount + " "+ UnitStats.StatToString(type);
     }
 
+    public override string GetNotificationText()
+    {
+        return GetToolTipText();
+    }
     /// <summary>
     /// clones itself to the target
     /// </summary>
