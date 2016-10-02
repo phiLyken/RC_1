@@ -90,13 +90,45 @@ public class WorldCrumbler : MonoBehaviour, ITurn {
     void CrumbleTurn()
     {
         SetCrumbleInWeightedTiles();
+
         if (OnCrumble != null)
         {
             OnCrumble(0);
         }
 
-        hasCrumbled = true;
+        if (Application.isPlaying)
+        {
+            StartCoroutine(WaitForMovingTiles());
+        } else
+        {
+            hasCrumbled = true;
+        }
+
+     
     }
+
+    bool TilesMoving()
+    {
+        foreach ( Tile t in TileManager.Instance.Tiles)
+        {
+            if (t.IsMoving)
+                return true;
+        }
+
+        return false;
+    }
+    IEnumerator WaitForMovingTiles()
+    {
+
+        while (TilesMoving())
+        {
+            yield return new WaitForSeconds(0.1f);
+        }
+
+        hasCrumbled = true;
+
+    }
+
     void SetCrumbleInWeightedTiles()
     {
       

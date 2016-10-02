@@ -76,6 +76,9 @@ public class Tile : MonoBehaviour, IWayPoint
             return isAccessible && !isOccupied;
         }
     }
+
+    [HideInInspector]
+    public bool IsMoving;
     bool isOccupied
     {
         get { return Child != null; }
@@ -237,6 +240,7 @@ public class Tile : MonoBehaviour, IWayPoint
             break;
         }
     }
+
     public void ToggleBlocked()
     {
         if (!isOccupied)
@@ -246,32 +250,75 @@ public class Tile : MonoBehaviour, IWayPoint
         }
     }
 
-    public void MoveTileUp(int steps)
+ 
+    void UpdatePosition(EventHandler callback)
     {
-        customTile = true;
-        currentHeightStep += steps;
-        Elevate(Vector3.up * TileManager.HeighSteps * steps);
-    }
+        if (Application.isPlaying)
+        {
+            StopAllCoroutines();
+            StartCoroutine(IEElevateTo( TileManager.Instance.GetTilePos(this) , 0.25f, callback));
+        }
+        else
+        {
+            ElevateTo(TileManager.Instance.GetTilePos(this));
 
-    void Elevate(Vector3 delta)
+            if (callback != null)
+                callback();
+        }
+    }
+    void ElevateTo(Vector3 new_position)
     {
-        transform.position += delta;
+        transform.position = new_position;
         if (OnTileMove != null) OnTileMove(this);
-        if (Child != null) Child.transform.position += delta;
+        if (Child != null) Child.transform.position = new_position;
     }
 
+    IEnumerator IEElevateTo(Vector3 new_position, float time, EventHandler callback)
+    {
+        Vector3 start_pos = transform.position;
+        
+        float t = 0;
+        IsMoving = true;
+
+        yield return new WaitForSeconds(UnityEngine.Random.Range(0, 0.25f));
+
+        while (t < 1)
+        {
+            t += Time.deltaTime / time;
+            ElevateTo(Vector3.Lerp(start_pos, new_position, t));
+            yield return null;
+        }
+
+        ElevateTo(new_position);
+
+        if (callback != null)
+            callback();
+
+        IsMoving = false;
+    }
 
     public void MoveTileDown(int steps)
     {
         customTile = true;
         currentHeightStep -= steps;
-
-        Elevate(Vector3.down*TileManager.HeighSteps * steps);
-        
-        if ( Mathf.Abs(currentHeightStep) > Constants.CrumbleHeightThreshold)
+        EventHandler call_back = null;
+        if (Mathf.Abs(currentHeightStep) > Constants.CrumbleHeightThreshold)
         {
-            DeactivateTile();
+            call_back = DeactivateTile;
         }
+
+        UpdatePosition(call_back);
+       
+
+
+    }
+
+    public void MoveTileUp(int steps)
+    {
+        customTile = true;
+        currentHeightStep += steps;
+        UpdatePosition( null);
+
     }
 
     public void ResetCrumble()
