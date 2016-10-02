@@ -29,9 +29,10 @@ public class TileWeighted : IWeightable {
     }
 
 	public TileWeighted(Tile tile, TileManager region){
+        tilePos = tile.TilePos;
 
-		tilePos = tile.TilePos; 
-		weight = 0;
+
+        weight = 0;
 
         if (!tile.isEnabled || tile.isCrumbling ) return;
 
@@ -47,21 +48,22 @@ public class TileWeighted : IWeightable {
 
 		//apply weight if exposed to previous row
 		if(tile.TilePos.z > 0){
-            prev_weight = GetNeighbourWeight(region.Tiles[ tile.TilePos.x, tile.TilePos.z-1], 2);
+            prev_weight = GetNeighbourWeight(region.Tiles[ tile.TilePos.x, tile.TilePos.z-1], Constants.CRUMBLE_WEIGHT_DEPTH_MULTIPLER);
 		} else
         {
-            prev_weight = 15;
+            prev_weight = Constants.CRUMBLE_WEIGHT_INACESSIBLE_WEIGHT;     
+       
         }
 
 		//apply weight for left/right neighbours
 		if(tile.TilePos.x > 0){
-            neighbours_weight += GetNeighbourWeight(region.Tiles[tile.TilePos.x -1, tile.TilePos.z], 0.5f);
+            neighbours_weight += GetNeighbourWeight(region.Tiles[tile.TilePos.x -1, tile.TilePos.z], Constants.CRUMBLE_WEIGHT_WIDTH_MODIFIER);
 		}
 		if(tile.TilePos.x < region.Tiles.GetLength(0) -1){
-            neighbours_weight += GetNeighbourWeight(region.Tiles[tile.TilePos.x +1, tile.TilePos.z], 0.5f);
+            neighbours_weight += GetNeighbourWeight(region.Tiles[tile.TilePos.x +1, tile.TilePos.z], Constants.CRUMBLE_WEIGHT_WIDTH_MODIFIER);
 		}
 
-        weight = distance/5 + distance * (neighbours_weight + prev_weight);
+        weight = distance * Constants.CRUMBLE_WEIGHT_DISTANCE + distance * (neighbours_weight + prev_weight);
        // weight = distance;
 	}
 
@@ -82,7 +84,9 @@ public class TileWeighted : IWeightable {
     float GetNeighbourWeight(Tile t, float multiplier){
 
 
-		return (!t.isAccessible ? 15 : ( Mathf.Abs(t.CrumbleStage) * 5)) * multiplier;
+		return (!t.isAccessible ?
+            Constants.CRUMBLE_WEIGHT_INACESSIBLE_WEIGHT :
+            ( Mathf.Abs(t.CrumbleStage) * Constants.CRUMBLE_WEIGHT_STAGE_WEIGHT)) * multiplier;
 	}
 
     

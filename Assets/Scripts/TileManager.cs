@@ -354,14 +354,14 @@ public class TileManager : MonoBehaviour {
 
     public Vector3 GetTilePos2D(int x, int y)
     {
-        return new Vector3(x * TileSize, 0, y * TileSize);
+        return new Vector3(transform.position.x + x * TileSize, 0, transform.position.z + y * TileSize);
 
     }
 
     public Vector3 GetTilePos(Tile t)
     {
         Vector3 position = GetTilePos2D(t);
-        position.y = GetTileHeight(t.currentHeightStep);
+        position.y = transform.position.y + GetTileHeight(t.currentHeightStep);
         return position;
     }
     /// <summary>

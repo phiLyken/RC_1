@@ -136,4 +136,12 @@ public class Constants : MonoBehaviour {
         Debug.Log(" Attack Cost Calculation :" + time_cost);
         return time_cost;
     }
+
+    #region
+    public static float CRUMBLE_WEIGHT_DEPTH_MULTIPLER = 2f;
+    public static float CRUMBLE_WEIGHT_WIDTH_MODIFIER = 1f;
+    public static float CRUMBLE_WEIGHT_INACESSIBLE_WEIGHT = 5;
+    public static float CRUMBLE_WEIGHT_STAGE_WEIGHT = 5;
+    public static float CRUMBLE_WEIGHT_DISTANCE = 5;
+    #endregion
 }
