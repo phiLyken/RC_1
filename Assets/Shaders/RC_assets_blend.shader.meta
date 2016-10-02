@@ -1,13 +1,12 @@
 fileFormatVersion: 2
 guid: 507c0e03c8368d8479f63d722f695e3c
-timeCreated: 1464541996
+timeCreated: 1475408999
 licenseType: Free
 ShaderImporter:
   defaultTextures:
   - _MainTex: {fileID: 2800000, guid: 156b3be5d1d342e49b47174800352b1e, type: 3}
   - _Normal: {fileID: 2800000, guid: 74d03a97f9b9a1b4d8210e81c0fddd90, type: 3}
-  - _zClamp: {fileID: 2800000, guid: 44ed9630c10f0ce44812e8d2beae58fa, type: 3}
-  - _xclamp: {fileID: 2800000, guid: f185eb016995a7043aaff3440261ebc8, type: 3}
+  - _zClamp: {fileID: 2800000, guid: e1138740909b3854e9cc97e8b8060cbd, type: 3}
   - _Borde: {fileID: 2800000, guid: 633c206a5ee74c447bfbfcf1002b04c7, type: 3}
   - _node_2507: {fileID: 2800000, guid: 32c43c7d98a6d1042977650f888f319c, type: 3}
   userData: 
