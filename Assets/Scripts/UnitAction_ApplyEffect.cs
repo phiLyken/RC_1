@@ -10,7 +10,7 @@ public class UnitAction_ApplyEffect : UnitActionBase
 
     void Awake()
     {
-        orderID = 3;
+        orderID = 10;
     }
     
     public override void SelectAction()

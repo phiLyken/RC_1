@@ -66,6 +66,7 @@ public class UnitAnimation
         {
             WaitForExecution = false;
             OnExec();
+            OnExec = null;
         }
 
         Debug.Log("attempted to callback");

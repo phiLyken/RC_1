@@ -9,6 +9,11 @@ public class UnitAction_ApplyEffectFromWeapon : UnitAction_ApplyEffect {
     
     public int WeaponBehaviorIndex;
 
+    void Awake()
+    {
+        orderID = 3 + WeaponBehaviorIndex;
+    }
+
     WeaponBehavior GetBehavior()
     {
         Weapon wp = Owner.GetComponent<UnitInventory>().EquipedWeapon;

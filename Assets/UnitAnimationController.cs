@@ -28,7 +28,7 @@ public class UnitAnimationController : MonoBehaviour
 
         m_Unit.Stats.OnDmgReceived += () =>
         {
-            Debug.Log("asd d dass dad a");
+ 
             PlayAnimation(UnitAnimationTypes.bHit);
         };
         
