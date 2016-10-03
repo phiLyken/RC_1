@@ -13,30 +13,40 @@ public class UnitEffect_ModifyStat : UnitEffect
     public float Percent;
 
     public int Absolute;
+        
+    float _baked;
 
-    int GetAmount()
+    int GetBaked()
     {
- 
-        int _base = (int) Effect_Host.Stats.GetStatAmount(type);
-
         int value = Absolute;
 
         if(Percent != 0)
         {
+            int _base = (int) Effect_Host.Stats.GetStatAmount(type);
             value = (int) ( _base * Percent );
         }
-        Debug.Log("AMOUNT " + value +"  "+_base +" "+Percent);
-        return value;
+         
+        return value * EffectBonus; 
     }
 
+    float GetBase()
+    {
+       return (Percent != 0) ? (Percent) : Absolute;
+    }
+    
     public override string GetShortHandle()
     {
         return GetToolTipText();
     }
 
+    
     public override string GetToolTipText()
     {
-        string amount = (Percent != 0) ? (Percent * 100).ToString("##.0") : Absolute.ToString("+#;-#;0");
+        int _mod_abs = (int)( Absolute * EffectBonus);
+        int _mod_percent = (int) (Percent * 100 * EffectBonus);
+
+        string amount = (Percent != 0) ? _mod_percent.ToString("##.0") : _mod_abs.ToString("+#;-#;0");
+
         return amount + " "+ UnitStats.StatToString(type);
     }
 
@@ -51,6 +61,8 @@ public class UnitEffect_ModifyStat : UnitEffect
     public override UnitEffect MakeCopy(UnitEffect origin, Unit host)
     {
         UnitEffect_ModifyStat _cc = (UnitEffect_ModifyStat) origin;
+        _cc.isCopy = true;
+        _cc._baked = GetBaked();
         return _cc.MemberwiseClone() as UnitEffect_ModifyStat;
     }
 
@@ -58,7 +70,7 @@ public class UnitEffect_ModifyStat : UnitEffect
     {
         Ticked();
         if (!Effect_Host.IsDead()) {
-           Effect_Host.Stats.GetStat(type).SetAmountDelta( Effect_Host.Stats, GetAmount());
+           Effect_Host.Stats.GetStat(type).SetAmountDelta( Effect_Host.Stats, _baked);
            
         }
     }

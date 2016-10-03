@@ -17,7 +17,7 @@ public class UnitEffect_Damage : UnitEffect
     public MyMath.R_Range DamageRange;
 
     int baked_damage = -1;
-    bool isCopy = false;
+
 
     /// <summary>
     /// clones itself to the target
@@ -28,8 +28,6 @@ public class UnitEffect_Damage : UnitEffect
 
         UnitEffect_Damage _cc = (UnitEffect_Damage)( (UnitEffect_Damage) original).MemberwiseClone() ;
 
-        MyMath.R_Range range = _cc.DamageRange;
-
         _cc.baked_damage = UnityEngine.Random.Range(GetMin(), GetMax());
         _cc.isCopy = true;
         return _cc;
@@ -37,11 +35,17 @@ public class UnitEffect_Damage : UnitEffect
 
     int GetMin()
     {
+        int value = 0;
         if(Instigator != null && UseAttackStat)
-        { 
-        return (int) ( DamageRange.min +  ((Unit) Instigator).Stats.GetStatAmount(StatToUseMin) );
+        {
+            value = (int) (DamageRange.min + ((Unit) Instigator).Stats.GetStatAmount(StatToUseMin));
+               
+        } else
+        {
+            value = (int) DamageRange.min;
         }
-        return (int) DamageRange.min;
+
+        return value * EffectBonus; 
     }
 
     public UnitEffect_Damage(int dmg)
@@ -51,12 +55,18 @@ public class UnitEffect_Damage : UnitEffect
 
     int GetMax()
     {
+        int value = 0;
         if (Instigator != null && UseAttackStat)
         {
-            return (int) (DamageRange.max + ((Unit) Instigator).Stats.GetStatAmount(StatToUseMin));
+            value = (int) (DamageRange.max + ((Unit) Instigator).Stats.GetStatAmount(StatToUseMax));
+
+        }
+        else
+        {
+            value = (int) DamageRange.max;
         }
 
-        return (int) DamageRange.max;
+        return value * EffectBonus;
     }
     public int GetDamage()
     {
@@ -88,7 +98,8 @@ public class UnitEffect_Damage : UnitEffect
         {
             dmg_text = GetMin() + "-" + GetMax();
         }
-        return dmg_text + " Damage";
+        return dmg_text + " Damage" + EffectBonus;
+        ;
     }
     protected override void EffectTick()
     {

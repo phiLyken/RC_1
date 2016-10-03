@@ -110,6 +110,13 @@ public class Constants : MonoBehaviour {
         return base_amount * Mathf.Max(1, checkpoints_reached);
     }
 
+    public static int GetAdrenalineRushBonus(UnitStats stats)
+    {
+
+        int adr = (int)  stats.GetStatAmount(StatType.adrenaline);
+
+        return  (int) (adr /  2f) + 1;
+    }
     public static int GetGainedAdrenaline(UnitStats stats, int rolls)
     {
         float min = Mathf.Max(0, stats.GetStatAmount(StatType.adrenaline_conversion_min));

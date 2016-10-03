@@ -52,7 +52,7 @@ public class UnitActionBase : MonoBehaviour {
 
     public string ActionID = "void";
 
-    public void SetOwner(Unit o)
+    public virtual void SetOwner(Unit o)
     {
         Owner = o;
         TimeCost.Init(o);
