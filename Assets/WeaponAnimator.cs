@@ -62,22 +62,25 @@ public class WeaponAnimator
         if (animator != null)
             animator.SetTrigger("bShooting");
 
-        Debug.Log("Play Shoot " +part + " "+Target.name);
+        if(Target != null)
+        {
+            Debug.Log("Play Shoot " +part + " "+Target.name);
         
 
-        if(fx == null){
-            callback();
-            Debug.LogWarning(part + " has no shoot effects");
-        } else {
-            ShootEffectsPlaying = true;
-            Sequence shooting =    fx.Shoot(Target).Play();
-            shooting.AppendCallback(() => {
-                Debug.Log("shooting done playing");
-                ShootEffectsPlaying = false;
-                if (callback != null)
-                    callback();
-            });
-        }    
+            if(fx == null){
+                callback();
+                Debug.LogWarning(part + " has no shoot effects");
+            } else {
+                ShootEffectsPlaying = true;
+                Sequence shooting =    fx.Shoot(Target).Play();
+                shooting.AppendCallback(() => {
+                    Debug.Log("shooting done playing");
+                    ShootEffectsPlaying = false;
+                    if (callback != null)
+                        callback();
+                });
+            }
+        }
     }
 
  

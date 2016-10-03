@@ -24,11 +24,13 @@ public class UnitAnimation
        
         SetWeaponIndex(index);
 
+ 
 
-        //No multicast so we dont need to remove listeners
-        callback.OnAbilityTrigger = AbilityCallback;
-        callback.OnWeaponHide = WeaponHide;
-        callback.OnWeaponShow = WeaponShow;
+            //No multicast so we dont need to remove listeners
+            callback.OnAbilityTrigger = AbilityCallback;
+            callback.OnWeaponHide = WeaponHide;
+            callback.OnWeaponShow = WeaponShow;
+       
 
 
 
@@ -70,7 +72,7 @@ public class UnitAnimation
     }
     public void AbilityCallback(string id)
     {
-       Debug.Log("Ability call back " + id);
+   
         switch (id)
         {
             case "shoot_left":
