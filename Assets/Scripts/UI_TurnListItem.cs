@@ -28,7 +28,7 @@ public class UI_TurnListItem : MonoBehaviour, IToolTip {
         m_turn = turn;
         if (OnSetTurnAble != null) OnSetTurnAble(m_turn);
 
-        Image.color = turn.GetColor();
+      //  Image.color = turn.GetColor();
         Image.sprite = turn.GetIcon();
         BackGround.color = turn.GetColor();
 

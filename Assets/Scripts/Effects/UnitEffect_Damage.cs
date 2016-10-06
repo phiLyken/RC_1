@@ -98,7 +98,7 @@ public class UnitEffect_Damage : UnitEffect
         {
             dmg_text = GetMin() + "-" + GetMax();
         }
-        return dmg_text + " Damage" + EffectBonus;
+        return dmg_text + " Damage";
         ;
     }
     protected override void EffectTick()
