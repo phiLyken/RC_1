@@ -42,7 +42,7 @@ public class Weapon : MonoBehaviour,  IInventoryItem
 
     public void AddToInventory(UnitInventory inv)
     {
-        
+
     }
 
     public void RemoveFromInventory(UnitInventory inv)

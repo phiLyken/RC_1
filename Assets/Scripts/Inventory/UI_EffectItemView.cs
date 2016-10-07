@@ -18,17 +18,22 @@ public class UI_EffectItemView : MonoBehaviour, IToolTip {
     {
         return m_effect;
     }
-    public void SetEffect(UnitEffect new_effeect)
+    public void SetEffect(UnitEffect new_effect)
     {
 
-        BG.sprite = new_effeect.TargetMode == UnitEffect.TargetModes.Owner ? Target_Owner : Target_Target;
+        BG.sprite = new_effect.TargetMode == UnitEffect.TargetModes.Owner ? Target_Owner : Target_Target;
 
-        m_effect = new_effeect;
+        m_effect = new_effect;
         
-        if(new_effeect.Icon != null)
-             Icon.sprite = new_effeect.Icon;
+        if(new_effect.Icon != null)
+        {
+            Icon.sprite = new_effect.Icon;
+            Icon.color = new_effect.EffectBonus > 1 ? UI_AdrenalineRush.ADR_Color : Color.white;
+        }
 
-        Text.text = new_effeect.GetShortHandle();
+
+        Text.text = new_effect.GetShortHandle();
+        Text.color = new_effect.EffectBonus > 1 ? UI_AdrenalineRush.ADR_Color : Color.white;
 
     }
 

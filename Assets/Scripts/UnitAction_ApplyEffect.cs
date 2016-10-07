@@ -29,7 +29,13 @@ public class UnitAction_ApplyEffect : UnitActionBase
         Unit.OnUnitHoverEnd += OnUnitUnhover;
         Unit.OnUnitSelect += OnUnitSelect;
     }
-    
+    public override void SetOwner(Unit o)
+    {
+        base.SetOwner(o);
+
+        foreach (var e in GetEffects())
+            e.Init(o);
+    }
     public virtual float GetRange()
     {
         return GetTargetRules().GetRange(Owner);
@@ -175,4 +181,6 @@ public class UnitAction_ApplyEffect : UnitActionBase
     {        
         return CanTarget( target, Owner.currentTile);
     }
+
+    
 }

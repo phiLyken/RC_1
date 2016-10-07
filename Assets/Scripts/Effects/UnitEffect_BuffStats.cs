@@ -9,7 +9,10 @@ public class UnitEffect_BuffStats : UnitEffect {
     
     public override UnitEffect MakeCopy(UnitEffect original, Unit host)
     {
-        return (UnitEffect_BuffStats)((UnitEffect_BuffStats) original).MemberwiseClone();
+        UnitEffect_BuffStats cc = (UnitEffect_BuffStats)((UnitEffect_BuffStats) original).MemberwiseClone();
+        cc.isCopy = true;
+
+        return cc;
     }
 
     public override string GetToolTipText()
@@ -19,7 +22,7 @@ public class UnitEffect_BuffStats : UnitEffect {
 
     public override string GetShortHandle()
     {
-        return Buff.Modifier.ToString("+#;-#;0") + " " + UnitStats.StatToString(Buff.Type) ;
+        return GetModifier().ToString("+#;-#;0") + " " + UnitStats.StatToString(Buff.Type) ;
        
     }
 
@@ -28,6 +31,10 @@ public class UnitEffect_BuffStats : UnitEffect {
         return GetShortHandle();
     }
 
+    float GetModifier()
+    {
+        return Buff.Modifier * EffectBonus;
+    }
 
 }
 
@@ -36,4 +43,5 @@ public class StatBuff
 {
     public StatType Type;
     public float Modifier;
+    
 }

@@ -14,6 +14,27 @@ public class UnitAction_ApplyEffectFromWeapon : UnitAction_ApplyEffect {
         orderID = 3 + WeaponBehaviorIndex;
     }
 
+    public override void SetOwner(Unit o)
+    {
+        base.SetOwner(o);
+
+        if(WeaponBehaviorIndex == 0)
+        {
+            o.Stats.OnStatUpdated += s =>
+            {
+                if (s.StatType == StatType.adrenaline)
+                {
+                    UpdateEffects();
+                }
+            };
+        } 
+    }
+
+    void UpdateEffects()
+    {
+        foreach (var e in GetEffects())
+            e.UpdateBonus();
+    }
     WeaponBehavior GetBehavior()
     {
         Weapon wp = Owner.GetComponent<UnitInventory>().EquipedWeapon;

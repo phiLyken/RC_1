@@ -5,7 +5,7 @@ public class UI_ToolTip_Attack : UI_ToolTip_AbilityBase
 {
     public UI_EffectListView RegularList;
     public UI_EffectListView EffectList;
-
+    public Transform AdrenalineBonus;
     public GameObject Divider;
 
     public override void SetAbility(UnitActionBase ability)
@@ -14,10 +14,12 @@ public class UI_ToolTip_Attack : UI_ToolTip_AbilityBase
 
         RegularList.SetEffects(ae.GetRegularEffects());
 
-        if (ae.GetIntBonus() != null)
+        if (ae.WeaponBehaviorIndex == 0)
         {
-            EffectList.SetEffects(MyMath.GetListFromObject(ae.GetIntBonus()));
-        }      else
+            UI_AdrenalineRush adr_ui = (Instantiate(Resources.Load("UI/ui_adrenaline_rush")) as GameObject).GetComponent<UI_AdrenalineRush>();
+            adr_ui.transform.SetParent(AdrenalineBonus, false);
+            adr_ui.Init(ability.GetOwner().Stats);
+        } else
         {
             Divider.SetActive(false);
         }

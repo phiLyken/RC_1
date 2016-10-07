@@ -11,6 +11,8 @@ public class UnitEffect : MonoBehaviour
     public enum TargetModes
     {   Owner, Target  }
 
+    protected bool isCopy = false;
+
     public object Instigator;
     public string Unique_ID;
     public TargetModes TargetMode;
@@ -25,6 +27,9 @@ public class UnitEffect : MonoBehaviour
     public int MaxDuration;
     public bool ReplaceEffect;
 
+    [HideInInspector]
+    public int EffectBonus = 1;
+
     protected Unit Effect_Host;
 
     protected int _durationActive;
@@ -37,6 +42,13 @@ public class UnitEffect : MonoBehaviour
         return (TargetMode == TargetModes.Owner) ? instigator : target;
     }
 
+    public void Init(Unit owner)
+    {
+        EffectBonus = 1;
+        Instigator = owner;
+
+ 
+    }
     public IEnumerator ApplyEffectSequence(Unit target, Unit instigator) {
 
         Instigator = instigator;
@@ -155,4 +167,8 @@ public class UnitEffect : MonoBehaviour
         return (MaxDuration - _durationActive);
     }
 
+    public void UpdateBonus()
+    {
+        EffectBonus = Constants.GetAdrenalineRushBonus((Instigator as Unit).Stats);
+    }
 }
