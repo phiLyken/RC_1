@@ -111,7 +111,7 @@ public class TurnSystem : MonoBehaviour {
     {
 
         ///Double null check because we are checking an interface
-        while (!forceNext && ( (t!=null && !t.Equals(null)) && !t.HasEndedTurn() || TurnEventQueue.Current != null ))
+        while (!forceNext && ( (t!=null && !t.Equals(null)) && !t.HasEndedTurn() || TurnEventQueue.EventRunning  ))
         {
             //Debug.Log(t.GetID());
             yield return null;

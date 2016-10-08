@@ -12,7 +12,7 @@ public class UnitStats : MonoBehaviour
     public EventHandler OnDmgReceived;
     [HideInInspector]
     List<Stat> CurrentStats;
-  
+ 
     Unit_EffectManager m_Effects;
         
     public static string StatToString(StatType t)
@@ -119,6 +119,10 @@ public class UnitStats : MonoBehaviour
 
     public void ReceiveDamage(UnitEffect_Damage dmg)
     {
+
+        if (GetStatAmount(StatType.oxygen) <= 0)
+            return;
+
         int dmg_received = (-(dmg.GetDamage()));
         int int_received = Constants.GetGainedAdrenaline( this, dmg_received);
 

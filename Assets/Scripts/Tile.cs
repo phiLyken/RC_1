@@ -183,7 +183,7 @@ public class Tile : MonoBehaviour, IWayPoint
     {
 
         if (OnDeactivate != null) OnDeactivate(this);
-        while (TurnEventQueue.Current != null) yield return null;
+        while (TurnEventQueue.EventRunning) yield return null;
         RemoveTile();
     }
 

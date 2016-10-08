@@ -4,7 +4,20 @@ using System.Collections.Generic;
 
 public class TurnEventQueue  {
 
-    public static TurnEvent Current;
+    static List<TurnEvent> events;
+
+    public static bool EventRunning
+    {
+        get
+        {
+            return events != null && events.HasItems();
+        }
+
+       
+    }
+
+  
+  
         
     public class TurnEvent
     {
@@ -13,14 +26,20 @@ public class TurnEventQueue  {
 
         public virtual void StartEvent()
         {
+            if (events == null)
+                events = new List<TurnEvent>();
 
+            Debug.Log("Event Started");
+            events.Add(this);
         }
 
-        public virtual void EndEvent()
+        public virtual void EndEvent( )
         {
-            Current = null;
-            Debug.Log("Event Ended");
-            callback();
+            events.Remove(this);
+            Debug.Log("Event Ended  remaining   "+events.Count);
+ 
+            if(callback != null)
+                callback();
         }
 
     }
@@ -29,24 +48,22 @@ public class TurnEventQueue  {
     {
         Vector3 position;
 
-        public override void StartEvent()
+        public override void StartEvent( )
         {
+            base.StartEvent( );
             if(PanCamera.Instance != null)
             {
-                PanCamera.Instance.PanToPos(position, EndEvent);
+                PanCamera.Instance.PanToPos(position, EndEvent );
             } else
             {
                 EndEvent();
             }
         }     
 
-        public CameraFocusEvent(Vector3 pos, EventHandler cb)
-        {
-            Current = this;
-           // Debug.Log("Camera Event");
-            callback = cb;
+        public CameraFocusEvent(Vector3 pos )
+        {          
+          
             position = pos;
-
             StartEvent();
         }
     }

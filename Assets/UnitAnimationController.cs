@@ -53,12 +53,13 @@ public class UnitAnimationController : MonoBehaviour
         UnitAnimator.SetTrigger(anim.ToString());
     }
    
-    public IEnumerator WaitForExection(UnitAnimationTypes anim, EventHandler on_exec)
+    public void WaitForExection(UnitAnimationTypes anim, EventHandler on_exec)
     {        
         PlayAnimation(anim);
-
+        if (UnitAnimator.OnExec != null)
+            UnitAnimator.OnExec();
         UnitAnimator.OnExec = on_exec;
-        yield return null;
+ 
         
     }
 }

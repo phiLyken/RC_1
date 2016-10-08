@@ -164,7 +164,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     public void UnitSelected()
     {
         if(Input.GetKey(KeyCode.T))
-         ReceiveDamage(new UnitEffect_Damage(5));
+         ReceiveDamage(new UnitEffect_Damage(10));
         
         if (OnUnitSelect != null) OnUnitSelect(this);
         return;
@@ -178,19 +178,24 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
         return PlayerManager.GetPlayer(OwnerID)   ;
     }    
 
+   
     public void KillUnit()
     {
-        _isDead = true;
-        if (OnUnitKilled != null) OnUnitKilled(this);
+        if (!_isDead)
+        {
+            Debug.Log(" KILLED "+GetID());
+            Stats.OnHPDepleted -= KillUnit;
+            _isDead = true;
 
-        StartCoroutine(RemoveWhenReady());
-                     
+            if (OnUnitKilled != null)
+                OnUnitKilled(this);
+
+            RemoveUnitFromGame();
+        }
+       
+
     }
-    IEnumerator RemoveWhenReady()
-    {
-        while (TurnEventQueue.Current != null) yield return null;
-        new TurnEventQueue.CameraFocusEvent(currentTile.GetPosition(), RemoveUnitFromGame);
-    }
+ 
     public void RemoveUnitFromGame()
     {
       
@@ -202,7 +207,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
 
         TurnSystem.Unregister(this);
         AllUnits.Remove(this);
-        Destroy(this.gameObject);
+
     }
 
     public int GetCurrentTurnCost()

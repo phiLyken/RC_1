@@ -117,11 +117,13 @@ public class WorldCrumbler : MonoBehaviour, ITurn {
 
         return false;
     }
+
     IEnumerator WaitForMovingTiles()
     {
 
         while (TilesMoving())
         {
+           
             yield return new WaitForSeconds(0.1f);
         }
 

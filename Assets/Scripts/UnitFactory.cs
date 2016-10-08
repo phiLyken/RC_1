@@ -31,7 +31,7 @@ public class UnitFactory : MonoBehaviour
         UnitRotationController rotator      = mesh.AddComponent<UnitRotationController>();
        
         Unit m_unit                         = base_unit.AddComponent<Unit>();
-
+        Unit_UnitDeath unit_death           = base_unit.AddComponent<Unit_UnitDeath>();
         GetName(data, base_unit);
         GiveWeapon(data, mesh, inventory);
         

@@ -21,7 +21,7 @@ public class ActionSequence : MonoBehaviour {
     IEnumerator Sequence(UnitAnimationTypes anim, Unit caster,  Transform target, EventHandler callback_execute)
     {
         yield return StartCoroutine(rotation_controller.TurnToTargetPositiom(target, null));
-        yield return StartCoroutine(animation_controller.WaitForExection(anim, callback_execute));
+        animation_controller.WaitForExection(anim, callback_execute);
         OnExected(caster, target);
     }      
 

@@ -12,6 +12,9 @@ public class PanCamera : MonoBehaviour {
 	bool zooming;
 	bool inputEnabled;
     bool rotating;
+
+    EventHandler event_callback;
+
     public static PanCamera Instance;
 
    // public GameObject CameraObj;
@@ -129,6 +132,8 @@ public class PanCamera : MonoBehaviour {
 
     void Reset()
     {
+        if (event_callback != null)
+            event_callback();
         drag = false;
         rotating = false;
         zooming = false;
@@ -142,6 +147,7 @@ public class PanCamera : MonoBehaviour {
 
     public void PanToPos(Vector3 pos, EventHandler cb)
     {
+
         DisableInput();
         Reset();
         StartCoroutine(PanToWorldPos(pos, 5,cb));
@@ -151,7 +157,7 @@ public class PanCamera : MonoBehaviour {
     {       
         pos.y = 0;
         drag = true;
-  
+        event_callback = callback;
         Vector3 delta = pos -MyMath.GetCameraCenter() ;     
 
         while ( delta.magnitude > 0.1f)
