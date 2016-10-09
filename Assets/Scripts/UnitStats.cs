@@ -36,7 +36,7 @@ public class UnitStats : MonoBehaviour
         }
     }
 
-    public void Init(List<Stat> stats, Unit_EffectManager effect_manager)
+    public void Init(List<Stat> stats, Unit_EffectManager effect_manager )
     {
         CurrentStats = stats;
 

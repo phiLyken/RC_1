@@ -19,9 +19,9 @@ public class UnitSpawner : MonoBehaviour {
 	};
 
 
-	public void SpawnUnit(ScriptableUnitConfig unit_config, int turnTime, int group)
+	public void SpawnUnit(ScriptableUnitConfig unit_config,MyMath.R_Range range, int group)
 	{
-		Unit u = UnitFactory.CreateUnit(unit_config, group, turnTime);
+		Unit u = UnitFactory.CreateUnit(unit_config, group, range );
 		// Debug.Log(gameObject.name+" spawning " + u.GetID());
 
 

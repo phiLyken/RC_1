@@ -227,7 +227,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
 
     public float GetTurnTime()
     {
-
+       // Debug.Log(Stats.GetStatAmount(StatType.current_turn_time));
         return  Stats.GetStatAmount(StatType.current_turn_time);
     }
    

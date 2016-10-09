@@ -11,7 +11,7 @@ public class UnitFactory : MonoBehaviour
     /// </summary>
     /// <param name="data">Unit Config to determine unit type, stats, actions</param>
     /// <returns></returns>
-    public static Unit CreateUnit(ScriptableUnitConfig data, int group, int turntime)
+    public static Unit CreateUnit(ScriptableUnitConfig data, int group, MyMath.R_Range initiative_range)
     {
         if (data == null)
         {
@@ -22,7 +22,7 @@ public class UnitFactory : MonoBehaviour
         GameObject base_unit                = Instantiate(Resources.Load("base_unit")) as GameObject;
         SpawnLootOnDeath loot               = base_unit.AddComponent<SpawnLootOnDeath>();
         Unit_EffectManager effect_manager   = base_unit.AddComponent<Unit_EffectManager>();
-        UnitStats stats                     = MakeStats(base_unit, data, effect_manager, turntime);
+        UnitStats stats                     = MakeStats(base_unit, data, effect_manager, initiative_range);
         UnitInventory inventory             = MakeInventory(data, base_unit, stats);
         ActionManager actions               = MakeActions(data, base_unit);
         GameObject mesh                     = MakeMesh(data, base_unit);
@@ -208,10 +208,13 @@ public class UnitFactory : MonoBehaviour
        
     }
 
-    static UnitStats MakeStats(GameObject target, ScriptableUnitConfig conf, Unit_EffectManager effects, int start_initiative)
+    static UnitStats MakeStats(GameObject target, ScriptableUnitConfig conf, Unit_EffectManager effects, MyMath.R_Range range )
     {
 
         UnitStats stats = target.AddComponent<UnitStats>();
+
+        conf.BaseStats.StartTurnTime = range;
+
         stats.Init(StatsHelper.GetStatListForInit(conf.BaseStats), effects);
 
         return stats;
