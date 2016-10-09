@@ -28,7 +28,7 @@ public class UnitEffect_Damage : UnitEffect
 
         UnitEffect_Damage _cc = (UnitEffect_Damage)( (UnitEffect_Damage) original).MemberwiseClone() ;
 
-        _cc.baked_damage = UnityEngine.Random.Range(GetMin(), GetMax());
+        _cc.baked_damage = UnityEngine.Random.Range(GetMin(), GetMax()+1);
         _cc.isCopy = true;
         return _cc;
     } 
@@ -66,7 +66,7 @@ public class UnitEffect_Damage : UnitEffect
             value = (int) DamageRange.max;
         }
 
-        return value * EffectBonus;
+        return value * EffectBonus ;
     }
     public int GetDamage()
     {
@@ -89,7 +89,7 @@ public class UnitEffect_Damage : UnitEffect
             return baked_damage + " DAMAGE";
 
         int min = GetMin();
-        int max = GetMax();
+        int max = GetMax()  ;
         string dmg_text = "";
         if(min == max)
         {
