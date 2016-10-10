@@ -48,8 +48,16 @@ public class UnitEffect : MonoBehaviour
         EffectBonus = 1;
         Instigator = owner;
 
+
  
     }
+
+    public void OnDestroy()
+    {
+    //    Debug.Log("Removed Effect  -" + Unique_ID);
+        TurnSystem.Instance.OnGlobalTurn -= OnGlobalTurn;
+    }
+
     public IEnumerator ApplyEffectSequence(Unit target, Unit instigator) {
 
         Instigator = instigator;
@@ -131,6 +139,17 @@ public class UnitEffect : MonoBehaviour
 
     }
 
+    public void Remove()
+    {
+        if (OnEffectExpired != null)
+            OnEffectExpired(this);
+
+        Debug.Log("Global Tick Expired Effect " + Effect_Host.GetID() + "  -" + Unique_ID);
+
+        TurnSystem.Instance.OnGlobalTurn -= OnGlobalTurn;
+        EffectRemoved();
+
+    }
     public virtual void SetPreview(UI_DmgPreview prev, Unit target) { }
     #endregion
 
@@ -141,10 +160,7 @@ public class UnitEffect : MonoBehaviour
 
         if (_durationActive > MaxDuration)
         {
-            if (OnEffectExpired != null)
-                OnEffectExpired(this);
-            TurnSystem.Instance.OnGlobalTurn -= OnGlobalTurn;
-            EffectRemoved();
+            Remove();
             return;
         }
 

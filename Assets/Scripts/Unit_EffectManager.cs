@@ -29,6 +29,7 @@ public class Unit_EffectManager : MonoBehaviour {
                 if(duplicate_on_unit != null)
                 {
                     ActiveEffects.Remove(duplicate_on_unit);
+                    Destroy(duplicate_on_unit);
                     
                 }
                 
@@ -39,7 +40,16 @@ public class Unit_EffectManager : MonoBehaviour {
 
             Debug.Log(" EFFECT_ADDED " + new_effect.GetShortHandle());
             new_effect.OnEffectExpired += OnEffectExpired;
-           
+
+            Unit.OnUnitKilled += u =>
+            {
+                if (u == m_Unit)
+                {
+                    new_effect.Remove();
+         
+                }
+            };
+
             if (OnEffectAdded != null) OnEffectAdded(new_effect);
             return true;
         }
