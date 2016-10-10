@@ -237,7 +237,7 @@ public class ActionManager : MonoBehaviour {
 
     void TargetedAction(UnitActionBase b, Transform tgt)
     {
-        Debug.Log("targeted action");
+       // Debug.Log("targeted action");
         if(OnTargetAction != null)
         {
             OnTargetAction(b, tgt);

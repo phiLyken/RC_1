@@ -13,24 +13,35 @@ public class UI_AdrenalineRush : MonoBehaviour {
     public void Init(UnitStats unit_stats)
     {
         Stats = unit_stats;
-        Stats.OnStatUpdated += s =>
-        {
-            if (s.StatType == StatType.adrenaline)
-            {
-                UpdateText();
-            }
-        };
+        Stats.OnStatUpdated += UnpdateStat;
 
-        int bonus = Constants.GetAdrenalineRushBonus(Stats);
-        TF.text = bonus > 1 ? bonus.ToString() + "x power" : "no bonus";
-        TF.color = bonus > 1 ? ADR_Color : Color.white;
-        Icon.color = bonus > 1 ? ADR_Color : Color.white;
+        UpdateText();
     }
 
+ 
+    void UnpdateStat(Stat s)
+    {
+        if (s.StatType == StatType.adrenaline)
+        {
+            UpdateText();
+        }
+    }
+
+ 
     void UpdateText()
     {
-        TF.text = Constants.GetAdrenalineRushBonus(Stats).ToString();
+        if(gameObject != null && gameObject.activeSelf)
+        { 
+            int bonus = Constants.GetAdrenalineRushBonus(Stats);
+            TF.text = bonus > 1 ? bonus.ToString() + "x power" : "no bonus";
+            TF.color = bonus > 1 ? ADR_Color : Color.white;
+            Icon.color = bonus > 1 ? ADR_Color : Color.white;
+        }
     }
 
+    void OnDestroy()
+    {
+        Stats.OnStatUpdated -= UnpdateStat;
+    }
     
 }

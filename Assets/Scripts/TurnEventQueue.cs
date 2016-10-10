@@ -29,14 +29,14 @@ public class TurnEventQueue  {
             if (events == null)
                 events = new List<TurnEvent>();
 
-            Debug.Log("Event Started");
+         //   Debug.Log("Event Started");
             events.Add(this);
         }
 
         public virtual void EndEvent( )
         {
             events.Remove(this);
-            Debug.Log("Event Ended  remaining   "+events.Count);
+         //   Debug.Log("Event Ended  remaining   "+events.Count);
  
             if(callback != null)
                 callback();

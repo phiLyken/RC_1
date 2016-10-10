@@ -136,7 +136,7 @@ public class UI_Unit : MonoBehaviour
             stat.StatType == StatType.oxygen ||
             stat.StatType == StatType.adrenaline)
         { 
-            Debug.Log("Update Values " + m_unit);
+         //   Debug.Log("Update Values " + m_unit);
             Alphas.AddItem(ValuesNeedUpdateItem);
             StopAllCoroutines();
             StartCoroutine(IEUpdateValuesDelayed());

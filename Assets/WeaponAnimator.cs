@@ -64,17 +64,17 @@ public class WeaponAnimator
 
         if(Target != null)
         {
-            Debug.Log("Play Shoot " +part + " "+Target.name);
+            //Debug.Log("Play Shoot " +part + " "+Target.name);
         
 
             if(fx == null){
                 callback();
-                Debug.LogWarning(part + " has no shoot effects");
+                //Debug.LogWarning(part + " has no shoot effects");
             } else {
                 ShootEffectsPlaying = true;
                 Sequence shooting =    fx.Shoot(Target).Play();
                 shooting.AppendCallback(() => {
-                    Debug.Log("shooting done playing");
+                 //   Debug.Log("shooting done playing");
                     ShootEffectsPlaying = false;
                     if (callback != null)
                         callback();

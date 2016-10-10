@@ -10,7 +10,7 @@ public class UnitTestSpawner : MonoBehaviour {
         if(Config != null)
         {
             UnitSpawner spawner = gameObject.AddComponent<UnitSpawner>();
-            spawner.SpawnUnit(Config, 0, 0);
+            spawner.SpawnUnit(Config, new MyMath.R_Range(1,5), 0);
         }
     }
 

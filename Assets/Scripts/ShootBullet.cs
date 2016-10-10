@@ -38,7 +38,7 @@ public class ShootBullet : MonoBehaviour
             }
         }
 
-        Debug.Log(ret);
+      //  Debug.Log(ret);
         return ret;
     }
 
@@ -116,7 +116,7 @@ public class LightFlash
         FlashSequence.AppendCallback(() => GameObject.Destroy(new_go));
 
         FlashSequence.Play();
-        Debug.Log(FlashSequence.Duration() );
+       // Debug.Log(FlashSequence.Duration() );
 
         l.color = flash.startColor;
         l.DOColor(flash.endColor, flash.duration);

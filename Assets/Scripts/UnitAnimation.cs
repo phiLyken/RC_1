@@ -20,19 +20,13 @@ public class UnitAnimation
         WeaponAnimator_Left = left;
         WeaponAnimator_Right = right;
         unit_animator = unit;
-
-       
+               
         SetWeaponIndex(index);
 
- 
-
-            //No multicast so we dont need to remove listeners
-            callback.OnAbilityTrigger = AbilityCallback;
-            callback.OnWeaponHide = WeaponHide;
-            callback.OnWeaponShow = WeaponShow;
-       
-
-
+        //No multicast so we dont need to remove listeners
+        callback.OnAbilityTrigger = AbilityCallback;
+        callback.OnWeaponHide = WeaponHide;
+        callback.OnWeaponShow = WeaponShow;
 
         return this;
     }
@@ -45,7 +39,7 @@ public class UnitAnimation
 
     public void SetAimTarget(Transform tr)
     {
-        Debug.Log("set aim target  "+tr.gameObject.name);
+       // Debug.Log("set aim target  "+tr.gameObject.name);
         AimTarget = tr.FindDeepChild("humanoid");
 
     }
@@ -107,7 +101,7 @@ public class UnitAnimation
 
     public void SetTrigger(string id)
     {
-        Debug.Log(id);
+      //  Debug.Log(id);
         unit_animator.SetTrigger(id);
     }
 }

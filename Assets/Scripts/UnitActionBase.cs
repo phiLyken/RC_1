@@ -153,7 +153,7 @@ public class UnitActionBase : MonoBehaviour {
             if (OnActionStart != null)
                 OnActionStart(this);
 
-            Debug.Log("executing " + gameObject.name);
+           // Debug.Log("executing " + gameObject.name);
             
             if(action_sequence != null)
             { 

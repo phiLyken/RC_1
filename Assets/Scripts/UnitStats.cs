@@ -36,7 +36,7 @@ public class UnitStats : MonoBehaviour
         }
     }
 
-    public void Init(List<Stat> stats, Unit_EffectManager effect_manager)
+    public void Init(List<Stat> stats, Unit_EffectManager effect_manager )
     {
         CurrentStats = stats;
 
@@ -124,7 +124,7 @@ public class UnitStats : MonoBehaviour
             return;
 
         int dmg_received = (-(dmg.GetDamage()));
-        int int_received = Constants.GetGainedAdrenaline( this, dmg_received);
+        int int_received = Constants.GetGainedAdrenaline( this, Mathf.Abs( dmg_received ));
 
         Debug.Log(this.name + " rcv damge " + dmg_received + "  rcvd multiplier:" + "WTF" + "  +int=" + int_received);
 

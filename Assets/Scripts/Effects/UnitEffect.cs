@@ -13,6 +13,7 @@ public class UnitEffect : MonoBehaviour
 
     protected bool isCopy = false;
 
+
     public object Instigator;
     public string Unique_ID;
     public TargetModes TargetMode;
@@ -23,7 +24,7 @@ public class UnitEffect : MonoBehaviour
     public bool ShowRemoveNotification;
     public bool ShowApplyNotification;
     public bool TickOnApply;
-
+    public int TickFrequency;
     public int MaxDuration;
     public bool ReplaceEffect;
 
@@ -125,14 +126,9 @@ public class UnitEffect : MonoBehaviour
     {
         if (OnEffectTick != null) OnEffectTick(this);
         Debug.Log(GetToolTipText() + " TICKED");
-        _durationActive++;
 
-        if (_durationActive > MaxDuration)
-        {
-            if (OnEffectExpired != null) OnEffectExpired(this);
-            TurnSystem.Instance.OnGlobalTurn -= OnGlobalTurn;
-            EffectRemoved();
-        }
+
+
     }
 
     public virtual void SetPreview(UI_DmgPreview prev, Unit target) { }
@@ -140,7 +136,19 @@ public class UnitEffect : MonoBehaviour
 
     protected  void OnGlobalTurn(int t)
     {
-        if (!Effect_Host.IsDead())
+        _durationActive++;
+
+
+        if (_durationActive > MaxDuration)
+        {
+            if (OnEffectExpired != null)
+                OnEffectExpired(this);
+            TurnSystem.Instance.OnGlobalTurn -= OnGlobalTurn;
+            EffectRemoved();
+            return;
+        }
+
+        if (!Effect_Host.IsDead() && (_durationActive % Mathf.Max(1,TickFrequency)) == 0)
             GlobalTurnTick();
     }
 
