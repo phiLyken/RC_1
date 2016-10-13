@@ -274,6 +274,11 @@ public class UnitAI : MonoBehaviour, ITriggerable {
             //Debug.Log(weight);
         }
 
+        if(weighted_tiles.Count == 0)
+        {
+            Debug.LogError("Could not find attack tiles");
+            return null;
+        }
        
         return WeightableFactory.GetWeighted (weighted_tiles).Value;
 
