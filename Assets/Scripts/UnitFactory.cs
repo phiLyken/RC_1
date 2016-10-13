@@ -32,11 +32,13 @@ public class UnitFactory : MonoBehaviour
        
         Unit m_unit                         = base_unit.AddComponent<Unit>();
         Unit_UnitDeath unit_death           = base_unit.AddComponent<Unit_UnitDeath>();
+
+
         GetName(data, base_unit);
         GiveWeapon(data, mesh, inventory);
         
         rotator.Init(m_unit.GetComponent<WaypointMover>() );
-        loot.Init(m_unit);
+        loot.Init(m_unit, data.LootCategory);
         effect_manager.SetUnit(m_unit);
         animations.Init(m_unit, mesh);
        

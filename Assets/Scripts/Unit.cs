@@ -32,7 +32,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
 
     public TurnableEventHandler OnUpdateTurnTime;
 
-    public LootCategory Loot;
+    public EnemyDropCategory Loot;
     
     [HideInInspector]
     public Tile currentTile;

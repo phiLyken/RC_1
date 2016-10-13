@@ -51,6 +51,7 @@ public class WeightableFactory {
 
     public static T GetWeighted<T>(List<T> weighted)
     {
+      
         return  (T) GetWeighted(weighted.Cast<IWeightable>().ToList()) ;
     }
 

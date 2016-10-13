@@ -9,6 +9,7 @@ public class AddLootOnSpawn : MonoBehaviour {
 
 	void Start () {
 
+       // Debug.Log("add for " + Category);
         Tile_Loot.AddLoot(this.GetComponent<Tile>(), Category);
         Destroy(this);
 	}

@@ -4,9 +4,11 @@ using System.Collections;
 public class SpawnLootOnDeath : MonoBehaviour {
 
     Unit m_unit;
+    EnemyDropCategory cat;
 
-    public void Init(Unit u)
+    public void Init(Unit u, EnemyDropCategory category)
     {
+        cat = category;
         m_unit = u;
         Unit.OnUnitKilled += OnDeath;
     }
@@ -15,7 +17,7 @@ public class SpawnLootOnDeath : MonoBehaviour {
     {
         if(u == m_unit)
         {
-            Tile_Loot.AddLoot(u.currentTile, u.Loot);
+            Tile_Loot.AddLoot(u.currentTile, cat);
         }
 
     }

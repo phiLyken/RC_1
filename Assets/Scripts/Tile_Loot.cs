@@ -19,6 +19,13 @@ public class Tile_Loot : TileComponent {
 
     public void SetLoot(LootConfig _loot)
     {
+        if(_loot == null)
+        {
+            Destroy(this);
+            return;
+
+        }
+
         loot = _loot;
         crate = Instantiate(_loot.WorldObject);
         crate.transform.position = gameObject.GetComponent<Tile>().GetPosition();
@@ -36,14 +43,28 @@ public class Tile_Loot : TileComponent {
         item_lootable = new ItemInInventory(content.Item, amount);
         
 
-        Debug.Log("Set loot for " + item_lootable.GetItemType() + ":" + item_lootable.GetCount());
+       // Debug.Log("Set loot for " + item_lootable.GetItemType() + ":" + item_lootable.GetCount());
     }
 
 
     public static void AddLoot(Tile target, LootCategory Category)
     {
-        if(target.GetComponent<Tile_Loot>() == null) { 
+        if(target.GetComponent<Tile_Loot>() == null) {
+            
             target.gameObject.AddComponent<Tile_Loot>().SetLoot( LootBalance.GetBalance().GetLootConfig(Category));
+        } else
+        {
+            Debug.LogWarning("Tile already has a loot "+target.name);
+        }
+    } 
+
+     public static void AddLoot(Tile target, EnemyDropCategory Category)
+    {
+        LootConfig  conf = LootBalance.GetBalance().GetLootConfig(Category);
+
+        if( conf != null && target.GetComponent<Tile_Loot>() == null) { 
+
+            target.gameObject.AddComponent<Tile_Loot>().SetLoot(conf);
         }
     } 
 
