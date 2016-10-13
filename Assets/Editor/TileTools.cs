@@ -132,6 +132,7 @@ class TileTools : EditorWindow
 
         }
 
+
         if (GUILayout.Button("Show Current Crumble Weights"))
         {
             if(weighted == null) { 
@@ -227,6 +228,14 @@ class TileTools : EditorWindow
             if (CurrentTileSelection == null) CurrentTileSelection = new List<Tile>();
 
             EditorGUILayout.BeginHorizontal();
+
+
+            if (GUILayout.Button("Select Crumbling"))
+            {
+
+                CurrentTileSelection.AddRange(Grid.GetTileList().Where(t => t.isCrumbling).ToList()) ;
+                SelectCurrentTilesInEditor();
+            }
 
             if (GUILayout.Button("Select Row"))
             {
