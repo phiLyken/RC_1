@@ -68,6 +68,7 @@ public class WorldCrumbler : MonoBehaviour, ITurn {
     public void StartTurn()
     {
         hasCrumbled = false;
+
         ToastNotification.SetToastMessage1("The earth is shaking...");  
         
         if(PanCamera.Instance != null)
@@ -135,6 +136,8 @@ public class WorldCrumbler : MonoBehaviour, ITurn {
     {
       
         int count = (int) TilesToCrumbleCount.Value();
+      //  Debug.Log("count " + count);
+
        // Debug.Log("crumble. last row " + TileManager.Instance.GetLastActiveRow());    
         TileWeighted.GetCrumbleTiles(count, TileManager.Instance).ForEach(t => t.StartCrumble() );
     }
