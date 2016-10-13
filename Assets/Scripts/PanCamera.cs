@@ -133,7 +133,13 @@ public class PanCamera : MonoBehaviour {
     void Reset()
     {
         if (event_callback != null)
+        { 
             event_callback();
+            event_callback = null;
+        }
+
+
+     
         drag = false;
         rotating = false;
         zooming = false;
@@ -145,6 +151,7 @@ public class PanCamera : MonoBehaviour {
         PanToPos(pos, null);
     }
 
+ 
     public void PanToPos(Vector3 pos, EventHandler cb)
     {
 
@@ -153,11 +160,12 @@ public class PanCamera : MonoBehaviour {
         StartCoroutine(PanToWorldPos(pos, 5,cb));
     }
 
-	IEnumerator PanToWorldPos(Vector3 pos, float speed, EventHandler callback)
-    {       
+	IEnumerator PanToWorldPos(Vector3 pos, float speed, EventHandler _cb)
+    {
+       
         pos.y = 0;
         drag = true;
-        event_callback = callback;
+        event_callback = _cb;
         Vector3 delta = pos -MyMath.GetCameraCenter() ;     
 
         while ( delta.magnitude > 0.1f)
@@ -170,7 +178,12 @@ public class PanCamera : MonoBehaviour {
             yield return null;
         }
 
-        if (callback != null) callback();
+        if (event_callback != null)
+        {
+            event_callback();
+            event_callback = null;
+        }
+
         inputEnabled = true;
         drag = false;
     }

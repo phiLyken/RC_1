@@ -61,8 +61,7 @@ public class TurnSystem : MonoBehaviour {
         SortListByTime();
 
         Current = GetNext();
-        Debug.Log("Start Turn System " + Turnables.Count);
-
+        
         while ( Current != null)
         {
             if (OnListUpdated != null) OnListUpdated(Turnables);
