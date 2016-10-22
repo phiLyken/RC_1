@@ -73,9 +73,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
               
         UI_Unit.CreateUnitUI(this);
 
-        GameObject obj = (Instantiate(Resources.Load("selected_effect"))) as GameObject;
-        obj.GetComponent<ToggleActiveOnTurn>().SetUnit(this);
-        
+     
       
     }
 

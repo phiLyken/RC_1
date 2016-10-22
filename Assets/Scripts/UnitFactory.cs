@@ -30,10 +30,12 @@ public class UnitFactory : MonoBehaviour
         UnitAnimationController animations  = mesh.AddComponent<UnitAnimationController>();
         UnitRotationController rotator      = mesh.AddComponent<UnitRotationController>();
        
+        
         Unit m_unit                         = base_unit.AddComponent<Unit>();
         Unit_UnitDeath unit_death           = base_unit.AddComponent<Unit_UnitDeath>();
 
 
+        AddActiveTurnIndicator(m_unit, data.Owner == 0);
         GetName(data, base_unit);
         GiveWeapon(data, mesh, inventory);
         
@@ -230,5 +232,15 @@ public class UnitFactory : MonoBehaviour
     public static void SpawnUnit(Unit u, Tile tile)
     {
         u.SetTile(tile, true);
+    }
+
+    public static void AddActiveTurnIndicator(Unit u, bool friendly)
+    {
+        string path = "Highlights/highlighter_" +( friendly ? "friendly" : "hostile");
+
+        GameObject go = Instantiate(Resources.Load(path)) as GameObject;
+
+        ToggleActiveOnTurn toggle = go.gameObject.AddComponent<ToggleActiveOnTurn>();
+        toggle.SetUnit(u);
     }
 }

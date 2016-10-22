@@ -41,8 +41,11 @@ public class UI_Unit : MonoBehaviour
 
     Vector3 GetUnitToolTipPosition()
     {
-        return m_unit.transform.position + Vector3.up * 0.5f;
+        
+        Debug.DrawLine(m_unit.transform.position, m_unit.transform.position + Vector3.up * 3f);
+        return m_unit.transform.position + Vector3.up * 1.5f;
     }
+
     public void UpdatePosition()
     {
         UI_WorldPos worldpos = GetComponent<UI_WorldPos>();

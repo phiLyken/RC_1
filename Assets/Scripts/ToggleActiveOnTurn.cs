@@ -8,6 +8,8 @@ public class ToggleActiveOnTurn : MonoBehaviour
 
     public void SetUnit(Unit unit)
     {
+        if (Target == null)
+            Target = this.gameObject;
 
         transform.SetParent(unit.transform);
         transform.localPosition = Vector3.zero;
