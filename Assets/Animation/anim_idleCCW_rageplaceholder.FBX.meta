@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: bddd76bf0eb1d9c4591bbfca06de9b61
-timeCreated: 1470480912
+guid: 7e6575f5197381d4d91acabee1d19610
+timeCreated: 1478466769
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
@@ -127,10 +127,10 @@ ModelImporter:
     400116: humanoid R UpperArm
     400118: humanoid Spine
     400120: humanoid Spine1
-    7400000: anim_IdleGreatweapon
+    7400000: anim_idleCCW_rageplaceholder
     9500000: //RootNode
   materials:
-    importMaterials: 1
+    importMaterials: 0
     materialName: 0
     materialSearch: 1
   animations:
@@ -151,7 +151,7 @@ ModelImporter:
     extraExposedTransformPaths: []
     clipAnimations:
     - serializedVersion: 16
-      name: anim_IdleGreatweapon
+      name: anim_idleCCW_rageplaceholder
       takeName: Take 001
       firstFrame: 0
       lastFrame: 61
@@ -161,7 +161,7 @@ ModelImporter:
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 1
+      loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
@@ -174,7 +174,7 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.9902724
+      - time: 1
         functionName: AbilityCallback
         data: idle_end
         objectReferenceParameter: {instanceID: 0}
