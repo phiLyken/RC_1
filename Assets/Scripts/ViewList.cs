@@ -44,7 +44,7 @@ public class ViewList<Item, View> where View : MonoBehaviour
         }
         if (items != null && items.Count > 0)
         {
-          //  Debug.Log(items.Count + " " +views.Count);
+           Debug.Log(items.Count + " " +views.Count);
             if (views.Count > 0)
             {
                    to_create = items.Where(item => !views.ContainsKey(item)).ToList();
@@ -56,7 +56,7 @@ public class ViewList<Item, View> where View : MonoBehaviour
 
             foreach (Item i in to_create)
             {
-               // Debug.Log(i.ToString());
+                 Debug.Log(i.ToString());
                 views.Add(i, MakeView(i));
             }
 

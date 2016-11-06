@@ -8,11 +8,7 @@ public class UnitAction_ApplyEffect : UnitActionBase
     public List<UnitEffect> Effects;
     public TargetInfo TargetRules;
 
-    void Awake()
-    {
-        orderID = 10;
-    }
-    
+ 
     public override void SelectAction()
     { 
         base.SelectAction();

@@ -18,7 +18,7 @@ public class UI_EffectListView : MonoBehaviour
 
     public void SetEffects(List<UnitEffect> new_effects)
     {
- 
+    
         if(views == null)
           views = new ViewList<UnitEffect, UI_EffectItemView>();
         views.Init(MakeNewView);

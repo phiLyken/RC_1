@@ -47,8 +47,7 @@ public class UnitActionBase : MonoBehaviour {
         return Image;
     }
 
-    [HideInInspector]
-    public int orderID;
+    public ActionButtonID target_button;
 
     public string ActionID = "void";
 
@@ -106,7 +105,7 @@ public class UnitActionBase : MonoBehaviour {
         return r;
     }
 
-    protected virtual StatInfo[] GetRequirements()
+    public virtual StatInfo[] GetRequirements()
     {
         return Requirements;
     }

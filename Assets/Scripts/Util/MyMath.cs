@@ -541,8 +541,24 @@ public static class MyMath  {
         return objects;
     }
 
+    public static void ChangeTint(this Image img, Color tint)
+    {
+        Color _base = img.color;
+        tint.a = _base.a;
 
-  
+        img.color = tint;
+        
+    }
+
+    public static void ChangeTint(this List<Image> imgs, Color tint)
+    {
+
+        foreach (var img in imgs)
+            img.ChangeTint(tint);
+ 
+
+    }
+
 }
 
 /// <summary>

@@ -14,10 +14,6 @@ public class UnitAction_Move : UnitActionBase {
 
     MeshViewGroup attack_preview_highlight;
 
-    void Awake()
-    {
-        orderID = 0;
-    }
 
     public override void SelectAction()
     {       

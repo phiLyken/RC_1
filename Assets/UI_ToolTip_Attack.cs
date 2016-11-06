@@ -12,21 +12,19 @@ public class UI_ToolTip_Attack : UI_ToolTip_AbilityBase
     {
         UnitAction_ApplyEffectFromWeapon ae = ability as UnitAction_ApplyEffectFromWeapon;
 
+        
         RegularList.SetEffects(ae.GetRegularEffects());
-
+        
         if (ae.WeaponBehaviorIndex == 0)
         {
-            UI_AdrenalineRush adr_ui = (Instantiate(Resources.Load("UI/ui_adrenaline_rush")) as GameObject).GetComponent<UI_AdrenalineRush>();
+            UI_AdrenalineRushBase adr_ui = (Instantiate(Resources.Load("UI/ui_adrenaline_rush")) as GameObject).GetComponent<UI_AdrenalineRushBase>();
             adr_ui.transform.SetParent(AdrenalineBonus, false);
             adr_ui.Init(ability.GetOwner().Stats);
         } else
         {
             Divider.SetActive(false);
         }
-
-       
-      
-
+        
         base.SetAbility(ability);
     }
  

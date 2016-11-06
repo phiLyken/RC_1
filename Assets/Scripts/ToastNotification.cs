@@ -42,11 +42,11 @@ public class ToastNotification : MonoBehaviour {
 
     public static void SetToastMessage1(string text)
     {
-        SetToastMessageInInstance(text, Color.black, Color.white);
+        SetToastMessageInInstance(text, new Color(0.1f, 0.1f,0.1f,1) , Color.white);
     }
     public static void SetToastMessage2(string text)
     {
-        SetToastMessageInInstance(text, Color.red, Color.yellow);
+        SetToastMessageInInstance(text, new Color(0.6f, 0.1f, 0.1f, 1), Color.white);
     }
 
     protected static void SetToastMessageInInstance(string text, Color bgcolor, Color textcolor)

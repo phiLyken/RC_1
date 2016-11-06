@@ -7,10 +7,7 @@ public class UnitAction_Loot : UnitActionBase
 {
  
     public float Range;
-    void Awake()
-    {
-        orderID = 99;
-    }
+
 
     public override void SelectAction()
     {

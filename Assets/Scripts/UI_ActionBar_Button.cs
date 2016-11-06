@@ -2,33 +2,46 @@
 using System.Collections;
 using UnityEngine.UI;
 using System;
+using System.Linq;
 
 public class UI_ActionBar_Button : MonoBehaviour, IToolTip{
 
+    UI_AdrenalineRushBase Adr_Rush;
     UnitActionBase m_action;
     ActionManager m_manager;
 
-    public Image ChargesCounterIMG;
+    [HideInInspector]
+    public KeyCode Hotkey;
+
+    public Image ChargesCounterFill;
+    public Image ChargesCounterBorder;
+    public Image ChargesCounterIcon;
+
     public Text ChargesCounterTF;
 
     public Image ActionIcon;
+    public Image ActionFrame;
+
     public ActionEventHandler OnActionHovered;
 
     UnitInventory inventory;
-      
+
+
     public void SetAction(UnitActionBase action, ActionManager manager)
     {
 
         m_manager = manager;
         //   manager.OnActionComplete += OnActionComplete;
-        // Debug.Log("set action " + action.ActionID);
+         Debug.Log("set action " + action.ActionID);
         if (m_action != null)
         {
-            action.OnSelectAction -= OnActionSelect;
-            action.OnUnselectAction -= OnActionUnselect;
+            m_action.OnSelectAction -= OnActionSelect;
+            m_action.OnUnselectAction -= OnActionUnselect;
             
             if(inventory != null)
-             inventory.OnInventoryUpdated -= OnInventoryUpdate;
+                inventory.OnInventoryUpdated -= OnInventoryUpdate;
+
+           
         }    
         
 
@@ -39,20 +52,28 @@ public class UI_ActionBar_Button : MonoBehaviour, IToolTip{
             //so we can test it also without owner
             if(action.GetOwner() != null)
             {
-            inventory = action.GetOwner().Inventory;
-            inventory.OnInventoryUpdated += OnInventoryUpdate;
+                inventory = action.GetOwner().Inventory;
+                inventory.OnInventoryUpdated += OnInventoryUpdate;
+                action.GetOwner().Stats.OnStatUpdated -= OnStatUpdated;
+
+                if (Adr_Rush != null)
+                    Adr_Rush.Init(action.GetOwner().Stats);
             }
+
             action.OnSelectAction += OnActionSelect;
             action.OnUnselectAction += OnActionUnselect;
             action.OnActionComplete += OnActionComplete;
+            action.GetOwner().Stats.OnStatUpdated += OnStatUpdated;
             SetBaseState(m_action);
         }
     }
 
-   
+    bool ShowAdrenalineRush()
+    {
+        return m_action.GetRequirements().Select(req => req.StatType).ToList().Contains(StatType.adrenaline);
+    }
     void OnActionComplete(UnitActionBase _action)
     {
-
             SetBaseState();
    
     }
@@ -60,6 +81,20 @@ public class UI_ActionBar_Button : MonoBehaviour, IToolTip{
     {
         SetBaseState();
     }
+
+    void OnStatUpdated( Stat s)
+    {
+      //  Debug.Log("ON STAT UPDATED " + s.StatType.ToString());
+      //  Debug.Log(m_action.GetRequirements().Length);
+
+        if (m_action.GetRequirements().Select(si => si.StatType).ToList().Contains(s.StatType))
+        {
+       //     Debug.Log("UPDATED");
+            SetBaseState();
+        }
+    }
+
+
     public UnitActionBase GetAction()
     {
         return m_action;
@@ -67,13 +102,13 @@ public class UI_ActionBar_Button : MonoBehaviour, IToolTip{
 
     public void OnActionSelect(UnitActionBase action)
     {
-      //  Debug.Log("Action select");
-        ActionIcon.color = Color.cyan;
+
+        ApplyColorSetting(UI_ActionBar_Button_ColorSetting.GetInstance().BTN_Selected);
     }
 
     public void OnActionUnselect(UnitActionBase action)
     {
-       //  Debug.Log("Action unselect");
+        Debug.Log("Action unselect "+action.ActionID);
         SetBaseState(action);
        
     }
@@ -83,24 +118,51 @@ public class UI_ActionBar_Button : MonoBehaviour, IToolTip{
         SetBaseState(m_action);
     }
 
+    ColorSetting_Button GetBaseColorSetting(UnitActionBase action)
+    {
+        
+        if(Adr_Rush != null && ShowAdrenalineRush() && Adr_Rush.HasRush  && action.CanExecAction(false) )
+        {
+            return UI_ActionBar_Button_ColorSetting.GetInstance().BTN_ADR_Rush;
+        } else
+        {
+            return action.CanExecAction(false) ? UI_ActionBar_Button_ColorSetting.GetInstance().BTN_Active : UI_ActionBar_Button_ColorSetting.GetInstance().BTN_Inactive;
+        }
+    }
+
     public void SetBaseState(UnitActionBase action)
     {
-        ActionIcon.sprite = action.GetImage();
-        ActionIcon.color = action.CanExecAction(false) ? Color.green : Color.red;
+        if (action == null)
+            return;
+        Debug.Log("set base state " + action.ActionID);
+        ActionIcon.sprite = action.GetImage();        
+        
+        ApplyColorSetting(GetBaseColorSetting(action));
+
         UpdateChargers(action);
     }
 
+   
     public void UpdateChargers(UnitActionBase action)
     {
-        ChargesCounterIMG.gameObject.SetActive(action.ChargeController.useCharges);
+        ChargesCounterFill.gameObject.SetActive(action.ChargeController.useCharges);
         ChargesCounterTF.gameObject.SetActive(action.ChargeController.useCharges);
 
-        ChargesCounterIMG.color = action.ChargeController.HasCharges() ? Color.white : Color.red;
+       
         ChargesCounterTF.text = action.ChargeController.GetChargesForType().ToString() + "/" + action.ChargeController.GetMax();
 
-        ChargesCounterTF.color = action.ChargeController.HasCharges() ? Color.black : Color.white;
+        
     }
+    void ApplyColorSetting(ColorSetting_Button setting)
+    {
+        ChargesCounterFill.color = setting.Charge_Counter_Fill;
+        ChargesCounterTF.color = setting.Charge_Text;
+        ChargesCounterIcon.color = setting.Charge_CounterIcon;
+        ChargesCounterBorder.color = setting.Charge_Counter_Frame;
 
+        ActionIcon.color = setting.Icon;
+        ActionFrame.color = setting.Frame;
+    }
     public void SelectAction()
     {
         if(m_manager.GetOwnerID() == 0)
@@ -121,4 +183,20 @@ public class UI_ActionBar_Button : MonoBehaviour, IToolTip{
     {
         return GetAction();
     }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(Hotkey))
+        {
+            SelectAction();
+        }
+    }
+
+   void Awake()
+    {
+        Adr_Rush = GetComponent<UI_AdrenalineRushBase>();
+      
+    }
+
+
 }

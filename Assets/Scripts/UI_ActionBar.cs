@@ -2,21 +2,22 @@
 using System.Collections;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using System.Linq;
 
 public class UI_ActionBar : MonoBehaviour {
     
     public GameObject ButtonPrefab;
-    public Transform ButtonAnchor;
 
+    public List<UI_ActionBar_ButtonAnchor> Anchors;
 
-    public List<UI_ActionBar_Button> CurrentButtons;
+    public Dictionary<ActionButtonID, UI_ActionBar_Button> CurrentButtons;
 
     static UI_ActionBar instance;
 
     void Awake()
     {
         instance = this;
-        CurrentButtons = new List<UI_ActionBar_Button>();
+        SpawnButtons();
         ActionManager.OnActionManagerActivated += SetActions;
        
     }
@@ -46,8 +47,12 @@ public class UI_ActionBar : MonoBehaviour {
 
     void SetBaseStatesInButtons()
     {
-        foreach (UI_ActionBar_Button button in CurrentButtons) button.SetBaseState();
+        foreach (var button in CurrentButtons)
+        {
+            button.Value.SetBaseState();
+        }
     }
+
     void UnSelectAction(UnitActionBase action)
     {
 
@@ -63,6 +68,8 @@ public class UI_ActionBar : MonoBehaviour {
 
     ActionManager m_manager;
 
+
+ 
     void UpdateButtons(ActionManager manager)
     {
         if(m_manager != null && manager != m_manager)
@@ -70,53 +77,61 @@ public class UI_ActionBar : MonoBehaviour {
             UnSelectAction(null);
       
         }
-
-       // if (manager == null) return;
-
-       // If we already have a manager, unregister the events;
-        if(m_manager != null)
+  
+        if (m_manager != null)
         {
             m_manager.OnActionSelected -= OnSelectAction;
             m_manager.OnActionUnselected -= UnSelectAction;
+            
             m_manager = null;
         }
 
         m_manager = manager;
-
-        //Binds the callback for when an action was selected        
+  
         m_manager.OnActionSelected += OnSelectAction;
         m_manager.OnActionUnselected += UnSelectAction;
       
 
-
-        //From here it is all about adjusting the number of buttons in the action bar
-        //check for diff
-        int diff = manager.Actions.Length - CurrentButtons.Count;
-
-        //spawn new buttons and hook them up to the events       
-        for (int i = 0; i < diff; i++)
+       
+        foreach ( var button in CurrentButtons)
         {
-            GameObject newGO = Instantiate(ButtonPrefab);
-            newGO.transform.SetParent(ButtonAnchor, false);
-            UI_ActionBar_Button button = newGO.GetComponent<UI_ActionBar_Button>();
-            button.OnActionHovered += OnSelectAction;           
-
-            CurrentButtons.Add(button);
-            
-        }
-         
-
-        //Go through all the buttons and set the action in the button
-        for(int i = 0; i < CurrentButtons.Count; i++)
-        {
-            bool isActive = i < manager.Actions.Length;
-            CurrentButtons[i].gameObject.SetActive(isActive);
-            if (isActive)
+            UnitActionBase actionb = GetActionForButton(m_manager.Actions.ToList(), button.Key);
+            if(actionb != null)
             {
-                CurrentButtons[i].SetAction(manager.Actions[i], manager);     
-                
+                button.Value.gameObject.SetActive(true);
+                button.Value.SetAction(actionb, m_manager);
+            } else
+            {
+                button.Value.gameObject.SetActive(false);
             }
-            
         }
+
+   
     }
+
+
+    void SpawnButtons()
+    {
+        CurrentButtons = new Dictionary<ActionButtonID, UI_ActionBar_Button>();
+
+        foreach (var anchor in Anchors)
+        {
+            UI_ActionBar_Button button = anchor.Spawn();
+            button.Hotkey = anchor.HotKey;
+
+            button.OnActionHovered += OnSelectAction;
+
+            CurrentButtons.Add(anchor.ButtonID, button);
+        }
+
+    }
+
+    UnitActionBase GetActionForButton(List<UnitActionBase> actions, ActionButtonID id)
+    {
+
+        return actions.Where(ac => ac.target_button == id).FirstOrDefault();
+ 
+    }
+ 
+
 }

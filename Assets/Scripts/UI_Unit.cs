@@ -56,6 +56,8 @@ public class UI_Unit : MonoBehaviour
 
     public void SetUnitInfo(Unit u)
     {
+        GetComponent<UI_AdrenalineRushBase>().Init(u.Stats);
+
         Alphas = new AlphaStack();
         AlphaStackController.Init(Alphas);
         Alphas.AddItem(DefaultItem);

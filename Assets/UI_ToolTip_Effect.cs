@@ -15,7 +15,7 @@ public class UI_ToolTip_Effect : UI_ToolTip_Base {
         Description.text = effect.GetToolTipText();
 
         if(effect.EffectBonus > 1){
-            Description.color = UI_AdrenalineRush.ADR_Color;
+            //   Description.color = UI_AdrenalineRushController.ADR_Color;
         }
 
         if(effect.GetMaxDuration()> 0)

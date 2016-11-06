@@ -2,17 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-
-
  
 public class UnitAction_ApplyEffectFromWeapon : UnitAction_ApplyEffect {
     
     public int WeaponBehaviorIndex;
-
-    void Awake()
-    {
-        orderID = 3 + WeaponBehaviorIndex;
-    }
 
     public override void SetOwner(Unit o)
     {
@@ -50,6 +43,7 @@ public class UnitAction_ApplyEffectFromWeapon : UnitAction_ApplyEffect {
     {
        return GetBehavior().PreviewPrefab;
     }
+
     public override List<Tile> GetPreviewTiles()
     {
         return base.GetPreviewTiles(); 
@@ -101,7 +95,7 @@ public class UnitAction_ApplyEffectFromWeapon : UnitAction_ApplyEffect {
         return GetBehavior().Icon;
     }
 
-    protected override StatInfo[] GetRequirements()
+    public override StatInfo[] GetRequirements()
     {
         return GetBehavior().Requirements;
     }

@@ -67,8 +67,10 @@ public class ActionManager : MonoBehaviour {
 
         Unit.OnUnitKilled += CheckOwnerKilled;
 		UnitActionBase[] raw_actions = GetComponentsInChildren<UnitActionBase>();
-		foreach (UnitActionBase action in raw_actions) action.SetOwner(Owner);	
-		Actions = raw_actions.OrderBy(o => o.orderID).ThenBy(o => o.GetActionID() ).ToArray();
+		foreach (UnitActionBase action in raw_actions) action.SetOwner(Owner);
+
+        Actions = raw_actions;
+		
 
 	}
     public void SetOwner(Unit owner)
@@ -139,41 +141,10 @@ public class ActionManager : MonoBehaviour {
              return;
         }        
 
-        if (Input.GetKeyUp(KeyCode.Alpha1))
-        {
-            SelectAbility(0);
-        }
-        if (Input.GetKeyUp(KeyCode.Alpha2))
-        {
-            SelectAbility(1);
-        }
-        if (Input.GetKeyUp(KeyCode.Alpha3))
-        {
-            SelectAbility(2);
-        }
-        if (Input.GetKeyUp(KeyCode.Alpha4))
-        {
-            SelectAbility(3);
-        }
-        if (Input.GetKeyUp(KeyCode.Alpha5))
-        {
-            SelectAbility(4);
-        }
-        if (Input.GetKeyUp(KeyCode.Alpha6))
-        {
-            SelectAbility(5);
-        }
+       
     }
 
-    public UnitActionBase SelectAbility(int index)
-    {
-        if (Actions.Length <= index)
-        {
-            Debug.LogWarning("No ability #" + index);
-            return null;
-        }
-        return  SelectAbility(Actions[index]);
-    }
+
     public UnitActionBase SelectAbility(UnitActionBase ability)
     {
 
@@ -187,6 +158,7 @@ public class ActionManager : MonoBehaviour {
         UnsetCurrentAction();
         if (!ability.CanExecAction(true))
         {
+            Debug.Log("Nope");
             return null;
         }
         ToastNotification.StopToast();
