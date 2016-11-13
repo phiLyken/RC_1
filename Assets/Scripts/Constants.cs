@@ -35,11 +35,20 @@ public class Constants : MonoBehaviour {
     /// </summary>
     public static int CrumbleHeightThreshold = 4;
 
+    /// <summary>
+    /// How many units a tile moves down per crumble step
+    /// </summary>
+    public static float CrumbleDistancePerStep = 0.15f;
 
     /// <summary>
     /// How many levels a tile can crumble on a crumble turn if it is crumbling
     /// </summary>
-    public static MyMath.R_Range TileCrumbleRangeOnCrumble = new MyMath.R_Range(1, 3);
+    public static MyMath.R_Range TileCrumbleRangeOnFirstCrumble = new MyMath.R_Range(1, 3);
+
+    /// <summary>
+    /// How many levels a tile can crumble on a crumble turn if it is crumbling
+    /// </summary>
+    public static MyMath.R_Range TileCrumbleRangeOnCrumble = new MyMath.R_Range(1, 1);
 
     /// <summary>
     /// Cost of moving diagonal

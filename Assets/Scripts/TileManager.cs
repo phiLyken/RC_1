@@ -7,7 +7,7 @@ public class TileManager : MonoBehaviour {
 
     public static List<TileGroup> Groups;
 
-    public static float HeighSteps = 0.25f;
+ 
     public Tile[,] Tiles;
 
 	public GameObject TilePrefab;
@@ -339,7 +339,7 @@ public class TileManager : MonoBehaviour {
     /// <returns></returns>
     float GetTileHeight(int step)
     {
-        return step * HeighSteps;
+        return step * Constants.CrumbleDistancePerStep;
     }
 
     /// <summary>

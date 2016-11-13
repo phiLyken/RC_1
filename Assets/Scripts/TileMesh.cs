@@ -8,6 +8,7 @@ public class TileMesh : MonoBehaviour {
     public List<TileMesh_Sub> SubMeshes;
     Tile m_tile;
 
+
     void OnParentCrumble(Tile t)
     {
         if (this == null || transform == null || t == null)
@@ -35,6 +36,7 @@ public class TileMesh : MonoBehaviour {
         }
     }
 
+ 
     public void UpdatePos(Tile t)
     {
         if (this == null) {
@@ -58,7 +60,7 @@ public class TileMesh : MonoBehaviour {
 
     Vector3 GetMeshPosition()
     {
-        return  m_tile.GetPosition() + Vector3.up * -0.05f;
+        return  m_tile.GetPosition() + Vector3.up * -0.01f;
     }
 
     void OnParentDeactivate(Tile t)
