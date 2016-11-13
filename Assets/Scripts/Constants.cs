@@ -138,7 +138,7 @@ public class Constants : MonoBehaviour {
         }
 
         //For Testing
-        result += 4;
+    
         return (int)Mathf.Round(result);
     }
 
