@@ -19,22 +19,25 @@ public class UnitFactory : MonoBehaviour
             return null;
         }
         Debug.Log("Creating Unit " + data.ID);
-        GameObject base_unit                = Instantiate(Resources.Load("base_unit")) as GameObject;
-        SpawnLootOnDeath loot               = base_unit.AddComponent<SpawnLootOnDeath>();
-        Unit_EffectManager effect_manager   = base_unit.AddComponent<Unit_EffectManager>();
-        UnitStats stats                     = MakeStats(base_unit, data, effect_manager, initiative_range);
-        UnitInventory inventory             = MakeInventory(data, base_unit, stats);
-        ActionManager actions               = MakeActions(data, base_unit);
-        GameObject mesh                     = MakeMesh(data, base_unit);
+        GameObject base_unit                            = Instantiate(Resources.Load("base_unit")) as GameObject;
+        SpawnLootOnDeath loot                           = base_unit.AddComponent<SpawnLootOnDeath>();
+        Unit_EffectManager effect_manager               = base_unit.AddComponent<Unit_EffectManager>();
+        UnitStats stats                                 = MakeStats(base_unit, data, effect_manager, initiative_range);
+        UnitInventory inventory                         = MakeInventory(data, base_unit, stats);
+        ActionManager actions                           = MakeActions(data, base_unit);
+        GameObject mesh                                 = MakeMesh(data, base_unit);
         
-        UnitAnimationController animations  = mesh.AddComponent<UnitAnimationController>();
-        UnitRotationController rotator      = mesh.AddComponent<UnitRotationController>();
-       
+        UnitAnimationController animations              = mesh.AddComponent<UnitAnimationController>();
+        UnitRotationController rotator                  = mesh.AddComponent<UnitRotationController>();
+
+        UnitAdrenalineRushParticleManager adr_particles = base_unit.GetComponent<UnitAdrenalineRushParticleManager>();
         
-        Unit m_unit                         = base_unit.AddComponent<Unit>();
-        Unit_UnitDeath unit_death           = base_unit.AddComponent<Unit_UnitDeath>();
+        
+        Unit m_unit                                     = base_unit.AddComponent<Unit>();
+        Unit_UnitDeath unit_death                       = base_unit.AddComponent<Unit_UnitDeath>();
 
 
+        adr_particles.Init(stats);
         AddActiveTurnIndicator(m_unit, data.Owner == 0);
         GetName(data, base_unit);
         GiveWeapon(data, mesh, inventory);
@@ -176,13 +179,14 @@ public class UnitFactory : MonoBehaviour
         inventory.AddItem(weapon, 1);
     }
 
-    public static UnitAnimation MakeUnitAnimations(GameObject unit_mesh, WeaponMesh weapon, int index, AnimationCallbackCaster callbacks)
+    public static UnitAnimation MakeUnitAnimations(GameObject unit_mesh, WeaponMesh weapon, int index, AnimationCallbackCaster callbacks, GetBool b )
     {
         WeaponAnimator animator_right = new WeaponAnimator(weapon.AttachmentRight, weapon.FX_Right, weapon.MuzzleRight);
         WeaponAnimator animator_left = new WeaponAnimator(weapon.AttachmentLeft, weapon.FX_Left, weapon.MuzzleLeft);
         Animator unit_animator = unit_mesh.GetComponent<Animator>();
+        UnitAnimation_IdleController idle = unit_mesh.GetComponent<UnitAnimation_IdleController>();
 
-        return new UnitAnimation().Init(unit_animator, animator_right, animator_left, index, callbacks);
+        return new UnitAnimation().Init(unit_animator, animator_right, animator_left, index, callbacks, idle.GetId, b );
     }
 
     public static WeaponMesh SpawnWeaponMeshToUnit(GameObject unit_mesh, WeaponMesh weapon_mesh_prefab)

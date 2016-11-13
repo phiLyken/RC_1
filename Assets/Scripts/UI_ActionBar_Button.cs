@@ -22,6 +22,8 @@ public class UI_ActionBar_Button : MonoBehaviour, IToolTip{
     public Image ActionIcon;
     public Image ActionFrame;
 
+    public float StatUpdateDelay;
+
     public ActionEventHandler OnActionHovered;
 
     UnitInventory inventory;
@@ -32,7 +34,7 @@ public class UI_ActionBar_Button : MonoBehaviour, IToolTip{
 
         m_manager = manager;
         //   manager.OnActionComplete += OnActionComplete;
-         Debug.Log("set action " + action.ActionID);
+        // Debug.Log("set action " + action.ActionID);
         if (m_action != null)
         {
             m_action.OnSelectAction -= OnActionSelect;
@@ -56,8 +58,11 @@ public class UI_ActionBar_Button : MonoBehaviour, IToolTip{
                 inventory.OnInventoryUpdated += OnInventoryUpdate;
                 action.GetOwner().Stats.OnStatUpdated -= OnStatUpdated;
 
-                if (Adr_Rush != null)
+                if(Adr_Rush != null)
+                {
                     Adr_Rush.Init(action.GetOwner().Stats);
+                }
+
             }
 
             action.OnSelectAction += OnActionSelect;
@@ -84,13 +89,11 @@ public class UI_ActionBar_Button : MonoBehaviour, IToolTip{
 
     void OnStatUpdated( Stat s)
     {
-      //  Debug.Log("ON STAT UPDATED " + s.StatType.ToString());
-      //  Debug.Log(m_action.GetRequirements().Length);
 
-        if (m_action.GetRequirements().Select(si => si.StatType).ToList().Contains(s.StatType))
+        if (s.StatType == StatType.adrenaline && m_action.GetRequirements().Select(si => si.StatType).ToList().Contains(s.StatType))
         {
-       //     Debug.Log("UPDATED");
-            SetBaseState();
+      
+           MyMath.ExecuteDelayed(StatUpdateDelay,  SetBaseState);
         }
     }
 
@@ -108,7 +111,7 @@ public class UI_ActionBar_Button : MonoBehaviour, IToolTip{
 
     public void OnActionUnselect(UnitActionBase action)
     {
-        Debug.Log("Action unselect "+action.ActionID);
+      //  Debug.Log("Action unselect "+action.ActionID);
         SetBaseState(action);
        
     }
@@ -134,7 +137,7 @@ public class UI_ActionBar_Button : MonoBehaviour, IToolTip{
     {
         if (action == null)
             return;
-        Debug.Log("set base state " + action.ActionID);
+       // Debug.Log("set base state " + action.ActionID);
         ActionIcon.sprite = action.GetImage();        
         
         ApplyColorSetting(GetBaseColorSetting(action));
@@ -195,7 +198,13 @@ public class UI_ActionBar_Button : MonoBehaviour, IToolTip{
    void Awake()
     {
         Adr_Rush = GetComponent<UI_AdrenalineRushBase>();
-      
+        if (Adr_Rush != null)
+        {
+           
+            Adr_Rush.OnRushGain += SetBaseState;
+            Adr_Rush.OnRushFade += SetBaseState;
+        }
+
     }
 
 

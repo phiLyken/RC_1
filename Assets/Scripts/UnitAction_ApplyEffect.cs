@@ -54,7 +54,7 @@ public class UnitAction_ApplyEffect : UnitActionBase
     {
         if(GetTargetableUnits().Contains(u) && OnTargetHover != null)
         {
-            Debug.Log("Hovered unit on select");
+          //  Debug.Log("Hovered unit on select");
             OnTargetHover(u);
         }
     }

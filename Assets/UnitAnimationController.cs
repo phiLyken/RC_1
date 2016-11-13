@@ -4,8 +4,9 @@ using System.Collections;
 
 public class UnitAnimationController : MonoBehaviour
 {
-  
 
+    UI_AdrenalineRushBase rush;
+ 
     public UnitAnimation UnitAnimator;
     public Unit m_Unit;
 
@@ -13,9 +14,9 @@ public class UnitAnimationController : MonoBehaviour
     {
         m_Unit = u;
  
+
         int index = u.Inventory.EquipedWeapon.WeaponMesh.WeaponIndex;
-        UnitAnimator = UnitFactory.MakeUnitAnimations(mesh, u.Inventory.EquipedWeapon.WeaponMesh, index, mesh.AddComponent<AnimationCallbackCaster>());
-        
+                
         m_Unit.Actions.OnTargetAction += (a, b) => { UnitAnimator.SetAimTarget(b); };
 
         m_Unit.Actions.OnActionStarted += action =>
@@ -31,7 +32,15 @@ public class UnitAnimationController : MonoBehaviour
  
             PlayAnimation(UnitAnimationTypes.bHit);
         };
-        
+
+        rush = gameObject.AddComponent<UI_AdrenalineRushBase>();
+        rush.Init(u.Stats);
+        rush.OnRushGain += () =>
+        {
+            PlayAnimation(UnitAnimationTypes.bRage);
+        };
+
+        UnitAnimator = UnitFactory.MakeUnitAnimations(mesh, u.Inventory.EquipedWeapon.WeaponMesh, index, mesh.AddComponent<AnimationCallbackCaster>(), () => { return rush.HasRush; });
     }
      
     void OnMoveStart(UnitAction_Move m)
@@ -52,7 +61,8 @@ public class UnitAnimationController : MonoBehaviour
       
         UnitAnimator.SetTrigger(anim.ToString());
     }
-   
+    
+ 
     public void WaitForExection(UnitAnimationTypes anim, EventHandler on_exec)
     {        
         PlayAnimation(anim);

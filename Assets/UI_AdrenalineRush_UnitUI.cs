@@ -2,11 +2,23 @@
 using System.Collections;
 
 public class UI_AdrenalineRush_UnitUI : UI_AdrenalineRushBase {
+    public GameObject Target;
 
-    protected override void UpdateBonus(int _bonus)
+
+    void Awake()
     {
-        Target.SetActive(_bonus > 1);
+        Target.SetActive(false);
+    }
+    protected override void RushGain()
+    {
+        Target.SetActive(true);
     }
 
-    public GameObject Target;
+    protected override void RushLoss()
+    {
+        Target.SetActive(false);
+    }
+   
+
+   
 }

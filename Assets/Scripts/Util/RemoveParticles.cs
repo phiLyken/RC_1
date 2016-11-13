@@ -10,7 +10,10 @@ public class RemoveParticles : MonoBehaviour {
     void Awake()
     {
         systems = new List<ParticleSystem>();
-        systems.Add(GetComponent<ParticleSystem>());
+        ParticleSystem _this = GetComponent<ParticleSystem>();
+        if (_this != null)
+            systems.Add(_this);
+
         systems.AddRange(GetComponentsInChildren<ParticleSystem>().ToList());
 
     }

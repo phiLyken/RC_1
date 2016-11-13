@@ -29,6 +29,11 @@ public static class MyMath  {
 		return best;
 	}
 
+    public static IEnumerator ExecuteDelayed(float time, Action func)
+    {
+        yield return new WaitForSeconds(time);
+        func();
+    }
    
     public static Vector3[] GetTransformBoundPositionTop(Transform transform)
     {

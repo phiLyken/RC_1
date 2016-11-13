@@ -7,6 +7,11 @@ public class UnitAnimation
 {
     Animator unit_animator;
 
+
+
+    
+    GetInt GetIdle;
+    GetBool GetRage;
     WeaponAnimator WeaponAnimator_Right;
     WeaponAnimator WeaponAnimator_Left;
 
@@ -15,8 +20,10 @@ public class UnitAnimation
     public  EventHandler OnExec;
     bool WaitForExecution;
 
-    public UnitAnimation Init(Animator unit, WeaponAnimator right, WeaponAnimator left, float index, AnimationCallbackCaster callback )
+    public UnitAnimation Init(Animator unit, WeaponAnimator right, WeaponAnimator left, float index, AnimationCallbackCaster callback, GetInt get_id, GetBool rs  )
     {
+        GetIdle = get_id;
+        GetRage = rs;
         WeaponAnimator_Left = left;
         WeaponAnimator_Right = right;
         unit_animator = unit;
@@ -53,6 +60,11 @@ public class UnitAnimation
         unit_animator.SetBool("bMoving", b);
     }
 
+    public void SetIdleIndex(float b)
+    {
+        unit_animator.SetFloat("IdleIndex", (int) b);
+    }
+
     void AttemptExection()
     {
     
@@ -63,13 +75,15 @@ public class UnitAnimation
             OnExec = null;
         }
 
-        Debug.Log("attempted to callback");
+      //  Debug.Log("attempted to callback");
     }
     public void AbilityCallback(string id)
-    {
-   
+    {   
         switch (id)
         {
+            case "idle_end":
+                unit_animator.SetFloat("IdleIndex", GetIdle(GetRage()  ));
+                break;
             case "shoot_left":
                 WeaponAnimator_Left.PlayShoot(AimTarget, OnShotEnd);
                 break;

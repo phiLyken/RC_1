@@ -44,7 +44,7 @@ public class ViewList<Item, View> where View : MonoBehaviour
         }
         if (items != null && items.Count > 0)
         {
-           Debug.Log(items.Count + " " +views.Count);
+           //Debug.Log(items.Count + " " +views.Count);
             if (views.Count > 0)
             {
                    to_create = items.Where(item => !views.ContainsKey(item)).ToList();

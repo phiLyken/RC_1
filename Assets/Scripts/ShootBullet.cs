@@ -69,7 +69,7 @@ public class ShootBullet : MonoBehaviour
 public class EffectSpawner{
 
     public AudioClip Sound;
-    public ParticleSystem Particle;
+    public GameObject Particle;
     public LightFlash Flash;
 
     public void Init(GameObject target)

@@ -8,6 +8,10 @@ public delegate void EffectEventHandler(UnitEffect effect);
 [System.Serializable]
 public class UnitEffect : MonoBehaviour
 {
+
+    public EffectSpawner VFX_Tick;
+    public EffectSpawner VFX_Applied;
+
     public enum TargetModes
     {   Owner, Target  }
 
@@ -105,6 +109,10 @@ public class UnitEffect : MonoBehaviour
             {
                 TurnSystem.Instance.OnGlobalTurn += copy.OnGlobalTurn;
 
+                if (VFX_Applied != null)
+                    VFX_Applied.Init(target.gameObject);
+               
+
                 if (TickOnApply)
                     copy.EffectTick();
             }
@@ -165,7 +173,11 @@ public class UnitEffect : MonoBehaviour
         }
 
         if (!Effect_Host.IsDead() && (_durationActive % Mathf.Max(1,TickFrequency)) == 0)
+        { 
             GlobalTurnTick();
+            if (VFX_Tick != null)
+                VFX_Tick.Init(Effect_Host.gameObject);
+        }
     }
 
     public virtual string GetToolTipText()

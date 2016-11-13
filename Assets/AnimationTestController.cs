@@ -1,8 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class AnimationTestController : MonoBehaviour
 {
+
+    public bool IsRaged;
+    UnitAnimation_IdleController idleController;
 
     UnitAnimation m_Animator;
     WeaponMesh current;
@@ -38,7 +42,9 @@ public class AnimationTestController : MonoBehaviour
         AnimationCallbackCaster caster = TargetUnit.GetComponent<AnimationCallbackCaster>();
 
         current = UnitFactory.SpawnWeaponMeshToUnit(TargetUnit, mesh);
-        m_Animator = UnitFactory.MakeUnitAnimations(TargetUnit, current, current.WeaponIndex, caster);
+
+        UnitAnimation_IdleController idle = mesh.GetComponent<UnitAnimation_IdleController>();
+        m_Animator = UnitFactory.MakeUnitAnimations(TargetUnit, current, current.WeaponIndex, caster, () => { return IsRaged; } );
 
 
     }

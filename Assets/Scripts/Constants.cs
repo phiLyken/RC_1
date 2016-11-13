@@ -128,6 +128,8 @@ public class Constants : MonoBehaviour {
             result += Random.Range(min, max);
         }
 
+        //For Testing
+        result += 4;
         return (int)Mathf.Round(result);
     }
 
