@@ -2,8 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class UnitBar : MonoBehaviour {
+
+    public RectTransform AdrenalineRushPreview;
+    public Image AdrenalineRushPreview_Adr;
     public List<Image> Bar_Steps;
     public int Max;
     public Color IntColor;
@@ -69,6 +73,24 @@ public class UnitBar : MonoBehaviour {
 
             Bar_Steps[i].color = color;
 
+        }
+
+        int preview_pos = Mathf.Min(_will, _max - 2);
+        SetAdrenalineRushPreview(preview_pos, _intensity);
+    }
+
+    void SetAdrenalineRushPreview(int at_nunmber, int adrenaline_count)
+    {
+        if(adrenaline_count > 1)
+        {
+            AdrenalineRushPreview.gameObject.SetActive(false);
+        } else
+        {
+            AdrenalineRushPreview.gameObject.SetActive(true);
+            RectTransform target = Bar_Steps[at_nunmber].rectTransform;
+            AdrenalineRushPreview.SetParent(target, false);
+            AdrenalineRushPreview.anchoredPosition = new Vector3(target.sizeDelta.x / 2, -target.sizeDelta.y / 2, 0);
+            AdrenalineRushPreview_Adr.gameObject.SetActive(adrenaline_count == 1);
         }
     }
 }
