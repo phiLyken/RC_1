@@ -28,8 +28,10 @@ public class Tile_Loot : TileComponent {
 
         loot = _loot;
         crate = Instantiate(_loot.WorldObject);
-        crate.transform.position = gameObject.GetComponent<Tile>().GetPosition();
 
+        Tile t = gameObject.GetComponent<Tile>();
+        crate.transform.position = t.GetPosition();
+        crate.transform.SetParent(t.transform, false);
         LootContentConfig content = WeightableFactory.GetWeighted(loot.Drops);
         
 
