@@ -148,12 +148,13 @@ public class ActionManager : MonoBehaviour {
     public UnitActionBase SelectAbility(UnitActionBase ability)
     {
 
-        if (Unit.SelectedUnit != Owner || !HasAP()) return null;
+        if (Unit.SelectedUnit != Owner || !HasAP() || IsAnimationPlaying()) return null;
         if (currentAction != null && currentAction == ability)
         {
             UnsetCurrentAction();
             return null;
         }
+ 
 
         UnsetCurrentAction();
         if (!ability.CanExecAction(true))
@@ -219,6 +220,17 @@ public class ActionManager : MonoBehaviour {
     public T GetActionOfType <T>()
     {
         return Actions.OfType<T>().ToList()[0];
+    }
+
+    bool IsAnimationPlaying()
+    {
+        foreach(var v in Actions)
+        {
+            if (v.ActionInProgress)
+                return true;
+        }
+
+        return false;
     }
 
 }

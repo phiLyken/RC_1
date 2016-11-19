@@ -37,8 +37,9 @@ public class Unit_UnitDeath : MonoBehaviour {
         public DeathEvent(Unit u)
         {
             StartEvent();
-              m_unit = u;
+            m_unit = u;
             m_unit.GetComponentInChildren<UnitAnimationController>().WaitForExection(UnitAnimationTypes.bDying, null);
+            
             Sequence seq = DOTween.Sequence().InsertCallback(4f, () => EndEvent() );
             seq.Play();
 

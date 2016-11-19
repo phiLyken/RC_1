@@ -89,6 +89,7 @@ public class UnitBar : MonoBehaviour {
             AdrenalineRushPreview.gameObject.SetActive(true);
             RectTransform target = Bar_Steps[at_nunmber].rectTransform;
             AdrenalineRushPreview.SetParent(target, false);
+        
             AdrenalineRushPreview.anchoredPosition = new Vector3(target.sizeDelta.x / 2, -target.sizeDelta.y / 2, 0);
             AdrenalineRushPreview_Adr.gameObject.SetActive(adrenaline_count == 1);
         }

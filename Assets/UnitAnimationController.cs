@@ -58,7 +58,7 @@ public class UnitAnimationController : MonoBehaviour
 
     public void PlayAnimation(UnitAnimationTypes anim)
     {
-      
+         
         UnitAnimator.SetTrigger(anim.ToString());
     }
     

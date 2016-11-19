@@ -137,7 +137,9 @@ public class UnitStats : MonoBehaviour
         }
 
         int x, y = 0;
-        AddInt(int_received, true, out x, out y);
+        
+        if(GetStatAmount(StatType.oxygen) > 0)
+            AddInt(int_received, true, out x, out y);
 
         if (GetStatAmount(StatType.oxygen) <= 0 && OnHPDepleted != null)
         {
