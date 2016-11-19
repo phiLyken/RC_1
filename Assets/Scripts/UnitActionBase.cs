@@ -222,4 +222,9 @@ public class UnitActionBase : MonoBehaviour {
     {
         return ExecAnimation;
     }
+
+    public virtual bool GetEndsTurn()
+    {
+        return EndTurnOnUse;
+    }
 }

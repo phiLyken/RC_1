@@ -95,6 +95,10 @@ public class UnitAction_ApplyEffectFromWeapon : UnitAction_ApplyEffect {
         return GetBehavior().Icon;
     }
 
+    public override bool GetEndsTurn()
+    {
+        return GetBehavior().EndTurn;
+    }
     public override StatInfo[] GetRequirements()
     {
         return GetBehavior().Requirements;

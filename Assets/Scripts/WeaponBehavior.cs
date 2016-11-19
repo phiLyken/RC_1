@@ -16,7 +16,7 @@ public class WeaponBehavior :   MonoBehaviour {
  
     public List<  UnitEffect > Effects;
     public IntBonus IntBonus;
-
+    public bool EndTurn;
     public TargetInfo TargetRule;
 
     public string TileViewState;

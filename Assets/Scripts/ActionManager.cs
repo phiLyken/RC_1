@@ -191,7 +191,7 @@ public class ActionManager : MonoBehaviour {
 
     void OnActionUsed(UnitActionBase action)
     {
-        AP_Used += action.EndTurnOnUse ? MaxAP : action.AP_Cost;
+        AP_Used += action.GetEndsTurn() ? MaxAP : action.AP_Cost;
 
         CurrentTurnCost += (int) action.GetTimeCost();
 

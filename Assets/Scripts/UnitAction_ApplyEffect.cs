@@ -168,6 +168,7 @@ public class UnitAction_ApplyEffect : UnitActionBase
 
     }
 
+  
     /// <summary>
     /// Returns true if the effect can be applied applied from the owners tile [application filter & LOS & range are applied)
     /// </summary>
