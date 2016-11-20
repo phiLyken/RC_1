@@ -151,7 +151,7 @@ public class Constants : MonoBehaviour {
     public static int GetAttackTimeDelay(float base_delay_from_stats, float delay_from_weapon)
     {
         int time_cost = (int) (base_delay_from_stats + delay_from_weapon);
-        Debug.Log(" Attack Cost Calculation :" + time_cost);
+        //Debug.Log(" Attack Cost Calculation :" + time_cost);
         return time_cost;
     }
 

@@ -56,7 +56,7 @@ public class ViewList<Item, View> where View : MonoBehaviour
 
             foreach (Item i in to_create)
             {
-                 Debug.Log(i.ToString());
+                 //Debug.Log(i.ToString());
                 views.Add(i, MakeView(i));
             }
 

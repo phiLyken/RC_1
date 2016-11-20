@@ -38,7 +38,7 @@ public class Unit_EffectManager : MonoBehaviour {
 
             new_effect.OnEffectTick += OnEffectTick;
 
-            Debug.Log(" EFFECT_ADDED " + new_effect.GetShortHandle());
+            //Debug.Log(" EFFECT_ADDED " + new_effect.GetShortHandle());
             new_effect.OnEffectExpired += OnEffectExpired;
 
             Unit.OnUnitKilled += u =>

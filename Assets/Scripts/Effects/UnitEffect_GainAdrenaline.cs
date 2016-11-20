@@ -23,7 +23,7 @@ public class UnitEffect_GainAdrenaline : UnitEffect
 
     protected override void EffectTick()
     {
-        Debug.Log("Ticked Adrenealin Baked Adrenaline " + baked_adrenaline);
+       // Debug.Log("Ticked Adrenealin Baked Adrenaline " + baked_adrenaline);
         Effect_Host.Stats.AddInt(baked_adrenaline, ConsumeWill, out removed, out added);
        // Debug.Log(removed + " " + added);
         Ticked();

@@ -37,6 +37,7 @@ public class UnitStat_TestEditor : Editor {
 
         foreach(StatType t in all_types)
         {
+             
             GUILayout.Label(t.ToString() + ": " + stats.GetStatAmount(t));
         }
     }
