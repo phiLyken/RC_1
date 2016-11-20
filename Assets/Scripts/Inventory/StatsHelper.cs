@@ -158,7 +158,7 @@ public class Stat
     public override void SetAmount(float new_value)
     {
         
-        Debug.Log(StatType.ToString() + " " + new_value);
+       // Debug.Log(StatType.ToString() + " " + new_value);
         amount = new_value;
     }
 

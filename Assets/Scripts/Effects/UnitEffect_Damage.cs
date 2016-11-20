@@ -27,7 +27,7 @@ public class UnitEffect_Damage : UnitEffect
     {
 
         UnitEffect_Damage _cc = (UnitEffect_Damage)( (UnitEffect_Damage) original).MemberwiseClone() ;
-
+        _cc.Effect_Host = host;
         _cc.baked_damage = UnityEngine.Random.Range(GetMin(), GetMax()+1);
         _cc.isCopy = true;
         return _cc;
@@ -38,7 +38,7 @@ public class UnitEffect_Damage : UnitEffect
         int value = 0;
         if(Instigator != null && UseAttackStat)
         {
-            value = (int) (DamageRange.min + ((Unit) Instigator).Stats.GetStatAmount(StatToUseMin));
+            value = (int) (DamageRange.min + ((UnitAction_ApplyEffect) Instigator).GetOwner().Stats.GetStatAmount(StatToUseMin));
                
         } else
         {
@@ -58,7 +58,7 @@ public class UnitEffect_Damage : UnitEffect
         int value = 0;
         if (Instigator != null && UseAttackStat)
         {
-            value = (int) (DamageRange.max + ((Unit) Instigator).Stats.GetStatAmount(StatToUseMax));
+            value = (int) (DamageRange.max + ((UnitAction_ApplyEffect) Instigator).GetOwner().Stats.GetStatAmount(StatToUseMax));
 
         }
         else

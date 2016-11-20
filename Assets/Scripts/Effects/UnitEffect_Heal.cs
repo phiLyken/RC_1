@@ -8,6 +8,10 @@ using System;
 [System.Serializable]
 public class UnitEffect_Heal : UnitEffect
 {
+
+    int baked_heal;
+    int baked_adr;
+
     public override UnitEffect MakeCopy(UnitEffect origin, Unit host)
     {
         UnitEffect_Heal heal = (UnitEffect_Heal)origin;
@@ -21,8 +25,9 @@ public class UnitEffect_Heal : UnitEffect
 
     protected override void EffectTick()
     {
+ 
         Debug.Log("heal effect..");
-        (Effect_Host.Stats).Rest();
+        Effect_Host.Stats.Rest();
         Ticked();
     }
 

@@ -14,7 +14,8 @@ public class UnitEffect_GainAdrenaline : UnitEffect
     int added = -1;
 
     public override UnitEffect MakeCopy(UnitEffect origin, Unit effect_host)
-    { 
+    {
+        Effect_Host = effect_host;
         UnitEffect_GainAdrenaline stim = (UnitEffect_GainAdrenaline)( (UnitEffect_GainAdrenaline) origin).MemberwiseClone();
         stim.baked_adrenaline = Constants.GetGainedAdrenaline(effect_host.Stats, Rolls) ;
         
@@ -29,6 +30,7 @@ public class UnitEffect_GainAdrenaline : UnitEffect
         Ticked();
     }
 
+
     public override string GetToolTipText()
     {
             
@@ -36,18 +38,24 @@ public class UnitEffect_GainAdrenaline : UnitEffect
         if (ConsumeWill)
             str += "\nConsumes Oxygen if the units stamina is exceeded.";
 
+    
+
         return str;
         
     }
 
     public override string GetShortHandle()
     {
-        return "Rage";
+        return "+ " + Constants.GetRageAdrenalineMin(  ((UnitAction_ApplyEffect) Instigator).GetOwner().Stats, Rolls) +"-"+
+           + Constants.GetRageAdrenalineMax(((UnitAction_ApplyEffect) Instigator).GetOwner().Stats, Rolls) +
+           " " + UnitStats.StatToString(StatType.adrenaline);
+        ;
     }
 
     public override string GetNotificationText()
     {
-        return  "+" +baked_adrenaline.ToString() + " Adrenaline";
+        return "+" + baked_adrenaline.ToString() +" "+ UnitStats.StatToString(StatType.adrenaline);
+        ;
     }
 
 }

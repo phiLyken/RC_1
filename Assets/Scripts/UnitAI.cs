@@ -29,7 +29,7 @@ public class UnitAI : MonoBehaviour, ITriggerable {
 
         m_unit.OnDamageReceived += dmg =>
         {
-            OnTrigger(dmg.Instigator as Unit);
+            OnTrigger((dmg.Instigator as UnitAction_ApplyEffect).GetOwner());
         };
 
       
@@ -55,7 +55,7 @@ public class UnitAI : MonoBehaviour, ITriggerable {
         {
             if(Random.value < 0.15f)
             {
-                preferred_target = dmg.Instigator as Unit;
+                preferred_target = (dmg.Instigator as UnitAction_ApplyEffect).GetOwner();
             }
         }
     }

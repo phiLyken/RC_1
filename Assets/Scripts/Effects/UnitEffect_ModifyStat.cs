@@ -10,7 +10,10 @@ public class UnitEffect_ModifyStat : UnitEffect
 
     public StatType type;
    
+  
     public float Percent;
+    public StatType percent_of;
+    public bool ApplyDiff;
 
     public int Absolute;
         
@@ -22,17 +25,22 @@ public class UnitEffect_ModifyStat : UnitEffect
 
         if(Percent != 0)
         {
-            int _base = (int) Effect_Host.Stats.GetStatAmount(type);
+            int _base = (int) Effect_Host.Stats.GetStatAmount(percent_of);
             value = (int) ( _base * Percent );
         }
-         
-        return value * EffectBonus; 
+
+        value *= EffectBonus;
+
+        if (ApplyDiff)
+        { 
+             int old_value = (int) Effect_Host.Stats.GetStatAmount(type);
+            return value - old_value;
+        }
+        return  value;
+      
     }
 
-    float GetBase()
-    {
-       return (Percent != 0) ? (Percent) : Absolute;
-    }
+ 
     
     public override string GetShortHandle()
     {
@@ -42,17 +50,20 @@ public class UnitEffect_ModifyStat : UnitEffect
     
     public override string GetToolTipText()
     {
-        int _mod_abs = (int)( Absolute * EffectBonus);
+
+        int _mod_abs = (int)( Absolute * EffectBonus );
         int _mod_percent = (int) (Percent * 100 * EffectBonus);
 
-        string amount = (Percent != 0) ? _mod_percent.ToString("##.0") : _mod_abs.ToString("+#;-#;0");
+        string amount = (Percent != 0) ? (_mod_percent.ToString("+#;-#;0") +"%") : _mod_abs.ToString("+#;-#;0");
 
         return amount + " "+ UnitStats.StatToString(type);
     }
 
     public override string GetNotificationText()
     {
-        return GetToolTipText();
+ 
+
+        return _baked.ToString("+#;-#;0") + " " + UnitStats.StatToString(type);
     }
     /// <summary>
     /// clones itself to the target
@@ -60,9 +71,11 @@ public class UnitEffect_ModifyStat : UnitEffect
     /// <param name="target"></param>
     public override UnitEffect MakeCopy(UnitEffect origin, Unit host)
     {
+        Effect_Host = host;
         UnitEffect_ModifyStat _cc = (UnitEffect_ModifyStat) origin;
+         
         _cc.isCopy = true;
-        _cc._baked = GetBaked();
+        _cc._baked = _cc.GetBaked();
         return _cc.MemberwiseClone() as UnitEffect_ModifyStat;
     }
 

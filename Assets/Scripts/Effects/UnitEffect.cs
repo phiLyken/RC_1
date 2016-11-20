@@ -47,8 +47,9 @@ public class UnitEffect : MonoBehaviour
         return (TargetMode == TargetModes.Owner) ? instigator : target;
     }
 
-    public void Init(Unit owner)
+    public void Init(UnitAction_ApplyEffect owner)
     {
+        
         EffectBonus = 1;
         Instigator = owner;
 
@@ -62,13 +63,13 @@ public class UnitEffect : MonoBehaviour
         TurnSystem.Instance.OnGlobalTurn -= OnGlobalTurn;
     }
 
-    public IEnumerator ApplyEffectSequence(Unit target, Unit instigator) {
+    public IEnumerator ApplyEffectSequence(Unit target, UnitAction_ApplyEffect instigator) {
 
         Instigator = instigator;
-        target = GetTarget(target, instigator);
+        target = GetTarget(target, instigator.GetOwner() );
         
         if (FocusOnCaster && PanCamera.Instance != null) {
-            PanCamera.Instance.PanToPos(instigator.currentTile.GetPosition());
+            PanCamera.Instance.PanToPos(instigator.GetOwner().currentTile.GetPosition());
             yield return new WaitForSeconds(0.5f);
         }
 
@@ -100,7 +101,7 @@ public class UnitEffect : MonoBehaviour
     {
         //Make copy
         UnitEffect copy = MakeCopy(effect, target);
-        copy.Effect_Host = target;
+  
    
 
         if (CanApplyEffect(target, copy))
@@ -205,6 +206,6 @@ public class UnitEffect : MonoBehaviour
 
     public void UpdateBonus()
     {
-        EffectBonus = Constants.GetAdrenalineRushBonus((Instigator as Unit).Stats);
+        EffectBonus = Constants.GetAdrenalineRushBonus((Instigator as UnitAction_ApplyEffect).GetOwner().Stats);
     }
 }
