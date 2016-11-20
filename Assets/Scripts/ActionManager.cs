@@ -139,8 +139,12 @@ public class ActionManager : MonoBehaviour {
         {
              SkipTurn();
              return;
-        }        
+        }
 
+        if (Input.GetMouseButtonDown(1))
+        {
+            UnsetCurrentAction();
+        }
        
     }
 
