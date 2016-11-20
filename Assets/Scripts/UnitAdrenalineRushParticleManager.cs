@@ -20,7 +20,7 @@ public class UnitAdrenalineRushParticleManager : UI_AdrenalineRushBase {
 
     protected override void RushGain()
     {
-        Debug.Log("Rush Gain");
+       // Debug.Log("Rush Gain");
      
        RushGainParticle.OneShotParticle(transform.position);
         
@@ -30,7 +30,7 @@ public class UnitAdrenalineRushParticleManager : UI_AdrenalineRushBase {
 
     protected override void RushLoss()
     {
-        Debug.Log("Rush loss");
+      //  Debug.Log("Rush loss");
 
         this.ExecuteDelayed(0, () => active_particles.ToggleParticles(false));
        

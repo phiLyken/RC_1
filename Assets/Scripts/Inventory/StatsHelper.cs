@@ -140,23 +140,25 @@ public class Stat
             
     }
 
-    public virtual void SetAmountDelta(UnitStats stats, float delta)
-    {
-        SetAmount(GetAmount(stats) + delta);
-    }
+ 
 }
 
-    public class ModifiableStat : Stat
-    {
-        private float amount;
+   
 
-        public ModifiableStat(StatType type, float startAmount) : base(type)
-        {
-            amount = startAmount;
-        }
+
+ public class ModifiableStat : Stat
+{
+    private float amount;
+
+    public ModifiableStat(StatType type, float startAmount) : base(type)
+    {
+        amount = startAmount;
+    }
 
     public override void SetAmount(float new_value)
     {
+        
+        Debug.Log(StatType.ToString() + " " + new_value);
         amount = new_value;
     }
 
@@ -165,5 +167,4 @@ public class Stat
         return amount;
     }
 }
-
 

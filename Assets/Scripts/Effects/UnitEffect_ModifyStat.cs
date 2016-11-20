@@ -68,11 +68,13 @@ public class UnitEffect_ModifyStat : UnitEffect
 
     protected  override void EffectTick()
     {
-        Ticked();
-        if (!Effect_Host.IsDead()) {
-           Effect_Host.Stats.GetStat(type).SetAmountDelta( Effect_Host.Stats, _baked);
-           
+        if (!Effect_Host.IsDead())
+        {
+            Effect_Host.Stats.SetStatAmountDelta(type, _baked);
+
         }
+        Ticked();
+        
     }
 
 }

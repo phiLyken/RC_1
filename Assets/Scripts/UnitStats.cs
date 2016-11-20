@@ -61,7 +61,7 @@ public class UnitStats : MonoBehaviour
         Stat stat = GetStat(type);
         if(stat == null)
         {
-            Debug.Log("Stat not foudn " + type);
+           // Debug.Log("Stat not foudn " + type);
             return 0;
         }
 
@@ -82,6 +82,11 @@ public class UnitStats : MonoBehaviour
         if (old_value != new_value) {            
             Updated(s);
         }
+    }
+
+    public void SetStatAmountDelta(StatType type, float delta)
+    {
+        SetStatAmount(type, GetStatAmount(type) + delta);
     }
 
     protected void Updated(Stat stat)

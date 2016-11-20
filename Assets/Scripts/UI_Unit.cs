@@ -141,7 +141,7 @@ public class UI_Unit : MonoBehaviour
             stat.StatType == StatType.oxygen ||
             stat.StatType == StatType.adrenaline)
         { 
-         //   Debug.Log("Update Values " + m_unit);
+            // Debug.Log("Update Values " + m_unit+ " stat:"+stat.StatType.ToString());
             Alphas.AddItem(ValuesNeedUpdateItem);
             StopAllCoroutines();
             StartCoroutine(IEUpdateValuesDelayed());
@@ -180,6 +180,8 @@ public class UI_Unit : MonoBehaviour
 
     void UpdateValues()
     {
+
+      //  Debug.Log("update values " + m_unit.GetID());
         StatBar.SetBarValues(
             (int) m_unit.Stats.GetStatAmount(StatType.oxygen),
             (int) m_unit.Stats.GetStatAmount(StatType.adrenaline),
@@ -192,6 +194,7 @@ public class UI_Unit : MonoBehaviour
 
         while( AlphaStackController.GetAlpha() < ValuesNeedUpdateItem.Alpha)
         {
+           // Debug.Log("Waiting for ALPHA " + ValuesNeedUpdateItem.Alpha);
             yield return null;
         }
 
