@@ -47,7 +47,7 @@ public class UnitEffect_GainAdrenaline : UnitEffect
 
     public override string GetNotificationText()
     {
-        return "Rage (" + baked_adrenaline.ToString() + ")";
+        return  "+" +baked_adrenaline.ToString() + " Adrenaline";
     }
 
 }
