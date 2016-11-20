@@ -9,6 +9,8 @@ public class WeaponBehavior :   MonoBehaviour {
     public UnitAnimationTypes ExecAnimation;
 
     public string ActionID;
+    public string Description;
+
     public StatInfo[] Requirements;
 
     public Sprite Icon;

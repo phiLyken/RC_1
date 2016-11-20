@@ -11,6 +11,14 @@ public class UI_ActionBar_Button_ColorSetting : ScriptableObject {
     public ColorSetting_AdrRush_Attack ADR_Attack_Active;
     public ColorSetting_AdrRush_Attack ADR_Attack_InActive;
 
+    public ColorSettingToolTipItem TT_ADR_Bonus_Active;
+    public ColorSettingToolTipItem TT_ADR_Bonus_Inactive;
+
+
+    public ColorSettingToolTipItem TT_EFF_Bonus_Active;
+    public ColorSettingToolTipItem TT_EFF_Bonus_Inactive;
+
+
     public static UI_ActionBar_Button_ColorSetting GetInstance()
     {
 
@@ -42,7 +50,15 @@ public class ColorSetting_AdrRush_Attack
     public Color TitleText = Color.magenta;
     public Color Icon = Color.magenta;
     public Color Frame = Color.magenta;
-
-
 }
+
+[System.Serializable]
+public class ColorSettingToolTipItem
+{
+   
+    public Color Text = Color.magenta;
+    public Color Icon = Color.magenta;
+    public Color Background = Color.magenta; 
+}
+
 

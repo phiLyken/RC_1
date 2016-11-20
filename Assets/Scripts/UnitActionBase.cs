@@ -227,4 +227,9 @@ public class UnitActionBase : MonoBehaviour {
     {
         return EndTurnOnUse;
     }
+
+    public virtual string GetDescription()
+    {
+        return Descr;
+    }
 }

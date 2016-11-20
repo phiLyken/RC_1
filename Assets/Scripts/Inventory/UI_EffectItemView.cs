@@ -9,6 +9,7 @@ public class UI_EffectItemView : MonoBehaviour, IToolTip {
     public Sprite Target_Owner;
     public Sprite Target_Target;
 
+ 
     public Image Icon;
     public Image BG;
 
@@ -22,6 +23,7 @@ public class UI_EffectItemView : MonoBehaviour, IToolTip {
     {
 
         UI_ActionBar_Button_ColorSetting setting = UI_ActionBar_Button_ColorSetting.GetInstance();
+        ColorSettingToolTipItem color = new_effect.EffectBonus > 1 ? setting.TT_EFF_Bonus_Active : setting.TT_EFF_Bonus_Inactive;
 
         BG.sprite = new_effect.TargetMode == UnitEffect.TargetModes.Owner ? Target_Owner : Target_Target;
 
@@ -31,13 +33,14 @@ public class UI_EffectItemView : MonoBehaviour, IToolTip {
         if(new_effect.Icon != null)
         {
             Icon.sprite = new_effect.Icon;
-
-            Icon.color = new_effect.EffectBonus > 1 ? setting.BTN_ADR_Rush.Icon : setting.BTN_Active.Icon;
+            Icon.color = color.Icon;
         }
 
 
         Text.text = new_effect.GetShortHandle();
-        Text.color = new_effect.EffectBonus > 1 ? setting.BTN_ADR_Rush.Icon : setting.BTN_Active.Icon;
+        Text.color = color.Text;
+ 
+        BG.color = color.Background;
 
     }
 

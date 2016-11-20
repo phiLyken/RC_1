@@ -16,7 +16,8 @@ public class UI_ToolTipAbility_Header : MonoBehaviour
  
         Icon.sprite = ability.GetImage();
         Name.text = ability.GetActionID();
-        Description.text = ability.Descr;
+        Description.text = ability.GetDescription();
+    
 
         EndsTurnIndicator.SetActive(ability.GetEndsTurn());
     }

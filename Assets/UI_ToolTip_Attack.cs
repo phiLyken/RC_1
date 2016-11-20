@@ -17,7 +17,7 @@ public class UI_ToolTip_Attack : UI_ToolTip_AbilityBase
         
         if (ae.WeaponBehaviorIndex == 0)
         {
-            UI_AdrenalineRushBase adr_ui = (Instantiate(Resources.Load("UI/ui_adrenaline_rush")) as GameObject).GetComponent<UI_AdrenalineRushBase>();
+            UI_ToolTip_AdrenalineRush adr_ui = (Instantiate(Resources.Load("UI/ui_adrenaline_rush")) as GameObject).GetComponent<UI_ToolTip_AdrenalineRush>();
             adr_ui.transform.SetParent(AdrenalineBonus, false);
             adr_ui.Init(ability.GetOwner().Stats);
         } else

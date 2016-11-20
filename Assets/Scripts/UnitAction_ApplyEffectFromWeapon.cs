@@ -123,4 +123,9 @@ public class UnitAction_ApplyEffectFromWeapon : UnitAction_ApplyEffect {
     {
         return GetBehavior().ExecAnimation;
     }
+
+    public override string GetDescription()
+    {
+        return GetBehavior().Description;
+    }
 }
