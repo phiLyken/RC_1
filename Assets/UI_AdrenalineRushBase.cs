@@ -6,32 +6,34 @@ using System;
 
 public class UI_AdrenalineRushBase : MonoBehaviour {
 
-    UnitStats Stats;
+    protected  UnitStats Stats;
     public float EnableDelay;
     public Action OnRushGain;
     public Action OnRushFade;
     public bool HasRush;
-    int old_rush;
+    int old_adr;
 
     public void Init(UnitStats unit_stats)
     {
         Stats = unit_stats;
         Stats.OnStatUpdated += OnUpdateStat;
-        old_rush = GetIntBonus();
-        UpdateBonus(GetIntBonus());
+        old_adr = GetAdr();
+        UpdateAdrenaline(GetAdr());
+        UpdateBonus(GetBonus());
     }
 
  
     protected void OnUpdateStat(Stat s)
     {
+        int threshold = Constants.ADRENALINE_RUSH_THRESHOLD;
         if (s.StatType == StatType.adrenaline)
         {
             if (gameObject != null && gameObject.activeSelf)
             {
 
-                int b  = GetIntBonus();
-                HasRush = b > 1;
-                if (old_rush <= 1 && HasRush )
+                int _currentAdrenaline  = GetAdr();
+                HasRush = _currentAdrenaline >= threshold;
+                if (old_adr < threshold && HasRush )
                 {
                     this.ExecuteDelayed(EnableDelay, () =>
                    {
@@ -44,29 +46,37 @@ public class UI_AdrenalineRushBase : MonoBehaviour {
                     
                 }
 
-                if(old_rush > 1 && !HasRush)
+                if(old_adr >= threshold && !HasRush)
                 {
                     if (OnRushFade != null)
                         OnRushFade();
 
                     RushLoss();
                 }
-                old_rush = b;
-                UpdateBonus(b);
+                old_adr = _currentAdrenaline;
+                UpdateAdrenaline(_currentAdrenaline);
+                UpdateBonus(GetBonus());
             }
         }
     }
 
-    int GetIntBonus()
+    int GetAdr()
     {
-        return Constants.GetAdrenalineRushBonus(Stats);
+        return (int) Stats.GetStatAmount(StatType.adrenaline);
     }
 
-    protected virtual void UpdateBonus(int _bonus)
+    int GetBonus()
+    {
+        return Constants.GetAdrenalineBonus(Stats);
+    }
+    protected virtual void UpdateAdrenaline(int adrenaline)
     {                   
                   
     }
+    protected virtual void UpdateBonus(int _bonus)
+    {
 
+    }
     protected virtual void RushGain()
     {
 

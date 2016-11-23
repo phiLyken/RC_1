@@ -3,8 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class Constants : MonoBehaviour {
-    
-    
+
+
+    /// <summary>
+    /// At WHAT number of Adrenaline will Adrenaline rush be triggered?
+    /// </summary>
+    public static int ADRENALINE_RUSH_THRESHOLD = 2;
+
     /// <summary>
     /// How close a player unit must come before the an enemy AI is activated and added to the turn system
     /// </summary>
@@ -119,12 +124,20 @@ public class Constants : MonoBehaviour {
         return base_amount * Mathf.Max(1, checkpoints_reached);
     }
 
-    public static int GetAdrenalineRushBonus(UnitStats stats)
+    /// <summary>
+    /// Retusn the Adrenalinebonus used for increasing damage / effect-impacts based on adrenaline
+    /// </summary>
+    /// <param name="stats"></param>
+    /// <returns></returns>
+    public static int GetAdrenalineBonus(UnitStats stats)
     {
         int adr = (int)  stats.GetStatAmount(StatType.adrenaline);
 
-        return  (int) (adr /  2f) + 1;
+        return (int) (adr / 2f) + 1;
+
     }
+
+
     public static int GetRageAdrenalineMin(UnitStats stats, int rolls)
     {
         float min = Mathf.Max(0, stats.GetStatAmount(StatType.adrenaline_conversion_min));

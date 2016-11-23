@@ -206,6 +206,6 @@ public class UnitEffect : MonoBehaviour
 
     public void UpdateBonus()
     {
-        EffectBonus = Constants.GetAdrenalineRushBonus((Instigator as UnitAction_ApplyEffect).GetOwner().Stats);
+        EffectBonus = Constants.GetAdrenalineBonus((Instigator as UnitAction_ApplyEffect).GetOwner().Stats);
     }
 }

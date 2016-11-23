@@ -36,12 +36,14 @@ public class UI_ActionBar_Button_AdrenalineRush : UI_AdrenalineRushBase {
         Highlight_Fill.ChangeTint(colors.Icon);
     }
 
-    string GetIntBonusText(int _bonus)
+    string GetIntBonusText(int bonus )
     {
-        (_bonus  )  =  (_bonus-1) * 100;
         
 
-        return string.Format(Format, _bonus.ToString());
+        (bonus)  =  (bonus - 1) * 100;
+        
+
+        return string.Format(Format, bonus.ToString());
     }
 
 }
