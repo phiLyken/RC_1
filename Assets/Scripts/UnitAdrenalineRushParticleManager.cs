@@ -20,22 +20,27 @@ public class UnitAdrenalineRushParticleManager : UI_AdrenalineRushBase {
 
     protected override void RushGain()
     {
-       // Debug.Log("Rush Gain");
-     
-       RushGainParticle.OneShotParticle(transform.position);
-        
-        this.ExecuteDelayed(ActiveParticleDelay, () => active_particles.ToggleParticles(true));
+        EnableRushParticles();
     }
-
 
     protected override void RushLoss()
     {
-      //  Debug.Log("Rush loss");
+        DisableRushParticles();
+    }
 
+    public void EnableRushParticles()
+    {
+        RushGainParticle.OneShotParticle(transform.position);
+        this.ExecuteDelayed(ActiveParticleDelay, () => active_particles.ToggleParticles(true));
+    }
+
+    public void DisableRushParticles()
+    {
         this.ExecuteDelayed(0, () => active_particles.ToggleParticles(false));
-       
         RushFadeParticle.OneShotParticle(transform.position);
     }
+
+
 
    
 }

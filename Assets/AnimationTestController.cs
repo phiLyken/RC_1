@@ -6,8 +6,8 @@ public class AnimationTestController : MonoBehaviour
 {
 
     public bool IsRaged;
-    UnitAnimation_IdleController idleController;
 
+    public UnitAdrenalineRushParticleManager RushParticles;
     UnitAnimation m_Animator;
     WeaponMesh current;
 
@@ -43,7 +43,7 @@ public class AnimationTestController : MonoBehaviour
 
         current = UnitFactory.SpawnWeaponMeshToUnit(TargetUnit, mesh);
 
-        UnitAnimation_IdleController idle = mesh.GetComponent<UnitAnimation_IdleController>();
+       // UnitAnimation_IdleController idle = mesh.GetComponent<UnitAnimation_IdleController>();
         m_Animator = UnitFactory.MakeUnitAnimations(TargetUnit, current, current.WeaponIndex, caster, () => { return IsRaged; } );
 
 
@@ -73,15 +73,31 @@ public class AnimationTestController : MonoBehaviour
 
         GUI.BeginGroup(new Rect(0, 350, 350, 200), "OTHER STATES");
 
-        if (GUI.Button(new Rect(0, 30, 100, 25), "MOVE: True"))
+        if (GUI.Button(new Rect(0, 30, 120, 25), "MOVE: True"))
         {
             m_Animator.SetWalking(true);
         }
 
-        if (GUI.Button(new Rect(0, 60, 100, 25), "MOVE: False"))
+        if (GUI.Button(new Rect(0, 60, 120, 25), "MOVE: False"))
         {
-            m_Animator.SetWalking(false);
+            m_Animator.SetWalking(false);  
         }
+
+
+        if (GUI.Button(new Rect(0, 90, 120, 25), !IsRaged ? "ENABLE RUSH" : "DISABLE RUSH"))
+        {
+            if (!IsRaged)
+            {
+                RushParticles.EnableRushParticles();
+                m_Animator.SetTrigger (UnitAnimationTypes.bRage.ToString());
+            } else
+            {
+                RushParticles.DisableRushParticles();
+            }
+
+            IsRaged = !IsRaged;
+        }
+
 
         GUI.EndGroup();
 
