@@ -19,6 +19,8 @@ public class SelectibleObjectBase : MonoBehaviour, IPointerClickHandler {
 
     void OnMouseOver()
     {
+        if ( EventSystem.current.IsPointerOverGameObject())
+            return;
 
         if (!HumanInput()) return;
       
@@ -34,7 +36,9 @@ public class SelectibleObjectBase : MonoBehaviour, IPointerClickHandler {
     }
     void Select()
     {
-       
+
+        if (EventSystem.current.IsPointerOverGameObject())
+            return;
         if (!HumanInput()) return;
         if (OnSelect != null) OnSelect(); 
     }
@@ -44,7 +48,7 @@ public class SelectibleObjectBase : MonoBehaviour, IPointerClickHandler {
     {
        
         if (!HumanInput()) return;
-      //  Debug.Log(gameObject.name + " unfocus");
+      
         inFocus = false;
       
         if (OnHoverEnd != null) OnHoverEnd();

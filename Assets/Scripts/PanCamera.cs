@@ -255,7 +255,7 @@ public class PanCamera : MonoBehaviour {
             StartCoroutine(Rotate(45));
         }
 
-        if ( !CameraAction && ( Input.GetMouseButtonDown(0) || Input.touchCount > 0 || HasZoomInput() ) )
+        if (!UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject() && !CameraAction && ( Input.GetMouseButtonDown(0) || Input.touchCount > 0 || HasZoomInput() ) )
         {
             StartCoroutine(CamInputControl());
         }

@@ -31,7 +31,7 @@ public class UI_ActionPreviewIcon : MonoBehaviour {
         while(tr.Count > previews.Count) {
 
             GameObject newPreview = Instantiate(Resources.Load("ability_target_icon") as GameObject);
-            newPreview.transform.SetParent(GameObject.FindGameObjectWithTag("UI").transform, false);
+            newPreview.transform.SetParent(GameObject.FindGameObjectWithTag("UI_World").transform, false);
             previews.Add(newPreview.GetComponent<UI_ActionPreviewIcon>()  );
         }
 
