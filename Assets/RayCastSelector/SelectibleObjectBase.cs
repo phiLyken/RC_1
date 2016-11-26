@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 using System;
 
 public delegate void EventHandler();
-public class SelectibleObjectBase : MonoBehaviour, IPointerClickHandler {
+public class SelectibleObjectBase : MonoBehaviour {
 
     
 	protected bool bTouchHold;
@@ -38,7 +38,11 @@ public class SelectibleObjectBase : MonoBehaviour, IPointerClickHandler {
     {
 
         if (EventSystem.current.IsPointerOverGameObject())
+        {
+            Debug.Log("Mlöp");
             return;
+        }
+
         if (!HumanInput()) return;
         if (OnSelect != null) OnSelect(); 
     }
@@ -60,10 +64,30 @@ public class SelectibleObjectBase : MonoBehaviour, IPointerClickHandler {
         return TurnSystem.Instance == null || TurnSystem.Instance.Current == null || TurnSystem.Instance.Current.GetTurnControllerID() == 0 || Cheat;
     }
 
+    void Update()
+    {
+
+        if (Input.GetMouseButtonUp(0))
+        {
+            if (Input.GetKeyUp(KeyCode.Alpha0))
+            {
+                Cheat = !Cheat;
+            }
+            if (!HumanInput())
+                return;
+
+            if (inFocus && !PanCamera.CameraAction)
+            {
+                Select();
+            }
+             
+
+        }
+    }
     public void OnPointerClick(PointerEventData eventData)
     {
 
-        //Debug.Log(gameObject.name+" focus "+inFocus);
+        Debug.Log(gameObject.name+" focus "+inFocus);
         if (Input.GetKeyUp(KeyCode.Alpha0))
         {
             Cheat = !Cheat;
@@ -73,6 +97,9 @@ public class SelectibleObjectBase : MonoBehaviour, IPointerClickHandler {
         if (inFocus && !PanCamera.CameraAction)
         {
             Select();
+        } else
+        {
+            Debug.Log("asdsd");
         }
     }
 }
