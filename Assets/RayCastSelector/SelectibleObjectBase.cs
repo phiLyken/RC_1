@@ -39,7 +39,7 @@ public class SelectibleObjectBase : MonoBehaviour {
 
         if (EventSystem.current.IsPointerOverGameObject())
         {
-            Debug.Log("Mlöp");
+           
             return;
         }
 

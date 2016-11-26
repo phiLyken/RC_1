@@ -65,7 +65,7 @@ public class UI_AdrenalineRushBase : MonoBehaviour {
         return (int) Stats.GetStatAmount(StatType.adrenaline);
     }
 
-    int GetBonus()
+    float GetBonus()
     {
         return Constants.GetAdrenalineBonus(Stats);
     }
@@ -73,7 +73,7 @@ public class UI_AdrenalineRushBase : MonoBehaviour {
     {                   
                   
     }
-    protected virtual void UpdateBonus(int _bonus)
+    protected virtual void UpdateBonus(float _bonus)
     {
 
     }

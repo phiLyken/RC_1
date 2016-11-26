@@ -29,7 +29,7 @@ public class UnitEffect_ModifyStat : UnitEffect
             value = (int) ( _base * Percent );
         }
 
-        value *= EffectBonus;
+        value  = Mathf.RoundToInt( EffectBonus * value);
 
         if (ApplyDiff)
         { 

@@ -15,7 +15,7 @@ public class UI_ActionBar_Button_AdrenalineRush : UI_AdrenalineRushBase {
     public List<Image> Highlight_Fill;
 
  
-    protected override void UpdateBonus(int _bonus)
+    protected override void UpdateBonus(float _bonus)
     {
       
         this.ExecuteDelayed(EnableDelay, () =>  UpdateUI(_bonus) );
@@ -23,7 +23,7 @@ public class UI_ActionBar_Button_AdrenalineRush : UI_AdrenalineRushBase {
     }
 
 
-    void UpdateUI(int bonus)
+    void UpdateUI(float bonus)
     { 
         ColorSetting_AdrRush_Attack colors = bonus > 1 ? UI_ActionBar_Button_ColorSetting.GetInstance().ADR_Attack_Active : UI_ActionBar_Button_ColorSetting.GetInstance().ADR_Attack_InActive;
 
@@ -36,9 +36,8 @@ public class UI_ActionBar_Button_AdrenalineRush : UI_AdrenalineRushBase {
         Highlight_Fill.ChangeTint(colors.Icon);
     }
 
-    string GetIntBonusText(int bonus )
-    {
-        
+    string GetIntBonusText(float bonus )
+    {        
 
         (bonus)  =  (bonus - 1) * 100;
         

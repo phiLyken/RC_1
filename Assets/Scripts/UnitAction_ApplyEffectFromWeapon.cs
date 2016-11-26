@@ -20,6 +20,8 @@ public class UnitAction_ApplyEffectFromWeapon : UnitAction_ApplyEffect {
                     UpdateEffects();
                 }
             };
+
+            UpdateEffects();
         } 
     }
 

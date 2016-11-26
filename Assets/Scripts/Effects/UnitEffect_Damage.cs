@@ -45,7 +45,7 @@ public class UnitEffect_Damage : UnitEffect
             value = (int) DamageRange.min;
         }
 
-        return value * EffectBonus; 
+        return value * Mathf.RoundToInt( EffectBonus ); 
     }
 
     public UnitEffect_Damage(int dmg)
@@ -66,7 +66,7 @@ public class UnitEffect_Damage : UnitEffect
             value = (int) DamageRange.max;
         }
 
-        return value * EffectBonus ;
+        return value * Mathf.RoundToInt(EffectBonus);
     }
     public int GetDamage()
     {

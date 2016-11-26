@@ -33,7 +33,7 @@ public class UnitEffect : MonoBehaviour
     public bool ReplaceEffect;
 
     [HideInInspector]
-    public int EffectBonus = 1;
+    public float EffectBonus = 1;
 
     protected Unit Effect_Host;
 
