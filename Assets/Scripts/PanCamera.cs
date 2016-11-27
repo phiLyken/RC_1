@@ -30,11 +30,17 @@ public class PanCamera : MonoBehaviour {
 
     void Awake() {
         Instance = this;
-        Unit.OnTurnStart += u =>
-        {
-            PanToPos(u.transform.position);
-        };
+        Unit.OnTurnStart += OnTurnStart;
 
+    }
+
+    public void OnDestroy()
+    {
+        Unit.OnTurnStart -= OnTurnStart;
+    }
+    void OnTurnStart(Unit u)
+    {
+        PanToPos(u.transform.position);
     }
 	void Start(){    
 		SetCameraStart();

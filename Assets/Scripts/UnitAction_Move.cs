@@ -32,6 +32,11 @@ public class UnitAction_Move : UnitActionBase {
         }
     }
 
+    void OnDestroy()
+    {
+        TileSelecter.OnTileHover -= SetPreviewTile;
+        TileSelecter.OnTileSelect -= SetMovementTile;
+    }
     void SetMovementTile(Tile t)
     {
         if (!Owner.GetComponent<WaypointMover>().Moving && currentTargetTile != null && currentPath != null)

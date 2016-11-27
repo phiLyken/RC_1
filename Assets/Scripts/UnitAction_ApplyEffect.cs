@@ -25,6 +25,13 @@ public class UnitAction_ApplyEffect : UnitActionBase
         Unit.OnUnitHoverEnd += OnUnitUnhover;
         Unit.OnUnitSelect += OnUnitSelect;
     }
+
+    void OnDestroy()
+    {
+        Unit.OnUnitHover -= OnUnitHover;
+        Unit.OnUnitHoverEnd -= OnUnitUnhover;
+        Unit.OnUnitSelect -= OnUnitSelect;
+    }
     public override void SetOwner(Unit o)
     {
         base.SetOwner(o);

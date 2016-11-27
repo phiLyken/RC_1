@@ -52,6 +52,11 @@ public class UI_ActionPreviewIcon : MonoBehaviour {
         worldPos.SetWorldPosObject(tr);
     }
 
+    void OnDestroy()
+    {
+        previews = null;
+    }
+
     void Update()
     {
         worldPos.UpdatePos();

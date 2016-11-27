@@ -19,13 +19,21 @@ public class TileSelecter : MonoBehaviour {
     void Awake()
     {
         _instance = this;
-        
-        Unit.OnUnitHover += u =>
-        {
-            HoverTile(u.currentTile);
-        };
+
+        Unit.OnUnitHover +=   OnUnitHover;
     }
- 
+
+   
+    void OnDestroy()
+    {
+        Unit.OnUnitHover -= OnUnitHover;
+        SelectedTile = null;
+        HoveredTile = null;
+    }
+    public void OnUnitHover(Unit u)
+    {
+          HoverTile(u.currentTile);
+    }
     public static void SelectTile(Tile t)
     { 
       // Debug.Log("select tile");

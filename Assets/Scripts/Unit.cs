@@ -198,17 +198,22 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
 
     }
  
+    void OnDestroy()
+    {
+        currentTile.OnDeactivate -= OnCurrentTileDeactivate;
+        TurnSystem.Instance.OnGlobalTurn -= GlobalTurn;
+        TurnSystem.Unregister(this);
+        AllUnits.Remove(this);
+    }
     public void RemoveUnitFromGame()
     {
       
-        currentTile.OnDeactivate -= OnCurrentTileDeactivate;
-        TurnSystem.Instance.OnGlobalTurn -= GlobalTurn;
+      
 
         if(GetOwner() !=null)
             GetOwner().RemoveUnit(this);
 
-        TurnSystem.Unregister(this);
-        AllUnits.Remove(this);
+
 
     }
 

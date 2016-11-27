@@ -17,6 +17,10 @@ public class UI_ActiveUnit : MonoBehaviour {
         Unit.OnTurnStart += SetActiveUnit;
     }
 
+    void OnDestroy()
+    {
+        Unit.OnTurnStart -= SetActiveUnit;
+    }
     public void SetActiveUnit(Unit unit)
     {
        SelectedUnitTF.text = unit.GetID();
