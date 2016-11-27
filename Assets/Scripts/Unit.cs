@@ -339,7 +339,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
         List<Unit> list = new List<Unit>();
         foreach(Unit u in AllUnits)
         {
-            if ( (owner == -1 || u.OwnerID == owner) && (ignoreBaseCamp || !u.currentTile.isCamp)) list.Add(u);
+            if (!u.IsDead() && (owner == -1 || u.OwnerID == owner) && (ignoreBaseCamp || !u.currentTile.isCamp)) list.Add(u);
         }
 
         return list;

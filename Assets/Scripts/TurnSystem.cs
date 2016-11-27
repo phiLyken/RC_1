@@ -62,7 +62,7 @@ public class TurnSystem : MonoBehaviour {
 
         Current = GetNext();
         
-        while ( Current != null)
+        while ( Current != null )
         {
             if (OnListUpdated != null) OnListUpdated(Turnables);
             Current.TurnTimeUpdated +=OnTurnPreview;
@@ -95,6 +95,10 @@ public class TurnSystem : MonoBehaviour {
 
             forceNext = false;
             
+            if( Unit.GetAllUnitsOfOwner(0, false).Count == 0)
+            {
+                yield break;
+            }
         }
     }
 	void OnTurnPreview(ITurn t){

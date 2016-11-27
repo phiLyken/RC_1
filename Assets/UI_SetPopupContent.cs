@@ -10,21 +10,16 @@ public class UI_SetPopupContent : MonoBehaviour {
     public UI_PopupController Popup;
 
    
-    void Awake()
+    void Awake()    
     {
 
-        Popup.OnOpenDone += ShowContent ;
-        Popup.OnClose += HideCointent;
+        Popup.OnOpenDone += SetContent ;
+        Popup.OnClose += HideContent;
 
        
     }
-    void SetContent()
-    {
-       
-        ShowContent();
-    }
 
-    void HideCointent()
+    void HideContent()
     {
         if (Content != null)
         {
@@ -32,13 +27,15 @@ public class UI_SetPopupContent : MonoBehaviour {
         }
     }
 
-    void ShowContent()
+ 
+    void SetContent()
     {
-        if(Content == null)
+        Debug.Log("POPUP setting content");
+        if(Content != null)
         {
-            Content = ContentPrefab.Instantiate(this.transform, true);
+            Destroy(Content);
         }
-
+        Content = ContentPrefab.Instantiate(this.transform, true);
         Content.SetActive(true);
     }
 }
