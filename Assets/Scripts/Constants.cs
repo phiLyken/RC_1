@@ -125,7 +125,7 @@ public class Constants : MonoBehaviour {
     }
 
     /// <summary>
-    /// Retusn the Adrenalinebonus used for increasing damage / effect-impacts based on adrenaline
+    /// return the Adrenalinebonus used for increasing damage / effect-impacts based on adrenaline
     /// </summary>
     /// <param name="stats"></param>
     /// <returns></returns>
