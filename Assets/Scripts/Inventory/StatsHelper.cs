@@ -96,6 +96,9 @@ public class UnitBaseStats
     public int StartOxyGen;
     public int StartAdrenaline;
 
+    public int StartStimPacks;
+    public int StartRestPacks;
+
     public MyMath.R_Range StartTurnTime;
 }
 

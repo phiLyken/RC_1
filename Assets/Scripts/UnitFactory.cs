@@ -108,17 +108,15 @@ public class UnitFactory : MonoBehaviour
 
     private static UnitInventory MakeInventory(ScriptableUnitConfig data, GameObject base_unit, UnitStats stats)
     {
-
+       
         UnitInventory inventory = base_unit.AddComponent<UnitInventory>();
-        inventory.Init(stats);
-
-
+        inventory.Init(stats, data.BaseStats);
+        
+      
 
 
         return inventory;
-       // Armor armor = Instantiate(data.Armor);
-       // armor.transform.SetParent(base_unit.transform);
-     //   inventory.AddItem(armor,1);
+ 
 
     }
   

@@ -9,10 +9,11 @@ public class AbilityChargeController
     public bool useCharges;
     public ItemTypes ChargeItemType;
 
-    public void Init(Unit u )
+    public void Init(Unit u)
     {
         m_unit = u;
-        ResetCharge();
+
+      
     }
 
 
@@ -38,12 +39,13 @@ public class AbilityChargeController
 
         m_unit.Inventory.AddItem(item_config, charges);
     }
+
     public void ResetCharge()
     {
 
         if (useCharges)
         {
-            SetCharges(m_unit.Inventory.GetMax(ChargeItemType));
+           // SetCharges(m_unit.Inventory.GetMax(ChargeItemType));
             
             
         }

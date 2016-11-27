@@ -47,9 +47,12 @@ public class UnitInventory : Inventory {
         base.AddItem(item, count);
     }
 
-    public void Init(UnitStats stats)
+    public void Init(UnitStats stats, UnitBaseStats _base)
     {
         m_stats = stats;
+       
+        AddItem(LootBalance.GetBalance().GetItem(ItemTypes.stim_pack), _base.StartStimPacks);
+        AddItem(LootBalance.GetBalance().GetItem(ItemTypes.rest_pack), _base.StartRestPacks);
     }
 
 }
