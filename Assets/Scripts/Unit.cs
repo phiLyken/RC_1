@@ -165,7 +165,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
              ReceiveDamage(new UnitEffect_Damage(10));
 
         if (Input.GetKey(KeyCode.Z))
-            ReceiveDamage(new UnitEffect_Damage(1));
+             ReceiveDamage(new UnitEffect_Damage(1));
 
 
         if (OnUnitSelect != null) OnUnitSelect(this);

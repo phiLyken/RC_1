@@ -25,7 +25,7 @@ public class UI_ActiveUnit : MonoBehaviour {
     {
        SelectedUnitTF.text = unit.GetID();
        inventory_view.SetInventory(unit.GetComponent<UnitInventory>());
-       effect_list_view.SetUnitEfffects(unit.GetComponent<Unit_EffectManager>());
+   
 
 
     }
