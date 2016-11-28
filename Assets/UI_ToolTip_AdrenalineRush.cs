@@ -15,7 +15,8 @@ public class UI_ToolTip_AdrenalineRush : UI_AdrenalineRushBase
     
     protected override void UpdateBonus(float _bonus)
     {
-        this.ExecuteDelayed(EnableDelay, () => UpdateUI(_bonus));
+        if(isActiveAndEnabled)
+            this.ExecuteDelayed(EnableDelay, () => UpdateUI(_bonus));
     }
 
     void UpdateUI(float bonus)

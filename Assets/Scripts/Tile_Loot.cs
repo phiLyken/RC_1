@@ -31,7 +31,7 @@ public class Tile_Loot : TileComponent {
 
         Tile t = gameObject.GetComponent<Tile>();
         crate.transform.position = t.GetPosition();
-        crate.transform.SetParent(t.transform, false);
+        crate.transform.SetParent(t.transform, true);
         LootContentConfig content = WeightableFactory.GetWeighted(loot.Drops);
         
 

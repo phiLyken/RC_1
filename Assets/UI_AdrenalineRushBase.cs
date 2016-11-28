@@ -28,38 +28,46 @@ public class UI_AdrenalineRushBase : MonoBehaviour {
         int threshold = Constants.ADRENALINE_RUSH_THRESHOLD;
         if (s.StatType == StatType.adrenaline)
         {
-            if (gameObject != null && gameObject.activeSelf)
+   
+
+            int _currentAdrenaline  = GetAdr();
+            HasRush = _currentAdrenaline >= threshold;
+
+            if (old_adr < threshold && HasRush )
             {
-
-                int _currentAdrenaline  = GetAdr();
-                HasRush = _currentAdrenaline >= threshold;
-                if (old_adr < threshold && HasRush )
-                {
-                    this.ExecuteDelayed(EnableDelay, () =>
-                   {
-                       if (OnRushGain != null)
-                           OnRushGain();
-
-                       RushGain();
-                   }
-                    );
+                if (isActiveAndEnabled)
+                { 
+                    this.ExecuteDelayed(EnableDelay,  TriggerRush );                        
                     
-                }
-
-                if(old_adr >= threshold && !HasRush)
+                } else
                 {
-                    if (OnRushFade != null)
-                        OnRushFade();
-
-                    RushLoss();
+                    TriggerRush();
                 }
-                old_adr = _currentAdrenaline;
-                UpdateAdrenaline(_currentAdrenaline);
-                UpdateBonus(GetBonus());
             }
+            if (old_adr >= threshold && !HasRush)
+            {
+                if (OnRushFade != null)
+                    OnRushFade();
+
+                RushLoss();
+            }
+            old_adr = _currentAdrenaline;
+            UpdateAdrenaline(_currentAdrenaline);
+            UpdateBonus(GetBonus());
+            
         }
     }
 
+    void TriggerRush()
+    {
+       
+            if (OnRushGain != null)
+            {
+                OnRushGain();
+            }
+            RushGain();
+         
+    }
     int GetAdr()
     {
         return (int) Stats.GetStatAmount(StatType.adrenaline);

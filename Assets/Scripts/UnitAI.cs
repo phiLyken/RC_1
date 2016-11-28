@@ -29,7 +29,8 @@ public class UnitAI : MonoBehaviour, ITriggerable {
 
         m_unit.OnDamageReceived += dmg =>
         {
-            OnTrigger((dmg.Instigator as UnitAction_ApplyEffect).GetOwner());
+            if(dmg.Instigator != null)
+                OnTrigger((dmg.Instigator as UnitAction_ApplyEffect).GetOwner());
         };
 
       

@@ -98,6 +98,7 @@ public class UI_Unit : MonoBehaviour
 
             if (gameObject.activeSelf)
             {
+                StopAllCoroutines();
                 StartCoroutine(DestroyDelayed());
             }
             else
