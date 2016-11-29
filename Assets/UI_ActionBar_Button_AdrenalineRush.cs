@@ -39,10 +39,9 @@ public class UI_ActionBar_Button_AdrenalineRush : UI_AdrenalineRushBase {
     string GetIntBonusText(float bonus )
     {        
 
-        (bonus)  =  (bonus - 1) * 100;
-        
+        (bonus)  =  (bonus - 1) * 100;     
 
-        return string.Format(Format, bonus.ToString());
+        return string.Format(Format, bonus.ToString("#;-#;0"));
     }
 
 }

@@ -79,18 +79,22 @@ public class UnitBar : MonoBehaviour {
         SetAdrenalineRushPreview(preview_pos, _intensity);
     }
 
+    IEnumerator UpdateAdrenalineEndOfFrame(RectTransform target)
+    {
+        yield return new WaitForEndOfFrame();
+        AdrenalineRushPreview.position = new Vector3(target.position.x, target.position.y, 0);
+        AdrenalineRushPreview.gameObject.SetActive(true);
+    }
     void SetAdrenalineRushPreview(int at_nunmber, int adrenaline_count)
     {
+       // Debug.Log(at_nunmber + " " + adrenaline_count);     
         if(adrenaline_count > 1)
         {
             AdrenalineRushPreview.gameObject.SetActive(false);
         } else
-        {
-            AdrenalineRushPreview.gameObject.SetActive(true);
+        {            
             RectTransform target = Bar_Steps[at_nunmber].rectTransform;
-            AdrenalineRushPreview.SetParent(target, false);
-        
-            AdrenalineRushPreview.anchoredPosition = new Vector3(target.sizeDelta.x / 2, -target.sizeDelta.y / 2, 0);
+            StartCoroutine(UpdateAdrenalineEndOfFrame(target));                        
             AdrenalineRushPreview_Adr.gameObject.SetActive(adrenaline_count == 1);
         }
     }

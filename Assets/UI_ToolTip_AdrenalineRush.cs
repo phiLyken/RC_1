@@ -36,7 +36,7 @@ public class UI_ToolTip_AdrenalineRush : UI_AdrenalineRushBase
     {
       
         _bonus = (_bonus - 1) * 100;
-        return string.Format(Format, _bonus.ToString());
+        return string.Format(Format, _bonus.ToString("#;-#;0"));
     }
 
 }

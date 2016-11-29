@@ -25,7 +25,7 @@ public class UnitStats : MonoBehaviour
                 return "Oxygen";
             case StatType.attack_extra_damage_max:
             case StatType.attack_extra_damage_min:
-                return "Sp. Extra Dmg";
+                return "+ATK DMG";
 
             case StatType.adrenaline_conversion_max:
             case StatType.adrenaline_conversion_min:
