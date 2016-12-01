@@ -8,6 +8,7 @@ public class UnitBar : MonoBehaviour {
 
     public RectTransform AdrenalineRushPreview;
     public Image AdrenalineRushPreview_Adr;
+    public Image[] AdrenalinePreviewBlips;
     public List<Image> Bar_Steps;
     public int Max;
     public Color IntColor;
@@ -75,7 +76,7 @@ public class UnitBar : MonoBehaviour {
 
         }
 
-        int preview_pos = Mathf.Min(_will, _max - 2);
+        int preview_pos = Mathf.Min(_will, _max - Constants.ADRENALINE_RUSH_THRESHOLD);
         SetAdrenalineRushPreview(preview_pos, _intensity);
     }
 
@@ -88,14 +89,19 @@ public class UnitBar : MonoBehaviour {
     void SetAdrenalineRushPreview(int at_nunmber, int adrenaline_count)
     {
        // Debug.Log(at_nunmber + " " + adrenaline_count);     
-        if(adrenaline_count > 1)
+        if(adrenaline_count >= Constants.ADRENALINE_RUSH_THRESHOLD)
         {
             AdrenalineRushPreview.gameObject.SetActive(false);
         } else
         {            
             RectTransform target = Bar_Steps[at_nunmber].rectTransform;
-            StartCoroutine(UpdateAdrenalineEndOfFrame(target));                        
-            AdrenalineRushPreview_Adr.gameObject.SetActive(adrenaline_count == 1);
+            StartCoroutine(UpdateAdrenalineEndOfFrame(target));    
+            
+            for(int i = 0; i < AdrenalinePreviewBlips.Length; i++)
+            {
+                AdrenalinePreviewBlips[i].gameObject.SetActive(adrenaline_count > i);
+            }                    
+            
         }
     }
 }
