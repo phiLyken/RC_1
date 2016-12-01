@@ -60,13 +60,15 @@ public class UI_AdrenalineRushBase : MonoBehaviour {
 
     void TriggerRush()
     {
-       
+        if (HasRush)
+        {
             if (OnRushGain != null)
             {
                 OnRushGain();
             }
             RushGain();
-         
+        }
+
     }
     int GetAdr()
     {

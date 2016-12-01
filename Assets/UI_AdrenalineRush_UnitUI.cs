@@ -16,6 +16,7 @@ public class UI_AdrenalineRush_UnitUI : UI_AdrenalineRushBase {
 
     protected override void RushLoss()
     {
+        StopAllCoroutines();
         Target.SetActive(false);
     }
    
