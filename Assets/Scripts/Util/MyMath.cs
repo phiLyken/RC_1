@@ -25,10 +25,17 @@ public static class MyMath  {
 				closestDistance = currentDistance;
 			}
 		}
-		
+	
 		return best;
 	}
 
+    public static int RoundToNearest(this int i, int step)
+    {
+       return  (int) Mathf.Round(i / step) * step;
+       
+ 
+    }
+  
     public static IEnumerator ExecuteDelayed(float time, Action func)
     {
         yield return new WaitForSeconds(time);
