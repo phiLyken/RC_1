@@ -20,15 +20,12 @@ public class UnitEffect_GainAdrenaline : UnitEffect
     /// <param name="target"></param>
     public override UnitEffect MakeCopy(UnitEffect origin, Unit host)
     {
-        UnitEffect_GainAdrenaline _cc = origin.gameObject.Instantiate(host.transform, true).GetComponent<UnitEffect_GainAdrenaline>();
 
+        UnitEffect_GainAdrenaline _cc_adr = base.MakeCopy(origin, host) as UnitEffect_GainAdrenaline;
 
-        _cc.name = Unique_ID + "_copy";
-        _cc.Effect_Host = host;
-        _cc.isCopy = true;
-        _cc.baked_adrenaline = Constants.GetGainedAdrenaline(host.Stats, Rolls);
+        _cc_adr.baked_adrenaline = Constants.GetGainedAdrenaline(host.Stats, Rolls);
 
-        return _cc;
+        return _cc_adr;
 
 
     }

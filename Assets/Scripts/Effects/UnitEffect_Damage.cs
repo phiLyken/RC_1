@@ -26,12 +26,9 @@ public class UnitEffect_Damage : UnitEffect
     /// <param name="target"></param>
     public override UnitEffect MakeCopy(UnitEffect origin, Unit host)
     {
-        UnitEffect_Damage _cc = origin.gameObject.Instantiate(host.transform, true).GetComponent<UnitEffect_Damage>();
+        UnitEffect_Damage _cc = base.MakeCopy(origin, host) as UnitEffect_Damage;
 
-
-        _cc.name = Unique_ID + "_copy";
-        _cc.Effect_Host = host;
-        _cc.isCopy = true;
+ 
         _cc.baked_damage = UnityEngine.Random.Range(GetMin(), GetMax() + 1);
 
 

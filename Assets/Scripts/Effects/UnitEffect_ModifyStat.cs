@@ -19,6 +19,19 @@ public class UnitEffect_ModifyStat : UnitEffect
         
     float _baked;
 
+
+    /// <summary>
+    /// clones itself to the target
+    /// </summary>
+    /// <param name="target"></param>
+    public override UnitEffect MakeCopy(UnitEffect origin, Unit host)
+    {
+        UnitEffect_ModifyStat _cc_modstat = base.MakeCopy(origin, host) as UnitEffect_ModifyStat;
+        _cc_modstat._baked = _cc_modstat.GetBaked();
+        return _cc_modstat;
+    }
+
+
     int GetBaked()
     {
         int value = Absolute;
@@ -65,23 +78,7 @@ public class UnitEffect_ModifyStat : UnitEffect
 
         return _baked.ToString("+#;-#;0") + " " + UnitStats.StatToString(type);
     }
-    /// <summary>
-    /// clones itself to the target
-    /// </summary>
-    /// <param name="target"></param>
-    public override UnitEffect MakeCopy(UnitEffect origin, Unit host)
-    {
-        UnitEffect_ModifyStat _cc = origin.gameObject.Instantiate(host.transform, true).GetComponent<UnitEffect_ModifyStat>();
 
-
-        _cc.name = Unique_ID+"_copy";
-        _cc.Effect_Host = host;
-        _cc.isCopy = true;
-        _cc._baked =_cc.GetBaked();
-       
-       
-        return _cc;
-    }
 
     protected  override void EffectTick()
     {

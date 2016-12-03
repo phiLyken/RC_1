@@ -57,6 +57,21 @@ public class UnitEffect : MonoBehaviour
  
     }
 
+
+    public virtual UnitEffect MakeCopy(UnitEffect origin, Unit host)
+    {
+
+        UnitEffect _cc = origin.gameObject.Instantiate(host.transform, true).GetComponent<UnitEffect>();
+
+
+        _cc.name = Unique_ID + "_copy";
+        _cc.Effect_Host = host;
+        _cc.isCopy = true;
+
+        return _cc;
+    }
+
+
     public void OnDestroy()
     {
     //    Debug.Log("Removed Effect  -" + Unique_ID);
@@ -84,12 +99,6 @@ public class UnitEffect : MonoBehaviour
 
     }
 
-    public virtual UnitEffect MakeCopy(UnitEffect origin, Unit host)
-    {
-
-        return origin.MemberwiseClone() as UnitEffect;
-    }
- 
 
 
     protected virtual bool CanApplyEffect(Unit target, UnitEffect effect)
@@ -102,10 +111,9 @@ public class UnitEffect : MonoBehaviour
         //Make copy
         UnitEffect copy = MakeCopy(effect, target);
   
-        if (CanApplyEffect(target, copy))
+        if (CanApplyEffect(target, copy) && target.GetComponent<Unit_EffectManager>().ApplyEffect(copy))
         {
-            if (target.GetComponent<Unit_EffectManager>().ApplyEffect(copy))
-            {
+            
                 TurnSystem.Instance.OnGlobalTurn += copy.OnGlobalTurn;
 
                 if (VFX_Applied != null)
@@ -114,9 +122,12 @@ public class UnitEffect : MonoBehaviour
 
                 if (TickOnApply)
                     copy.EffectTick();
-            }
-
+         } else
+        {
+            Destroy(copy.gameObject);
         }
+
+     
     }
     #region
 

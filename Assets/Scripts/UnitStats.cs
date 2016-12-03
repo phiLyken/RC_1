@@ -30,7 +30,10 @@ public class UnitStats : MonoBehaviour
             case StatType.adrenaline_conversion_max:
             case StatType.adrenaline_conversion_min:
                 return "Adr. Conversion";
-
+            case StatType.current_turn_time:
+                return "Next Turn Time";
+            case StatType.attack_normal_delay:
+                return "Attack Time Cost";
             default:
                 return t.ToString();
         }

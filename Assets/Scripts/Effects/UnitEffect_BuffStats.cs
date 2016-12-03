@@ -7,24 +7,6 @@ public class UnitEffect_BuffStats : UnitEffect {
 
     public StatBuff  Buff ;
     
- 
-
-    public override UnitEffect MakeCopy(UnitEffect origin, Unit host)
-    {
-        UnitEffect_BuffStats _cc = origin.gameObject.Instantiate(host.transform, true).GetComponent<UnitEffect_BuffStats>();
-
-
-        _cc.name = Unique_ID + "_copy";
-        _cc.Effect_Host = host;
-        _cc.isCopy = true;
-   
-
-
-        return _cc;
-    }
-
-
-
     public override string GetToolTipText()
     {
         return   GetShortHandle();
