@@ -91,8 +91,11 @@ public class UnitStats : MonoBehaviour
         float old_value = GetStat(type).GetAmount(this);
 
         Stat s =  GetStat(type);
-        s.SetAmount(new_value);
 
+ 
+         s.SetAmount( new_value);
+ 
+ 
         if (old_value != new_value) {            
             Updated(s);
         }
@@ -138,7 +141,6 @@ public class UnitStats : MonoBehaviour
 
     public void ReceiveDamage(UnitEffect_Damage dmg)
     {
-
         if (GetStatAmount(StatType.oxygen) <= 0)
             return;
 
@@ -147,7 +149,7 @@ public class UnitStats : MonoBehaviour
 
         Debug.Log(this.name + " rcv damge " + dmg_received + "  rcvd multiplier:" + "WTF" + "  +int=" + int_received);
 
-        AddOxygen(dmg_received);
+        AddOxygen(dmg_received, true);
 
         if (dmg_received < 0 && OnDmgReceived != null)
         { 
@@ -222,14 +224,25 @@ public class UnitStats : MonoBehaviour
         SetStatAmount(StatType.oxygen,(int) GetStatAmount(StatType.vitality));
     }
 
-    public void AddOxygen(int amount)
+    public void AddOxygen(int amount, bool remove_adr)
     {
         int Max = (int) GetStatAmount(StatType.vitality);
         int Int = (int) GetStatAmount(StatType.adrenaline);
         int Will = (int) GetStatAmount(StatType.oxygen);
         //will is capped by the max-current int
         //e.g. a unit can have 5 resources but has 3 int, then will can never be larger than 3
-        SetStatAmount(StatType.oxygen, Mathf.Max(Mathf.Min(Will + amount, Max - Int), 0));
+
+        if (remove_adr)
+        {
+
+            int free = Max - (Int + Will);
+            int adr_removed = Mathf.Min(Int, Mathf.Max(amount - free, 0));
+            SetStatAmount(StatType.adrenaline, adr_removed);
+
+        }  
+
+         SetStatAmount(StatType.oxygen, Mathf.Max(Mathf.Min(Will + amount, Max - Int), 0));
+     
     }
 }
 

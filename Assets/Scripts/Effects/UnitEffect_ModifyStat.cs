@@ -95,7 +95,7 @@ public class UnitEffect_ModifyStat : UnitEffect
                     Effect_Host.Stats.AddAdrenaline( (int) _baked, true, out   x, out   y);
                     break;
                 case StatType.oxygen:
-                    Effect_Host.Stats.AddOxygen( (int) _baked);
+                    Effect_Host.Stats.AddOxygen( (int) _baked, true);
                     break;
                 default:
                     Effect_Host.Stats.SetStatAmountDelta(type, _baked);
