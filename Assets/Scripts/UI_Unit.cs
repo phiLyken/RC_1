@@ -83,9 +83,10 @@ public class UI_Unit : MonoBehaviour
  
     void CheckKilled(Unit u)
     {
- 
+        
         if (u == m_unit)
         {
+            Debug.Log("UNIT BLA 2");
             Unit.OnUnitKilled -= CheckKilled;
            
             Unit.OnUnitHover -= CheckHovered;
@@ -98,11 +99,13 @@ public class UI_Unit : MonoBehaviour
 
             if (gameObject.activeSelf)
             {
+                Debug.Log("DESTROY");
                 StopAllCoroutines();
                 StartCoroutine(DestroyDelayed());
             }
             else
             {
+                Debug.Log("DESTROY2");
                 Destroy(this.gameObject);
             }
         }
@@ -110,7 +113,9 @@ public class UI_Unit : MonoBehaviour
 
     IEnumerator DestroyDelayed()
     {
+        Debug.Log("DESTROY4");
         yield return new WaitForSeconds(0.5f);
+        Debug.Log("DESTROY3");
         Destroy(this.gameObject);
     } 
 
@@ -144,8 +149,9 @@ public class UI_Unit : MonoBehaviour
         { 
             // Debug.Log("Update Values " + m_unit+ " stat:"+stat.StatType.ToString());
             Alphas.AddItem(ValuesNeedUpdateItem);
-            StopAllCoroutines();
-            StartCoroutine(IEUpdateValuesDelayed());
+
+            StopCoroutine("IEUpdateValuesDelayed");
+            StartCoroutine("IEUpdateValuesDelayed");
         }
     }
 

@@ -77,7 +77,7 @@ public class UnitBar : MonoBehaviour {
         }
 
         int preview_pos = Mathf.Min(_will, _max - Constants.ADRENALINE_RUSH_THRESHOLD);
-        SetAdrenalineRushPreview(preview_pos, _intensity);
+        SetAdrenalineRushPreview(Mathf.Max(0,preview_pos), _intensity);
     }
 
     IEnumerator UpdateAdrenalineEndOfFrame(RectTransform target)
@@ -88,7 +88,8 @@ public class UnitBar : MonoBehaviour {
     }
     void SetAdrenalineRushPreview(int at_nunmber, int adrenaline_count)
     {
-       // Debug.Log(at_nunmber + " " + adrenaline_count);     
+        Debug.Log(at_nunmber + " " + adrenaline_count);
+             
         if(adrenaline_count >= Constants.ADRENALINE_RUSH_THRESHOLD)
         {
             AdrenalineRushPreview.gameObject.SetActive(false);

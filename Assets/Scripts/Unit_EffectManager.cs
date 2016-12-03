@@ -52,7 +52,12 @@ public class Unit_EffectManager : MonoBehaviour {
 
             if (OnEffectAdded != null) OnEffectAdded(new_effect);
             return true;
+        } else
+        {
+            Debug.Log("Already has this effect");
         }
+
+        Debug.Log("COULD NOT ADD EFFECT " + new_effect.Unique_ID);
         return false;
     }
 

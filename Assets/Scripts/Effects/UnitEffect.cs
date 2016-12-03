@@ -102,8 +102,6 @@ public class UnitEffect : MonoBehaviour
         //Make copy
         UnitEffect copy = MakeCopy(effect, target);
   
-   
-
         if (CanApplyEffect(target, copy))
         {
             if (target.GetComponent<Unit_EffectManager>().ApplyEffect(copy))

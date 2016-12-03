@@ -47,6 +47,20 @@ public class UnitStats : MonoBehaviour
             effect_manager.OnEffectAdded += s => { UpdatedBuffs(); };
             effect_manager.OnEffectRemoved += s => { UpdatedBuffs(); };
         }
+
+        OnStatUpdated += CheckHP;
+
+        
+    }
+
+    void CheckHP(Stat t)
+    {
+
+        if (t.StatType == StatType.oxygen && GetStatAmount(StatType.oxygen) <= 0 && OnHPDepleted != null)
+        {
+            Debug.Log("CHECK KILL");
+            OnHPDepleted();
+        }
     }
 
     public Stat GetStat(StatType type)
@@ -141,15 +155,12 @@ public class UnitStats : MonoBehaviour
 
         }
 
+        
         int x, y = 0;
         
         if(GetStatAmount(StatType.oxygen) > 0)
             AddInt(int_received, true, out x, out y);
 
-        if (GetStatAmount(StatType.oxygen) <= 0 && OnHPDepleted != null)
-        {
-            OnHPDepleted();
-        }
     }
 
     public void AddInt(int amount, bool consumeWill, out int removed_will, out int added_int)
@@ -177,7 +188,7 @@ public class UnitStats : MonoBehaviour
 
         int _new_int = Mathf.Min(Mathf.Max(Int + amount, 0), Max);
 
-        added_int = _new_int - Int;
+        added_int = Mathf.Max( _new_int - Int, 0);
 
         SetStatAmount(StatType.adrenaline, _new_int);
 
@@ -193,10 +204,15 @@ public class UnitStats : MonoBehaviour
     public void MaxUpdated()
     {
         int Max = (int) GetStatAmount(StatType.vitality);
-        int Int = (int) GetStatAmount(StatType.adrenaline);
-        int Will = (int) GetStatAmount(StatType.oxygen);
+        int Adrenaline = (int) GetStatAmount(StatType.adrenaline);
+        int Oxygen = (int) GetStatAmount(StatType.oxygen);
 
-        SetStatAmount(StatType.adrenaline, Int - Mathf.Max((Int + Will) - Max, 0));
+
+        int new_oxygen = Mathf.Min(Max, Oxygen);
+        int new_adrenaline = Mathf.Min(Adrenaline, Max - new_oxygen);
+         
+        SetStatAmount(StatType.adrenaline, new_adrenaline);
+        SetStatAmount(StatType.oxygen, new_oxygen);
 
     }
     public void Rest()
