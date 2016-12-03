@@ -71,12 +71,16 @@ public class UnitEffect_ModifyStat : UnitEffect
     /// <param name="target"></param>
     public override UnitEffect MakeCopy(UnitEffect origin, Unit host)
     {
-        Effect_Host = host;
-        UnitEffect_ModifyStat _cc = (UnitEffect_ModifyStat) origin;
-         
+        UnitEffect_ModifyStat _cc = origin.gameObject.Instantiate(host.transform, true).GetComponent<UnitEffect_ModifyStat>();
+
+
+        _cc.name = Unique_ID+"_copy";
+        _cc.Effect_Host = host;
         _cc.isCopy = true;
-        _cc._baked = _cc.GetBaked();
-        return _cc.MemberwiseClone() as UnitEffect_ModifyStat;
+        _cc._baked =_cc.GetBaked();
+       
+       
+        return _cc;
     }
 
     protected  override void EffectTick()

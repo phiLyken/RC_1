@@ -88,21 +88,24 @@ public class UnitBar : MonoBehaviour {
     }
     void SetAdrenalineRushPreview(int at_nunmber, int adrenaline_count)
     {
-        Debug.Log(at_nunmber + " " + adrenaline_count);
+       // Debug.Log(at_nunmber + " " + adrenaline_count);
              
         if(adrenaline_count >= Constants.ADRENALINE_RUSH_THRESHOLD)
         {
             AdrenalineRushPreview.gameObject.SetActive(false);
         } else
-        {            
-            RectTransform target = Bar_Steps[at_nunmber].rectTransform;
-            StartCoroutine(UpdateAdrenalineEndOfFrame(target));    
+        {     
+            if(Bar_Steps.Count > 0)
+            {    
+                RectTransform target = Bar_Steps[at_nunmber].rectTransform;
+                StartCoroutine(UpdateAdrenalineEndOfFrame(target));    
             
-            for(int i = 0; i < AdrenalinePreviewBlips.Length; i++)
-            {
-                AdrenalinePreviewBlips[i].gameObject.SetActive(adrenaline_count > i);
-            }                    
-            
+                for(int i = 0; i < AdrenalinePreviewBlips.Length; i++)
+                {
+                    AdrenalinePreviewBlips[i].gameObject.SetActive(adrenaline_count > i);
+                }
+            }
+
         }
     }
 }

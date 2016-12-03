@@ -18,20 +18,26 @@ public class UnitEffect_Damage : UnitEffect
 
     int baked_damage = -1;
 
+ 
 
     /// <summary>
     /// clones itself to the target
     /// </summary>
     /// <param name="target"></param>
-    public override UnitEffect MakeCopy(UnitEffect original, Unit host)
+    public override UnitEffect MakeCopy(UnitEffect origin, Unit host)
     {
+        UnitEffect_Damage _cc = origin.gameObject.Instantiate(host.transform, true).GetComponent<UnitEffect_Damage>();
 
-        UnitEffect_Damage _cc = (UnitEffect_Damage)( (UnitEffect_Damage) original).MemberwiseClone() ;
+
+        _cc.name = Unique_ID + "_copy";
         _cc.Effect_Host = host;
-        _cc.baked_damage = UnityEngine.Random.Range(GetMin(), GetMax()+1);
         _cc.isCopy = true;
+        _cc.baked_damage = UnityEngine.Random.Range(GetMin(), GetMax() + 1);
+
+
         return _cc;
-    } 
+    }
+
 
     int GetMin()
     {

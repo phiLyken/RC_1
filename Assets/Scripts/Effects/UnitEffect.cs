@@ -129,10 +129,7 @@ public class UnitEffect : MonoBehaviour
     protected virtual void GlobalTurnTick()
     {
     }
-
-    protected virtual void EffectRemoved()
-    {
-    }
+ 
 
     /// <summary>
     /// Call After Ticking
@@ -154,8 +151,9 @@ public class UnitEffect : MonoBehaviour
         Debug.Log("Global Tick Expired Effect " + Effect_Host.GetID() + "  -" + Unique_ID);
 
         TurnSystem.Instance.OnGlobalTurn -= OnGlobalTurn;
-        EffectRemoved();
+ 
 
+ 
     }
     public virtual void SetPreview(UI_DmgPreview prev, Unit target) { }
     #endregion

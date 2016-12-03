@@ -13,14 +13,26 @@ public class UnitEffect_GainAdrenaline : UnitEffect
     int removed = -1;
     int added = -1;
 
-    public override UnitEffect MakeCopy(UnitEffect origin, Unit effect_host)
+
+    /// <summary>
+    /// clones itself to the target
+    /// </summary>
+    /// <param name="target"></param>
+    public override UnitEffect MakeCopy(UnitEffect origin, Unit host)
     {
-        Effect_Host = effect_host;
-        UnitEffect_GainAdrenaline stim = (UnitEffect_GainAdrenaline)( (UnitEffect_GainAdrenaline) origin).MemberwiseClone();
-        stim.baked_adrenaline = Constants.GetGainedAdrenaline(effect_host.Stats, Rolls) ;
-        
-        return stim;
+        UnitEffect_GainAdrenaline _cc = origin.gameObject.Instantiate(host.transform, true).GetComponent<UnitEffect_GainAdrenaline>();
+
+
+        _cc.name = Unique_ID + "_copy";
+        _cc.Effect_Host = host;
+        _cc.isCopy = true;
+        _cc.baked_adrenaline = Constants.GetGainedAdrenaline(host.Stats, Rolls);
+
+        return _cc;
+
+
     }
+ 
 
     protected override void EffectTick()
     {
