@@ -82,16 +82,20 @@ public class UnitBar : MonoBehaviour {
 
     IEnumerator UpdateAdrenalineEndOfFrame(RectTransform target)
     {
+ 
         yield return new WaitForEndOfFrame();
+      
         AdrenalineRushPreview.position = new Vector3(target.position.x, target.position.y, 0);
         AdrenalineRushPreview.gameObject.SetActive(true);
     }
     void SetAdrenalineRushPreview(int at_nunmber, int adrenaline_count)
     {
-       // Debug.Log(at_nunmber + " " + adrenaline_count);
+         Debug.Log(at_nunmber + " " + adrenaline_count);
              
         if(adrenaline_count >= Constants.ADRENALINE_RUSH_THRESHOLD)
         {
+            
+            StopAllCoroutines();
             AdrenalineRushPreview.gameObject.SetActive(false);
         } else
         {     

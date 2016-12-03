@@ -237,7 +237,7 @@ public class UnitStats : MonoBehaviour
 
             int free = Max - (Int + Will);
             int adr_removed = Mathf.Min(Int, Mathf.Max(amount - free, 0));
-            SetStatAmount(StatType.adrenaline, adr_removed);
+            SetStatAmount(StatType.adrenaline, Int - adr_removed);
             Int -= adr_removed;
 
         }  
