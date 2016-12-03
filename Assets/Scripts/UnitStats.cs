@@ -147,7 +147,7 @@ public class UnitStats : MonoBehaviour
 
         Debug.Log(this.name + " rcv damge " + dmg_received + "  rcvd multiplier:" + "WTF" + "  +int=" + int_received);
 
-        AddWill(dmg_received);
+        AddOxygen(dmg_received);
 
         if (dmg_received < 0 && OnDmgReceived != null)
         { 
@@ -159,11 +159,11 @@ public class UnitStats : MonoBehaviour
         int x, y = 0;
         
         if(GetStatAmount(StatType.oxygen) > 0)
-            AddInt(int_received, true, out x, out y);
+            AddAdrenaline(int_received, true, out x, out y);
 
     }
 
-    public void AddInt(int amount, bool consumeWill, out int removed_will, out int added_int)
+    public void AddAdrenaline(int amount, bool consumeWill, out int removed_will, out int added_int)
     {
         removed_will = 0;
         added_int = 0;
@@ -222,7 +222,7 @@ public class UnitStats : MonoBehaviour
         SetStatAmount(StatType.oxygen,(int) GetStatAmount(StatType.vitality));
     }
 
-    public void AddWill(int amount)
+    public void AddOxygen(int amount)
     {
         int Max = (int) GetStatAmount(StatType.vitality);
         int Int = (int) GetStatAmount(StatType.adrenaline);

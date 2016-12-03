@@ -85,9 +85,24 @@ public class UnitEffect_ModifyStat : UnitEffect
 
     protected  override void EffectTick()
     {
+        int x, y;
         if (!Effect_Host.IsDead())
         {
-            Effect_Host.Stats.SetStatAmountDelta(type, _baked);
+
+            switch (type)
+            {
+                case StatType.adrenaline:
+                    Effect_Host.Stats.AddAdrenaline( (int) _baked, true, out   x, out   y);
+                    break;
+                case StatType.oxygen:
+                    Effect_Host.Stats.AddOxygen( (int) _baked);
+                    break;
+                default:
+                    Effect_Host.Stats.SetStatAmountDelta(type, _baked);
+                    break;
+
+            }
+           
 
         }
         Ticked();
