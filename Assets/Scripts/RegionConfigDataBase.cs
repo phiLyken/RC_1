@@ -18,6 +18,12 @@ public class RegionConfigDataBase : ScriptableObject {
 
     public RegionPool GetPool(int i)
     {
+        if (AllPools.Count <= i)
+        {
+            Debug.LogWarning("NO POOL FOR LEVEL " + i);
+
+            return null;
+        }
         return AllPools[i];
     }
  }

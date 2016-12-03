@@ -55,7 +55,7 @@ public class StatsBalance : MonoBehaviour {
 
                     int current_level_root = (int) stats.GetStatAmount(root_type);
 
-                    return sub_config.Values[current_level_root];
+                    return sub_config.Values[Mathf.Min(current_level_root, sub_config.Values.Length-1)];
                    
                 }
             }

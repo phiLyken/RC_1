@@ -63,9 +63,9 @@ public class Tile_Loot : TileComponent {
      public static void AddLoot(Tile target, EnemyDropCategory Category)
     {
         LootConfig  conf = LootBalance.GetBalance().GetLootConfig(Category);
-
-        if( conf != null && target.GetComponent<Tile_Loot>() == null) { 
-
+        
+        if( conf != null && target.GetComponent<Tile_Loot>() == null) {
+          
             target.gameObject.AddComponent<Tile_Loot>().SetLoot(conf);
         }
     } 

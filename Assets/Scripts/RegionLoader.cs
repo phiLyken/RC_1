@@ -12,13 +12,20 @@ public static class RegionLoader  {
 
     public static RegionConfig GetWeightedRegionForLevel(RegionConfigDataBase regions, int level, List<RegionConfig> exclude)
     {
+
+        RegionPool pool_level =  regions.GetPool(level);
+        if(pool_level == null)
+        {
+            Debug.LogWarning(" NO REGIONS LEFT for LEVEL " + level);
+            return null;
+        }
         // get regions for level
-        List<WeightedRegion> configs =
-            regions.GetPool(level).Regions.Where( r =>  !exclude.Contains(r.Region ) ).ToList();
+        List<WeightedRegion> configs = pool_level.Regions.Where( r =>  !exclude.Contains(r.Region ) ).ToList();
         
         if(configs.Count == 0)
         {
-            Debug.LogWarning(" NO REGIONS LEFT for LEVEL " + level );
+            Debug.LogWarning(" NO REGIONS LEFT for LEVEL " + level);
+            return null;
         }
 
        //  Debug.Log(configs.Count);

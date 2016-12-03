@@ -17,6 +17,7 @@ public class SpawnLootOnDeath : MonoBehaviour {
     {
         if(u == m_unit)
         {
+             
             Tile_Loot.AddLoot(u.currentTile, cat);
         }
 

@@ -17,7 +17,8 @@ public class LootBalance : MonoBehaviour {
 
     public LootConfig GetLootConfig(LootCategory cat)
     {
-       // Debug.Log("Get Loot for " + cat);
+        
+       
         List<LootConfig> configs = LootConfigs.Where(lc => lc.Category == cat).ToList();
 
         /*      List<WeightedRegion> configs = Regions.Where( r =>  ..... ) ).ToList();
@@ -32,13 +33,18 @@ public class LootBalance : MonoBehaviour {
 
     public LootConfig GetLootConfig(EnemyDropCategory drop)
     {
-        EnemyDropConfig edc = EnemyDropConfigs.Where( conf => conf.Category == drop).First();
+        if(drop == EnemyDropCategory.none)
+        {
+            return null;
+        }
+        EnemyDropConfig edc = EnemyDropConfigs.FirstOrDefault(config => config.Category == drop);
         
-        if(edc != null && edc.DropChance <= UnityEngine.Random.value)
+        if(edc != null && edc.DropChance >= UnityEngine.Random.value)
         { 
             return WeightableFactory.GetWeighted(edc.Configs).config;
         } else
         {
+            Debug.LogWarning("Could not find enemy drop config for " + drop+ " configs="+EnemyDropConfigs.Count);
             return null;
         }
     }
