@@ -10,7 +10,7 @@ public class UI_ActionBar_Button_AdrenalineRush : UI_AdrenalineRushBase {
 
     public string Format;
 
-    public  Image Frame;
+    public Image Frame;
     public List<Image> Solid_Fill;
     public List<Image> Highlight_Fill;
 
@@ -19,10 +19,12 @@ public class UI_ActionBar_Button_AdrenalineRush : UI_AdrenalineRushBase {
     {
 
         if (useDelay)
-        { 
-        this.ExecuteDelayed(EnableDelay, () =>  UpdateUI(_bonus) );
+        {
+            StopAllCoroutines();
+         this.ExecuteDelayed(EnableDelay, () =>  UpdateUI(_bonus) );
         } else
         {
+            StopAllCoroutines();
             UpdateUI(_bonus);
         }
 
