@@ -15,11 +15,17 @@ public class UI_ActionBar_Button_AdrenalineRush : UI_AdrenalineRushBase {
     public List<Image> Highlight_Fill;
 
  
-    protected override void UpdateBonus(float _bonus)
+    protected override void UpdateBonus(float _bonus, bool useDelay)
     {
-      
+
+        if (useDelay)
+        { 
         this.ExecuteDelayed(EnableDelay, () =>  UpdateUI(_bonus) );
-        
+        } else
+        {
+            UpdateUI(_bonus);
+        }
+
     }
 
 

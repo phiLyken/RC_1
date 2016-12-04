@@ -28,7 +28,13 @@ public class UI_ActionBar_Button : MonoBehaviour, IToolTip{
 
     UnitInventory inventory;
 
-
+    public void SetAction(UnitActionBase action, ActionManager manager)
+    {
+        m_manager = manager;
+        
+        UnsetCurrentAction();
+        SetNewAction(action);
+    }
     void UnsetCurrentAction()
     {
         //   manager.OnActionComplete += OnActionComplete;
@@ -38,9 +44,14 @@ public class UI_ActionBar_Button : MonoBehaviour, IToolTip{
             m_action.OnSelectAction -= OnActionSelect;
             m_action.OnUnselectAction -= OnActionUnselect;
 
+ 
+            m_action.OnActionComplete -= OnActionComplete;
+            m_action.GetOwner().Stats.OnStatUpdated -= OnStatUpdated;
+            
             if (inventory != null)
                 inventory.OnInventoryUpdated -= OnInventoryUpdate;
 
+            m_action = null;
 
         }
     }
@@ -72,15 +83,7 @@ public class UI_ActionBar_Button : MonoBehaviour, IToolTip{
             SetBaseState(m_action);
         }
     }
-    public void SetAction(UnitActionBase action, ActionManager manager)
-    {
 
-        m_manager = manager;
-        UnsetCurrentAction();
-        SetNewAction(action);
-
-       
-    }
 
     bool ShowAdrenalineRush()
     {

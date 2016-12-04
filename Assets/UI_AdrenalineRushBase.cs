@@ -18,43 +18,49 @@ public class UI_AdrenalineRushBase : MonoBehaviour {
         Stats = unit_stats;
         Stats.OnStatUpdated += OnUpdateStat;
         old_adr = GetAdr();
-        UpdateAdrenaline(GetAdr());
-        UpdateBonus(GetBonus());
+       // UpdateAdrenaline(GetAdr(), false);
+       // UpdateBonus(GetBonus(), false);
+
+        UpdateAdr(false);
+        
     }
 
- 
-    protected void OnUpdateStat(Stat s)
+
+    void UpdateAdr( bool useDelay)
     {
         int threshold = Constants.ADRENALINE_RUSH_THRESHOLD;
+        int _currentAdrenaline = GetAdr();
+        HasRush = _currentAdrenaline >= threshold;
+
+        if (old_adr < threshold && HasRush)
+        {
+            if (isActiveAndEnabled && useDelay)
+            {
+                this.ExecuteDelayed(EnableDelay, TriggerRush);
+
+            }
+            else
+            {
+                TriggerRush();
+            }
+        }
+        if (old_adr >= threshold && !HasRush)
+        {
+            if (OnRushFade != null)
+                OnRushFade();
+
+            RushLoss();
+        }
+        old_adr = _currentAdrenaline;
+        UpdateAdrenaline(_currentAdrenaline, useDelay);
+        UpdateBonus(GetBonus(), useDelay);
+    }
+ 
+    protected void OnUpdateStat(Stat s)
+    {       
         if (s.StatType == StatType.adrenaline)
         {
-   
-
-            int _currentAdrenaline  = GetAdr();
-            HasRush = _currentAdrenaline >= threshold;
-
-            if (old_adr < threshold && HasRush )
-            {
-                if (isActiveAndEnabled)
-                { 
-                    this.ExecuteDelayed(EnableDelay,  TriggerRush );                        
-                    
-                } else
-                {
-                    TriggerRush();
-                }
-            }
-            if (old_adr >= threshold && !HasRush)
-            {
-                if (OnRushFade != null)
-                    OnRushFade();
-
-                RushLoss();
-            }
-            old_adr = _currentAdrenaline;
-            UpdateAdrenaline(_currentAdrenaline);
-            UpdateBonus(GetBonus());
-            
+            UpdateAdr(true);                
         }
     }
 
@@ -79,11 +85,11 @@ public class UI_AdrenalineRushBase : MonoBehaviour {
     {
         return Constants.GetAdrenalineBonus(Stats);
     }
-    protected virtual void UpdateAdrenaline(int adrenaline)
+    protected virtual void UpdateAdrenaline(int adrenaline, bool useDelay)
     {                   
                   
     }
-    protected virtual void UpdateBonus(float _bonus)
+    protected virtual void UpdateBonus(float _bonus, bool useDelay)
     {
 
     }

@@ -13,15 +13,20 @@ public class UI_ToolTip_AdrenalineRush : UI_AdrenalineRushBase
 
     public string Format;
     
-    protected override void UpdateBonus(float _bonus)
+    protected override void UpdateBonus(float _bonus, bool useDleay)
     {
-        if(isActiveAndEnabled)
+        if(isActiveAndEnabled && useDleay)
+        {
             this.ExecuteDelayed(EnableDelay, () => UpdateUI(_bonus));
+        } else
+        {
+            UpdateUI(_bonus);
+        }
     }
 
     void UpdateUI(float bonus)
     {
-        ColorSettingToolTipItem colors = bonus >= Constants.ADRENALINE_RUSH_THRESHOLD ? UI_ActionBar_Button_ColorSetting.GetInstance().TT_ADR_Bonus_Active  : UI_ActionBar_Button_ColorSetting.GetInstance().TT_ADR_Bonus_Inactive;
+        ColorSettingToolTipItem colors = bonus > 1 ? UI_ActionBar_Button_ColorSetting.GetInstance().TT_ADR_Bonus_Active  : UI_ActionBar_Button_ColorSetting.GetInstance().TT_ADR_Bonus_Inactive;
 
         BonusNumberText.text = GetIntBonusText(bonus);
         BonusNumberText.color = colors.Text;
