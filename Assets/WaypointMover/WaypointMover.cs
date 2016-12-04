@@ -17,9 +17,7 @@ public class WaypointMover : MonoBehaviour {
 
 	public bool Loop;
 	public float RandomDestination;
-  
-	
-	float currentStartTime;
+ 
 
     public IWayPoint test_start;
     public IWayPoint test_end;

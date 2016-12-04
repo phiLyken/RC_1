@@ -4,7 +4,7 @@ using System;
 
 public class CameraAction_Rotate : CameraAction {
      
-    int current_step;
+ 
     public   float rotation_per_step;
 
  

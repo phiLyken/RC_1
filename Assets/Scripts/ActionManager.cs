@@ -9,7 +9,7 @@ public delegate void ActionTargetEventHandler(object target);
 
 public class ActionManager : MonoBehaviour {
 
-    Unit Owner;
+    Unit m_Owner;
     
     public int AP_Used = 2;
     public  int MaxAP = 2;
@@ -26,7 +26,7 @@ public class ActionManager : MonoBehaviour {
     
     public int GetOwnerID()
     {
-        return Owner.OwnerID;
+        return m_Owner.OwnerID;
     }
    
     public UnitActionBase[] Actions;
@@ -57,7 +57,7 @@ public class ActionManager : MonoBehaviour {
 
     void CheckOwnerKilled(Unit u)
     {
-        if(u == Owner)
+        if(u == m_Owner)
         {
             Reset();
             Unit.OnUnitKilled -= CheckOwnerKilled;
@@ -67,15 +67,19 @@ public class ActionManager : MonoBehaviour {
 
         Unit.OnUnitKilled += CheckOwnerKilled;
 		UnitActionBase[] raw_actions = GetComponentsInChildren<UnitActionBase>();
-		foreach (UnitActionBase action in raw_actions) action.SetOwner(Owner);
+		foreach (UnitActionBase action in raw_actions) action.SetOwner(m_Owner);
 
         Actions = raw_actions;
 		
 
 	}
+    public Unit GetOwner()
+    {
+        return m_Owner;
+    }
     public void SetOwner(Unit owner)
     {
-        Owner = owner;
+        m_Owner = owner;
         Unit.OnTurnEnded += unit =>
         {
             if(unit == owner)
@@ -129,9 +133,9 @@ public class ActionManager : MonoBehaviour {
     void Update()
     {
         //Only Read Inputs if this is the currently active actionmanager
-        if ( Owner.OwnerID != 0) return;
+        if ( m_Owner.OwnerID != 0) return;
 
-        if (TurnSystem.Instance == null || !TurnSystem.HasTurn(Owner))
+        if (TurnSystem.Instance == null || !TurnSystem.HasTurn(m_Owner))
         {
             return;
         }
@@ -152,7 +156,7 @@ public class ActionManager : MonoBehaviour {
     public UnitActionBase SelectAbility(UnitActionBase ability)
     {
 
-        if (Unit.SelectedUnit != Owner || !HasAP() || IsAnimationPlaying() || Owner.IsDead()) return null;
+        if (Unit.SelectedUnit != m_Owner || !HasAP() || IsAnimationPlaying() || m_Owner.IsDead()) return null;
         if (currentAction != null && currentAction == ability)
         {
             UnsetCurrentAction();
@@ -163,7 +167,7 @@ public class ActionManager : MonoBehaviour {
         UnsetCurrentAction();
         if (!ability.CanExecAction(true))
         {
-            Debug.Log("Nope");
+           // Debug.Log("Nope");
             return null;
         }
         ToastNotification.StopToast();
@@ -201,8 +205,8 @@ public class ActionManager : MonoBehaviour {
 
         if (OnActionComplete != null) OnActionComplete(action);
       
-        if (TurnSystem.HasTurn(Owner) && RC_Camera.Instance != null) {
-            RC_Camera.Instance.ActionPanToPos.GoTo(Owner.currentTile.GetPosition());
+        if (TurnSystem.HasTurn(m_Owner) && RC_Camera.Instance != null) {
+            RC_Camera.Instance.ActionPanToPos.GoTo(m_Owner.currentTile.GetPosition());
         }
 
         UnsetCurrentAction();

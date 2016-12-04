@@ -166,7 +166,7 @@ public class TileEditor : Editor {
     }
 
 
-    int ADD_DUST;
+ 
     void MiscTools()
     {
         if (GUILayout.Button("Toggle Enemy Spawn"))
