@@ -8,7 +8,7 @@ public class Constants : MonoBehaviour {
     /// <summary>
     /// At WHAT number of Adrenaline will Adrenaline rush be triggered?
     /// </summary>
-    public static int ADRENALINE_RUSH_THRESHOLD = 3;
+    public static int ADRENALINE_RUSH_THRESHOLD = 2;
 
     /// <summary>
     /// How close a player unit must come before the an enemy AI is activated and added to the turn system
