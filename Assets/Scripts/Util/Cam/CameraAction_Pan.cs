@@ -8,7 +8,7 @@ public class CameraAction_Pan : CameraAction
     public float PanThreshold;
     public float SmoothDrag;
 
-    int frames_delay = 5;
+    public int frames_delay = 5;
     bool _waitingForInput;
  
     protected override bool CanStartInput()
@@ -30,7 +30,7 @@ public class CameraAction_Pan : CameraAction
             yield return null;
         }
 
-        StartCoroutine(MyMath.DelayForFrames(frames_delay));
+        yield return StartCoroutine(MyMath.DelayForFrames(frames_delay));
         Active = false;
        
         yield break;
@@ -71,7 +71,7 @@ public class CameraAction_Pan : CameraAction
 
     public override void Stop()
     {
-       // Debug.Log("PanStop");
+       Debug.Log("PanStop");
         _waitingForInput = false;
         StopAllCoroutines();
         Active = false;

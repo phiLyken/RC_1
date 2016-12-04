@@ -75,7 +75,7 @@ public class SelectibleObjectBase : MonoBehaviour {
             if (!HumanInput())
                 return;
 
-            if (inFocus && !RC_Camera.HasBlockingAction() )
+            if (inFocus && !RC_Camera.CameraActionInProgress() )
             {
                 Select();
             }            

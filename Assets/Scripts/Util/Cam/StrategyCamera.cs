@@ -55,8 +55,11 @@ public class StrategyCamera : MonoBehaviour
     {
         return Instance != null && Instance.Actions.Count(action => action.IsBlocking && action.Active) > 0;
     }    
- 
-
+    
+    public static bool CameraActionInProgress()
+    {
+        return Instance != null && Instance.Actions.Count(action => action.Active) > 0;
+    }
     void OnDrawGizmos()
     {
         Debug.DrawLine(transform.position, MyMath.GetCameraCenter());
