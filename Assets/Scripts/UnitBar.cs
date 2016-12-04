@@ -90,7 +90,7 @@ public class UnitBar : MonoBehaviour {
     }
     void SetAdrenalineRushPreview(int at_nunmber, int adrenaline_count)
     {
-         Debug.Log(at_nunmber + " " + adrenaline_count);
+        // Debug.Log(at_nunmber + " " + adrenaline_count);
              
         if(adrenaline_count >= Constants.ADRENALINE_RUSH_THRESHOLD)
         {

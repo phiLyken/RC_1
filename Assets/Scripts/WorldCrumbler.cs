@@ -71,9 +71,9 @@ public class WorldCrumbler : MonoBehaviour, ITurn {
 
         ToastNotification.SetToastMessage1("The earth is shaking...");  
         
-        if(PanCamera.Instance != null)
+        if(RC_Camera.Instance != null)
         {
-            PanCamera.Instance.PanToPos(GetCameraPosition(), CrumbleTurn);
+            RC_Camera.Instance.ActionPanToPos.GoToPos(GetCameraPosition(), CrumbleTurn);
         }      else
         {
             CrumbleTurn();

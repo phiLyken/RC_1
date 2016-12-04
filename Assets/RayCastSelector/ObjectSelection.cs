@@ -52,7 +52,7 @@ public class ObjectSelection : MonoBehaviour {
 	
 		
 		while( Input.GetButton("Fire1")){
-			if(PanCamera.CameraAction) yield break;
+			if(RC_Camera.HasBlockingAction()) yield break;
 			
 			if(Cast()){
 				LastTouchObject.SendMessage ("TouchHold", LastHitPosition, SendMessageOptions.DontRequireReceiver);					
@@ -61,7 +61,7 @@ public class ObjectSelection : MonoBehaviour {
 			yield return null;
 		}
 		
-		if(PanCamera.CameraAction) yield break;
+		if(RC_Camera.HasBlockingAction()) yield break;
 		
 		Debug.Log("Selection Thread End");
 		if(ActiveObject != null ){
@@ -86,7 +86,7 @@ public class ObjectSelection : MonoBehaviour {
 		if(SelectedObject == null){
 			SelectedObject = newObject;
 			SelectedObject.SendMessage("Selected", SendMessageOptions.DontRequireReceiver);
-			PanCamera.Instance.DisableInput();
+			RC_Camera.Instance.DisableInput();
 		} else {
 			UnselectCurrent();	
 		}

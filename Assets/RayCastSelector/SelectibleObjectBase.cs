@@ -66,7 +66,6 @@ public class SelectibleObjectBase : MonoBehaviour {
 
     void Update()
     {
-
         if (Input.GetMouseButtonUp(0))
         {
             if (Input.GetKeyUp(KeyCode.Alpha0))
@@ -76,11 +75,10 @@ public class SelectibleObjectBase : MonoBehaviour {
             if (!HumanInput())
                 return;
 
-            if (inFocus && !PanCamera.CameraAction)
+            if (inFocus && !RC_Camera.HasBlockingAction() )
             {
                 Select();
-            }
-             
+            }            
 
         }
     }
@@ -94,7 +92,7 @@ public class SelectibleObjectBase : MonoBehaviour {
         }
         if (!HumanInput()) return;
 
-        if (inFocus && !PanCamera.CameraAction)
+        if (inFocus && !RC_Camera.HasBlockingAction())
         {
             Select();
         } else

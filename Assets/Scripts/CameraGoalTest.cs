@@ -7,7 +7,7 @@ public class CameraGoalTest : MonoBehaviour {
     {
         if (Input.GetButtonDown("Fire1"))
         {
-           PanCamera.Instance.PanToPos(transform.position, ChangeColor );
+           StrategyCamera.Instance.ActionPanToPos.GoToPos(transform.position, ChangeColor );
         }
     }
 

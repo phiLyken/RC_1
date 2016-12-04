@@ -83,15 +83,15 @@ public class UnitEffect : MonoBehaviour
         Instigator = instigator;
         target = GetTarget(target, instigator.GetOwner() );
         
-        if (FocusOnCaster && PanCamera.Instance != null) {
-            PanCamera.Instance.PanToPos(instigator.GetOwner().currentTile.GetPosition());
+        if (FocusOnCaster && RC_Camera.Instance != null) {
+            RC_Camera.Instance.ActionPanToPos.GoTo(instigator.GetOwner().currentTile.GetPosition());
             yield return new WaitForSeconds(0.5f);
         }
 
          
 
-        if (FocusOnTarget && PanCamera.Instance != null) {
-            PanCamera.Instance.PanToPos(target.currentTile.GetPosition());
+        if (FocusOnTarget && RC_Camera.Instance != null) {
+            RC_Camera.Instance.ActionPanToPos.GoTo(target.currentTile.GetPosition());
             yield return new WaitForSeconds(0.5f);
         }       
         

@@ -51,9 +51,9 @@ public class TurnEventQueue  {
         public override void StartEvent( )
         {
             base.StartEvent( );
-            if(PanCamera.Instance != null)
+            if(RC_Camera.Instance != null)
             {
-                PanCamera.Instance.PanToPos(position, EndEvent );
+                RC_Camera.Instance.ActionPanToPos.GoToPos(position, EndEvent);
             } else
             {
                 EndEvent();

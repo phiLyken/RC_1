@@ -3,8 +3,9 @@ using System.Collections;
 
 public class PanCamera : MonoBehaviour {
 
-    int currentZoomLevel;
+ 
 
+    int currentZoomLevel;
 	bool drag;
 	Vector3 startDragPos;
 	Vector3 smoothMove;
@@ -42,6 +43,7 @@ public class PanCamera : MonoBehaviour {
     {
         PanToPos(u.transform.position);
     }
+
 	void Start(){    
 		SetCameraStart();
 	}
@@ -163,12 +165,12 @@ public class PanCamera : MonoBehaviour {
 
         DisableInput();
         Reset();
-        StartCoroutine(PanToWorldPos(pos, 5,cb));
+        StartCoroutine(PanToWorldPos(pos, 20,cb));
     }
 
 	IEnumerator PanToWorldPos(Vector3 pos, float speed, EventHandler _cb)
     {
-       
+        Debug.Log("Start Pan");
         pos.y = 0;
         drag = true;
         event_callback = _cb;
@@ -176,7 +178,7 @@ public class PanCamera : MonoBehaviour {
 
         while ( delta.magnitude > 0.1f)
         {
-            transform.Translate((pos - MyMath.GetCameraCenter()) * speed * Time.deltaTime, Space.World);
+            transform.Translate((pos - MyMath.GetCameraCenter()).normalized * speed * Time.deltaTime, Space.World);
                        
             delta = pos - MyMath.GetCameraCenter();
 
@@ -218,21 +220,18 @@ public class PanCamera : MonoBehaviour {
 		yield break;
 		
 	}
-    void OnDrawGizmos()
-    {
-        Debug.DrawLine(transform.position, MyMath.GetCameraCenter());
-    }
 
-    IEnumerator Rotate(float step)
+
+    IEnumerator Rotate(float delta)
     {
         if (rotating) yield break;
         rotating = true;
         float rotated = 0;
         float t = 0;
 
-        while (Mathf.Abs(rotated) < Mathf.Abs( step)) {
+        while (Mathf.Abs(rotated) < Mathf.Abs( delta)) {
 
-            float target_rot = Mathf.Lerp(0, step, t);
+            float target_rot = Mathf.Lerp(0, delta, t);
             float dr = target_rot - rotated;
             rotated += dr;
             t += Time.deltaTime * 3;
@@ -240,7 +239,7 @@ public class PanCamera : MonoBehaviour {
             yield return null;
         }
 
-        transform.RotateAround(MyMath.GetCameraCenter(), Vector3.up, rotated- step);
+        transform.RotateAround(MyMath.GetCameraCenter(), Vector3.up, rotated- delta);
 
 
         rotating = false;

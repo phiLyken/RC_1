@@ -35,7 +35,15 @@ public static class MyMath  {
        
  
     }
-  
+    public static IEnumerator DelayForFrames(int frames)
+    {
+        for(int i = 0; i < frames; i++)
+        {
+            yield return new WaitForEndOfFrame();
+        }
+
+        yield break;
+    }
     public static IEnumerator ExecuteDelayed(float time, Action func)
     {
         yield return new WaitForSeconds(time);

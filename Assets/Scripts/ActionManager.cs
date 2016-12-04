@@ -201,8 +201,8 @@ public class ActionManager : MonoBehaviour {
 
         if (OnActionComplete != null) OnActionComplete(action);
       
-        if (TurnSystem.HasTurn(Owner) && PanCamera.Instance != null) {
-            PanCamera.Instance.PanToPos(Owner.currentTile.GetPosition());
+        if (TurnSystem.HasTurn(Owner) && RC_Camera.Instance != null) {
+            RC_Camera.Instance.ActionPanToPos.GoTo(Owner.currentTile.GetPosition());
         }
 
         UnsetCurrentAction();
