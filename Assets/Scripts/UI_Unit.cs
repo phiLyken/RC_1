@@ -113,9 +113,9 @@ public class UI_Unit : MonoBehaviour
 
     IEnumerator DestroyDelayed()
     {
+
+        yield return new WaitForSeconds(2.5f);
         
-        yield return new WaitForSeconds(0.5f);
- 
         Destroy(this.gameObject);
     } 
 
