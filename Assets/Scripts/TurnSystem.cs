@@ -41,6 +41,7 @@ public class TurnSystem : MonoBehaviour {
     void Awake()
     {
         Instance = this;
+        TurnEventQueue.Reset();
     }
 
     void Start()
@@ -116,7 +117,7 @@ public class TurnSystem : MonoBehaviour {
         ///Double null check because we are checking an interface
         while (!forceNext && ( (t!=null && !t.Equals(null)) && !t.HasEndedTurn() || TurnEventQueue.EventRunning  ))
         {
-            //Debug.Log(t.GetID());
+            // Debug.Log(t.GetID()+ " event "+TurnEventQueue.EventRunning.ToString());
             yield return null;
         }       
     }

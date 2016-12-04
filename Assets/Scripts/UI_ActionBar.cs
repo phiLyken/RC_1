@@ -21,6 +21,10 @@ public class UI_ActionBar : MonoBehaviour {
         ActionManager.OnActionManagerActivated += SetActions;
        
     }
+    void OnDestroy()
+    {
+        ActionManager.OnActionManagerActivated -= SetActions;
+    }
 
     public static void SetActions(ActionManager manager)
     {

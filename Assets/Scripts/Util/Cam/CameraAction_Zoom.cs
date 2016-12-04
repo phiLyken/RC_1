@@ -31,11 +31,11 @@ public class CameraAction_Zoom : CameraAction {
         {
             if (Input.GetAxis("Mouse ScrollWheel") != 0)
             {
-                CurrentTouchDistance = Input.GetAxis("Mouse ScrollWheel") * ZoomSensitivity;
+                CurrentTouchDistance = Input.GetAxis("Mouse ScrollWheel") * ZoomSensitivity / Time.deltaTime;
             }
             else
             {
-                CurrentTouchDistance = (Input.touches[0].position - Input.touches[1].position).magnitude * ZoomSensitivity;
+                CurrentTouchDistance = (Input.touches[0].position - Input.touches[1].position).magnitude / ZoomSensitivity;
             }
 
             CurrentDeltaDistance = (CurrentTouchDistance - LastTouchDistance);

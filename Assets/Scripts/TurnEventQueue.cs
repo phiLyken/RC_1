@@ -17,7 +17,10 @@ public class TurnEventQueue  {
     }
 
   
-  
+    public static void Reset()
+    {
+        events = new List<TurnEvent>();
+    }
         
     public class TurnEvent
     {

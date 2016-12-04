@@ -68,13 +68,13 @@ public class WorldCrumbler : MonoBehaviour, ITurn {
     public void StartTurn()
     {
         hasCrumbled = false;
-
+        Debug.Log("Start Crubmle Turn");
         ToastNotification.SetToastMessage1("The earth is shaking...");  
         
         if(RC_Camera.Instance != null)
         {
             RC_Camera.Instance.ActionPanToPos.GoToPos(GetCameraPosition(), CrumbleTurn);
-        }      else
+        }    else
         {
             CrumbleTurn();
         }
@@ -90,6 +90,7 @@ public class WorldCrumbler : MonoBehaviour, ITurn {
 
     void CrumbleTurn()
     {
+        Debug.Log("Crumble");
         SetCrumbleInWeightedTiles();
 
         if (OnCrumble != null)
@@ -124,7 +125,7 @@ public class WorldCrumbler : MonoBehaviour, ITurn {
 
         while (TilesMoving())
         {
-           
+            Debug.Log("waiting,..");
             yield return new WaitForSeconds(0.1f);
         }
 
