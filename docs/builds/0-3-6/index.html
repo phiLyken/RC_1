@@ -3,14 +3,59 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Unity WebGL Player | REDCLIFF CHRONICLES</title>
-    <style>
-    /* a style sheet needs to be present for cursor hiding and custom cursors to work. */
-    </style>
+    <title>R E D C L I F F | chronicles</title>
+    <link rel="stylesheet" href="TemplateData/style3.css">
+    <link rel="shortcut icon" href="TemplateData/favicon.ico" />
+    <script src="TemplateData/UnityProgress.js"></script>
   </head>
-  <body>
-    <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" height="600px" width="800px"></canvas>
-    <script type='text/javascript'>
+  <body class="template">
+    <p class="header"> </p>
+	
+
+		<div class="info_content">
+ 
+		<div class="fullscreen"><img src="TemplateData/fullscreen.png" width="38" height="38" alt="Fullscreen" title="Fullscreen" onclick="SetFullscreen(1);" /></div>
+
+		<div class="player_wrapper">
+			<div class="player ">
+				<canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" height="600px" width="800px"></canvas>			  
+			</div>      
+		</div>
+	 
+		<div class="info_content">
+			<div class="info"><p class="bla">THE GAME</p> As a Redcliff Corporation Squad-Commander it is your duty to secure as many supplies as possible before the surface of the mars collapses.
+Keeping your units alive in the process is recommended.<br><p style="margin:39px"/>
+<p class="bla">CONTACT<p>
+In case you want to provide additional feedback, or have questions, dont hesitate to drop us a mail at<br>
+		<a href="mailto:dynamitewhalegames@gmail.com">dynamitewhalegames@gmail.com</a>
+		<br> or use twitter<br><a href="https://twitter.com/dynamite_whale">@dynamite_whale  </a>
+		
+		
+		</div>
+ 
+ 
+		<div class="info"><p class="bla"> GIVE FEEDBACK</p><p>
+			Your feedback is vital to us, to make this game as much fun for YOU as possible.
+			 
+			</p>
+			<a href=""><p class="_link">TAKE SURVEY</p></a>
+			
+		
+			
+			<p style="margin:100px"/>
+		
+				 <p class="bla">HELP</p><p>
+			Sorry!! But the game is currently in a stage where we try to test how well it can do on its own. We are working on an emergency-FAQ though. Coming soon :)
+		 		</div></div>
+			</p>
+		 
+			
+			</div>
+			
+		</div>
+ 
+    
+<script type='text/javascript'>
   var Module = {
     TOTAL_MEMORY: 268435456,
     errorhandler: null,			// arguments: err, url, line. This function must return 'true' if the error is handled, otherwise 'false'
@@ -21,6 +66,7 @@
   };
 </script>
 <script src="Release/UnityLoader.js"></script>
+
 
   </body>
 </html>
