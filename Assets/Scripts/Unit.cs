@@ -59,8 +59,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
         Actions.SetOwner(this);
         Actions.OnActionSelected += ActionChanged;
         Actions.OnActionUnselected += ActionChanged;
-     //   TurnSystem.Instance.OnGlobalTurn += GlobalTurn;
-
+ 
         AllUnits.Add(this);
 
         SelectibleObjectBase b = GetComponent<SelectibleObjectBase>();

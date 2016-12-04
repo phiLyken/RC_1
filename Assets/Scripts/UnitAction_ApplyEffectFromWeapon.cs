@@ -30,6 +30,7 @@ public class UnitAction_ApplyEffectFromWeapon : UnitAction_ApplyEffect {
         foreach (var e in GetEffects())
             e.UpdateBonus();
     }
+
     WeaponBehavior GetBehavior()
     {
         Weapon wp = Owner.GetComponent<UnitInventory>().EquipedWeapon;

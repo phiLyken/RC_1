@@ -5,11 +5,10 @@ using System.Collections.Generic;
 using System.Linq;
 
 public class UI_ActionBar : MonoBehaviour {
-    
+
+    ActionManager m_manager;
     public GameObject ButtonPrefab;
-
     public List<UI_ActionBar_ButtonAnchor> Anchors;
-
     public Dictionary<ActionButtonID, UI_ActionBar_Button> CurrentButtons;
 
     static UI_ActionBar instance;
@@ -45,7 +44,6 @@ public class UI_ActionBar : MonoBehaviour {
 
     void OnSelectAction(UnitActionBase action)
     {
-
        // SetBaseStatesInButtons();
     }
 
@@ -59,20 +57,8 @@ public class UI_ActionBar : MonoBehaviour {
 
     void UnSelectAction(UnitActionBase action)
     {
-
         SetBaseStatesInButtons();
-
     }
-
-
-    /// <summary>
-    /// Updates amount of ability buttons by adding them to the array, and then disabling/enabling
-    /// </summary>
-    /// <param name="actions"></param>
-
-    ActionManager m_manager;
-
-
  
     void UpdateButtons(ActionManager manager)
     {

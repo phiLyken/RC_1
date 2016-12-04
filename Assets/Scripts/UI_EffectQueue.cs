@@ -51,7 +51,7 @@ public class UI_EffectQueue : MonoBehaviour {
 
     void SpawnEffectExpiredNotification(UnitEffect effect)
     {
-        if (!effect.ShowRemoveNotification) return;
+        if (!effect.ShowRemoveNotification ) return;
 
         EventNotification.SpawnEffectNotification(EffectNotifactionPrefab, EffectNotificationsContainer, effect, effect.GetShortHandle()+" removed");
         EnableUnitUI();
@@ -59,6 +59,7 @@ public class UI_EffectQueue : MonoBehaviour {
      
     void SpawnEffectTickNotification(UnitEffect effect)
     {
+
         EventNotification.SpawnEffectNotification(EffectNotifactionPrefab, EffectNotificationsContainer, effect );
         EnableUnitUI();
     }
@@ -102,6 +103,11 @@ public class UI_EffectQueue : MonoBehaviour {
     {
         m_Unit.GetComponent<Unit_EffectManager>().OnEffectTick -= SpawnEffectTickNotification;
         Unit.OnTurnStart -= ShowActiveEffects;
+
+        m_EffectManager.OnEffectTick -= SpawnEffectTickNotification;
+        m_EffectManager.OnEffectAdded -= SpawnEffectAppliedNotification;
+        m_EffectManager.OnEffectRemoved -= SpawnEffectExpiredNotification;
+        PlayerInventory.Instance.OnInventoryUpdated -= SpawnInventoryNotification;
     }
 
 

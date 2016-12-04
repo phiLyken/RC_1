@@ -100,7 +100,7 @@ public class ActionManager : MonoBehaviour {
 
     public void Reset()
     {
-     //   Debug.Log("Resetting action manager");
+        Debug.Log("Resetting action manager");
         UnsetCurrentAction();
        
         CurrentTurnCost = 0;
@@ -152,7 +152,7 @@ public class ActionManager : MonoBehaviour {
     public UnitActionBase SelectAbility(UnitActionBase ability)
     {
 
-        if (Unit.SelectedUnit != Owner || !HasAP() || IsAnimationPlaying()) return null;
+        if (Unit.SelectedUnit != Owner || !HasAP() || IsAnimationPlaying() || Owner.IsDead()) return null;
         if (currentAction != null && currentAction == ability)
         {
             UnsetCurrentAction();

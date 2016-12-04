@@ -29,36 +29,36 @@ public class UI_ActionBar_Button : MonoBehaviour, IToolTip{
     UnitInventory inventory;
 
 
-    public void SetAction(UnitActionBase action, ActionManager manager)
+    void UnsetCurrentAction()
     {
-
-        m_manager = manager;
         //   manager.OnActionComplete += OnActionComplete;
         // Debug.Log("set action " + action.ActionID);
         if (m_action != null)
         {
             m_action.OnSelectAction -= OnActionSelect;
             m_action.OnUnselectAction -= OnActionUnselect;
-            
-            if(inventory != null)
+
+            if (inventory != null)
                 inventory.OnInventoryUpdated -= OnInventoryUpdate;
 
-           
-        }    
-        
 
+        }
+    }
+
+    void SetNewAction(UnitActionBase action)
+    {
         m_action = action;
 
         if (m_action != null)
         {
             //so we can test it also without owner
-            if(action.GetOwner() != null)
+            if (action.GetOwner() != null)
             {
                 inventory = action.GetOwner().Inventory;
                 inventory.OnInventoryUpdated += OnInventoryUpdate;
                 action.GetOwner().Stats.OnStatUpdated -= OnStatUpdated;
 
-                if(Adr_Rush != null)
+                if (Adr_Rush != null)
                 {
                     Adr_Rush.Init(action.GetOwner().Stats);
                 }
@@ -71,6 +71,15 @@ public class UI_ActionBar_Button : MonoBehaviour, IToolTip{
             action.GetOwner().Stats.OnStatUpdated += OnStatUpdated;
             SetBaseState(m_action);
         }
+    }
+    public void SetAction(UnitActionBase action, ActionManager manager)
+    {
+
+        m_manager = manager;
+        UnsetCurrentAction();
+        SetNewAction(action);
+
+       
     }
 
     bool ShowAdrenalineRush()
@@ -168,7 +177,7 @@ public class UI_ActionBar_Button : MonoBehaviour, IToolTip{
     }
     public void SelectAction()
     {
-        if(m_manager.GetOwnerID() == 0)
+        if(m_manager != null && m_manager.GetOwnerID() == 0)
             m_manager.SelectAbility(m_action);
     }
 

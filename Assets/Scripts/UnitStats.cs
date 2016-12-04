@@ -61,8 +61,11 @@ public class UnitStats : MonoBehaviour
 
         if (t.StatType == StatType.oxygen && GetStatAmount(StatType.oxygen) <= 0 && OnHPDepleted != null)
         {
-            Debug.Log("CHECK KILL");
+    
+            OnStatUpdated -= CheckHP;
+       
             OnHPDepleted();
+            OnStatUpdated = null;
         }
     }
 
@@ -103,7 +106,7 @@ public class UnitStats : MonoBehaviour
             Updated(s);
         }
     }
-
+    
     public void SetStatAmountDelta(StatType type, float delta)
     {
         SetStatAmount(type, GetStatAmount(type) + delta);
@@ -111,7 +114,7 @@ public class UnitStats : MonoBehaviour
 
     protected void Updated(Stat stat)
     {
-        if (OnStatUpdated != null) OnStatUpdated(stat);          
+        if (OnStatUpdated != null   ) OnStatUpdated(stat);          
     }
 
     float GetBuffAmountForStat(StatType type)

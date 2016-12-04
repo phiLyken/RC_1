@@ -125,7 +125,7 @@ public class WorldCrumbler : MonoBehaviour, ITurn {
 
         while (TilesMoving())
         {
-            Debug.Log("waiting,..");
+           // Debug.Log("waiting,..");
             yield return new WaitForSeconds(0.1f);
         }
 
