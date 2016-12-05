@@ -184,7 +184,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     {
         if (!_isDead)
         {
-            Debug.Log(" KILLED "+GetID());
+            Debug.Log("^unit " + GetID());
             Stats.OnHPDepleted -= KillUnit;
             _isDead = true;
 
@@ -247,8 +247,8 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     {
         SetNextTurnTime(GetCurrentTurnCost());
         Actions.Reset();
-       
-       
+        Debug.Log("^turnSystem ENDED:" + GetID());
+
         if (OnTurnEnded != null) OnTurnEnded(this);
     }
 
@@ -256,7 +256,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     {
         starting_order++;
 
-        Debug.Log("NEW TURN:" + GetID());         
+        Debug.Log("^turnSystem NEW TURN:" + GetID());         
 
         UnSelectCurrent();
 
@@ -332,12 +332,17 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     /// </summary>
     /// <param name="owner"></param>
     /// <returns></returns>
-    public static List<Unit> GetAllUnitsOfOwner(int owner, bool ignoreBaseCamp)
+    public static List<Unit> GetAllUnitsOfOwner(int owner, bool include_units_in_basecamp)
     {
         List<Unit> list = new List<Unit>();
         foreach(Unit u in AllUnits)
         {
-            if (!u.IsDead() && (owner == -1 || u.OwnerID == owner) && (ignoreBaseCamp || !u.currentTile.isCamp)) list.Add(u);
+
+                                                                    
+            if (!u.IsDead() && (owner == -1 || u.OwnerID == owner) && ( include_units_in_basecamp  || !u.currentTile.isCamp) )
+            {
+                list.Add(u);
+            }
         }
 
         return list;

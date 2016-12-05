@@ -28,13 +28,14 @@ public class Unit_EffectManager : MonoBehaviour {
                 UnitEffect duplicate_on_unit = GetEffect(new_effect.Unique_ID);
                 if(duplicate_on_unit != null)
                 {
+                    Debug.Log("^effects Removing Duplicate " + duplicate_on_unit.ToString());
                     ActiveEffects.Remove(duplicate_on_unit);
                     Destroy(duplicate_on_unit);                    
                 }                
             }
 
             ActiveEffects.Add(new_effect);
-
+            Debug.Log("^effects Added Effect to " + m_Unit.GetID()+" \n" + new_effect.ToString());
             new_effect.OnEffectTick += OnEffectTick;
 
             //Debug.Log(" EFFECT_ADDED " + new_effect.GetShortHandle());
@@ -44,10 +45,10 @@ public class Unit_EffectManager : MonoBehaviour {
             return true;
         } else
         {
-            Debug.Log("Already has this effect");
+            Debug.Log("^effects Already has this effect");
         }
 
-        Debug.Log("COULD NOT ADD EFFECT " + new_effect.Unique_ID);
+        Debug.Log("^effects COULD NOT ADD EFFECT " + new_effect.ToString());
         return false;
     }
 
@@ -77,7 +78,7 @@ public class Unit_EffectManager : MonoBehaviour {
         effect.OnEffectExpired -= OnEffectRemoved;
         effect.OnEffectTick -= OnEffectTick;
         effect.OnEffectExpired -= OnEffectExpired;
-        Debug.Log(" EFFECT_REMOVED " + effect.GetToolTipText());
+        Debug.Log("^effecty EFFECT EXPIRED " + effect.ToString());
         ActiveEffects.Remove(effect);
 
     }

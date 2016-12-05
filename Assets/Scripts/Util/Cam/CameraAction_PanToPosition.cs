@@ -25,6 +25,7 @@ public class CameraAction_PanToPosition : CameraAction
 
     public void StartPan(Vector3 pos, float speed, EventHandler _cb)
     {
+        Callback();
         event_callback = _cb;
         ResetCallback(this);
         TargetPosition = pos;
@@ -42,7 +43,7 @@ public class CameraAction_PanToPosition : CameraAction
 
         Vector3 delta = TargetPosition - MyMath.GetCameraCenter();
 
-        
+        Debug.Log("^cameraStart Panning "+TargetPosition.ToString());
         while (delta.magnitude > 0.1f)
         {
             delta = TargetPosition - MyMath.GetCameraCenter();
@@ -52,7 +53,9 @@ public class CameraAction_PanToPosition : CameraAction
             {
                 speed *= SpeedFalloff.Evaluate((DistanceSpeedFalloffStart  - delta.magnitude) / DistanceSpeedFalloffStart);
             }
-            transform.Translate(delta.normalized * speed * Time.deltaTime, Space.World);
+         
+           
+            transform.Translate(Vector3.ClampMagnitude(delta.normalized * speed * Time.deltaTime, delta.magnitude), Space.World);
 
            
 
@@ -60,6 +63,7 @@ public class CameraAction_PanToPosition : CameraAction
            
             yield return null;
         }
+        Debug.Log("^cameraEndPanning " + TargetPosition.ToString());
         Active = false;
         Callback();
  

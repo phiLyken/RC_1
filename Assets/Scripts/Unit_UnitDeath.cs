@@ -31,11 +31,9 @@ public class Unit_UnitDeath : MonoBehaviour {
 
         Unit m_unit;
 
-        //TOCO FIXME DEATH CALLBACK
-
- 
         public DeathEvent(Unit u)
         {
+            EventID = "UNIT DEATH";
             StartEvent();
             m_unit = u;
             m_unit.GetComponentInChildren<UnitAnimationController>().WaitForExection(UnitAnimationTypes.bDying, null);

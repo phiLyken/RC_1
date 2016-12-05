@@ -38,9 +38,10 @@ public class UI_ActionBar_Button : MonoBehaviour, IToolTip{
     void UnsetCurrentAction()
     {
         //   manager.OnActionComplete += OnActionComplete;
-        // Debug.Log("set action " + action.ActionID);
+       
         if (m_action != null)
         {
+            Debug.Log("^ui Button Unset Action " + m_action.ActionID);
             m_action.OnSelectAction -= OnActionSelect;
             m_action.OnUnselectAction -= OnActionUnselect;
 
@@ -58,10 +59,12 @@ public class UI_ActionBar_Button : MonoBehaviour, IToolTip{
 
     void SetNewAction(UnitActionBase action)
     {
+       
         m_action = action;
 
         if (m_action != null)
         {
+            Debug.Log("^ui Button Set Action " + m_action.ActionID);
             //so we can test it also without owner
             if (action.GetOwner() != null)
             {

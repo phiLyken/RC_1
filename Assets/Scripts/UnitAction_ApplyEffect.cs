@@ -108,7 +108,7 @@ public class UnitAction_ApplyEffect : UnitActionBase
         ActionInProgress = true;
         List<UnitEffect> Effects = GetEffects();
 
-        Debug.Log("Applying " + Effects.Count + "effects   To " + target.GetID() );
+        Debug.Log("^effects Applying " + Effects.Count + "effects   to " + target.GetID() );
         
  
  
@@ -120,7 +120,7 @@ public class UnitAction_ApplyEffect : UnitActionBase
             first = false;
             if(effect == null)
             {
-                Debug.LogError("NO EFFECT..");
+                Debug.LogError("^effects NO EFFECT..");
             }
             if (!effect.GetTarget(target, atk).IsDead()) {
                 yield return StartCoroutine(effect.ApplyEffectSequence(target, this));

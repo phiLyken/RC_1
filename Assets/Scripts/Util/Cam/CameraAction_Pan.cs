@@ -26,7 +26,7 @@ public class CameraAction_Pan : CameraAction
             Vector3 mousePos = MyMath.GetInputPos();
             Vector3 delta = mousePos - startDragPos;
             smoothMove = delta * Time.deltaTime * 10;
-            transform.position = transform.position - smoothMove;
+            transform.position = transform.position - Vector3.ClampMagnitude( smoothMove, delta.magnitude);
             yield return null;
         }
 
@@ -71,7 +71,7 @@ public class CameraAction_Pan : CameraAction
 
     public override void Stop()
     {
-       Debug.Log("PanStop");
+ 
         _waitingForInput = false;
         StopAllCoroutines();
         Active = false;

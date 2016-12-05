@@ -28,6 +28,11 @@ public class UnitEffect_BuffStats : UnitEffect {
         return Buff.Modifier * EffectBonus;
     }
 
+    public override string ToString()
+    {
+        return base.ToString() + " BuffType: " + Buff.Type + "  Mod:" + Buff.Modifier;
+    }
+
 }
 
 [System.Serializable]

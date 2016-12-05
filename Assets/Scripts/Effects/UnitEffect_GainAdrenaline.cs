@@ -33,7 +33,7 @@ public class UnitEffect_GainAdrenaline : UnitEffect
 
     protected override void EffectTick()
     {
-       // Debug.Log("Ticked Adrenealin Baked Adrenaline " + baked_adrenaline);
+        Debug.Log("^effects Tick" + this.ToString());
         Effect_Host.Stats.AddAdrenaline(baked_adrenaline, ConsumeWill, out removed, out added);
        // Debug.Log(removed + " " + added);
         Ticked();
@@ -65,6 +65,11 @@ public class UnitEffect_GainAdrenaline : UnitEffect
     {
         return "+" + baked_adrenaline.ToString() +" "+ UnitStats.StatToString(StatType.adrenaline);
         ;
+    }
+
+    public override string ToString()
+    {
+        return base.ToString() + " baked_adr:" + baked_adrenaline;
     }
 
 }

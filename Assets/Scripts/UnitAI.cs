@@ -251,11 +251,7 @@ public class UnitAI : MonoBehaviour, ITriggerable {
        // Debug.Log("Ai ended");
 
     }
-
-    Unit FindPreferredTarget()
-    {
-    return  MyMath.GetRandomObject(Unit.GetAllUnitsOfOwner(0, true));
-    }
+ 
 
     Tile GetBestAttackPosition(Unit target, List<Tile> from_tiles)
     {
@@ -294,9 +290,9 @@ public class UnitAI : MonoBehaviour, ITriggerable {
 
         //dictionary of all units and the paths by which they are attackable
         Dictionary<Unit, List<List<Tile>>> attack_map = GetPathMapForTargets();
-
+        Debug.Log("^aiAttack Map Count:" + attack_map.Count);
         List<Unit> units_attackable = Unit.GetAllUnitsOfOwner(0, false).Where(unit => attack.CanTarget(unit)).ToList();
-
+        Debug.Log("^aiAttackable " + units_attackable.Count);
         List<Unit> units_move_attackable = attack_map.Where(kvp => CanFinishPathInMoves(1, kvp.Value)).Select(kvp => kvp.Key).ToList();
         List<Unit> units_movable = attack_map.Where(kvp => !units_move_attackable.Contains(kvp.Key)).Select(kvp => kvp.Key).ToList();
               
@@ -314,10 +310,12 @@ public class UnitAI : MonoBehaviour, ITriggerable {
            
         if (!units_attackable.Contains(preferred_target) && (!units_attackable.IsNullOrEmpty() && ( !attack_map.ContainsKey(preferred_target) || Random.value < Constants.AI_TARGET_SWITCH_WHEN_OUT_OF_ATTACK_RANGE)))
         {
+            Debug.Log("^ainew Prefferred  from" + units_attackable.Count);
             preferred_target = MyMath.GetRandomObject(units_attackable );
+           
         }
 
-        if (attack.CanTarget(preferred_target))
+        if (attack.CanTarget(preferred_target) && units_attackable.Contains(preferred_target))
         {
             Tile better_pos =  GetReachableAttackPosition(preferred_target);
              
@@ -434,7 +432,7 @@ public class UnitAI : MonoBehaviour, ITriggerable {
 
     void SkipTurn()
     {
-        Debug.Log("ai skip turn");
+        Debug.Log("^ai skip turn");
         m_unit.SkipTurn();
     }
 
@@ -459,7 +457,7 @@ public class UnitAI : MonoBehaviour, ITriggerable {
         Cover.SetActive(false);
       //  Debug.Log(m_unit.GetID() + " now attacking");
         Triggered = true;
-
+        Debug.Log("^ai triggered");
         TriggerUnitsForGroup(this, triggerer);
     }
   

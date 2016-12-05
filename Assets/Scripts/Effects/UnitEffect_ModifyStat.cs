@@ -106,4 +106,9 @@ public class UnitEffect_ModifyStat : UnitEffect
         
     }
 
+    public override string ToString()
+    {
+        return base.ToString() + " type:" + type + " baked:" + _baked + " abs:" + Absolute + " perc" + Percent + " percoff " + percent_of;
+    }
+
 }

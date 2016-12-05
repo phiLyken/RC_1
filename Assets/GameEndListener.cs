@@ -12,7 +12,7 @@ public class GameEndListener : MonoBehaviour {
 	
     void CheckUnitsLeft(Unit u)
     {
-        int playerUnitsLeft = Unit.GetAllUnitsOfOwner(0, false).Count;
+        int playerUnitsLeft = Unit.GetAllUnitsOfOwner(0, true).Count;
        
         if(playerUnitsLeft == 0)
         {

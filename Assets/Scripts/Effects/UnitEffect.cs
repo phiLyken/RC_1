@@ -84,6 +84,7 @@ public class UnitEffect : MonoBehaviour
         target = GetTarget(target, instigator.GetOwner() );
         
         if (FocusOnCaster && RC_Camera.Instance != null) {
+            Debug.Log("^effects go to to " + instigator.GetOwner());
             RC_Camera.Instance.ActionPanToPos.GoTo(instigator.GetOwner().currentTile.GetPosition());
             yield return new WaitForSeconds(0.5f);
         }
@@ -91,6 +92,7 @@ public class UnitEffect : MonoBehaviour
          
 
         if (FocusOnTarget && RC_Camera.Instance != null) {
+            Debug.Log("^effects to to " + target.GetID());
             RC_Camera.Instance.ActionPanToPos.GoTo(target.currentTile.GetPosition());
             yield return new WaitForSeconds(0.5f);
         }       
@@ -110,7 +112,7 @@ public class UnitEffect : MonoBehaviour
     {
         //Make copy
         UnitEffect copy = MakeCopy(effect, target);
-  
+        Debug.Log("^effectsAttempt Apply \n" + effect.ToString());
         if (CanApplyEffect(target, copy) && target.GetComponent<Unit_EffectManager>().ApplyEffect(copy))
         {
             
@@ -159,7 +161,7 @@ public class UnitEffect : MonoBehaviour
         if (OnEffectExpired != null)
             OnEffectExpired(this);
 
-        Debug.Log("Global Tick Expired Effect " + Effect_Host.GetID() + "  -" + Unique_ID);
+        Debug.Log("^effects Global remove " + Effect_Host.GetID() + "  -" + Unique_ID);
 
         TurnSystem.Instance.OnGlobalTurn -= OnGlobalTurn;
  
@@ -215,4 +217,26 @@ public class UnitEffect : MonoBehaviour
     {
         EffectBonus = Constants.GetAdrenalineBonus((Instigator as UnitAction_ApplyEffect).GetOwner().Stats);
     }
+
+    public override string ToString()
+    {
+        return Unique_ID + " \nTargetmode" + TargetMode + "  " + " MaxDuration:" + MaxDuration + "  TickOnApply:" + TickOnApply+"\n";
+
+        /*
+
+        public object Instigator;
+    public string Unique_ID;
+    public TargetModes TargetMode;
+    public Sprite Icon;  
+
+    public bool FocusOnCaster;
+    public bool FocusOnTarget;
+    public bool ShowRemoveNotification;
+    public bool ShowApplyNotification;
+    public bool TickOnApply;
+    public int TickFrequency;
+    public int MaxDuration;
+    public bool ReplaceEffect;*/
+    }
 }
+ 

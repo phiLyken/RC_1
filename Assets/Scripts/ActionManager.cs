@@ -104,7 +104,7 @@ public class ActionManager : MonoBehaviour {
 
     public void Reset()
     {
-        Debug.Log("Resetting action manager");
+       //hello world Debug.Log("Resetting action manager");
         UnsetCurrentAction();
        
         CurrentTurnCost = 0;

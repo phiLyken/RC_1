@@ -119,4 +119,9 @@ public class UnitEffect_Damage : UnitEffect
     {
         return baked_damage + " DAMAGE";
     }
+
+    public override string ToString()
+    {
+        return base.ToString() + " \nBaked:" + baked_damage + " range:" + DamageRange.ToString();
+    }
 }

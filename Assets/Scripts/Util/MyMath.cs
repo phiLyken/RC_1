@@ -264,13 +264,19 @@ public static class MyMath  {
     }
 
     public static T GetRandomObject<T>(List<T> objects)
-    {      
+    {
+        if (objects == null || objects.Count == 0)
+            return default(T) ;   
+           
         return objects[UnityEngine.Random.Range(0, objects.Count)];
     }
 
     public static T GetRandomObject<T>(T[] objects)
     {
-        return objects[UnityEngine.Random.Range(0, objects.Length)];
+        if (objects == null || objects.Length == 0)
+            return default(T);
+
+         return objects[UnityEngine.Random.Range(0, objects.Length)];
     }
 
     public static T GetRandomObjectAndRemove<T>(List<T> objects)
@@ -526,6 +532,11 @@ public static class MyMath  {
             asInt = true;
             min = _min;
             max = _max;
+        }
+
+        public override string ToString()
+        {
+           return "rMin:"+min+" rMax"+max;
         }
     }
 

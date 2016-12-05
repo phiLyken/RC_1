@@ -95,11 +95,7 @@ public class TurnSystem : MonoBehaviour {
             Current = GetNext();
 
             forceNext = false;
-            
-            if( Unit.GetAllUnitsOfOwner(0, false).Count == 0)
-            {
-                yield break;
-            }
+ 
         }
     }
 	void OnTurnPreview(ITurn t){
@@ -117,7 +113,8 @@ public class TurnSystem : MonoBehaviour {
         ///Double null check because we are checking an interface
         while (!forceNext && ( (t!=null && !t.Equals(null)) && !t.HasEndedTurn() || TurnEventQueue.EventRunning  ))
         {
-            // Debug.Log(t.GetID()+ " event "+TurnEventQueue.EventRunning.ToString());
+
+            Debug.Log("^turnSystem " + t.GetID() + " Events:" + TurnEventQueue.EventRunning.ToString() + "  hasEnded" + t.HasEndedTurn() + "\n" + TurnEventQueue.ToString2());
             yield return null;
         }       
     }
@@ -184,7 +181,7 @@ public class TurnSystem : MonoBehaviour {
 
         if (!Instance.Turnables.Contains(new_turnable))
         {
-            Debug.Log("TURNABLE: register " + new_turnable.GetID());
+            Debug.Log("^turnSystem TURNABLE: register " + new_turnable.GetID());
             Instance.Turnables.Add(new_turnable);
            // Instance.NormalizeList();
             Instance.SortListByTime();
@@ -207,8 +204,7 @@ public class TurnSystem : MonoBehaviour {
         }
         if (Instance.Turnables.Contains(turnable))
         {
-            Debug.Log("REMOVE " + turnable.GetID());
-        
+            Debug.Log("^turnSystem REMOVE " + turnable.GetID());        
             Instance.Turnables.Remove(turnable);
         }
     }
