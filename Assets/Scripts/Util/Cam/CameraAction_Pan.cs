@@ -25,8 +25,9 @@ public class CameraAction_Pan : CameraAction
             // Debug.Log(CanStartInput()+"  "+Time.frameCount);
             Vector3 mousePos = MyMath.GetInputPos();
             Vector3 delta = mousePos - startDragPos;
-            smoothMove = delta * Time.deltaTime * 10;
-            transform.position = transform.position - Vector3.ClampMagnitude( smoothMove, delta.magnitude);
+            smoothMove = Vector3.ClampMagnitude(delta * Time.fixedDeltaTime * 10, delta.magnitude);
+
+            transform.position = transform.position - smoothMove;
             yield return null;
         }
 
