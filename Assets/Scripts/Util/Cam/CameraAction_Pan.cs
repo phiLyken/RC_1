@@ -22,7 +22,7 @@ public class CameraAction_Pan : CameraAction
     {
         Active = true;
         Vector3 startDragPos = MyMath.GetInputPos();
-        Debug.Log("DOPAN");
+        Debug.Log("^cameraDOPAN");
         while (CanStartInput())
         {
             Vector3 mousePos = MyMath.GetInputPos();
@@ -42,7 +42,10 @@ public class CameraAction_Pan : CameraAction
     }
     void OnDrawGizmos()
     {
-        Gizmos.DrawWireCube(Bounds.Bounds().center, Bounds.Bounds().size);
+        if (Bounds  != null)
+        {
+            Gizmos.DrawWireCube(Bounds.Bounds().center, Bounds.Bounds().size);
+        }       
     }
 
     IEnumerator WaitForInput()

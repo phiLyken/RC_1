@@ -153,7 +153,7 @@ public class UnitStats : MonoBehaviour
         int dmg_received = (-(dmg.GetDamage()));
         int int_received = Constants.GetGainedAdrenaline( this, Mathf.Abs( dmg_received ));
 
-        Debug.Log(this.name + " rcv damge " + dmg_received + "  rcvd multiplier:" + "WTF" + "  +int=" + int_received);
+        Debug.Log("^effects "+this.name + " rcv damge " + dmg_received + "  rcvd multiplier:" + "WTF" + "  +int=" + int_received);
 
         AddOxygen(dmg_received, true);
 

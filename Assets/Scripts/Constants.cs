@@ -11,6 +11,17 @@ public class Constants : MonoBehaviour {
     public static int ADRENALINE_RUSH_THRESHOLD = 2;
 
     /// <summary>
+    /// At WHAT number of Adrenaline will Adrenaline rush be triggered?
+    /// </summary>
+    public static float GetAggroChance(Unit target, UnitEffect_Damage damage)
+    {
+        Unit instigator =( damage.Instigator as UnitAction_ApplyEffect).GetOwner();
+        UnitStats stats = instigator.Stats;
+
+        return 1f;
+    }
+
+    /// <summary>
     /// How close a player unit must come before the an enemy AI is activated and added to the turn system
     /// </summary>
     public static float UNIT_ACTIVATION_RANGE = 10;

@@ -78,7 +78,7 @@ public class Unit_EffectManager : MonoBehaviour {
         effect.OnEffectExpired -= OnEffectRemoved;
         effect.OnEffectTick -= OnEffectTick;
         effect.OnEffectExpired -= OnEffectExpired;
-        Debug.Log("^effecty EFFECT EXPIRED " + effect.ToString());
+        Debug.Log("^effects EFFECT EXPIRED " + effect.ToString());
         ActiveEffects.Remove(effect);
 
     }

@@ -101,7 +101,7 @@ public class UnitActionBase : MonoBehaviour {
     {
         bool r = !UsableInBaseCamp && Owner.currentTile.isCamp;
        
-        if (r) Debug.Log("Can not use in camp");
+        if (r) Debug.Log("^abilityCan not use in camp");
         return r;
     }
 
@@ -118,7 +118,7 @@ public class UnitActionBase : MonoBehaviour {
             {
               if (displayToast)
                 {
-                        Debug.Log("Not enough  " + UnitStats.StatToString(s.StatType));
+                        Debug.Log("^abilityNot enough  " + UnitStats.StatToString(s.StatType));
                         ToastNotification.SetToastMessage2("Not enough " + UnitStats.StatToString(s.StatType));
                 }
                 return false;

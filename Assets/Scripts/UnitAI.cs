@@ -2,10 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 
 public class UnitAI : MonoBehaviour, ITriggerable {
 
+    public Action<Unit> OnPreferredTargetChange;
     public int group_id;
     public GameObject Cover;
     Unit m_unit;
@@ -27,12 +29,9 @@ public class UnitAI : MonoBehaviour, ITriggerable {
         Unit.OnTurnStart += StartTurn;
         startTile = m_unit.currentTile;
 
-        m_unit.OnDamageReceived += dmg =>
-        {
-            if(dmg.Instigator != null)
-                OnTrigger((dmg.Instigator as UnitAction_ApplyEffect).GetOwner());
-        };
+        m_unit.OnDamageReceived += OnDmgReceived;
 
+ 
       
     }
 
@@ -47,16 +46,25 @@ public class UnitAI : MonoBehaviour, ITriggerable {
         return m_Actions.GetActionOfType<UnitAction_ApplyEffectFromWeapon>();
     }
 
+    public  void SetPreferredTarget(Unit newTarget)
+    {
+
+        preferred_target = newTarget;
+        OnPreferredTargetChange.AttemptCall(newTarget, "^ai set preffered target: "+newTarget.GetID() );
+    }
     void OnDmgReceived(UnitEffect_Damage dmg)
     {
+        if (dmg.Instigator == null)
+            return;
+
         if (!Triggered)
         {
             OnTrigger(dmg.Instigator as Unit);
         } else
         {
-            if(Random.value < 0.15f)
+            if( MyMath.Roll(Constants.GetAggroChance(m_unit, dmg)))
             {
-                preferred_target = (dmg.Instigator as UnitAction_ApplyEffect).GetOwner();
+                SetPreferredTarget((dmg.Instigator as UnitAction_ApplyEffect).GetOwner());
             }
         }
     }
@@ -118,6 +126,12 @@ public class UnitAI : MonoBehaviour, ITriggerable {
 
 
     }
+    
+    public Vector3 GetLookRotation()
+    {
+        return preferred_target != null ? preferred_target.transform.position : transform.position + transform.forward;
+    }
+
     IEnumerator Move(Tile t)
     {
 
@@ -308,7 +322,7 @@ public class UnitAI : MonoBehaviour, ITriggerable {
             yield break;
         } 
            
-        if (!units_attackable.Contains(preferred_target) && (!units_attackable.IsNullOrEmpty() && ( !attack_map.ContainsKey(preferred_target) || Random.value < Constants.AI_TARGET_SWITCH_WHEN_OUT_OF_ATTACK_RANGE)))
+        if (!units_attackable.Contains(preferred_target) && (!units_attackable.IsNullOrEmpty() && ( !attack_map.ContainsKey(preferred_target) || MyMath.Roll( Constants.AI_TARGET_SWITCH_WHEN_OUT_OF_ATTACK_RANGE))))
         {
             Debug.Log("^ainew Prefferred  from" + units_attackable.Count);
             preferred_target = MyMath.GetRandomObject(units_attackable );
@@ -334,13 +348,13 @@ public class UnitAI : MonoBehaviour, ITriggerable {
         {
             List<Unit> other_move_targets = units_move_attackable.Where(unit => unit != preferred_target && !units_attackable.Contains(unit)).ToList();
 
-            if (!other_move_targets.IsNullOrEmpty()   && Random.value < Constants.AI_TARGET_SWITCH_TO_ATTACK_MOVE_WHEN_OUT_OF_MOVE_ATTACK_RANGE)
+            if (!other_move_targets.IsNullOrEmpty()   && MyMath.Roll(Constants.AI_TARGET_SWITCH_TO_ATTACK_MOVE_WHEN_OUT_OF_MOVE_ATTACK_RANGE))
             {
                 preferred_target = MyMath.GetRandomObject(other_move_targets);
             }
             else
             {
-                if (!attack_map.ContainsKey(preferred_target) && !units_movable.IsNullOrEmpty() && Random.value < Constants.AI_TARGET_SWITCH_TO_CHASE_WHEN_OUT_OF_ATTACK_RANGE)
+                if (!attack_map.ContainsKey(preferred_target) && !units_movable.IsNullOrEmpty() && MyMath.Roll(Constants.AI_TARGET_SWITCH_TO_CHASE_WHEN_OUT_OF_ATTACK_RANGE))
                 {
                     preferred_target = MyMath.GetRandomObject(units_movable);
                 }
@@ -416,7 +430,7 @@ public class UnitAI : MonoBehaviour, ITriggerable {
         {
             yield return StartCoroutine(AttackOrMove());
            
-        } else if(m_Actions.HasAP(2) && Random.value < Constants.AI_PATROL_CHANCE && m_unit.Stats.GetStatAmount(StatType.move_range) > 0)
+        } else if(m_Actions.HasAP(2) && MyMath.Roll( Constants.AI_PATROL_CHANCE ) && m_unit.Stats.GetStatAmount(StatType.move_range) > 0)
         {
            
             yield return StartCoroutine(MovePatrol());
@@ -438,21 +452,18 @@ public class UnitAI : MonoBehaviour, ITriggerable {
 
     Tile FindBestWalkableTile(List<Tile> tiles)
     {
-		if(tiles.Count == 0) return null;
-        return tiles[Random.Range(0, tiles.Count)];
+        return tiles.GetRandom();
     }
 
     Unit FindBestUnitToAttack(List<Unit> units)
     {
-        if (units.Count == 0) return null;
-
-        return units[Random.Range(0, units.Count)];
+        return units.GetRandom();
     }
 
     public void OnTrigger(Unit triggerer)
     {
-        
-        preferred_target = triggerer;
+
+        SetPreferredTarget(triggerer);
         m_unit.Activate();
         Cover.SetActive(false);
       //  Debug.Log(m_unit.GetID() + " now attacking");

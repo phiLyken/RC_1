@@ -27,7 +27,6 @@ public class UnitEffect_Damage : UnitEffect
     public override UnitEffect MakeCopy(UnitEffect origin, Unit host)
     {
         UnitEffect_Damage _cc = base.MakeCopy(origin, host) as UnitEffect_Damage;
-
  
         _cc.baked_damage = UnityEngine.Random.Range(GetMin(), GetMax() + 1);
 

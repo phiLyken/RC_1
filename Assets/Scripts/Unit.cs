@@ -166,6 +166,11 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
         if (Input.GetKey(KeyCode.Z))
              ReceiveDamage(new UnitEffect_Damage(1));
 
+        if (Input.GetKey(KeyCode.U))
+        {
+            List<Unit> enemies = Unit.GetAllUnitsOfOwner(1,true);
+            enemies.GetRandom().GetComponent<UnitAI>().SetPreferredTarget(this);
+        }
 
         if (OnUnitSelect != null) OnUnitSelect(this);
         return;

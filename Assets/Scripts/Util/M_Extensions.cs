@@ -26,7 +26,33 @@ public static class M_Extensions   {
             MonoBehaviour.DestroyImmediate(obj.transform.GetChild(i).gameObject);
         }
     }
-    
+
+   
+    public static void AttemptCall(this Action action)
+    {
+        if (action != null)
+            action();
+    }
+
+    public static void AttemptCall(this Action action, string debug)
+    {
+        Debug.Log(debug);
+        AttemptCall(action);
+    }
+
+    public static void AttemptCall<T>(this Action<T> action, T value, string debug)
+    {
+        Debug.Log(debug);
+        AttemptCall(action, value);
+    }
+
+    public static void AttemptCall<T>(this Action<T> action, T value)
+    {
+        if (action != null)
+        {
+            action(value);   
+        }
+    }
 
     public static int Direction(this float f)
     {
@@ -311,6 +337,14 @@ public static class M_Extensions   {
         }
     }
 
+
+    public static T GetRandom<T>(this List<T> list)
+    {
+        if (!list.HasItems())
+            return default(T);
+
+        return list[UnityEngine.Random.Range(0, list.Count)];
+    }
     public static void CountToInt(this Text TF, int from, int to, float time)
     {
         TF.StartCoroutine(CountTo(from, to, Mathf.Max(0, time), counted => TF.text = counted.ToString()));

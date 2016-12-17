@@ -11,6 +11,43 @@ using System.IO;
 public static class MyMath  {
 
     [System.Serializable]
+    public class RollTable
+    {
+        public List<RollInfo> Table;
+
+        [System.Serializable]
+        public class RollInfo
+        {
+            public float Threshold;
+            public float Chance;
+        }
+
+        public float GetChance(float _base)
+        {
+            List<RollInfo> _ordered = Table.OrderByDescending(ri => ri.Threshold).ToList();
+            foreach (var ri in _ordered)
+            {
+                if (ri.Threshold < _base)
+                    return ri.Chance;
+            }
+
+
+            return (_ordered != null && _ordered.Count > 0) ? _ordered.Last().Chance : 0;
+
+        }
+        public bool Roll(float _base)
+        {
+
+            return MyMath.Roll(GetChance(_base));
+        }
+    }
+ 
+    public static bool Roll(float chance)
+    {
+        return chance > UnityEngine.Random.value;
+    }
+
+    [System.Serializable]
     public class PositionFix{
         [System.Serializable]
         public class FixInfo
@@ -77,6 +114,14 @@ public static class MyMath  {
        
  
     }
+
+    public static T RandomEnumValue<T>()
+    {
+        var v = Enum.GetValues(typeof(T));
+        return (T) v.GetValue(UnityEngine.Random.Range(0, v.Length - 1));
+        ;
+    }
+
     public static IEnumerator DelayForFrames(int frames)
     {
         for(int i = 0; i < frames; i++)
@@ -631,6 +676,25 @@ public static class MyMath  {
             img.ChangeTint(tint);
  
 
+    }
+
+    public static Coroutine YieldT(this MonoBehaviour comp, Action<float> t, float time)
+    {
+        return comp.StartCoroutine(YieldT(t, time));
+    }
+    public static IEnumerator YieldT(Action<float> t, float time)
+    {
+        float _time = 0;
+        while (_time < 1)
+        {
+
+            _time += Time.deltaTime / time;
+            t(_time);
+            yield return null;
+        }
+
+        t(1);
+        yield break;
     }
 
 }

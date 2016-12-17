@@ -1,12 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class UnitRotationController : MonoBehaviour {
 
 
     public Transform m_rotated;
 
-    public void Init(WaypointMover move )
+    public void Init(WaypointMover move, Func<Vector3> getRotationTarget )
     {
         m_rotated = move.transform;
      //   Debug.Log(" target");
@@ -21,16 +22,15 @@ public class UnitRotationController : MonoBehaviour {
         {
         //    Debug.Log("  stop");
             StopAllCoroutines();
-            StartCoroutine(TurnToFinalPosition());
+            StartCoroutine(TurnToFinalPosition(getRotationTarget()));
         };
 
  
  
     }
 
-    void OnTargetAction(UnitActionBase action, Transform target)
+    public void TurnToPosition(Transform target)
     {
-        Debug.Log("Rotation to target");
         TurnToPosition(target, null);
     }
     public void TurnToPosition(Transform target, EventHandler callback)
@@ -46,10 +46,10 @@ public class UnitRotationController : MonoBehaviour {
         if (callback != null)
             callback();
     }
-    IEnumerator TurnToFinalPosition()
+    IEnumerator TurnToFinalPosition(Vector3 target)
     {
        // Debug.Log("Turn to");
-        yield return new WaitForRotation(m_rotated.transform, MyMath.RotateToYSnapped(m_rotated.transform.position, (m_rotated.transform.position + m_rotated.transform.forward), 45), 0.35f);
+        yield return new WaitForRotation(m_rotated.transform, MyMath.RotateToYSnapped(m_rotated.transform.position, (target), 45), 0.35f);
       //  Debug.Log("Rotated");
     }
     IEnumerator TurnToWaypoint(IWayPoint wp)

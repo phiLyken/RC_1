@@ -18,7 +18,7 @@ public class UnitFactory : MonoBehaviour
             Debug.LogWarning("cant create unit, data == null");
             return null;
         }
-        Debug.Log("Creating Unit " + data.ID);
+        Debug.Log("^unitCreating Unit " + data.ID);
         GameObject base_unit                            = Instantiate(Resources.Load("base_unit")) as GameObject;
         SpawnLootOnDeath loot                           = base_unit.AddComponent<SpawnLootOnDeath>();
         Unit_EffectManager effect_manager               = base_unit.AddComponent<Unit_EffectManager>();
@@ -42,18 +42,27 @@ public class UnitFactory : MonoBehaviour
         GetName(data, base_unit);
         GiveWeapon(data, mesh, inventory);
         
-        rotator.Init(m_unit.GetComponent<WaypointMover>() );
+       
         loot.Init(m_unit, data.LootCategory);
         effect_manager.SetUnit(m_unit);
         animations.Init(m_unit, mesh);
        
-        m_unit.OwnerID = data.Owner;      
-        
+        m_unit.OwnerID = data.Owner;
+
+
+
         if (data.Owner == 1)
         {
-            MakeAI(data, group, base_unit, m_unit);
-        }    
+            UnitAI ai = MakeAI(data, group, base_unit, m_unit);
+            rotator.Init(m_unit.GetComponent<WaypointMover>(), ai.GetLookRotation);
+            ai.OnPreferredTargetChange += unit => rotator.TurnToPosition(unit.transform);
+        } else
+        {
+            rotator.Init(m_unit.GetComponent<WaypointMover>(), delegate     { return m_unit.transform.position + m_unit.transform.forward; }    );
+        }
 
+
+        
         return m_unit;
     }
 
@@ -90,7 +99,7 @@ public class UnitFactory : MonoBehaviour
         base_unit.name = (data.Owner == 0 ? "OFFICER " : "INMATE ") + name;
     }
 
-    private static void MakeAI(ScriptableUnitConfig data, int group, GameObject base_unit, Unit m_unit)
+    private static UnitAI MakeAI(ScriptableUnitConfig data, int group, GameObject base_unit, Unit m_unit)
     {
         UnitAI ai = m_unit.gameObject.AddComponent<UnitAI>();
         ai.group_id = group;
@@ -104,6 +113,8 @@ public class UnitFactory : MonoBehaviour
         Cover.GetComponent<BoxCollider>().size = new Vector3(1 + 2 * data.TriggerRange, 1 + 2 * data.TriggerRange, 1 + 2 * data.TriggerRange);
 
         ai.Cover = Cover;
+
+        return ai;
     }
 
     private static UnitInventory MakeInventory(ScriptableUnitConfig data, GameObject base_unit, UnitStats stats)

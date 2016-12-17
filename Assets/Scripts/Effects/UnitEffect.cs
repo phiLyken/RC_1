@@ -63,7 +63,7 @@ public class UnitEffect : MonoBehaviour
 
         UnitEffect _cc = origin.gameObject.Instantiate(host.transform, true).GetComponent<UnitEffect>();
 
-
+        _cc.Instigator = Instigator;
         _cc.name = Unique_ID + "_copy";
         _cc.Effect_Host = host;
         _cc.isCopy = true;
@@ -112,7 +112,8 @@ public class UnitEffect : MonoBehaviour
     {
         //Make copy
         UnitEffect copy = MakeCopy(effect, target);
-        Debug.Log("^effectsAttempt Apply \n" + effect.ToString());
+        Debug.Log("^effectsAttempt Apply \n" + copy.ToString()+"  by "+ copy.Instigator);
+
         if (CanApplyEffect(target, copy) && target.GetComponent<Unit_EffectManager>().ApplyEffect(copy))
         {
             
@@ -150,7 +151,7 @@ public class UnitEffect : MonoBehaviour
     protected void Ticked()
     {
         if (OnEffectTick != null) OnEffectTick(this);
-        Debug.Log(GetToolTipText() + " TICKED");
+        Debug.Log("^effects"+GetToolTipText() + " TICKED");
 
 
 
@@ -161,7 +162,7 @@ public class UnitEffect : MonoBehaviour
         if (OnEffectExpired != null)
             OnEffectExpired(this);
 
-        Debug.Log("^effects Global remove " + Effect_Host.GetID() + "  -" + Unique_ID);
+        Debug.Log("^effectsGlobal remove " + Effect_Host.GetID() + "  -" + Unique_ID);
 
         TurnSystem.Instance.OnGlobalTurn -= OnGlobalTurn;
  

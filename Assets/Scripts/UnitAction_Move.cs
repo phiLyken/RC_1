@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public delegate void TilePreviewEvent(Tile t, bool b);
 
@@ -9,6 +10,8 @@ public class UnitAction_Move : UnitActionBase {
     Tile currentTargetTile;
     List<Tile> currentPath;
     PathDisplay pathpreview;
+
+    public Action<Tile> OnDestinationReached;
 
     public TilePreviewEvent OnSetPreviewTile;
 
@@ -123,6 +126,7 @@ public class UnitAction_Move : UnitActionBase {
 
     void OnMoveEnd(IWayPoint wp)
     {
+        OnDestinationReached.AttemptCall( wp as Tile);
         Owner.GetComponent<WaypointMover>().OnMovementEnd -= OnMoveEnd;
         StartCoroutine(DelayedCompletion(0.5f));
     }
