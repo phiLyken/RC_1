@@ -30,10 +30,11 @@ public class CameraAction_DirectionPan : CameraAction {
                 {
                     ResetCallback(this);
                 }
-
+                Vector3 move = AdjustedInputDir * Time.deltaTime * Speed;
                 Active = true;
-                transform.Translate(AdjustedInputDir * Time.deltaTime * Speed, Space.World);
+             
                 Debug.DrawRay(transform.position, AdjustedInputDir * 5, Color.red);
+                AttemptMove(move);
             } else
             {
                 Active = false;

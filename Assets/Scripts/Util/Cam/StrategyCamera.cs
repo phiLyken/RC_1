@@ -6,7 +6,9 @@ using System.Linq;
 
 public class StrategyCamera : MonoBehaviour
 {
+    public Transform Bounds;
 
+    
     bool inputEnabled;
 
     public static StrategyCamera Instance;
@@ -28,6 +30,10 @@ public class StrategyCamera : MonoBehaviour
     {
         inputEnabled = true;
     }
+    public void SetBounds(Transform tr)
+    {
+        Actions.ForEach(action => action.SetBounds(tr));
+    }
     void Awake()
     {
         Instance = this;
@@ -37,7 +43,7 @@ public class StrategyCamera : MonoBehaviour
         Actions.Add(ActionZoom);
         Actions.Add(ActionPanDirection);
 
-        Actions.ForEach(action => action.Init(CanStartInput, ResetOthers));
+        Actions.ForEach(action => action.Init(CanStartInput, ResetOthers, Bounds));
         inputEnabled = true;
     }
 

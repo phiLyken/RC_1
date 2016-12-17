@@ -14,7 +14,10 @@ public delegate bool GetBool();
 
 public static class M_Extensions   {
 
-
+    /// <summary>
+    /// DestroyImmidiate on all children of the object
+    /// </summary>
+    /// <param name="obj"></param>
     public static void DeleteChildren(this GameObject obj)
     {
 
@@ -23,7 +26,7 @@ public static class M_Extensions   {
             MonoBehaviour.DestroyImmediate(obj.transform.GetChild(i).gameObject);
         }
     }
-
+    
 
     public static int Direction(this float f)
     {
@@ -71,7 +74,130 @@ public static class M_Extensions   {
         particle_system.SetEmissionAll(false);
 
     }
+    /// <summary>
+    /// Moves the transform by a clamped move from a reference point. 
+    /// </summary>
+    /// <param name="transform"></param>
+    /// <param name="bounds"></param>
+    /// <param name="move"></param>
+    public  static void AttemptMoveInBounds(this Transform transform, Bounds bounds, Vector3 move, Vector3 reference)
+    {
+        Vector3 targetCenterPos = reference + move;
 
+        Debug.DrawLine(reference, targetCenterPos, Color.magenta);
+
+        Vector3 clampedTargetCenterPos = MyMath.ClampInBounds(targetCenterPos, bounds);
+
+        Debug.DrawLine(targetCenterPos, clampedTargetCenterPos, Color.red);
+
+        move = clampedTargetCenterPos - reference;
+
+        //StartCoroutine(MyMath.ExecuteDelayed(0.05f, () => Debug.Break()));
+        Debug.DrawRay(reference, move, Color.yellow);
+
+     //   Debug.Log(move);
+        transform.Translate(move, Space.World);
+       
+    }
+
+    /// <summary>
+    /// Translates a transform only if its own bounds are intersecting with the target bounds
+    /// </summary>
+    /// <param name="_transform"></param>
+    /// <param name="_move"></param>
+    /// <param name="_bounds"></param>
+    public static void Translate(this Transform _transform, Vector3 _move, Bounds _bounds, Space space)
+    {
+        if (CanMoveWithinBounds(_transform, _move, _bounds))
+        {
+            _transform.Translate(_move, space);
+        }
+    }
+
+    /// <summary>
+    /// Translates a transform only if its own bounds are intersecting with the target bounds
+    /// </summary>
+    /// <param name="_transform"></param>
+    /// <param name="_move"></param>
+    /// <param name="_bounds"></param>
+    public static void Translate(this Transform _transform, Vector3 _move, Bounds _bounds)
+    {
+        _transform.Translate(_move, _bounds, Space.World);
+    }
+
+    /// <summary>
+    /// Returns whether the transforms bounds are intersecting with target bounds when moving
+    /// </summary>
+    /// <param name="_transform"></param>
+    /// <param name="_move"></param>
+    /// <param name="_bounds"></param>
+    public static bool CanMoveWithinBounds(this Transform _transform, Vector3 _move, Bounds bounds)
+    {
+        Bounds tr_bound = _transform.Bounds();
+        tr_bound.center += _move;
+        return _transform.Bounds().Intersects(tr_bound);
+    }
+
+    public static bool IsInBounds(this Vector3 position, Bounds b)
+    {
+ 
+        return b.Contains(position);
+    }
+
+    public static bool IsInBounds(this Vector3 position, Transform b)
+    {       
+        return b == null || position.IsInBounds(b.Bounds());
+    }
+
+    /// <summary>
+    /// Returns the bounds of the transform and all of its 1st level children
+    /// </summary>
+    /// <param name="tr"></param>
+    /// <returns></returns>
+    public static Bounds Bounds(this Transform tr)
+    {
+       
+        // First find a center for your bounds.
+        Vector3 center = tr.position;
+
+        foreach (Transform child in tr.transform)
+        {
+            center += child.transform.position;
+        }
+        center /= (tr.transform.childCount +1 ); //center is average center of children
+
+        //Now you have a center, calculate the bounds by creating a zero sized 'Bounds', 
+        Bounds bounds = new Bounds(center, Vector3.zero);
+        bounds.Encapsulate(new Bounds(tr.transform.position, tr.transform.localScale));
+
+        foreach (Transform child in tr.transform)
+        {
+            bounds.Encapsulate( new Bounds(child.transform.position, child.transform.localScale));
+        }
+      //  Debug.Log(bounds.extents+ " " + bounds.size.ToString());
+        return bounds;
+    }
+    
+    /// <summary>
+    /// Sets the transforms position and scale to the extents and position of the bounds
+    /// </summary>
+    /// <param name="tr"></param>
+    /// <param name="bounds"></param>
+    public static void SetTransformToBounds(this Transform tr, Bounds bounds)
+    {
+        tr.position = bounds.center;
+        tr.localScale = bounds.size;
+    }
+    public static T MakeNew<T>(string GameobjectName) where T : MonoBehaviour
+    {
+        return  new GameObject(GameobjectName, typeof(T)).GetComponent<T>();
+    }
+
+
+    public  static Component MakeNew(Type behavior) 
+    {
+        return new GameObject("__", behavior).GetComponent(behavior);
+    }
 
     /// <summary>
     /// pauses emission on all attached particles systems

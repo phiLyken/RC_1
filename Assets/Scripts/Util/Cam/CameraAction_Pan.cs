@@ -16,18 +16,22 @@ public class CameraAction_Pan : CameraAction
         return base.CanStartInput() && (Input.touchCount == 1 || Input.GetMouseButton(0));
     }
 
+    
+
     IEnumerator DoPan()
     {
         Active = true;
         Vector3 startDragPos = MyMath.GetInputPos();
+        Debug.Log("DOPAN");
         while (CanStartInput())
         {
-            // Debug.Log(CanStartInput()+"  "+Time.frameCount);
             Vector3 mousePos = MyMath.GetInputPos();
             Vector3 delta = mousePos - startDragPos;
-            smoothMove = Vector3.ClampMagnitude(delta * Time.fixedDeltaTime * 10, delta.magnitude);
+            Debug.DrawRay(startDragPos, delta, Color.green);
 
-            transform.position = transform.position - smoothMove;
+            smoothMove = -  Vector3.ClampMagnitude(delta * Time.fixedDeltaTime * 10, delta.magnitude);
+           
+            AttemptMove(smoothMove);
             yield return null;
         }
 
@@ -36,7 +40,10 @@ public class CameraAction_Pan : CameraAction
        
         yield break;
     }
- 
+    void OnDrawGizmos()
+    {
+        Gizmos.DrawWireCube(Bounds.Bounds().center, Bounds.Bounds().size);
+    }
 
     IEnumerator WaitForInput()
     {
@@ -63,11 +70,12 @@ public class CameraAction_Pan : CameraAction
         {
             Stop();
             StartCoroutine(WaitForInput());
-        } else if(!Mathf.Approximately(smoothMove.magnitude, 0))
+        } else if(!Active && !Mathf.Approximately(smoothMove.magnitude, 0))
         {
-            transform.Translate(-smoothMove, Space.World);
             smoothMove = Vector3.Lerp(smoothMove, Vector3.zero, Time.deltaTime * SmoothDrag);
-        }       
+            AttemptMove(smoothMove);    
+
+        }
     }
 
     public override void Stop()

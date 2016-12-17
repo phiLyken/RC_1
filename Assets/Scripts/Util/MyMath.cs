@@ -9,7 +9,30 @@ using System.IO;
 
 
 public static class MyMath  {
-	
+
+    [System.Serializable]
+    public class PositionFix{
+        [System.Serializable]
+        public class FixInfo
+        {
+            public bool enabled;
+
+            public float value;
+        }
+        public FixInfo X;
+        public FixInfo Y;
+        public FixInfo Z;
+
+        public void Apply(Transform tr)
+        {
+             float x = X.enabled ? X.value : tr.position.x;
+             float y = Y.enabled ? Y.value : tr.position.y;
+             float z = Z.enabled ? Z.value : tr.position.z;
+
+            Vector3 newPos = new Vector3(x, y, z);
+            tr.position = newPos;        
+        }
+    }
 	public static GameObject GetClosestGameObject(Vector3 originPosition, GameObject[] objects){
 		
 		if( objects.Length == 0) return null;
@@ -29,6 +52,25 @@ public static class MyMath  {
 		return best;
 	}
 
+    /// <summary>
+    /// Clamps a position within bounds. If it exeeds the bounds, the closest point to bounds is returned
+    /// </summary>
+    /// <param name="vector"></param>
+    /// <param name="bounds"></param>
+    /// <returns></returns>
+    public static Vector3 ClampInBounds(Vector3 vector, Bounds bounds)
+    {
+        if (bounds.Contains(vector))
+        {          
+            return vector;
+        }
+        else
+        {
+            Vector3 clamped = bounds.ClosestPoint(vector);
+            vector = clamped;     
+            return vector;
+        }
+    }
     public static int RoundToNearest(this int i, int step)
     {
        return  (int) Mathf.Round(i / step) * step;
@@ -49,7 +91,7 @@ public static class MyMath  {
         yield return new WaitForSeconds(time);
         func();
     }
-   
+
     public static Vector3[] GetTransformBoundPositionTop(Transform transform)
     {
         Vector3[] ret = new Vector3[4];
@@ -72,6 +114,7 @@ public static class MyMath  {
         return ret;
 
     }
+
     public static List<RaycastHit> GetObjectsFromRays(List<Ray> rays, string tag)
     {
         List<RaycastHit> hits = new List<RaycastHit>();
