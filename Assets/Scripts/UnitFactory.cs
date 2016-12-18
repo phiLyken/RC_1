@@ -24,18 +24,18 @@ public class UnitFactory : MonoBehaviour
         Unit_EffectManager effect_manager               = base_unit.AddComponent<Unit_EffectManager>();
         UnitStats stats                                 = MakeStats(base_unit, data, effect_manager, initiative_range);
         UnitInventory inventory                         = MakeInventory(data, base_unit, stats);
-        ActionManager actions                           = MakeActions(data, base_unit);
-        GameObject mesh                                 = MakeMesh(data, base_unit);
+        ActionManager actions                           = MakeActions(data, base_unit);   
+       
+
+        UnitAdrenalineRushParticleManager adr_particles = base_unit.GetComponent<UnitAdrenalineRushParticleManager>();        
         
+        Unit m_unit                                     = base_unit.AddComponent<Unit>();
+        GameObject mesh = MakeMesh(data, m_unit);
+        Unit_UnitDeath unit_death                       = base_unit.AddComponent<Unit_UnitDeath>();
         UnitAnimationController animations              = mesh.AddComponent<UnitAnimationController>();
         UnitRotationController rotator                  = mesh.AddComponent<UnitRotationController>();
 
-        UnitAdrenalineRushParticleManager adr_particles = base_unit.GetComponent<UnitAdrenalineRushParticleManager>();
-        
-        
-        Unit m_unit                                     = base_unit.AddComponent<Unit>();
-        Unit_UnitDeath unit_death                       = base_unit.AddComponent<Unit_UnitDeath>();
-
+        UI_Unit.CreateUnitUI(m_unit);
 
         adr_particles.Init(stats);
         AddActiveTurnIndicator(m_unit, data.Owner == 0);
@@ -49,7 +49,7 @@ public class UnitFactory : MonoBehaviour
        
         m_unit.OwnerID = data.Owner;
 
-
+    
 
         if (data.Owner == 1)
         {
@@ -73,12 +73,15 @@ public class UnitFactory : MonoBehaviour
         return   base_unit.AddComponent<ActionManager>();
     }
 
-    private static GameObject MakeMesh(ScriptableUnitConfig data, GameObject base_unit)
+    private static GameObject MakeMesh(ScriptableUnitConfig data, Unit base_unit)
     {
         GameObject mesh = Instantiate( Resources.Load("Units/playermodel")) as GameObject;
 
+        HeadData head = data.MeshConfig.HeadConfig.GetHead();
 
-        SpawnSkinnedMeshToUnit(mesh, data.MeshConfig.HeadConfig.GetHead().Mesh, data.MeshConfig.Suit);
+        base_unit.SetSprite(head.UI_Texture);
+
+        SpawnSkinnedMeshToUnit(mesh, head.Mesh, data.MeshConfig.Suit);
 
         mesh.transform.SetParent(base_unit.transform, false);
         mesh.transform.localPosition = Vector3.zero;

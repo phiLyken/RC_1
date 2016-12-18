@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-
+using System;
 
 public delegate void UnitEventHandler(Unit u);
 public class Unit : MonoBehaviour, ITurn, IDamageable {
@@ -33,7 +33,9 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     public TurnableEventHandler OnUpdateTurnTime;
 
     public EnemyDropCategory Loot;
-    
+
+    Sprite FaceSprite;
+
     [HideInInspector]
     public Tile currentTile;
         
@@ -48,7 +50,10 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     bool _isActive;
     bool _isDead;
 
-
+    public void SetSprite(Sprite spr)
+    {
+        FaceSprite = spr;
+    }
     void Awake()
     {
         Inventory = GetComponent<UnitInventory>();
@@ -68,14 +73,12 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
        
         b.OnSelect += UnitSelected;
         b.OnHover += OnHover;
-        b.OnHoverEnd += OnHoverEnd;
-              
-        UI_Unit.CreateUnitUI(this);
-
-     
+        b.OnHoverEnd += OnHoverEnd;              
+        
       
     }
 
+  
     void ActionChanged(UnitActionBase b)
     {
         if (OnUpdateTurnTime != null)
@@ -401,6 +404,6 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
 
     public Sprite GetIcon()
     {
-        return Inventory.EquipedWeapon.Icon;
+        return FaceSprite;
     }
 }
