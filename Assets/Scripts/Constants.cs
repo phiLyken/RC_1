@@ -111,16 +111,7 @@ public class Constants : MonoBehaviour {
     /// </summary>
     public static float AI_PATROL_DISTANCE = 2f;
 
-    public static List<string> names = new List<string>(new string[]
-    {
-         "SHEPPHARD", "BRENDA", "DAVIS", "CLARK", "LEWIS", "DUDE", "JACKSON", "SCHMIDT",
-        "ZERO", "DIXON", "HUNT","RAY", "MCCOY","SCHNEIDER","ORTEGA","VEGA","MCGEE","HAMMOND","YATES","CLAYTON","NGUYEN", "VALENTINE","NIXON",
-        "MACIAS",    "LYNCH",    "PITTS",    "HARVEY",    "GARDNER",    "PHELPS",    "PARKS",    "WOLFE",    "SANTANA",    "ZUNIGA",    "DECKER",    "MENDEZ",    "FARRELL",
-    "CHUNG",    "CALDWELL",    "SHAFFER",    "GOLDEN",    "HUANG",    "BYRD",    "RASMUSSEN",    "SHARP",    "MASSEY",    "HINTON",    "CLAY",
-    "RIDDLE",    "HOWELL",    "GARRET",    "CLAYTON",    "PECK",    "MULLEN",    "LAWRENCE",    "MALONE",    "LAWSON",    "ARNOLD",    "DELEON",
-    "FERGUSON",    "PERRY","STEPHENS" }
-    );
-
+  
 
     /// <summary>
     /// How much dust the player will get when looting 

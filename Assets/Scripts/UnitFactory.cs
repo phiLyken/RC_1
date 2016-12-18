@@ -89,14 +89,15 @@ public class UnitFactory : MonoBehaviour
 
     private static void GetName(ScriptableUnitConfig data, GameObject base_unit)
     {
-        string name = MyMath.GetRandomObjectAndRemove(Constants.names);
+        string name = data.MeshConfig.Names.GetName();
 
         if (string.IsNullOrEmpty(name))
         {
             name = "UNKOWN " + Random.Range(0, 100);
         }
 
-        base_unit.name = (data.Owner == 0 ? "OFFICER " : "INMATE ") + name;
+        base_unit.name = name;
+
     }
 
     private static UnitAI MakeAI(ScriptableUnitConfig data, int group, GameObject base_unit, Unit m_unit)
