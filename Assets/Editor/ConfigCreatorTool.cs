@@ -31,6 +31,14 @@ public class UnitConfigCreator
 }
 
 
+public class UnitMeshConfigCreator
+{
+    [MenuItem("Assets/Create/Unit Mesh Config")]
+    public static void CreateAsset()
+    {
+        MyMath.ScriptableObjectUtility.CreateAsset<UnitMeshConfig>();
+    }
+}
 
 public class LootConfigCreator
 {

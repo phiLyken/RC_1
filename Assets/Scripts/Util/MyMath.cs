@@ -46,19 +46,19 @@ public static class MyMath  {
     {
         return chance > UnityEngine.Random.value;
     }
-
+    
     [System.Serializable]
-    public class PositionFix{
+    public class PositionLock{
         [System.Serializable]
-        public class FixInfo
+        public class LockInfo
         {
             public bool enabled;
 
             public float value;
         }
-        public FixInfo X;
-        public FixInfo Y;
-        public FixInfo Z;
+        public LockInfo X;
+        public LockInfo Y;
+        public LockInfo Z;
 
         public void Apply(Transform tr)
         {
@@ -590,6 +590,7 @@ public static class MyMath  {
         return ret;
     }
 
+    
     [System.Serializable]
     public class R_Range
     {
@@ -736,3 +737,41 @@ public static class TransformDeepChildExtension
         }
         */
     }
+
+[System.Serializable]
+public class FloatClamp
+{
+    public enum ClampType
+    {
+        max_float, min_float, value
+    }
+
+    public ClampType _ctype;
+
+    /// <summary>
+    /// USE GETVALUE INSTEAD!
+    /// </summary>
+    public float _value;
+
+   
+    public void SetValue(float v)
+    {
+        _value = v;
+    }
+    public float GetValue()
+    {
+        switch (_ctype)
+        {
+            case ClampType.max_float:
+                return float.MaxValue;
+
+            case ClampType.min_float:
+                return float.MinValue;
+
+            case ClampType.value:
+                return _value;
+        }
+
+        return 0;
+    }
+}

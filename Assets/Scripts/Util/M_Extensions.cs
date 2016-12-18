@@ -54,6 +54,11 @@ public static class M_Extensions   {
         }
     }
 
+    public static Rect Move(this Rect rect, float x, float y)
+    {
+        rect.position += new Vector2(x, y);
+        return rect;
+    }
     public static int Direction(this float f)
     {
         return (int) (f / Mathf.Abs(f));

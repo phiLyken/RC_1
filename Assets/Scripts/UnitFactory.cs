@@ -78,7 +78,7 @@ public class UnitFactory : MonoBehaviour
         GameObject mesh = Instantiate( Resources.Load("Units/playermodel")) as GameObject;
 
 
-        SpawnSkinnedMeshToUnit(mesh, data.MeshConfig.Head , data.MeshConfig.Suit);
+        SpawnSkinnedMeshToUnit(mesh, data.MeshConfig.HeadConfig.GetHead().Mesh, data.MeshConfig.Suit);
 
         mesh.transform.SetParent(base_unit.transform, false);
         mesh.transform.localPosition = Vector3.zero;

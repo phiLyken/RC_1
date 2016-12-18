@@ -25,16 +25,13 @@ public class UnitMeshBuilderTest : MonoBehaviour {
             }          
         }
 
-        current = UnitFactory.SpawnSkinnedMeshToUnit(Target_Unit, MeshConfig.Head, MeshConfig.Suit);
+        current = UnitFactory.SpawnSkinnedMeshToUnit(Target_Unit, MeshConfig.HeadConfig.GetHead().Mesh, MeshConfig.Suit);
     }
-
-
 }
 
-[System.Serializable]
-public class UnitMeshConfig
+public class UnitMeshConfig : ScriptableObject
 {
-    public GameObject Head;
+    public UnitHeadConfig HeadConfig;
 
     public GameObject Suit;
 }
