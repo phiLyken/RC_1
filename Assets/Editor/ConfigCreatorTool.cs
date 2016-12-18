@@ -64,10 +64,11 @@ public class ColorConfigCreator
 {
     [MenuItem("Assets/Create/UI Color Config")]
     public static void CreateAsset()
-    {
+    { 
         MyMath.ScriptableObjectUtility.CreateAsset<UI_ActionBar_Button_ColorSetting>();
     }
 }
+ 
 
 
 public class CampConfigDatabase : ScriptableObject

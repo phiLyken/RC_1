@@ -29,10 +29,4 @@ public class UnitMeshBuilderTest : MonoBehaviour {
     }
 }
 
-public class UnitMeshConfig : ScriptableObject
-{
-    public UnitNameConfig Names;
-    public UnitHeadConfig HeadConfig;
 
-    public GameObject Suit;
-}
