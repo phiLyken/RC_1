@@ -4,18 +4,13 @@ using UnityEngine.UI;
 using System;
 
 
-public class Tile_Loot : TileComponent {
+public class Tile_Loot : MonoBehaviour {
 
 
     public LootConfig loot;
     public GameObject crate;
     IInventoryItem item_lootable;
-
-
-    public override TileComponents GetComponentType()
-    {
-        return TileComponents.loot;
-    }
+    
 
     public void SetLoot(LootConfig _loot)
     {
@@ -43,9 +38,7 @@ public class Tile_Loot : TileComponent {
         }
 
         item_lootable = new ItemInInventory(content.Item, amount);
-        
-
-       // Debug.Log("Set loot for " + item_lootable.GetItemType() + ":" + item_lootable.GetCount());
+ 
     }
 
 
@@ -97,10 +90,11 @@ public class Tile_Loot : TileComponent {
     {
         int amount = item_lootable.GetCount();
         Inventory inv = GetInventory(u);
- 
 
+      
  
         int lootable_amount = Mathf.Min(inv.GetMax(item_lootable.GetItemType()) - inv.ItemCount(item_lootable.GetItemType()), amount);
+        
 
         Debug.Log("loot amount =" + amount + " lootable =" + lootable_amount + " max=" + inv.GetMax(item_lootable.GetItemType()));
 
@@ -109,18 +103,19 @@ public class Tile_Loot : TileComponent {
 
     public void OnLoot(Unit _u)
     {
-
-        int lootable_amount = GetLootableAmount(_u);
-
-        item_lootable.SetCount( item_lootable.GetCount() - lootable_amount);
-
-        GetInventory(_u).AddItem(item_lootable, lootable_amount);
-
         
+        int lootable_amount = GetLootableAmount(_u);
+        if(lootable_amount > 0)
+        {        
+            item_lootable.SetCount( item_lootable.GetCount() - lootable_amount);
+            GetInventory(_u).AddItem(item_lootable, lootable_amount);
+        }
 
-        if(item_lootable.GetCount() == 0)
+        crate.GetComponent<Animator>().SetTrigger("bOpened");
+
+        if (item_lootable.GetCount() == 0)
         {
-            RemoveLoot();
+            MyMath.ExecuteDelayed(2f, RemoveLoot);
         }
 
     }
