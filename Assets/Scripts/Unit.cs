@@ -17,7 +17,8 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
 
     public static List<Unit> AllUnits = new List<Unit>();
     public static Unit SelectedUnit;
-   
+    
+    
     public static Unit HoveredUnit;
     public static UnitEventHandler OnUnitKilled;
     public static UnitEventHandler OnUnitHover;
@@ -149,9 +150,6 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
         if (t == currentTile) KillUnit();
     }
 
-
-
-   //Unselects the currently selected (static) unit
     void UnSelectCurrent()
     {
         if(SelectedUnit != null)
@@ -200,8 +198,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
                 OnUnitKilled(this);
 
             RemoveUnitFromGame();
-        }
-       
+        }      
 
     }
  
@@ -218,9 +215,6 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
 
         if (GetOwner() !=null)
             GetOwner().RemoveUnit(this);
-
-
-
     }
 
     public int GetCurrentTurnCost()
@@ -279,7 +273,6 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
 
         if (IsActive)
         {
-
             Stats.SetStatAmount(StatType.current_turn_time, Stats.GetStatAmount(StatType.current_turn_time) - 1);
 
             if (currentTile.isCamp)
@@ -300,9 +293,6 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
         if (Actions.HasAP()) return false;
         if (Actions.IsActionInProgress) return false;
 
-       // Debug.Log("turn ended ");
-
-        //Debug.Break();
         return true;
     }    
 
@@ -313,8 +303,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
 
     public string GetID()
     {
-        return gameObject.name;
-     //   return gameObject.name+" ["+(GetTurnTime()+GetCurrentTurnCost()).ToString()+"]";
+        return gameObject.name;   
     }
 
     public Color GetColor()
@@ -373,6 +362,18 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     }
 
  
+    public static Vector3 GetHeadPos(Unit u)
+    {
+        //   return u.transform.position;
+        Transform head = u.transform.FindChildWithTag("Head");
+
+        if(head != null)
+        {
+            return head.GetComponent<Renderer>().bounds.center;
+        }
+
+        return u.transform.position + Vector3.up * 1.5f;
+    }
 
     public void SkipTurn()
     {

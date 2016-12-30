@@ -1,10 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class UI_WorldPos : MonoBehaviour {
     public Vector2 WorldPositionOffset;
     public Transform worldPosAnchor;
     Vector3 worldPos;
+
+
 
 
     public void SetWorldPosition(Vector3 pos)

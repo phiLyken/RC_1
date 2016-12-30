@@ -68,7 +68,46 @@ public class ColorConfigCreator
         MyMath.ScriptableObjectUtility.CreateAsset<UI_ActionBar_Button_ColorSetting>();
     }
 }
- 
+
+
+public class SpeechConfigCreator
+{
+    [MenuItem("Assets/Create/Unit Speech Config")]
+    public static void CreateAsset()
+    {
+        MyMath.ScriptableObjectUtility.CreateAsset<UnitSpeechConfig>();
+    }
+}
+
+public class SpeechTriggerSimpleCreator
+{
+    [MenuItem("Assets/Create/Unit Speech Speech Trigger Simple")]
+    public static void CreateAsset()
+    {
+        MyMath.ScriptableObjectUtility.CreateAsset<SpeechTriggerConfigSimple>();
+    }
+}
+
+
+public class SpeechTriggerConfigCreator
+{
+    [MenuItem("Assets/Create/Unit Speech Trigger")]
+    public static void CreateAsset()
+    {
+        MyMath.ScriptableObjectUtility.CreateAsset<SpeechTriggerConfig>();
+    }
+}
+
+
+public class SpeechTriggerConfigIDCreator
+{
+    [MenuItem("Assets/Create/Unit Speech Trigger ID")]
+    public static void CreateAsset()
+    {
+        MyMath.ScriptableObjectUtility.CreateAsset<SpeechTriggerConfigID>();
+    }
+}
+
 
 
 public class CampConfigDatabase : ScriptableObject

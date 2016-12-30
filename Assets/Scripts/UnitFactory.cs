@@ -34,6 +34,8 @@ public class UnitFactory : MonoBehaviour
         Unit_UnitDeath unit_death                       = base_unit.AddComponent<Unit_UnitDeath>();
         UnitAnimationController animations              = mesh.AddComponent<UnitAnimationController>();
         UnitRotationController rotator                  = mesh.AddComponent<UnitRotationController>();
+        UnitSpeechManager speech_mananger               = base_unit.AddComponent<UnitSpeechManager>();
+
 
         UI_Unit.CreateUnitUI(m_unit);
 
@@ -49,13 +51,15 @@ public class UnitFactory : MonoBehaviour
        
         m_unit.OwnerID = data.Owner;
 
+        speech_mananger.Init(data.SpeechConfig, m_unit);
     
 
         if (data.Owner == 1)
         {
             UnitAI ai = MakeAI(data, group, base_unit, m_unit);
             rotator.Init(m_unit.GetComponent<WaypointMover>(), ai.GetLookRotation);
-            ai.OnPreferredTargetChange += unit => rotator.TurnToPosition(unit.transform);
+
+            ai.OnPreferredTargetChange += unit => new TurnEventQueue.AIAggroEvent(ai, unit);
         } else
         {
             rotator.Init(m_unit.GetComponent<WaypointMover>(), delegate     { return m_unit.transform.position + m_unit.transform.forward; }    );

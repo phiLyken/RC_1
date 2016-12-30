@@ -115,7 +115,8 @@ public class Tile_Loot : MonoBehaviour {
 
         if (item_lootable.GetCount() == 0)
         {
-            MyMath.ExecuteDelayed(2f, RemoveLoot);
+            StartCoroutine(MyMath.ExecuteDelayed(2f, RemoveLoot));
+           // Debug.Log("^loot removing loot soon");
         }
 
     }

@@ -82,6 +82,41 @@ public class TurnEventQueue  {
             StartEvent();
         }
     }
+
+    public class AIAggroEvent : TurnEvent
+    {
+        UnitAI ai;
+        Unit target;
+        UnitRotationController rotator;
+        UnitAnimationController animator;
+
+        public override void StartEvent()
+        {           
+            TurnSystem.Instance.OnGlobalTurn += Execute;
+        }
+
+        public AIAggroEvent(UnitAI _ai, Unit _target)
+        {
+           
+            ai = _ai;
+            target = _target;
+            rotator = ai.GetComponentInChildren<UnitRotationController>();
+            animator = ai.GetComponentInChildren<UnitAnimationController>();
+            Debug.Log("Turnevent Queue start aggro");
+            rotator.TurnToPosition(target.transform);
+        }
+
+        void Execute(int i)
+        {
+            base.StartEvent();
+            rotator.TurnToPosition(target.transform, () => animator.PlayAnimation(UnitAnimationTypes.bAggro, EndEvent));
+            Debug.Log("Turnevent Queue execute aggro");
+            TurnSystem.Instance.OnGlobalTurn -= Execute;
+
+        }
+
+
+    }
     
     
 

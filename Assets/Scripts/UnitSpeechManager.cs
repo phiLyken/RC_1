@@ -1,0 +1,150 @@
+﻿using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+
+
+public class UnitSpeechManager : MonoBehaviour {
+
+    public delegate void SpeechEvent(Unit unit, string[] lines);
+
+    int selectCounter;
+    UI_AdrenalineRushBase rush;
+
+    UnitSpeechConfig Config;
+    Unit m_Unit;
+
+    public static SpeechEvent OnSpeech;
+
+    public void Init(UnitSpeechConfig config, Unit _m_Unit)
+    {
+        Config = config;
+        SetUnit(_m_Unit);
+    }
+
+    void SetUnit(Unit _m_Unit)
+    {
+        m_Unit = _m_Unit;
+
+        Unit.OnUnitKilled += CheckKilled;
+        Unit.OnUnitSelect += CheckSelected;
+        m_Unit.OnDamageReceived += DmgReceived;
+        m_Unit.Actions.OnActionStarted += ActionStarted;
+
+        m_Unit.GetComponent<Unit_EffectManager>().OnEffectAdded += ReceivedEffect;
+        
+        rush =  gameObject.AddComponent<UI_AdrenalineRushBase>();
+        rush.Init(m_Unit.Stats);
+        rush.EnableDelay = 3f;
+
+        if(Config.GainAdrRush != null)
+            rush.OnRushGain += () => { AttemptTrigger(Config.GainAdrRush); };
+
+        if(TurnSystem.Instance != null)
+        {
+            TurnSystem.Instance.OnGlobalTurn += ResetCounter;
+        }
+    }
+
+    void ResetCounter(int c)
+    {
+        selectCounter = 0;
+    }
+    
+
+    void ActionStarted(UnitActionBase action)
+    {
+        if(Config.UseAbility != null)
+            AttemptTrigger(Config.UseAbility, action.ActionID);
+    }
+    void DmgReceived(UnitEffect_Damage dmg)
+    {
+        if(dmg.GetDamage() < m_Unit.Stats.GetStatAmount(StatType.oxygen))
+        { 
+
+            SpeechTriggerConfig trigger = dmg.GetDamage() > 3 ? Config.ReceiveDamageBig : Config.ReceiveDamageSmall;
+
+            if (trigger != null)
+                AttemptTrigger(trigger);
+        }
+    }
+
+    void ReceivedEffect(UnitEffect effect)
+    {
+        if(Config.ReceiveEffect != null)
+            AttemptTrigger(Config.ReceiveEffect, effect.Unique_ID);
+    }
+
+    void CheckKilled( Unit u )
+    {
+        if(u == m_Unit)
+        {
+            if(Config.Died != null)
+                AttemptTrigger(Config.Died);
+
+            Unit.OnUnitKilled -= CheckKilled;
+        } 
+    }
+
+    void CheckSelected(Unit u)
+    {
+        if (u == m_Unit)
+        {
+            selectCounter++;
+
+            if(selectCounter == 4)
+            {
+                if(Config.Selected != null)
+                    AttemptTrigger(Config.Selected);
+               
+            }
+           
+        }
+    }
+    static void TriggerSpeech(Unit u, string[] lines)
+    {
+        /// can be executed delayed so check if null
+
+        Debug.Log(" Trigger "+u.GetID());
+        if(u != null)
+        {
+            if (OnSpeech != null)
+                OnSpeech(u, lines);
+        }
+    }
+
+
+    public void AttemptTrigger( SpeechTriggerConfig trigger)
+    {
+        TriggerDelayed( trigger.GetSpeech(), 0.1f);
+
+    }
+
+    public void AttemptTrigger(SpeechTriggerConfigSimple trigger)
+    {
+        TriggerDelayed(trigger.GetSpeech(), 0.1f);
+
+    }
+
+    public  void AttemptTrigger(SpeechTriggerConfigID trigger, string ID)
+    {
+        Debug.Log("Attempt trigger speec: " + trigger.ToString());
+        TriggerDelayed(trigger.GetSpeech(ID), 0.1f);
+      
+    }
+
+    void TriggerDelayed(Speech speech, float delay)
+    {
+        if (speech != null)
+        {
+            StartCoroutine(MyMath.ExecuteDelayed(0.5f, () => TriggerSpeech(m_Unit, speech.Lines)));
+        } else
+        {
+            Debug.LogWarning("speech not found");
+        }
+    }
+    
+
+ 
+    
+}

@@ -21,6 +21,7 @@ public class ScriptableUnitConfig : ScriptableObject
     public Weapon Weapon;
     public UnitMeshConfig MeshConfig;
 
+    public UnitSpeechConfig SpeechConfig;
 
     public EnemyDropCategory LootCategory;
 

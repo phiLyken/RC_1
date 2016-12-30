@@ -16,5 +16,5 @@ public static class UnitAnimationControllerHelper {
 
 public enum UnitAnimationTypes
 {
-    bHit, bRage, bLooting, bHealing, bShooting, bIntAttack, bDying
+    bHit, bRage, bLooting, bHealing, bShooting, bIntAttack, bDying, bAggro
 }

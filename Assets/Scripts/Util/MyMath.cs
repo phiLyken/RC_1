@@ -89,6 +89,25 @@ public static class MyMath  {
 		return best;
 	}
 
+    public static Transform FindChildWithTag(this Transform transform, string tag)
+    {
+        if (transform.CompareTag(tag))
+        {
+            return transform;
+        }
+        
+        foreach (Transform child in transform)
+        {
+         var result = child.FindChildWithTag(tag);
+            if (result != null)
+                return result;
+        }
+
+        return null;
+    }
+
+
+   
     /// <summary>
     /// Clamps a position within bounds. If it exeeds the bounds, the closest point to bounds is returned
     /// </summary>
@@ -115,6 +134,10 @@ public static class MyMath  {
  
     }
 
+    public static List<T> EnumList<T>(){
+        var v = Enum.GetValues(typeof(T));
+        return v.Cast<T>().ToList();
+    }
     public static T RandomEnumValue<T>()
     {
         var v = Enum.GetValues(typeof(T));

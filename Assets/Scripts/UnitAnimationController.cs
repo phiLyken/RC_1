@@ -63,7 +63,7 @@ public class UnitAnimationController : MonoBehaviour
     }
     
  
-    public void WaitForExection(UnitAnimationTypes anim, EventHandler on_exec)
+    public void PlayAnimation(UnitAnimationTypes anim, EventHandler on_exec)
     {        
         PlayAnimation(anim);
         if (UnitAnimator.OnExec != null)

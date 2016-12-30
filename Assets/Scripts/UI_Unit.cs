@@ -13,6 +13,7 @@ public class UI_Unit : MonoBehaviour
     public Counter MoveField;
     public UnitBar StatBar;
     public UI_AlphaStackController AlphaStackController;
+  
 
     AlphaStack Alphas;
     AlphaStack.AlphaStackItem HoverItem = new AlphaStack.AlphaStackItem(1.0f, "hover");
@@ -23,7 +24,7 @@ public class UI_Unit : MonoBehaviour
 
     public static void CreateUnitUI(Unit u)
     {
-        GameObject obj = (Instantiate(Resources.Load("unit_ui")) as GameObject);
+        GameObject obj = (Instantiate(Resources.Load("UI/unit_ui")) as GameObject);
 
         GameObject ui_parent = GameObject.FindGameObjectWithTag("UI_World");
 
@@ -56,8 +57,9 @@ public class UI_Unit : MonoBehaviour
 
     public void SetUnitInfo(Unit u)
     {
-        GetComponent<UI_AdrenalineRushBase>().Init(u.Stats);
+        GetComponent<UI_AdrenalineRushBase>().Init(u.Stats);      
 
+        (Resources.Load("UI/unit_ui_speech") as GameObject).Instantiate(transform.parent, false).GetComponent<UI_ShowUnitSpeech>().Init(u);
         Alphas = new AlphaStack();
         AlphaStackController.Init(Alphas);
         Alphas.AddItem(DefaultItem);

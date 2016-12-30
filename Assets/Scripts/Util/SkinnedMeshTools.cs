@@ -33,7 +33,7 @@ public static class SkinnedMeshTools
         // Create the SubObject
         GameObject newObject = ThisRenderer.gameObject;
         newObject.transform.parent = root;
-     
+        
         // Add the renderer
        // SkinnedMeshRenderer NewRenderer = newObject.AddComponent(typeof(SkinnedMeshRenderer)) as SkinnedMeshRenderer;
 
@@ -46,6 +46,7 @@ public static class SkinnedMeshTools
 
         // Assemble Renderer	
         ThisRenderer.bones = MyBones;
+   
         ThisRenderer.updateWhenOffscreen = true;
         
         // ThisRenderer.sharedMesh = ThisRenderer.sharedMesh;
