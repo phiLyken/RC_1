@@ -34,7 +34,7 @@ public class UnitFactory : MonoBehaviour
         Unit_UnitDeath unit_death                       = base_unit.AddComponent<Unit_UnitDeath>();
         UnitAnimationController animations              = mesh.AddComponent<UnitAnimationController>();
         UnitRotationController rotator                  = mesh.AddComponent<UnitRotationController>();
-        UnitSpeechManager speech_mananger               = base_unit.AddComponent<UnitSpeechManager>();
+        SpeechMananger_Unit speech_mananger               = base_unit.AddComponent<SpeechMananger_Unit>();
 
 
         UI_Unit.CreateUnitUI(m_unit);

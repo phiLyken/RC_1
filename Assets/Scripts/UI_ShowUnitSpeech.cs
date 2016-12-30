@@ -11,7 +11,7 @@ public class UI_ShowUnitSpeech : MonoBehaviour {
 
     public void Init(Unit unit)
     {
-        UnitSpeechManager.OnSpeech += CheckSpeech;
+        SpeechMananger_Unit.OnSpeech += CheckSpeech;
         m_Unit = unit;
         UpdatePos();
         TextPlate.SetActive(false);
@@ -37,14 +37,14 @@ public class UI_ShowUnitSpeech : MonoBehaviour {
     {
         UpdatePos();
     }
-    void CheckSpeech(Unit u, string[] texts)
+    void CheckSpeech(Unit u, string[] texts, string arg)
     {
         if(u == m_Unit)
         {
             StopAllCoroutines();
-            TF.text = texts[0];
+            TF.text = string.Format(texts[0], arg);
             TextPlate.SetActive(true);
-            StartCoroutine(MyMath.ExecuteDelayed(texts.Length * 0.05f + 1f, () => TextPlate.SetActive(false)));
+            StartCoroutine(MyMath.ExecuteDelayed(texts.Length * 0.5f + 1f, () => TextPlate.SetActive(false)));
         }
     }
 

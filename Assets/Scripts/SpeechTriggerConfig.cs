@@ -6,6 +6,7 @@ using System.Linq;
 
 public class SpeechTriggerConfig : SpeechTriggerConfigSimple
 {
+  
     public float Chance;
 
     public override Speech GetSpeech()

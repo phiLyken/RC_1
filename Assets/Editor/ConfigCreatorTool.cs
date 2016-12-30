@@ -70,18 +70,10 @@ public class ColorConfigCreator
 }
 
 
-public class SpeechConfigCreator
-{
-    [MenuItem("Assets/Create/Unit Speech Config")]
-    public static void CreateAsset()
-    {
-        MyMath.ScriptableObjectUtility.CreateAsset<UnitSpeechConfig>();
-    }
-}
 
 public class SpeechTriggerSimpleCreator
 {
-    [MenuItem("Assets/Create/Unit Speech Speech Trigger Simple")]
+    [MenuItem("Assets/Create/Unit Speech Trigger Simple")]
     public static void CreateAsset()
     {
         MyMath.ScriptableObjectUtility.CreateAsset<SpeechTriggerConfigSimple>();
@@ -109,6 +101,14 @@ public class SpeechTriggerConfigIDCreator
 }
 
 
+public class SpeechConfigCreator
+{
+    [MenuItem("Assets/Create/Unit Speech Config")]
+    public static void CreateAsset()
+    {
+        MyMath.ScriptableObjectUtility.CreateAsset<UnitSpeechConfig>();
+    }
+}
 
 public class CampConfigDatabase : ScriptableObject
 {

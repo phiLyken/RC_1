@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 
 
-public class UnitSpeechManager : MonoBehaviour {
+public class SpeechMananger_Unit : MonoBehaviour {
 
-    public delegate void SpeechEvent(Unit unit, string[] lines);
+    public delegate void SpeechEvent(Unit unit, string[] lines, string arg);
 
     int selectCounter;
     UI_AdrenalineRushBase rush;
@@ -16,6 +16,27 @@ public class UnitSpeechManager : MonoBehaviour {
 
     public static SpeechEvent OnSpeech;
 
+    public void ShowCrumbleSpeech()
+    {
+         AttemptTrigger(Config.Crumble);       
+    }
+
+    public void ShowFriendDiedSpeech()
+    {
+       
+        AttemptTrigger(Config.FriendDie);
+    }
+
+    public void ShowFoeDiedSpeech()
+    {
+        AttemptTrigger(Config.FoeDie);
+    }
+
+
+    public void ShowTurnSpeech()
+    {
+        AttemptTrigger(Config.FoeDie);
+    }
     public void Init(UnitSpeechConfig config, Unit _m_Unit)
     {
         Config = config;
@@ -109,35 +130,51 @@ public class UnitSpeechManager : MonoBehaviour {
         if(u != null)
         {
             if (OnSpeech != null)
-                OnSpeech(u, lines);
+                OnSpeech(u, lines, "");
         }
     }
 
+    static void TriggerSpeech(Unit u, string[] lines, string arg)
+    {
+        /// can be executed delayed so check if null
+
+        Debug.Log(" Trigger " + u.GetID());
+        if (u != null)
+        {
+            if (OnSpeech != null)
+                OnSpeech(u,  lines, arg);
+        }
+    }
 
     public void AttemptTrigger( SpeechTriggerConfig trigger)
     {
-        TriggerDelayed( trigger.GetSpeech(), 0.1f);
+        if (trigger != null)
+            TriggerDelayed( trigger.GetSpeech(), trigger.Delay.Value());
 
     }
 
     public void AttemptTrigger(SpeechTriggerConfigSimple trigger)
     {
-        TriggerDelayed(trigger.GetSpeech(), 0.1f);
+        if(trigger != null)
+            TriggerDelayed(trigger.GetSpeech(),trigger.Delay.Value() );
 
     }
 
     public  void AttemptTrigger(SpeechTriggerConfigID trigger, string ID)
     {
-        Debug.Log("Attempt trigger speec: " + trigger.ToString());
-        TriggerDelayed(trigger.GetSpeech(ID), 0.1f);
-      
+        if (trigger != null)
+        { 
+            Debug.Log("Attempt trigger speech: " + trigger.ToString());
+            TriggerDelayed(trigger.GetSpeech(ID), 0.1f);
+        }
+
     }
 
     void TriggerDelayed(Speech speech, float delay)
     {
         if (speech != null)
         {
-            StartCoroutine(MyMath.ExecuteDelayed(0.5f, () => TriggerSpeech(m_Unit, speech.Lines)));
+            StartCoroutine(MyMath.ExecuteDelayed(delay, () => TriggerSpeech(m_Unit, speech.Lines)));
         } else
         {
             Debug.LogWarning("speech not found");
