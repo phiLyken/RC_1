@@ -22,13 +22,13 @@ public class UnitAction_Move : UnitActionBase {
     {       
         base.SelectAction();
 
+        Debug.Log("^ability SELECT MOVE");
         if (Owner.GetComponent<WaypointMover>().Moving) return;
 
         TileSelecter.SetUnitColliders(false);
         TileSelecter.OnTileSelect += SetMovementTile;
         TileSelecter.OnTileHover += SetPreviewTile;
-
-       // Debug.Log(TileSelecter.HoveredTile);  
+         
         if(TileSelecter.HoveredTile != null)
         {
             SetPreviewTile(TileSelecter.HoveredTile);
@@ -44,11 +44,13 @@ public class UnitAction_Move : UnitActionBase {
     {
         if (!Owner.GetComponent<WaypointMover>().Moving && currentTargetTile != null && currentPath != null)
         {
-         //   Debug.Log("set movement tile");
+         // Debug.Log("set movement tile");
             AttemptAction(t);
         } else
         {
-            Debug.LogWarning("Something prevented the move ability to execute");
+
+          //  Debug.Log(" tile:" + currentTargetTile);
+            Debug.LogWarning("Something prevented the move ability to execute ");
         }
     }
 

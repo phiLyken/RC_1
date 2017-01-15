@@ -47,7 +47,7 @@ public class UnitEffect : MonoBehaviour
         return (TargetMode == TargetModes.Owner) ? instigator : target;
     }
 
-    public void Init(UnitAction_ApplyEffect owner)
+    public void Init(Unit owner)
     {
         
         EffectBonus = 1;
@@ -78,14 +78,14 @@ public class UnitEffect : MonoBehaviour
         TurnSystem.Instance.OnGlobalTurn -= OnGlobalTurn;
     }
 
-    public IEnumerator ApplyEffectSequence(Unit target, UnitAction_ApplyEffect instigator) {
+    public IEnumerator ApplyEffectSequence(Unit target) {
 
-        Instigator = instigator;
-        target = GetTarget(target, instigator.GetOwner() );
+      
+        target = GetTarget(target, Instigator as Unit );
         
         if (FocusOnCaster && RC_Camera.Instance != null) {
-            Debug.Log("^effects go to to " + instigator.GetOwner());
-            RC_Camera.Instance.ActionPanToPos.GoTo(instigator.GetOwner().currentTile.GetPosition());
+            Debug.Log("^effects go to to " +(Instigator as Unit));
+            RC_Camera.Instance.ActionPanToPos.GoTo((Instigator as Unit).currentTile.GetPosition());
             yield return new WaitForSeconds(0.5f);
         }
 
@@ -216,7 +216,7 @@ public class UnitEffect : MonoBehaviour
 
     public void UpdateBonus()
     {
-        EffectBonus = Constants.GetAdrenalineBonus((Instigator as UnitAction_ApplyEffect).GetOwner().Stats);
+        EffectBonus = Constants.GetAdrenalineBonus((Instigator as Unit).Stats);
     }
 
     public override string ToString()

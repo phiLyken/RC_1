@@ -3,15 +3,14 @@ using System.Collections;
 
 public class ActionSequence : MonoBehaviour {
 
-  
 
-    UnitAnimationController animation_controller;
-    UnitRotationController rotation_controller;
+    Unit m_Unit;
+    
 
     public void Init( Unit unit)
     {
-        animation_controller = unit.GetComponentInChildren<UnitAnimationController>() ;
-        rotation_controller = unit.GetComponentInChildren<UnitRotationController>();
+
+        m_Unit = unit;
     }
     public void StartSequence(UnitAnimationTypes anim, Unit caster, Transform target, EventHandler callback_execute)
     {
@@ -20,8 +19,20 @@ public class ActionSequence : MonoBehaviour {
 
     IEnumerator Sequence(UnitAnimationTypes anim, Unit caster,  Transform target, EventHandler callback_execute)
     {
-        yield return StartCoroutine(rotation_controller.TurnToTargetPositiom(target, null));
-        animation_controller.PlayAnimation(anim, callback_execute);
+        UnitAnimationController anim_controller = m_Unit.GetComponentInChildren<UnitAnimationController>();
+        UnitRotationController rotation_controller = m_Unit.GetComponentInChildren<UnitRotationController>();
+        
+        TurnEventQueue.CameraFocusEvent cam_pan = new TurnEventQueue.CameraFocusEvent(caster.transform.position);
+
+        yield return StartCoroutine(cam_pan.WaitForEvent());
+       
+
+        if(rotation_controller != null)
+            yield return StartCoroutine(rotation_controller.TurnToTargetPositiom(target, null));
+
+        if(anim_controller != null)
+            anim_controller.PlayAnimation(anim, callback_execute);
+
         OnExected(caster, target);
     }      
 

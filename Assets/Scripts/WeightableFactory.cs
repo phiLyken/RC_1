@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System;
 
-public class WeightableFactory {
+public static class WeightableFactory {
     public class WeightAble <T> : IWeightable
     {
         T weightable;
@@ -49,7 +49,12 @@ public class WeightableFactory {
         return null;
     }
 
+ 
 
+    public static T GetObjectByweight<T>(this List<T> weighted)
+    {
+        return GetWeighted(weighted);
+    }
     public static T GetWeighted<T>(List<T> weighted)
     {
       

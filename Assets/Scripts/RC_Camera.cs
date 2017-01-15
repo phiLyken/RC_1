@@ -10,7 +10,8 @@ public class RC_Camera : StrategyCamera {
 
     void StartTurn(Unit u)
     {
-        ActionPanToPos.GoTo(u.transform.position);
+        if(u.IsIdentified)
+            ActionPanToPos.GoTo(u.transform.position);
     }
 
     public void OnDestroy()

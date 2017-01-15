@@ -38,6 +38,7 @@ public class UnitSpawnGroupConfig : IWeightable
 [System.Serializable]
 public class WeightedUnit : IWeightable {
 
+ 
     public bool ForceUnit;
 	public ScriptableUnitConfig UnitConfig;
 	public float _Weight;
@@ -51,6 +52,7 @@ public class WeightedUnit : IWeightable {
 			_Weight = value;
 		}
 	}
+    public bool HidePlayerUnit = false;
 
 }
 

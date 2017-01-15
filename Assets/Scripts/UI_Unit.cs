@@ -168,7 +168,7 @@ public class UI_Unit : MonoBehaviour
 
     void TurnStart(Unit u)
     {
-        if (u == m_unit)
+        if (u == m_unit && u.IsIdentified)
         { 
             Alphas.AddItem(ActiveTurnItem);        
             UpdateValues();

@@ -40,7 +40,7 @@ public class UnitEffect_Damage : UnitEffect
         int value = 0;
         if(Instigator != null && UseAttackStat)
         {
-            value = (int) (DamageRange.min + ((UnitAction_ApplyEffect) Instigator).GetOwner().Stats.GetStatAmount(StatToUseMin));
+            value = (int) (DamageRange.min + (Instigator as Unit).Stats.GetStatAmount(StatToUseMin));
                
         } else
         {
@@ -60,7 +60,7 @@ public class UnitEffect_Damage : UnitEffect
         int value = 0;
         if (Instigator != null && UseAttackStat)
         {
-            value = (int) (DamageRange.max + ((UnitAction_ApplyEffect) Instigator).GetOwner().Stats.GetStatAmount(StatToUseMax));
+            value = (int) (DamageRange.max + (Instigator as Unit).Stats.GetStatAmount(StatToUseMax));
 
         }
         else

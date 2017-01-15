@@ -9,6 +9,7 @@ public class TurnTest : MonoBehaviour, ITurn {
 	public int[] ActionCost;
 	int selectedAction = -1;
 
+ 
 	TurnableEventHandler UpdateCostPreview;
 
 	float currentTurnTime;
@@ -114,6 +115,7 @@ public class TurnTest : MonoBehaviour, ITurn {
     }
 	public void StartTurn ()
 	{
+         
 		Debug.Log("Start Turn "+GetID());
 		selectedAction = -1;
 		actionsMade = 0;
@@ -173,7 +175,9 @@ public class TurnTest : MonoBehaviour, ITurn {
 		}
 	}
 
-	public void RegisterTurn()
+ 
+
+    public void RegisterTurn()
 	{
 		starting_order =   TurnSystem.Register(this);
 	}
@@ -184,5 +188,7 @@ public class TurnTest : MonoBehaviour, ITurn {
     }
 
     int starting_order;
-	#endregion
+
+    public event Action OnUpdateSprite;
+    #endregion
 }

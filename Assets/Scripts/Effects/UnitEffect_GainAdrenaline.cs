@@ -55,8 +55,8 @@ public class UnitEffect_GainAdrenaline : UnitEffect
 
     public override string GetShortHandle()
     {
-        return "+ " + Constants.GetRageAdrenalineMin(  ((UnitAction_ApplyEffect) Instigator).GetOwner().Stats, Rolls) +"-"+
-           + Constants.GetRageAdrenalineMax(((UnitAction_ApplyEffect) Instigator).GetOwner().Stats, Rolls) +
+        return "+ " + Constants.GetRageAdrenalineMin(  ((Unit) Instigator).Stats, Rolls) +"-"+
+           + Constants.GetRageAdrenalineMax(((Unit) Instigator).Stats, Rolls) +
            " " + UnitStats.StatToString(StatType.adrenaline);
         ;
     }

@@ -164,7 +164,7 @@ public class UnitActionBase : MonoBehaviour {
 
         } else
         {
-           // Debug.Log("Coudlnt execute "+ActionID +" ap cost:"+AP_Cost+" / "+Owner.GetAPLeft()  );
+             Debug.Log("Coudlnt execute "+ActionID +" ap cost:"+AP_Cost+" / "+Owner.Actions.GetAPLeft()  );
         }
     }
 

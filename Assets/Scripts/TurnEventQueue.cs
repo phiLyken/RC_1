@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public class TurnEventQueue  {
 
@@ -37,24 +38,37 @@ public class TurnEventQueue  {
     {
         public string EventID;
         protected object instigator;
-        protected EventHandler callback;
-
-        public virtual void StartEvent()
+        protected Action callback;
+    
+        public virtual void StartEvent(Action _callback)
         {
+            callback = _callback;
             if (events == null)
                 events = new List<TurnEvent>();
 
             //Debug.Log("Event Started");
             events.Add(this);
         }
+        public virtual void StartEvent()
+        {
+            StartEvent(null);
+        }
 
         public virtual void EndEvent( )
         {
+           
             events.Remove(this);
             //Debug.Log("Event Ended  remaining   "+events.Count);
  
             if(callback != null)
                 callback();
+        }
+
+        public IEnumerator WaitForEvent()
+        {
+            while (events.Contains(this))
+                yield return null;
+
         }
 
     }
@@ -81,6 +95,7 @@ public class TurnEventQueue  {
             position = pos;
             StartEvent();
         }
+   
     }
 
     public class AIAggroEvent : TurnEvent

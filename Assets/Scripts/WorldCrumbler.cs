@@ -195,4 +195,6 @@ public class WorldCrumbler : MonoBehaviour, ITurn {
             }
 
     public List<List<Tile>> CrumbeGroups;
+
+    public event Action OnUpdateSprite;
 }

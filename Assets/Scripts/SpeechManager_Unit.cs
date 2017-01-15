@@ -148,21 +148,21 @@ public class SpeechMananger_Unit : MonoBehaviour {
 
     public void AttemptTrigger( SpeechTriggerConfig trigger)
     {
-        if (trigger != null)
+        if (trigger != null && m_Unit.IsIdentified)
             TriggerDelayed( trigger.GetSpeech(), trigger.Delay.Value());
 
     }
 
     public void AttemptTrigger(SpeechTriggerConfigSimple trigger)
     {
-        if(trigger != null)
+        if(trigger != null && m_Unit.IsIdentified)
             TriggerDelayed(trigger.GetSpeech(),trigger.Delay.Value() );
 
     }
 
     public  void AttemptTrigger(SpeechTriggerConfigID trigger, string ID)
     {
-        if (trigger != null)
+        if (trigger != null && m_Unit.IsIdentified)
         { 
             Debug.Log("Attempt trigger speech: " + trigger.ToString());
             TriggerDelayed(trigger.GetSpeech(ID), 0.1f);

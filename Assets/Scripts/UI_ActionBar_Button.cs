@@ -82,6 +82,8 @@ public class UI_ActionBar_Button : MonoBehaviour, IToolTip{
             action.OnSelectAction += OnActionSelect;
             action.OnUnselectAction += OnActionUnselect;
             action.OnActionComplete += OnActionComplete;
+            action.OnActionStart += OnActionComplete;
+
             action.GetOwner().Stats.OnStatUpdated += OnStatUpdated;
             SetBaseState(m_action);
         }

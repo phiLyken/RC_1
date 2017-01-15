@@ -11,7 +11,7 @@ public class UnitFactory : MonoBehaviour
     /// </summary>
     /// <param name="data">Unit Config to determine unit type, stats, actions</param>
     /// <returns></returns>
-    public static Unit CreateUnit(ScriptableUnitConfig data, int group, MyMath.R_Range initiative_range)
+    public static Unit CreateUnit(ScriptableUnitConfig data, int group, MyMath.R_Range initiative_range, bool hide_player)
     {
         if (data == null)
         {
@@ -30,11 +30,11 @@ public class UnitFactory : MonoBehaviour
         UnitAdrenalineRushParticleManager adr_particles = base_unit.GetComponent<UnitAdrenalineRushParticleManager>();        
         
         Unit m_unit                                     = base_unit.AddComponent<Unit>();
-        GameObject mesh = MakeMesh(data, m_unit);
+        GameObject mesh                                 = MakeMesh(data, m_unit);
         Unit_UnitDeath unit_death                       = base_unit.AddComponent<Unit_UnitDeath>();
         UnitAnimationController animations              = mesh.AddComponent<UnitAnimationController>();
-        UnitRotationController rotator                  = mesh.AddComponent<UnitRotationController>();
-        SpeechMananger_Unit speech_mananger               = base_unit.AddComponent<SpeechMananger_Unit>();
+        UnitRotationController rotator                  = base_unit.AddComponent<UnitRotationController>();
+        SpeechMananger_Unit speech_mananger             = base_unit.AddComponent<SpeechMananger_Unit>();
 
 
         UI_Unit.CreateUnitUI(m_unit);
@@ -64,9 +64,12 @@ public class UnitFactory : MonoBehaviour
         {
             rotator.Init(m_unit.GetComponent<WaypointMover>(), delegate     { return m_unit.transform.position + m_unit.transform.forward; }    );
         }
+        //set mesh inactive
+        mesh.gameObject.GetComponentsInChildren<Renderer>().ToList().ForEach(rend => rend.enabled = false);
+        //and then identify
+        InitIdentified(data, m_unit, hide_player);
 
-
-        
+       
         return m_unit;
     }
 
@@ -83,14 +86,16 @@ public class UnitFactory : MonoBehaviour
 
         HeadData head = data.MeshConfig.HeadConfig.GetHead();
 
-        base_unit.SetSprite(head.UI_Texture);
+        base_unit.SetSprite(head.UI_Texture, data.UnidentfiedSprite);
 
         SpawnSkinnedMeshToUnit(mesh, head.Mesh, data.MeshConfig.Suit);
 
         mesh.transform.SetParent(base_unit.transform, false);
         mesh.transform.localPosition = Vector3.zero;
         mesh.transform.localScale = Vector3.one;
-
+        mesh.name = "playermodel";
+     
+       
         return mesh;
     }
 
@@ -107,21 +112,29 @@ public class UnitFactory : MonoBehaviour
 
     }
 
+    private static void InitIdentified(ScriptableUnitConfig data, Unit unit, bool hide_player)
+    {
+        if ( data.Owner == 0 && !hide_player )
+        {
+            unit.Identify(null);
+        } else
+        {
+            GameObject trigger = Instantiate(Resources.Load("unit_trigger")) as GameObject;
+
+            trigger.transform.SetParent(unit.transform, true);
+            trigger.transform.localPosition = Vector3.zero;
+
+            trigger.GetComponent<UnitTrigger>().SetTarget(unit);
+            trigger.GetComponent<BoxCollider>().size = new Vector3(1 + 2 * data.TriggerRange, 1 + 2 * data.TriggerRange, 1 + 2 * data.TriggerRange);
+
+            unit.gameObject.AddComponent<UnitShowBlip>().Init(unit, data.Owner == 1);
+        }
+    }
     private static UnitAI MakeAI(ScriptableUnitConfig data, int group, GameObject base_unit, Unit m_unit)
     {
         UnitAI ai = m_unit.gameObject.AddComponent<UnitAI>();
         ai.group_id = group;
-
-        GameObject Cover = Instantiate(Resources.Load("enemy_unit_cover")) as GameObject;
-
-        Cover.transform.SetParent(m_unit.transform, true);
-        Cover.transform.localPosition = Vector3.zero;
-
-        Cover.GetComponent<UnitTrigger>().SetTarget(ai);
-        Cover.GetComponent<BoxCollider>().size = new Vector3(1 + 2 * data.TriggerRange, 1 + 2 * data.TriggerRange, 1 + 2 * data.TriggerRange);
-
-        ai.Cover = Cover;
-
+        
         return ai;
     }
 

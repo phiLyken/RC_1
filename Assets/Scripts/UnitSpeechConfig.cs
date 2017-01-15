@@ -13,11 +13,11 @@ public class UnitSpeechConfig :ScriptableObject
     public SpeechTriggerConfig ReceiveDamageSmall;
     public SpeechTriggerConfig ReceiveDamageBig;
 
-    [Header("Simple Configs")]
-    public SpeechTriggerConfigSimple Crumble;
-    public SpeechTriggerConfigSimple FriendDie;
-    public SpeechTriggerConfigSimple FoeDie;
-    public SpeechTriggerConfigSimple Selected;
+    [Header("Configs no chance")]
+    public SpeechTriggerConfig Crumble;
+    public SpeechTriggerConfig FriendDie;
+    public SpeechTriggerConfig FoeDie;
+    public SpeechTriggerConfig Selected;
 
 
     [Header("ID Configs")]

@@ -8,19 +8,26 @@ public class UnitTrigger : MonoBehaviour {
     public UnitEventHandler OnTriggered;
 
 
-    public void SetTarget(UnitAI ai)
+    Unit Target;
+
+    public void SetTarget(Unit unit)
     {
-        OnTriggered += ai.OnTrigger;
+        Target = unit;
+        OnTriggered += Target.Identify;
     }
     void OnTriggerEnter(Collider col)
     {
         Unit u = col.GetComponent<Unit>();
-        if(u != null && u.OwnerID == OwnerTrigger)
+
+        if(u != null && u.OwnerID == OwnerTrigger  )
         {
            if(OnTriggered != null)
             {
                 OnTriggered(u);
             }
+
+            OnTriggered -= Target.OnIdentify;
+            this.gameObject.SetActive(false);
         }
     }
 }

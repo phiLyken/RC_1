@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+using System;
 
 public interface ITurn {
 
@@ -12,6 +12,7 @@ public interface ITurn {
 		set;
 	}
 
+    event Action OnUpdateSprite;
     /// <summary>
     /// Each turn has a certain cost, that determines when the the next turn happens - the cost will be applied to the time
     /// </summary>
@@ -54,6 +55,8 @@ public interface ITurn {
     /// Called for each turn of any item (use to decrement time of each item)
     /// </summary>
     void GlobalTurn(int turn);
+
+ 
 
     /// <summary>
     /// When spawned, turnable should register to TurnSystem.Register

@@ -64,8 +64,8 @@ public class TileSelecter : MonoBehaviour {
     {
         foreach(Unit u in Unit.AllUnits)
         {
-            Collider c = u.GetComponent<Collider>();
-            c.enabled = b;
+            u.SetColliderState(b);
+
         }
     }
 }

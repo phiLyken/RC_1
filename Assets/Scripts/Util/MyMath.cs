@@ -289,6 +289,7 @@ public static class MyMath  {
         System.TimeSpan diff = date.ToUniversalTime() - origin;
         return (int)(diff.TotalSeconds);
     }
+    
 
 
     public static Vector3 GetInputPosToPlane()
@@ -315,8 +316,6 @@ public static class MyMath  {
             return Input.touches[0].position;
         }
     }
-
-
 
 
     public static string GetStringFromSeconds(int seconds)

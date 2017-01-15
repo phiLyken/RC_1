@@ -156,7 +156,11 @@ public class ActionManager : MonoBehaviour {
     public UnitActionBase SelectAbility(UnitActionBase ability)
     {
 
-        if (Unit.SelectedUnit != m_Owner || !HasAP() || IsAnimationPlaying() || m_Owner.IsDead()) return null;
+        if (Unit.SelectedUnit != m_Owner || !HasAP() || IsAnimationPlaying() || m_Owner.IsDead())
+        {
+            Debug.Log("^abilityCould not select ability " + ability.GetActionID());
+            return null;
+        }
         if (currentAction != null && currentAction == ability)
         {
             UnsetCurrentAction();
@@ -167,13 +171,14 @@ public class ActionManager : MonoBehaviour {
         UnsetCurrentAction();
         if (!ability.CanExecAction(true))
         {
-           // Debug.Log("Nope");
+            Debug.Log("^abilitycan not execute ability " + ability.GetActionID());
             return null;
         }
         ToastNotification.StopToast();
 
         currentAction = ability;
         currentAction.OnActionStart += OnActionUsed;
+        currentAction.OnActionComplete += onComplete;
         currentAction.OnTarget += TargetedAction;
         currentAction.SelectAction();
        
@@ -189,6 +194,7 @@ public class ActionManager : MonoBehaviour {
 
         currentAction.UnSelectAction();
         currentAction.OnActionStart -= OnActionUsed;
+        
         currentAction.OnTarget -= TargetedAction;
         currentAction = null;    
 
@@ -197,13 +203,18 @@ public class ActionManager : MonoBehaviour {
 
     }
 
+    void onComplete(UnitActionBase action)
+    {
+        OnActionComplete(action);
+        action.OnActionComplete -= onComplete;
+    }
     void OnActionUsed(UnitActionBase action)
     {
         AP_Used += action.GetEndsTurn() ? MaxAP : action.AP_Cost;
 
         CurrentTurnCost += (int) action.GetTimeCost();
 
-        if (OnActionComplete != null) OnActionComplete(action);
+      //  if (OnActionComplete != null) OnActionComplete(action);
       
         if (TurnSystem.HasTurn(m_Owner) && RC_Camera.Instance != null) {
             RC_Camera.Instance.ActionPanToPos.GoTo(m_Owner.currentTile.GetPosition());

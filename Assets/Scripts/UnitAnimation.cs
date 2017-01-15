@@ -40,7 +40,7 @@ public class UnitAnimation
 
     public void SetWeaponIndex(float f)
     {
-      //  Debug.Log("set weapon index " + f);
+       Debug.Log("set weapon index " + f);
         unit_animator.SetFloat("WeaponIndex", (int) f);
     }
 

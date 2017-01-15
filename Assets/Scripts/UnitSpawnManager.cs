@@ -90,7 +90,7 @@ public class UnitSpawnManager : MonoBehaviour {
                 unitConfigs.Remove(unit);
                 spawnersForGroup.Remove(spawner);
 
-                spawner.SpawnUnit( unit.UnitConfig,  unit.TurnTimeOnSpawn , globalGroupCounter);
+                spawner.SpawnUnit( unit.UnitConfig,  unit.TurnTimeOnSpawn , globalGroupCounter, unit.HidePlayerUnit);
 
             }
         }

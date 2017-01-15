@@ -19,12 +19,10 @@ public class UnitSpawner : MonoBehaviour {
 	};
 
 
-	public void SpawnUnit(ScriptableUnitConfig unit_config,MyMath.R_Range range, int group)
+	public void SpawnUnit(ScriptableUnitConfig unit_config,MyMath.R_Range range, int group, bool hide_player)
 	{
-		Unit u = UnitFactory.CreateUnit(unit_config, group, range );
-		// Debug.Log(gameObject.name+" spawning " + u.GetID());
-
-
+		Unit u = UnitFactory.CreateUnit(unit_config, group, range, hide_player);
+		 
 		if(u != null) { 
 			UnitFactory.SpawnUnit(u, GetComponent<Tile>());
 		} else

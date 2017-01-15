@@ -28,6 +28,8 @@ public class TurnSystemMockData : MonoBehaviour {
         public string ID;
         int _order;
 
+        public event Action OnUpdateSprite;
+
         public TurnableEventHandler TurnTimeUpdated
         {
             get { return onUpdate; }

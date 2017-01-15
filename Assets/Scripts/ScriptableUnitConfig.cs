@@ -25,6 +25,10 @@ public class ScriptableUnitConfig : ScriptableObject
 
     public EnemyDropCategory LootCategory;
 
+    public Sprite UnidentfiedSprite;
+
+    public bool IdentifyOnSpawn;
+
    // UnitInventoryConfig InventoryConfig;
 
 }

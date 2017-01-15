@@ -37,7 +37,7 @@ public class UnitAction_ApplyEffect : UnitActionBase
         base.SetOwner(o);
 
         foreach (var e in GetEffects())
-            e.Init(this);
+            e.Init(o);
     }
     public virtual float GetRange()
     {
@@ -123,7 +123,7 @@ public class UnitAction_ApplyEffect : UnitActionBase
                 Debug.LogError("^effects NO EFFECT..");
             }
             if (!effect.GetTarget(target, atk).IsDead()) {
-                yield return StartCoroutine(effect.ApplyEffectSequence(target, this));
+                yield return StartCoroutine(effect.ApplyEffectSequence(target));
             }
         }
 

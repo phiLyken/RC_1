@@ -34,6 +34,8 @@ public class UI_TurnListItem : MonoBehaviour, IToolTip {
 
         ActiveTurnIndicator.GetComponent<Image>().color = Color.white;
         UpdateActiveTurnIndicator( );
+
+        turn.OnUpdateSprite += () => SetTurnItem(turn);
         
     }
 

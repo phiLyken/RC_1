@@ -18,7 +18,7 @@ public class ToggleActiveOnTurn : MonoBehaviour
 
         Unit.OnTurnStart += u =>
         {
-            if (u == unit)
+            if (u == unit && unit.IsIdentified)
                 Target.SetActive(true);
         };
 

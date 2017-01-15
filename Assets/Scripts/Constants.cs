@@ -15,7 +15,7 @@ public class Constants : MonoBehaviour {
     /// </summary>
     public static float GetAggroChance(Unit target, UnitEffect_Damage damage)
     {
-        Unit instigator =( damage.Instigator as UnitAction_ApplyEffect).GetOwner();
+        Unit instigator = (damage.Instigator as Unit);
         UnitStats stats = instigator.Stats;
 
         return 1f;
@@ -24,7 +24,7 @@ public class Constants : MonoBehaviour {
     /// <summary>
     /// How close a player unit must come before the an enemy AI is activated and added to the turn system
     /// </summary>
-    public static float UNIT_ACTIVATION_RANGE = 10;
+    public static float UNIT_ACTIVATION_RANGE = 20;
 
     /// <summary>
     /// For each point of will, intensity received is decreased by _x_ points

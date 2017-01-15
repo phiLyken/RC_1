@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using System.Linq;
 
 public delegate void UnitEventHandler(Unit u);
 public class Unit : MonoBehaviour, ITurn, IDamageable {
@@ -17,7 +18,8 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
 
     public static List<Unit> AllUnits = new List<Unit>();
     public static Unit SelectedUnit;
-    
+
+    public UnitEventHandler OnIdentify;
     
     public static Unit HoveredUnit;
     public static UnitEventHandler OnUnitKilled;
@@ -35,6 +37,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
 
     public EnemyDropCategory Loot;
 
+    Sprite UnidentifiedSprite;
     Sprite FaceSprite;
 
     [HideInInspector]
@@ -44,16 +47,25 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     {
         return  (OwnerID == 0 || ActiveRangeToPlayerUnits(this));
     }
+    public bool IsIdentified
+    {
+        get { return _isIdentified; }
+       
+    }
     public bool IsActive
     {
         get {  return _isActive; } set { _isActive = value; }
     }
     bool _isActive;
     bool _isDead;
+    bool _isIdentified;
 
-    public void SetSprite(Sprite spr)
+    public event Action OnUpdateSprite;
+
+    public void SetSprite(Sprite face, Sprite unidentified)
     {
-        FaceSprite = spr;
+        FaceSprite = face;
+        UnidentifiedSprite = unidentified;
     }
     void Awake()
     {
@@ -102,10 +114,34 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     public void Activate()
     {
         if (_isDead) return;
+
+        
         _isActive = true;
         RegisterTurn();
     }
 
+    public void Identify(Unit identifier)
+    {
+
+        if (IsIdentified)
+            return;
+
+        Debug.Log("^unit IDENTIFIED");
+        _isIdentified = true;
+        gameObject.transform.FindDeepChild("playermodel").gameObject.GetComponentsInChildren<Renderer>().ToList().ForEach(rend => rend.enabled = true);
+
+        if (OnIdentify != null)
+            OnIdentify(identifier);
+
+        OnUpdateSprite.AttemptCall();
+        GetComponent<Collider>().enabled = true;
+    }
+
+    public void SetColliderState(bool b)
+    {
+        Collider c = GetComponent<Collider>();
+        c.enabled = !_isIdentified || b;
+    }
     void Start()
     {
         ActivationCheck();
@@ -114,6 +150,9 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
 
     public void OnHover()
     {
+        if (!_isIdentified)
+            return;
+
         if (OnUnitHover != null) OnUnitHover(this);
         HoveredUnit = this;    
     }
@@ -262,8 +301,18 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
 
         UnSelectCurrent();
 
-        SelectedUnit = this;
+        
         if (OnTurnStart != null) OnTurnStart(this);
+
+
+        if (IsActive)
+        {
+            SelectedUnit = this;
+        }
+        else if(OwnerID == 0)
+        {
+            SkipTurn();
+        }
 
     }
 
@@ -405,6 +454,6 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
 
     public Sprite GetIcon()
     {
-        return FaceSprite;
+        return _isIdentified ? FaceSprite : UnidentifiedSprite;
     }
 }

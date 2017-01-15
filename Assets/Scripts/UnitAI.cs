@@ -7,32 +7,31 @@ using System;
 
 public class UnitAI : MonoBehaviour, ITriggerable {
 
+    bool _triggered;
+
     public Action<Unit> OnPreferredTargetChange;
     public int group_id;
     public GameObject Cover;
     Unit m_unit;
     ActionManager m_Actions;
-    bool Triggered;
+   
     Unit preferred_target;
 
     Tile startTile;
 
-    Tile GetPatrolTile() {
-        return Triggered ? m_unit.currentTile : startTile;
+    Tile GetPatrolBaseTile() {
+        return _triggered ? m_unit.currentTile : startTile;
     }
 
     void Awake()
-    {
-        Triggered = false;
+    {      
         m_unit = GetComponent<Unit>();
         m_Actions = GetComponent<ActionManager>();
         Unit.OnTurnStart += StartTurn;
         startTile = m_unit.currentTile;
 
         m_unit.OnDamageReceived += OnDmgReceived;
-
- 
-      
+        m_unit.OnIdentify += Trigger;      
     }
 
     void StartTurn(Unit u)
@@ -48,23 +47,24 @@ public class UnitAI : MonoBehaviour, ITriggerable {
 
     public  void SetPreferredTarget(Unit newTarget)
     {
-
         preferred_target = newTarget;
         OnPreferredTargetChange.AttemptCall(newTarget, "^ai set preffered target: "+newTarget.GetID() );
     }
+
     void OnDmgReceived(UnitEffect_Damage dmg)
     {
         if (dmg.Instigator == null)
             return;
 
-        if (!Triggered)
+        if (!_triggered)
         {
-            OnTrigger(dmg.Instigator as Unit);
+            Debug.Log(dmg.Instigator);
+            Trigger(dmg.Instigator as Unit);
         } else
         {
             if( MyMath.Roll(Constants.GetAggroChance(m_unit, dmg)))
             {
-                SetPreferredTarget((dmg.Instigator as UnitAction_ApplyEffect).GetOwner());
+                SetPreferredTarget((dmg.Instigator as Unit));
             }
         }
     }
@@ -97,10 +97,11 @@ public class UnitAI : MonoBehaviour, ITriggerable {
         yield return null;
         target.OnHoverEnd() ;
     }
+
     IEnumerator MovePatrol()
     {
         Tile patrolDest = GetPatrolTile(m_unit.currentTile);
-        Debug.Log("Patrol");
+        Debug.Log("^aiPatrol");
         if(patrolDest != null)
         {
             yield return StartCoroutine( Move(patrolDest)) ;
@@ -110,9 +111,10 @@ public class UnitAI : MonoBehaviour, ITriggerable {
             yield break;
         }
     }
+
     IEnumerator MoveRandom()
     {
-       // Debug.Log("ai: random");
+        Debug.Log("^ai: random");
         UnitAction_Move move = getMove();
       
         Tile randomDest = GetRandomWalkableTile(move);
@@ -123,8 +125,6 @@ public class UnitAI : MonoBehaviour, ITriggerable {
         {
             SkipTurn();
         }
-
-
     }
     
     public Vector3 GetLookRotation()
@@ -134,26 +134,33 @@ public class UnitAI : MonoBehaviour, ITriggerable {
 
     IEnumerator Move(Tile t)
     {
-
-        Debug.Log("ai: move");
+        Debug.Log("^aiMOVE");
         yield return null;
       //  Debug.Log(m_unit.GetID()+ "Selecting move");
         UnitAction_Move move = getMove();
         m_Actions.SelectAbility(move);
 
-        if (move == null || !move.HasRequirements(true)) yield break;
+        if (move == null || !move.HasRequirements(true))
+        {
+            Debug.Log("^ai no move, no requirements");
+            yield break;
+
+        }
 
         yield return new WaitForSeconds(0.5f);
-        //Debug.Log(m_unit.GetID() + " getting move targets");
+        Debug.Log("^aihover tile to for move ");
 
         t.OnHover();
         yield return new WaitForSeconds(0.5f);
 
-        Debug.Log(m_unit.GetID() + " Select tile to for move ");
+        Debug.Log("^aiSelect tile to for move ");
         TileSelecter.SelectTile(t);
-        yield return new WaitForSeconds(0.15f);
+
+        while (move.ActionInProgress)
+            yield return null;
         
     }
+
     List<Tile> GetTilesForAttack(Unit target, List<Tile> tiles_to_check)
     {
         UnitAction_ApplyEffectFromWeapon atk = getAttack();
@@ -232,17 +239,18 @@ public class UnitAI : MonoBehaviour, ITriggerable {
         return can_attack;
     }
  
-
+    
     List<Tile> GetWalkableTiles(UnitAction_Move m)
     {
         return m.GetWalkableTiles(m_unit.currentTile); 
     }
 
+  
     Tile GetPatrolTile(Tile start)
     {
         List<Tile> tiles_in_range = TileManager.Instance.GetRandomTilesAroundCenter(start, Constants.AI_PATROL_DISTANCE);
-        Debug.Log("PATROL query tiles in range = " + tiles_in_range.Count);
-        tiles_in_range.RemoveAll(t => !t.isAccessible && !t.isEnabled && t.isCamp && t.isCrumbling);
+      //  Debug.Log("PATROL query tiles in range = " + tiles_in_range.Count);
+        tiles_in_range.RemoveAll(t => !t.isAccessible || !t.isEnabled || t.isCamp || t.isCrumbling);
 
         return MyMath.GetRandomObject(tiles_in_range);
     }
@@ -268,8 +276,7 @@ public class UnitAI : MonoBehaviour, ITriggerable {
  
 
     Tile GetBestAttackPosition(Unit target, List<Tile> from_tiles)
-    {
-       
+    {       
         List<GenericWeightable<Tile>> weighted_tiles = new List<GenericWeightable<Tile>>();
         
         foreach(Tile t in from_tiles)
@@ -290,8 +297,8 @@ public class UnitAI : MonoBehaviour, ITriggerable {
             Debug.LogError("Could not find attack tiles");
             return null;
         }
+        return weighted_tiles.GetObjectByweight().Value;
        
-        return WeightableFactory.GetWeighted (weighted_tiles).Value;
 
     }
 
@@ -426,13 +433,13 @@ public class UnitAI : MonoBehaviour, ITriggerable {
         if (!m_Actions.HasAP(1))
             yield return null;
 
-        if (Triggered)
+        if (_triggered)
         {
             yield return StartCoroutine(AttackOrMove());
            
         } else if(m_Actions.HasAP(2) && MyMath.Roll( Constants.AI_PATROL_CHANCE ) && m_unit.Stats.GetStatAmount(StatType.move_range) > 0)
         {
-           
+            Debug.Log("^aiPATROL");
             yield return StartCoroutine(MovePatrol());
         } else
         {
@@ -460,16 +467,23 @@ public class UnitAI : MonoBehaviour, ITriggerable {
         return units.GetRandom();
     }
 
-    public void OnTrigger(Unit triggerer)
+    public void Trigger(Unit triggerer)
     {
+        if (_triggered)
+            return;
 
+        Debug.Log("^ai OnTrigger " + triggerer.name);
         SetPreferredTarget(triggerer);
+        m_unit.GetComponent<UnitRotationController>().TurnToPosition(triggerer.transform);
         m_unit.Activate();
-        Cover.SetActive(false);
-      //  Debug.Log(m_unit.GetID() + " now attacking");
-        Triggered = true;
-        Debug.Log("^ai triggered");
+       
+
+        m_unit.Identify(triggerer);
+
+        _triggered = true;
         TriggerUnitsForGroup(this, triggerer);
+
+        
     }
   
     public static void TriggerUnitsForGroup(UnitAI unit, Unit triggerer)
@@ -480,12 +494,11 @@ public class UnitAI : MonoBehaviour, ITriggerable {
         {
             if (
                  u.OwnerID == 1 &&
-                 !u.gameObject.GetComponent<UnitAI>().Triggered &&
                  u.gameObject.GetComponent<UnitAI>().group_id == id &&
                  u != unit
             )
             {
-                u.GetComponent<UnitAI>().OnTrigger(triggerer);
+                u.GetComponent<UnitAI>().Trigger(triggerer);
             }
             }
         );

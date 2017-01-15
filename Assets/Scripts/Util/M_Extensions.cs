@@ -401,4 +401,9 @@ public static class M_Extensions   {
 
         return new_go;
     }
+
+    public static GameObject Instantiate(this UnityEngine.Object prefab, Transform parent, bool set_to_parent_position)
+    {
+        return (prefab as GameObject).Instantiate(parent, set_to_parent_position);
+    }
 }
