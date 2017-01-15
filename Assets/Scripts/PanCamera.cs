@@ -58,11 +58,11 @@ public class PanCamera : MonoBehaviour {
 		
 		//		Debug.Log(" Cam Input Start");
 		inputEnabled = true;
-		startDragPos =  MyMath.GetInputPos();
+		startDragPos =  M_Math.GetInputPos();
 		
 		while(inputEnabled && (Input.touchCount > 0 || Input.GetMouseButton(0) || Input.GetAxis("Mouse ScrollWheel") != 0) ){
 			
-			Vector3 mousePos = MyMath.GetInputPos();			
+			Vector3 mousePos = M_Math.GetInputPos();			
 			
 			if (Input.touchCount > 1 || Input.GetAxis("Mouse ScrollWheel") != 0){				
 				StartCoroutine(Zooming());
@@ -130,7 +130,7 @@ public class PanCamera : MonoBehaviour {
     }
     float CameraDistanceToPlane()
     {
-        return (MyMath.GetPlaneIntersectionY(new Ray(transform.position, transform.forward)) - transform.position).magnitude;
+        return (M_Math.GetPlaneIntersectionY(new Ray(transform.position, transform.forward)) - transform.position).magnitude;
     }
 
     float GetZoomDelta()
@@ -174,15 +174,15 @@ public class PanCamera : MonoBehaviour {
         pos.y = 0;
         drag = true;
         event_callback = _cb;
-        Vector3 delta = pos -MyMath.GetCameraCenter() ;     
+        Vector3 delta = pos -M_Math.GetCameraCenter() ;     
 
         while ( delta.magnitude > 0.1f)
         {
-            transform.Translate((pos - MyMath.GetCameraCenter()).normalized * speed * Time.deltaTime, Space.World);
+            transform.Translate((pos - M_Math.GetCameraCenter()).normalized * speed * Time.deltaTime, Space.World);
                        
-            delta = pos - MyMath.GetCameraCenter();
+            delta = pos - M_Math.GetCameraCenter();
 
-            Debug.DrawLine(MyMath.GetCameraCenter(), pos, Color.red);
+            Debug.DrawLine(M_Math.GetCameraCenter(), pos, Color.red);
             yield return null;
         }
 
@@ -199,10 +199,10 @@ public class PanCamera : MonoBehaviour {
 	IEnumerator Pan(){
 		drag = true;
     
-		startDragPos = MyMath.GetInputPos();
+		startDragPos = M_Math.GetInputPos();
 		while( inputEnabled && (Input.touchCount == 1 || Input.GetMouseButton(0))){
 			
-			Vector3 mousePos = MyMath.GetInputPos();
+			Vector3 mousePos = M_Math.GetInputPos();
 			Vector3 delta = mousePos - startDragPos;
 			smoothMove = delta * Time.deltaTime * 10;
 			transform.position =  transform.position - smoothMove;
@@ -235,11 +235,11 @@ public class PanCamera : MonoBehaviour {
             float dr = target_rot - rotated;
             rotated += dr;
             t += Time.deltaTime * 3;
-            transform.RotateAround(MyMath.GetCameraCenter(), Vector3.up, dr);
+            transform.RotateAround(M_Math.GetCameraCenter(), Vector3.up, dr);
             yield return null;
         }
 
-        transform.RotateAround(MyMath.GetCameraCenter(), Vector3.up, rotated- delta);
+        transform.RotateAround(M_Math.GetCameraCenter(), Vector3.up, rotated- delta);
 
 
         rotating = false;

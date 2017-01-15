@@ -7,7 +7,7 @@ using System.Linq;
 
 public class SpeechTriggerConfigSimple : ScriptableObject
 {
-    public MyMath.R_Range Delay;
+    public M_Math.R_Range Delay;
 
     public List<Speech> Speeches;
 

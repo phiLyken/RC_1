@@ -18,7 +18,7 @@ public class SnapRotationTest : MonoBehaviour {
 
     IEnumerator Rotate()
     {
-        yield return new WaitForRotation(transform, MyMath.RotateToYSnapped(transform.position, target.transform.position, snap), speed);
+        yield return new WaitForRotation(transform, M_Math.RotateToYSnapped(transform.position, target.transform.position, snap), speed);
 
     }
 

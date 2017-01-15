@@ -12,7 +12,8 @@ public delegate void FloatEventHandler(float f);
 public delegate int GetInt(bool b);
 public delegate bool GetBool();
 
-public static class M_Extensions   {
+public static class M_Extensions
+{
 
     /// <summary>
     /// DestroyImmidiate on all children of the object
@@ -27,7 +28,7 @@ public static class M_Extensions   {
         }
     }
 
-   
+
     public static void AttemptCall(this Action action)
     {
         if (action != null)
@@ -38,6 +39,37 @@ public static class M_Extensions   {
     {
         Debug.Log(debug);
         AttemptCall(action);
+    }
+    public static void AddOrUpdate<T, V>(this Dictionary<T, V> dictionairy, T newKey, V newValue)
+    {
+        if (dictionairy.ContainsKey(newKey))
+        {
+            dictionairy[newKey] = newValue;
+        }
+        else
+        {
+            dictionairy.Add(newKey, newValue);
+        }
+    }
+    public static V GetAndRemove<T, V>(this Dictionary<T, V> dictionairy, T Key)
+    {
+        if (dictionairy.ContainsKey(Key))
+        {
+            V value = dictionairy[Key];
+            dictionairy.Remove(Key);
+            return value;
+        }
+
+        return default(V);
+    }
+
+    public static void AttemptRemove<T, V>(this Dictionary<T, V> dictionairy, T key)
+    {
+        if (dictionairy.ContainsKey(key))
+        {
+            dictionairy.Remove(key);
+        }
+
     }
 
     public static void AttemptCall<T>(this Action<T> action, T value, string debug)
@@ -50,7 +82,7 @@ public static class M_Extensions   {
     {
         if (action != null)
         {
-            action(value);   
+            action(value);
         }
     }
 
@@ -74,7 +106,7 @@ public static class M_Extensions   {
         foreach (Transform transform in tr)
         {
             _children.Add(transform);
-          //  Debug.Log("detach " + transform.gameObject.name);
+            //  Debug.Log("detach " + transform.gameObject.name);
         }
 
         _children.ForEach(child => child.SetParent(tr));
@@ -96,7 +128,7 @@ public static class M_Extensions   {
         });
 
     }
-     /// <summary>
+    /// <summary>
     /// pauses emission on all attached particles systems
     /// </summary>
     /// <param name="particle_system"></param>
@@ -111,24 +143,24 @@ public static class M_Extensions   {
     /// <param name="transform"></param>
     /// <param name="bounds"></param>
     /// <param name="move"></param>
-    public  static void AttemptMoveInBounds(this Transform transform, Bounds bounds, Vector3 move, Vector3 reference)
+    public static void AttemptMoveInBounds(this Transform transform, Bounds bounds, Vector3 move, Vector3 reference)
     {
         Vector3 targetCenterPos = reference + move;
 
         Debug.DrawLine(reference, targetCenterPos, Color.magenta);
 
-        Vector3 clampedTargetCenterPos = MyMath.ClampInBounds(targetCenterPos, bounds);
+        Vector3 clampedTargetCenterPos = M_Math.ClampInBounds(targetCenterPos, bounds);
 
         Debug.DrawLine(targetCenterPos, clampedTargetCenterPos, Color.red);
 
         move = clampedTargetCenterPos - reference;
 
-        //StartCoroutine(MyMath.ExecuteDelayed(0.05f, () => Debug.Break()));
+        //StartCoroutine(M_Math.ExecuteDelayed(0.05f, () => Debug.Break()));
         Debug.DrawRay(reference, move, Color.yellow);
 
-     //   Debug.Log(move);
+        //   Debug.Log(move);
         transform.Translate(move, Space.World);
-       
+
     }
 
     /// <summary>
@@ -171,12 +203,12 @@ public static class M_Extensions   {
 
     public static bool IsInBounds(this Vector3 position, Bounds b)
     {
- 
+
         return b.Contains(position);
     }
 
     public static bool IsInBounds(this Vector3 position, Transform b)
-    {       
+    {
         return b == null || position.IsInBounds(b.Bounds());
     }
 
@@ -187,7 +219,7 @@ public static class M_Extensions   {
     /// <returns></returns>
     public static Bounds Bounds(this Transform tr)
     {
-       
+
         // First find a center for your bounds.
         Vector3 center = tr.position;
 
@@ -195,7 +227,7 @@ public static class M_Extensions   {
         {
             center += child.transform.position;
         }
-        center /= (tr.transform.childCount +1 ); //center is average center of children
+        center /= (tr.transform.childCount + 1); //center is average center of children
 
         //Now you have a center, calculate the bounds by creating a zero sized 'Bounds', 
         Bounds bounds = new Bounds(center, Vector3.zero);
@@ -203,12 +235,12 @@ public static class M_Extensions   {
 
         foreach (Transform child in tr.transform)
         {
-            bounds.Encapsulate( new Bounds(child.transform.position, child.transform.localScale));
+            bounds.Encapsulate(new Bounds(child.transform.position, child.transform.localScale));
         }
-      //  Debug.Log(bounds.extents+ " " + bounds.size.ToString());
+        //  Debug.Log(bounds.extents+ " " + bounds.size.ToString());
         return bounds;
     }
-    
+
     /// <summary>
     /// Sets the transforms position and scale to the extents and position of the bounds
     /// </summary>
@@ -221,11 +253,11 @@ public static class M_Extensions   {
     }
     public static T MakeNew<T>(string GameobjectName) where T : MonoBehaviour
     {
-        return  new GameObject(GameobjectName, typeof(T)).GetComponent<T>();
+        return new GameObject(GameobjectName, typeof(T)).GetComponent<T>();
     }
 
 
-    public  static Component MakeNew(Type behavior) 
+    public static Component MakeNew(Type behavior)
     {
         return new GameObject("__", behavior).GetComponent(behavior);
     }
@@ -261,7 +293,7 @@ public static class M_Extensions   {
 
     public static void ExecuteDelayed(this MonoBehaviour comp, float time, Action func)
     {
-        comp.StartCoroutine(MyMath.ExecuteDelayed(time, func));
+        comp.StartCoroutine(M_Math.ExecuteDelayed(time, func));
     }
     /// <summary>
     /// pauses emission on all attached particles systems
@@ -289,7 +321,7 @@ public static class M_Extensions   {
     /// pauses emission on all attached particles systems
     /// </summary>
     /// <param name="particle_system"></param>
-    public static void ToggleParticles(this GameObject go, bool b )
+    public static void ToggleParticles(this GameObject go, bool b)
     {
         List<ParticleSystem> systems = new List<ParticleSystem>();
         ParticleSystem _this = go.GetComponent<ParticleSystem>();
@@ -302,7 +334,8 @@ public static class M_Extensions   {
         if (!b)
         {
             systems.ForEach(sys => sys.Stop());
-        } else
+        }
+        else
         {
             systems.ForEach(sys => sys.Play());
         }
@@ -327,7 +360,7 @@ public static class M_Extensions   {
         return newGo;
     }
 
- 
+
     private static System.Random rng = new System.Random();
     public static void Shuffle<T>(this IList<T> list)
     {
@@ -360,13 +393,13 @@ public static class M_Extensions   {
         float t = 0;
         while (t < 1)
         {
-            funct((int) Mathf.Lerp(from,   to, t));
+            funct((int) Mathf.Lerp(from, to, t));
             t += Time.deltaTime / time;
             yield return null;
         }
 
         funct(to);
-        
+
     }
 
     public static bool IsNullOrEmpty<T>(this List<T> list)
@@ -379,18 +412,23 @@ public static class M_Extensions   {
         return list != null && list.Count > 0;
     }
 
-    public static bool HasItems<T,Z>(this Dictionary<T,Z> dictionary)
+    public static bool HasItems<T, Z>(this Dictionary<T, Z> dictionary)
     {
         return dictionary != null && dictionary.Count > 0;
     }
 
     public static bool IsNullOrEmpty<T, Z>(this Dictionary<T, Z> dictionary)
     {
-        return dictionary == null || dictionary.Count ==0;
+        return dictionary == null || dictionary.Count == 0;
     }
 
     public static GameObject Instantiate(this GameObject prefab, Transform parent, bool set_to_parent_position)
     {
+        if (prefab == null)
+        {
+            Debug.LogWarning("THE THING YOU WANT TO INSTANTIATE IS NULL!!");
+            return null;
+        }
         GameObject new_go = GameObject.Instantiate(prefab);
         new_go.transform.SetParent(parent);
 
@@ -401,9 +439,98 @@ public static class M_Extensions   {
 
         return new_go;
     }
-
+    public static T Instantiate<T>(this UnityEngine.Object prefab, Transform parent, bool set_to_parent_position) where T : Component
+    {
+        if (prefab == null)
+        {
+            Debug.LogWarning("THE THING YOU WANT TO INSTANTIATE IS NULL!!");
+            return null;
+        }
+        return (prefab as GameObject).Instantiate(parent, set_to_parent_position).GetComponent<T>();
+    }
     public static GameObject Instantiate(this UnityEngine.Object prefab, Transform parent, bool set_to_parent_position)
     {
+        if (prefab == null)
+        {
+            Debug.LogWarning("THE THING YOU WANT TO INSTANTIATE IS NULL!!");
+            return null;
+        }
         return (prefab as GameObject).Instantiate(parent, set_to_parent_position);
+    }
+
+    public static Transform FindChildWithTag(this Transform transform, string tag)
+    {
+        if (transform.CompareTag(tag))
+        {
+            return transform;
+        }
+
+        foreach (Transform child in transform)
+        {
+            var result = child.FindChildWithTag(tag);
+            if (result != null)
+                return result;
+        }
+
+        return null;
+    }
+
+    public static int RoundToNearest(this int i, int step)
+    {
+        return (int) Mathf.Round(i / step) * step;
+
+
+    }
+
+    public static void ChangeTint(this Image img, Color tint)
+    {
+        Color _base = img.color;
+        tint.a = _base.a;
+
+        img.color = tint;
+
+    }
+
+    public static void ChangeTint(this List<Image> imgs, Color tint)
+    {
+
+        foreach (var img in imgs)
+            img.ChangeTint(tint);
+
+    }
+
+    public static Coroutine YieldT(this MonoBehaviour comp, Action<float> t, float time)
+    {
+        return comp.StartCoroutine(YieldT(t, time));
+    }
+
+    public static IEnumerator YieldT(Action<float> t, float time)
+    {
+        float _time = 0;
+        while (_time < 1)
+        {
+
+            _time += Time.deltaTime / time;
+            t(_time);
+            yield return null;
+        }
+
+        t(1);
+        yield break;
+    }
+
+    //Breadth-first search
+    public static Transform FindDeepChild(this Transform aParent, string aName)
+    {
+        var result = aParent.Find(aName);
+        if (result != null)
+            return result;
+        foreach (Transform child in aParent)
+        {
+            result = child.FindDeepChild(aName);
+            if (result != null)
+                return result;
+        }
+        return null;
     }
 }

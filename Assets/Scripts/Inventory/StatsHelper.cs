@@ -11,7 +11,7 @@ public static class StatsHelper
         return GetStatListForInit(stats.Survival, stats.Mobility, stats.Tech, stats.Combat, stats.Focus, stats.StartAdrenaline, stats.StartOxyGen, stats.StartTurnTime);
     }
 
-    public static List<Stat> GetStatListForInit(int perk_survival, int perk_mobility, int perk_tech, int perk_combat, int perk_focus, int start_adr, int start_oxygen, MyMath.R_Range current_delay)
+    public static List<Stat> GetStatListForInit(int perk_survival, int perk_mobility, int perk_tech, int perk_combat, int perk_focus, int start_adr, int start_oxygen, M_Math.R_Range current_delay)
     {
         List<Stat> stats = new List<Stat>();
 
@@ -99,7 +99,7 @@ public class UnitBaseStats
     public int StartStimPacks;
     public int StartRestPacks;
 
-    public MyMath.R_Range StartTurnTime;
+    public M_Math.R_Range StartTurnTime;
 }
 
 [System.Serializable]

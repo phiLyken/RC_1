@@ -8,12 +8,12 @@ public class RaysFromTiles : MonoBehaviour {
 
     public static List<GameObject> GetPropsForTile(Tile t)
     {
-        return MyMath.GetObjectsFromRays(   GetRaysForTile(t), "prop")
+        return M_Math.GetObjectsFromRays(   GetRaysForTile(t), "prop")
             .Select(_t => _t.collider.gameObject).GroupBy(prop => prop).Select(grp => grp.First()).ToList();
     }
     static bool  IsTileblocked(Tile t)
     {
-        return MyMath.GetObjectsFromRays(GetRaysForTile(t), "prop").Count > 0;
+        return M_Math.GetObjectsFromRays(GetRaysForTile(t), "prop").Count > 0;
     }
     static List<Ray> GetRaysForTile(Tile t)
     {
@@ -30,7 +30,7 @@ public class RaysFromTiles : MonoBehaviour {
 
     public static Vector3[] GetRayPositionsFromTile(Tile t)
     {
-        return MyMath.GetTransformBoundPositionTop(t.transform);
+        return M_Math.GetTransformBoundPositionTop(t.transform);
     }
     
 }

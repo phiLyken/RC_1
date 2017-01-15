@@ -27,11 +27,11 @@ public class CameraAction_Rotate : CameraAction {
             float dr = target_rot - rotated;
             rotated += dr;
             t += Time.deltaTime * 3;
-            transform.RotateAround(MyMath.GetCameraCenter(), Vector3.up, dr);
+            transform.RotateAround(M_Math.GetCameraCenter(), Vector3.up, dr);
             yield return null;
         }
 
-        transform.RotateAround(MyMath.GetCameraCenter(), Vector3.up, rotated - delta);
+        transform.RotateAround(M_Math.GetCameraCenter(), Vector3.up, rotated - delta);
 
         Active = false;
          

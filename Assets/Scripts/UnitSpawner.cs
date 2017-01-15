@@ -19,7 +19,7 @@ public class UnitSpawner : MonoBehaviour {
 	};
 
 
-	public void SpawnUnit(ScriptableUnitConfig unit_config,MyMath.R_Range range, int group, bool hide_player)
+	public void SpawnUnit(ScriptableUnitConfig unit_config,M_Math.R_Range range, int group, bool hide_player)
 	{
 		Unit u = UnitFactory.CreateUnit(unit_config, group, range, hide_player);
 		 

@@ -72,7 +72,7 @@ public class CrumbleEdgeBorderManager : MonoBehaviour {
             m_CurrentTile = t;
             m_CurrentTile.OnTileCrumble += OnMyTileUpdate;
 
-            m_BorderGO.transform.position = MyMath.GetTransformBoundPositionTop(t.transform)[m_Corner];
+            m_BorderGO.transform.position = M_Math.GetTransformBoundPositionTop(t.transform)[m_Corner];
         }
 
         Tile GetNextTile()

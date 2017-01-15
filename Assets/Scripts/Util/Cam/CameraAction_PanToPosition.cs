@@ -41,12 +41,12 @@ public class CameraAction_PanToPosition : CameraAction
         TargetPosition.y = 0;
         Active = true;
 
-        Vector3 delta = TargetPosition - MyMath.GetCameraCenter();
+        Vector3 delta = TargetPosition - M_Math.GetCameraCenter();
 
         Debug.Log("^cameraStart Panning "+TargetPosition.ToString());
         while (delta.magnitude > 0.1f)
         {
-            delta = TargetPosition - MyMath.GetCameraCenter();
+            delta = TargetPosition - M_Math.GetCameraCenter();
             float speed = Speed;
 
             if (delta.magnitude < DistanceSpeedFalloffStart)
@@ -59,7 +59,7 @@ public class CameraAction_PanToPosition : CameraAction
 
            
 
-            Debug.DrawLine(MyMath.GetCameraCenter(), TargetPosition, Color.red);
+            Debug.DrawLine(M_Math.GetCameraCenter(), TargetPosition, Color.red);
            
             yield return null;
         }

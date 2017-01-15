@@ -36,7 +36,7 @@ public class SpeechManager_Global : MonoBehaviour {
 
         int count = Mathf.Min(Random.Range(min, max+1), units.Count);
 
-        List<Unit> picked = MyMath.GetRandomObjects(new List<Unit>(units).Where(u=> u != exclude).ToList(), count);
+        List<Unit> picked = M_Math.GetRandomObjects(new List<Unit>(units).Where(u=> u != exclude).ToList(), count);
 
         return picked.Select(p => p.GetComponent<SpeechMananger_Unit>()).ToList();
     }

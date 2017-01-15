@@ -42,7 +42,7 @@ public class WeightedUnit : IWeightable {
     public bool ForceUnit;
 	public ScriptableUnitConfig UnitConfig;
 	public float _Weight;
-    public MyMath.R_Range TurnTimeOnSpawn;
+    public M_Math.R_Range TurnTimeOnSpawn;
 
     float IWeightable.Weight {
 		get {

@@ -41,7 +41,7 @@ public class UnitRotationController : MonoBehaviour {
     public  IEnumerator TurnToTargetPositiom(Transform _target, EventHandler callback)
     {
      //   Debug.Log("Turn to");
-        yield return new WaitForRotation(m_rotated.transform, MyMath.RotateToYSnapped(m_rotated.transform.position, _target.transform.position, 45), 0.35f);
+        yield return new WaitForRotation(m_rotated.transform, M_Math.RotateToYSnapped(m_rotated.transform.position, _target.transform.position, 45), 0.35f);
       //  Debug.Log("Rotated");
         if (callback != null)
             callback();
@@ -49,13 +49,13 @@ public class UnitRotationController : MonoBehaviour {
     IEnumerator TurnToFinalPosition(Vector3 target)
     {
        // Debug.Log("Turn to");
-        yield return new WaitForRotation(m_rotated.transform, MyMath.RotateToYSnapped(m_rotated.transform.position, (target), 45), 0.35f);
+        yield return new WaitForRotation(m_rotated.transform, M_Math.RotateToYSnapped(m_rotated.transform.position, (target), 45), 0.35f);
       //  Debug.Log("Rotated");
     }
     IEnumerator TurnToWaypoint(IWayPoint wp)
     {
       //  Debug.Log("Turn to");
-        yield return new WaitForRotation(m_rotated.transform, MyMath.RotateToYFlat(m_rotated.transform.position, wp.GetPosition()), 0.35f);
+        yield return new WaitForRotation(m_rotated.transform, M_Math.RotateToYFlat(m_rotated.transform.position, wp.GetPosition()), 0.35f);
       //  Debug.Log("Rotated");
     }
 }

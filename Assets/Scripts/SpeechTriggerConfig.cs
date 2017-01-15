@@ -11,7 +11,7 @@ public class SpeechTriggerConfig : SpeechTriggerConfigSimple
 
     public override Speech GetSpeech()
     {
-        if (MyMath.Roll(Chance))
+        if (M_Math.Roll(Chance))
         {
             return WeightableFactory.GetWeighted(Speeches);
         }

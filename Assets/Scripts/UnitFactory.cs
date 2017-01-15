@@ -11,7 +11,7 @@ public class UnitFactory : MonoBehaviour
     /// </summary>
     /// <param name="data">Unit Config to determine unit type, stats, actions</param>
     /// <returns></returns>
-    public static Unit CreateUnit(ScriptableUnitConfig data, int group, MyMath.R_Range initiative_range, bool hide_player)
+    public static Unit CreateUnit(ScriptableUnitConfig data, int group, M_Math.R_Range initiative_range, bool hide_player)
     {
         if (data == null)
         {
@@ -75,8 +75,8 @@ public class UnitFactory : MonoBehaviour
 
     private static ActionManager MakeActions(ScriptableUnitConfig data, GameObject base_unit)
     {
-        UnitActionBase[] Actions = MyMath.SpawnFromList(data.Actions.ToList()).ToArray();
-        MyMath.SetListAsChild(Actions.ToList(), base_unit.transform);
+        UnitActionBase[] Actions = M_Math.SpawnFromList(data.Actions.ToList()).ToArray();
+        M_Math.SetListAsChild(Actions.ToList(), base_unit.transform);
         return   base_unit.AddComponent<ActionManager>();
     }
 
@@ -161,7 +161,7 @@ public class UnitFactory : MonoBehaviour
 
         suitobjects.Add(head.GetComponentsInChildren<SkinnedMeshRenderer>().First());
 
-        List<GameObject> skinned_objects = MyMath.InsantiateObjects(suitobjects.Select(skn => skn.gameObject).ToList());
+        List<GameObject> skinned_objects = M_Math.InsantiateObjects(suitobjects.Select(skn => skn.gameObject).ToList());
 
 
         skinned_objects.ForEach(obj => SkinnedMeshTools.AddSkinnedMeshTo(obj.gameObject, target_skeleton_root));
@@ -246,7 +246,7 @@ public class UnitFactory : MonoBehaviour
        
     }
 
-    static UnitStats MakeStats(GameObject target, ScriptableUnitConfig conf, Unit_EffectManager effects, MyMath.R_Range range )
+    static UnitStats MakeStats(GameObject target, ScriptableUnitConfig conf, Unit_EffectManager effects, M_Math.R_Range range )
     {
 
         UnitStats stats = target.AddComponent<UnitStats>();

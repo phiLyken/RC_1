@@ -68,6 +68,6 @@ public class StrategyCamera : MonoBehaviour
     }
     void OnDrawGizmos()
     {
-        Debug.DrawLine(transform.position, MyMath.GetCameraCenter());
+        Debug.DrawLine(transform.position, M_Math.GetCameraCenter());
     }
 }

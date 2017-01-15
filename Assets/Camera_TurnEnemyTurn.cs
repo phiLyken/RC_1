@@ -21,12 +21,12 @@ public class Camera_TurnEnemyTurn : MonoBehaviour {
         {
             StopAllCoroutines();
 
-            StartCoroutine(MyMath.YieldT(f =>  m_GrayScale.SetGray(start + (1 - start) * f ), 0.25f));
+            StartCoroutine(M_Extensions.YieldT(f =>  m_GrayScale.SetGray(start + (1 - start) * f ), 0.25f));
         } else
         {
             StopAllCoroutines();
            
-            StartCoroutine(MyMath.YieldT(f => m_GrayScale.SetGray( start * ( 1- f)) , 0.25f));
+            StartCoroutine(M_Extensions.YieldT(f => m_GrayScale.SetGray( start * ( 1- f)) , 0.25f));
         }
     }
 

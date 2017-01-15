@@ -359,7 +359,7 @@ class TileTools : EditorWindow
             foreach (TileWeighted tw in weighted) {
                 float percent = (tw.weight / sum_weights)*100;
                 if(percent > 0)
-                MyMath.SceneViewText(percent.ToString("00.00") + "%", Grid.Tiles[tw.tilePos.x, tw.tilePos.z].GetPosition(), Color.black);
+                M_Math.SceneViewText(percent.ToString("00.00") + "%", Grid.Tiles[tw.tilePos.x, tw.tilePos.z].GetPosition(), Color.black);
             }
         }
         Handles.EndGUI();

@@ -24,7 +24,7 @@ public class LootBalance : MonoBehaviour {
         /*      List<WeightedRegion> configs = Regions.Where( r =>  ..... ) ).ToList();
 
                 WeightedRegion wr = WeightableFactory.GetWeighted(configs);*/
-        LootConfig conf = MyMath.GetRandomObject(configs);
+        LootConfig conf = M_Math.GetRandomObject(configs);
 
         return conf;
          
@@ -67,7 +67,7 @@ public class LootContentConfig : IWeightable
 {
     public Item_Generic Item;
     public float Drop_Weight;
-    public MyMath.R_Range BaseAmount;
+    public M_Math.R_Range BaseAmount;
 
     float IWeightable.Weight
     {

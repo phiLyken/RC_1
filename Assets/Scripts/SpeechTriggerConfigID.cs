@@ -11,7 +11,7 @@ public class SpeechTriggerConfigID : ScriptableObject
     {
         SpeechTriggerConfigIDGroupConfig _speech = Groups.FirstOrDefault(gr => gr.ID == trigger);
 
-        if (_speech != null && MyMath.Roll(_speech.Chance))
+        if (_speech != null && M_Math.Roll(_speech.Chance))
         {
             return WeightableFactory.GetWeighted(_speech.Speeches);
         }

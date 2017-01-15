@@ -21,11 +21,11 @@ public class CameraAction_Pan : CameraAction
     IEnumerator DoPan()
     {
         Active = true;
-        Vector3 startDragPos = MyMath.GetInputPos();
+        Vector3 startDragPos = M_Math.GetInputPos();
         Debug.Log("^cameraDOPAN");
         while (CanStartInput())
         {
-            Vector3 mousePos = MyMath.GetInputPos();
+            Vector3 mousePos = M_Math.GetInputPos();
             Vector3 delta = mousePos - startDragPos;
             Debug.DrawRay(startDragPos, delta, Color.green);
 
@@ -35,7 +35,7 @@ public class CameraAction_Pan : CameraAction
             yield return null;
         }
 
-        yield return StartCoroutine(MyMath.DelayForFrames(frames_delay));
+        yield return StartCoroutine(M_Math.DelayForFrames(frames_delay));
         Active = false;
        
         yield break;
@@ -51,11 +51,11 @@ public class CameraAction_Pan : CameraAction
     IEnumerator WaitForInput()
     {
         _waitingForInput = true;
-        Vector3 startDragPos = MyMath.GetInputPos();
+        Vector3 startDragPos = M_Math.GetInputPos();
 
        // Debug.Log("Wait for input");
 
-        while(CanStartInput() && (startDragPos - MyMath.GetInputPos()).magnitude < PanThreshold)
+        while(CanStartInput() && (startDragPos - M_Math.GetInputPos()).magnitude < PanThreshold)
         {
             yield return null;
         }

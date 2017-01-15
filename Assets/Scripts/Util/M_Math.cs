@@ -8,106 +8,46 @@ using System.IO;
 
 
 
-public static class MyMath  {
+public static class M_Math
+{
 
-    [System.Serializable]
-    public class RollTable
+
+
+
+    public static GameObject GetClosestGameObject(Vector3 originPosition, GameObject[] objects)
     {
-        public List<RollInfo> Table;
 
-        [System.Serializable]
-        public class RollInfo
-        {
-            public float Threshold;
-            public float Chance;
-        }
+        if (objects.Length == 0)
+            return null;
 
-        public float GetChance(float _base)
+        GameObject best = objects[0];
+
+        float closestDistance = Vector3.Magnitude(best.transform.position - originPosition);
+
+        for (int i = 1; i < objects.Length; i++)
         {
-            List<RollInfo> _ordered = Table.OrderByDescending(ri => ri.Threshold).ToList();
-            foreach (var ri in _ordered)
+            float currentDistance = Vector3.Magnitude(objects[i].transform.position - originPosition);
+            if (currentDistance < closestDistance)
             {
-                if (ri.Threshold < _base)
-                    return ri.Chance;
+                best = objects[i];
+                closestDistance = currentDistance;
             }
-
-
-            return (_ordered != null && _ordered.Count > 0) ? _ordered.Last().Chance : 0;
-
         }
-        public bool Roll(float _base)
-        {
 
-            return MyMath.Roll(GetChance(_base));
-        }
+        return best;
     }
- 
-    public static bool Roll(float chance)
+
+
+
+    public static Action AddTypedAction<T>(this Action action, T _object, Action<T> call)
     {
-        return chance > UnityEngine.Random.value;
-    }
-    
-    [System.Serializable]
-    public class PositionLock{
-        [System.Serializable]
-        public class LockInfo
-        {
-            public bool enabled;
+        Action new_del = () => call(_object);
+        action += new_del;
+        return new_del;
 
-            public float value;
-        }
-        public LockInfo X;
-        public LockInfo Y;
-        public LockInfo Z;
-
-        public void Apply(Transform tr)
-        {
-             float x = X.enabled ? X.value : tr.position.x;
-             float y = Y.enabled ? Y.value : tr.position.y;
-             float z = Z.enabled ? Z.value : tr.position.z;
-
-            Vector3 newPos = new Vector3(x, y, z);
-            tr.position = newPos;        
-        }
-    }
-	public static GameObject GetClosestGameObject(Vector3 originPosition, GameObject[] objects){
-		
-		if( objects.Length == 0) return null;
-		
-		GameObject best = objects[0];
-	
-		float closestDistance = Vector3.Magnitude( best.transform.position - originPosition);
-
-		for(int i = 1 ; i < objects.Length; i++){
-			float currentDistance = Vector3.Magnitude( objects[i].transform.position - originPosition);
-			if(currentDistance < closestDistance){
-				best = objects[i];
-				closestDistance = currentDistance;
-			}
-		}
-	
-		return best;
-	}
-
-    public static Transform FindChildWithTag(this Transform transform, string tag)
-    {
-        if (transform.CompareTag(tag))
-        {
-            return transform;
-        }
-        
-        foreach (Transform child in transform)
-        {
-         var result = child.FindChildWithTag(tag);
-            if (result != null)
-                return result;
-        }
-
-        return null;
     }
 
 
-   
     /// <summary>
     /// Clamps a position within bounds. If it exeeds the bounds, the closest point to bounds is returned
     /// </summary>
@@ -117,24 +57,24 @@ public static class MyMath  {
     public static Vector3 ClampInBounds(Vector3 vector, Bounds bounds)
     {
         if (bounds.Contains(vector))
-        {          
+        {
             return vector;
         }
         else
         {
             Vector3 clamped = bounds.ClosestPoint(vector);
-            vector = clamped;     
+            vector = clamped;
             return vector;
         }
     }
-    public static int RoundToNearest(this int i, int step)
-    {
-       return  (int) Mathf.Round(i / step) * step;
-       
- 
-    }
 
-    public static List<T> EnumList<T>(){
+
+    public static bool Roll(float chance)
+    {
+        return chance > UnityEngine.Random.value;
+    }
+    public static List<T> EnumList<T>()
+    {
         var v = Enum.GetValues(typeof(T));
         return v.Cast<T>().ToList();
     }
@@ -147,7 +87,7 @@ public static class MyMath  {
 
     public static IEnumerator DelayForFrames(int frames)
     {
-        for(int i = 0; i < frames; i++)
+        for (int i = 0; i < frames; i++)
         {
             yield return new WaitForEndOfFrame();
         }
@@ -187,28 +127,30 @@ public static class MyMath  {
     {
         List<RaycastHit> hits = new List<RaycastHit>();
 
-       foreach(Ray r in rays) {
+        foreach (Ray r in rays)
+        {
             Debug.DrawRay(r.origin, r.direction * 5, Color.green, 10f);
-            hits.AddRange( Physics.RaycastAll(r,Mathf.Infinity).Where(rhit => rhit.collider.gameObject.tag == tag));
+            hits.AddRange(Physics.RaycastAll(r, Mathf.Infinity).Where(rhit => rhit.collider.gameObject.tag == tag));
         }
 
         return hits;
-       
+
     }
 
-     
-    public static float GetPercentpointsOfValueInRange(float _value, float _min, float _max){
-		if (_value < _min)
-						return 0;
-		if (_value > _max)
-						return 1;
-	
-		return (_value - _min) / (_max - _min);
 
-	}
+    public static float GetPercentpointsOfValueInRange(float _value, float _min, float _max)
+    {
+        if (_value < _min)
+            return 0;
+        if (_value > _max)
+            return 1;
 
-    
-    public static  float GetDistance2D(Vector3 v1, Vector3 v2)
+        return (_value - _min) / (_max - _min);
+
+    }
+
+
+    public static float GetDistance2D(Vector3 v1, Vector3 v2)
     {
         v1.y = 0;
         v2.y = 0;
@@ -216,14 +158,15 @@ public static class MyMath  {
         return (v1 - v2).magnitude;
     }
 
-    public static Vector3 GetVectorInRange(Vector3 Vector, float _min, float _max){
-		Debug.Log (GetPercentpointsOfValueInRange (Vector.magnitude, _min, _max));
-		return Vector.normalized * GetPercentpointsOfValueInRange(Vector.magnitude, _min, _max);
-	}
+    public static Vector3 GetVectorInRange(Vector3 Vector, float _min, float _max)
+    {
+        Debug.Log(GetPercentpointsOfValueInRange(Vector.magnitude, _min, _max));
+        return Vector.normalized * GetPercentpointsOfValueInRange(Vector.magnitude, _min, _max);
+    }
 
     public static T CloneMono<T>(T item)
     {
-      
+
         return MonoBehaviour.Instantiate((item as MonoBehaviour).gameObject).GetComponent<T>();
     }
 
@@ -231,7 +174,7 @@ public static class MyMath  {
     public static List<T> SpawnFromList<T>(List<T> list)
     {
         List<T> ret = new List<T>();
-        foreach(var item in list)
+        foreach (var item in list)
         {
             if (item == null)
                 continue;
@@ -240,37 +183,42 @@ public static class MyMath  {
         }
 
         return ret;
-       
-    }
-    public static Vector3 GetInputPos(){
 
-     
-                 return GetMouseWorldPos();
-		
-	}
-	public static Vector3 GetTouchWorldPos(){
-		Vector3 pos = Vector3.zero;
-		
-		if( Input.touchCount > 0 ){
-			pos = new Vector3( Input.touches[0].position.x, Input.touches[0].position.y, 0);
-			return GetPlaneIntersectionY(Camera.main.ScreenPointToRay(pos));
-		}
-		return pos;
-	}
-	public static Vector3 GetMouseWorldPos(){	
-		return GetPlaneIntersectionY(Camera.main.ScreenPointToRay(Input.mousePosition));		
-	}
-	public static Vector3 GetCameraCenter()
-    {
-        return GetPlaneIntersectionY(new Ray(Camera.main.transform.position,Camera.main.transform.forward));
     }
-	public static Vector3 GetPlaneIntersectionY(Ray ray){
-		
-		float dist = Vector3.Dot (Vector3.up, Vector3.zero - ray.origin) / Vector3.Dot (Vector3.up, ray.direction.normalized);
-		
-		return ray.origin + ray.direction.normalized * dist;
-		 
-	} 
+    public static Vector3 GetInputPos()
+    {
+
+
+        return GetMouseWorldPos();
+
+    }
+    public static Vector3 GetTouchWorldPos()
+    {
+        Vector3 pos = Vector3.zero;
+
+        if (Input.touchCount > 0)
+        {
+            pos = new Vector3(Input.touches[0].position.x, Input.touches[0].position.y, 0);
+            return GetPlaneIntersectionY(Camera.main.ScreenPointToRay(pos));
+        }
+        return pos;
+    }
+    public static Vector3 GetMouseWorldPos()
+    {
+        return GetPlaneIntersectionY(Camera.main.ScreenPointToRay(Input.mousePosition));
+    }
+    public static Vector3 GetCameraCenter()
+    {
+        return GetPlaneIntersectionY(new Ray(Camera.main.transform.position, Camera.main.transform.forward));
+    }
+    public static Vector3 GetPlaneIntersectionY(Ray ray)
+    {
+
+        float dist = Vector3.Dot(Vector3.up, Vector3.zero - ray.origin) / Vector3.Dot(Vector3.up, ray.direction.normalized);
+
+        return ray.origin + ray.direction.normalized * dist;
+
+    }
 
     public static int GetSecondsNow()
     {
@@ -287,9 +235,9 @@ public static class MyMath  {
     {
         System.DateTime origin = new System.DateTime(1970, 1, 1, 0, 0, 0, 0);
         System.TimeSpan diff = date.ToUniversalTime() - origin;
-        return (int)(diff.TotalSeconds);
+        return (int) (diff.TotalSeconds);
     }
-    
+
 
 
     public static Vector3 GetInputPosToPlane()
@@ -317,7 +265,30 @@ public static class MyMath  {
         }
     }
 
+    [System.Serializable]
+    public class PositionLock
+    {
+        [System.Serializable]
+        public class LockInfo
+        {
+            public bool enabled;
 
+            public float value;
+        }
+        public LockInfo X;
+        public LockInfo Y;
+        public LockInfo Z;
+
+        public void Apply(Transform tr)
+        {
+            float x = X.enabled ? X.value : tr.position.x;
+            float y = Y.enabled ? Y.value : tr.position.y;
+            float z = Z.enabled ? Z.value : tr.position.z;
+
+            Vector3 newPos = new Vector3(x, y, z);
+            tr.position = newPos;
+        }
+    }
     public static string GetStringFromSeconds(int seconds)
     {
 
@@ -341,7 +312,9 @@ public static class MyMath  {
 
     public static bool StringArContains(string[] ar, string s)
     {
-        for (int i = 0; i < ar.Length; i++) if (ar[i] == s) return true;
+        for (int i = 0; i < ar.Length; i++)
+            if (ar[i] == s)
+                return true;
 
         return false;
     }
@@ -376,8 +349,8 @@ public static class MyMath  {
     public static T GetRandomObject<T>(List<T> objects)
     {
         if (objects == null || objects.Count == 0)
-            return default(T) ;   
-           
+            return default(T);
+
         return objects[UnityEngine.Random.Range(0, objects.Count)];
     }
 
@@ -386,12 +359,13 @@ public static class MyMath  {
         if (objects == null || objects.Length == 0)
             return default(T);
 
-         return objects[UnityEngine.Random.Range(0, objects.Length)];
+        return objects[UnityEngine.Random.Range(0, objects.Length)];
     }
 
     public static T GetRandomObjectAndRemove<T>(List<T> objects)
     {
-        if (objects.Count == 0) return default(T);
+        if (objects.Count == 0)
+            return default(T);
 
         T chosen = objects[UnityEngine.Random.Range(0, objects.Count)];
         objects.Remove(chosen);
@@ -401,8 +375,8 @@ public static class MyMath  {
     public static List<T> GetListFromObject<T>(T obj)
     {
         List<T> list = new List<T>();
-        if(obj != null)
-             list.Add(obj);
+        if (obj != null)
+            list.Add(obj);
         return list;
     }
 
@@ -416,10 +390,10 @@ public static class MyMath  {
     public static List<T> GetRandomObjects<T>(List<T> list, int num)
     {
         int count = Mathf.Min(num, list.Count);
-        List<T> ret = new List<T>();	
+        List<T> ret = new List<T>();
         List<T> copy = new List<T>(list);
 
-        for(int i = 0; i < count; i++)
+        for (int i = 0; i < count; i++)
         {
             T item = GetRandomObject(copy);
             copy.Remove(item);
@@ -429,7 +403,7 @@ public static class MyMath  {
         return ret;
     }
 
-    
+
 
     public static void FadeText(Text t, int cycles, Color Color1, Color Color2, float time1, float time2)
     {
@@ -448,18 +422,18 @@ public static class MyMath  {
                 yield return t.StartCoroutine(FadeTextOnce(t, Color2, time2));
             }
             m_cycles--;
-            yield return null;  
+            yield return null;
         }
     }
-    public static Quaternion RotateToYSnapped(  Vector3 from, Vector3 to, float snap)
+    public static Quaternion RotateToYSnapped(Vector3 from, Vector3 to, float snap)
     {
 
         Quaternion target = RotateToYFlat(from, to);
         float y = target.eulerAngles.y;
         float locked = Mathf.RoundToInt(y / snap) * snap;
 
-        return   Quaternion.Euler(target.eulerAngles.x, locked, target.eulerAngles.z);
-        
+        return Quaternion.Euler(target.eulerAngles.x, locked, target.eulerAngles.z);
+
     }
 
     public static Quaternion RotateToYFlat(Vector3 from, Vector3 to)
@@ -557,17 +531,19 @@ public static class MyMath  {
 
         var view = UnityEditor.SceneView.currentDrawingSceneView;
 
-		if(view != null){
-	        Vector3 screenPos = view.camera.WorldToScreenPoint(worldPos);
-	        Vector2 size = GUI.skin.label.CalcSize(new GUIContent(text)) * 1.5f;
-	        GUI.Box(new Rect(screenPos.x - (size.x / 2), -screenPos.y + view.position.height, size.x, size.y),"", GUI.skin.box );
+        if (view != null)
+        {
+            Vector3 screenPos = view.camera.WorldToScreenPoint(worldPos);
+            Vector2 size = GUI.skin.label.CalcSize(new GUIContent(text)) * 1.5f;
+            GUI.Box(new Rect(screenPos.x - (size.x / 2), -screenPos.y + view.position.height, size.x, size.y), "", GUI.skin.box);
 
-	        if (colour.HasValue) GUI.color = colour.Value;
-	        GUI.Label(new Rect(screenPos.x - (size.x / 2), -screenPos.y + view.position.height , size.x, size.y), text, UnityEditor.EditorStyles.whiteBoldLabel );
-	        UnityEditor.Handles.EndGUI();
+            if (colour.HasValue)
+                GUI.color = colour.Value;
+            GUI.Label(new Rect(screenPos.x - (size.x / 2), -screenPos.y + view.position.height, size.x, size.y), text, UnityEditor.EditorStyles.whiteBoldLabel);
+            UnityEditor.Handles.EndGUI();
 
-	        GUI.color = Color.white;
-		}
+            GUI.color = Color.white;
+        }
     }
 
     //http://wiki.unity3d.com/index.php?title=CreateScriptableObjectAsset
@@ -602,17 +578,19 @@ public static class MyMath  {
     }
 
 #endif
-   
+
 
     public static string StringArrToLines(string[] str)
     {
-        if (str == null || str.Length == 0) return "";
+        if (str == null || str.Length == 0)
+            return "";
         string ret = "";
-        foreach (string s in str) ret += s + "\n";
+        foreach (string s in str)
+            ret += s + "\n";
         return ret;
     }
 
-    
+
     [System.Serializable]
     public class R_Range
     {
@@ -625,8 +603,10 @@ public static class MyMath  {
         {
             if (asInt)
             {
-                return UnityEngine.Random.Range((int)min, (int)max);
-            } else { 
+                return UnityEngine.Random.Range((int) min, (int) max);
+            }
+            else
+            {
                 return UnityEngine.Random.Range(min, max);
             }
         }
@@ -647,7 +627,7 @@ public static class MyMath  {
 
         public override string ToString()
         {
-           return "rMin:"+min+" rMax"+max;
+            return "rMin:" + min + " rMax" + max;
         }
     }
 
@@ -665,7 +645,7 @@ public static class MyMath  {
     {
         List<T> items = new List<T>();
 
-        for(int i = 0; i<count; i++)
+        for (int i = 0; i < count; i++)
         {
             items.Add(GameObject.Instantiate(prefab).GetComponent<T>());
             items[i].transform.position = target.transform.position;
@@ -683,82 +663,13 @@ public static class MyMath  {
         return objects;
     }
 
-    public static void ChangeTint(this Image img, Color tint)
-    {
-        Color _base = img.color;
-        tint.a = _base.a;
 
-        img.color = tint;
-        
-    }
 
-    public static void ChangeTint(this List<Image> imgs, Color tint)
-    {
 
-        foreach (var img in imgs)
-            img.ChangeTint(tint);
- 
 
-    }
-
-    public static Coroutine YieldT(this MonoBehaviour comp, Action<float> t, float time)
-    {
-        return comp.StartCoroutine(YieldT(t, time));
-    }
-    public static IEnumerator YieldT(Action<float> t, float time)
-    {
-        float _time = 0;
-        while (_time < 1)
-        {
-
-            _time += Time.deltaTime / time;
-            t(_time);
-            yield return null;
-        }
-
-        t(1);
-        yield break;
-    }
 
 }
 
-/// <summary>
-/// http://answers.unity3d.com/questions/799429/transformfindstring-no-longer-finds-grandchild.html
-/// </summary>
-public static class TransformDeepChildExtension
-{
-    //Breadth-first search
-    public static Transform FindDeepChild(this Transform aParent, string aName)
-    {
-        var result = aParent.Find(aName);
-        if (result != null)
-            return result;
-        foreach (Transform child in aParent)
-        {
-            result = child.FindDeepChild(aName);
-            if (result != null)
-                return result;
-        }
-        return null;
-    }
-
-
-        /*
-        //Depth-first search
-        public static Transform FindDeepChild(this Transform aParent, string aName)
-        {
-            foreach(Transform child in aParent)
-            {
-                if(child.name == aName )
-                    return child;
-                var result = child.FindDeepChild(aName);
-                if (result != null)
-                    return result;
-            }
-            return null;
-        }
-        */
-    }
 
 [System.Serializable]
 public class FloatClamp
@@ -775,7 +686,7 @@ public class FloatClamp
     /// </summary>
     public float _value;
 
-   
+
     public void SetValue(float v)
     {
         _value = v;

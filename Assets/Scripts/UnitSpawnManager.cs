@@ -39,7 +39,7 @@ public class UnitSpawnManager : MonoBehaviour {
             Debug.LogWarning("Not Enough SpawnGroups in Tileset for GroupCount");
             return null;
         }
-        int id = group.SpawnerGroup == 0 ? MyMath.GetRandomObject(unique_ids) : group.SpawnerGroup;
+        int id = group.SpawnerGroup == 0 ? M_Math.GetRandomObject(unique_ids) : group.SpawnerGroup;
         unique_ids.Remove(id);
 
        return Spawners.Where(sp => sp.SpawnerGroupID == id).ToList();

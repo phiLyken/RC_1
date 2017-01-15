@@ -42,7 +42,7 @@ public abstract class CameraAction : MonoBehaviour
     {
         if (Bounds != null)
         {
-            transform.AttemptMoveInBounds(Bounds.Bounds(), move, MyMath.GetCameraCenter());
+            transform.AttemptMoveInBounds(Bounds.Bounds(), move, M_Math.GetCameraCenter());
         }
         else
         {

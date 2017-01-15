@@ -100,7 +100,7 @@ public class TileManager : MonoBehaviour {
     }
 
 	public Tile GetClosestTileToInput(){
-		return GetClosestTile( MyMath.GetPlaneIntersectionY(Camera.main.ScreenPointToRay( Input.mousePosition )));	
+		return GetClosestTile( M_Math.GetPlaneIntersectionY(Camera.main.ScreenPointToRay( Input.mousePosition )));	
 	}
 	
 	public Tile GetClosestTile(Vector3 pos){
@@ -634,7 +634,7 @@ public class TileManager : MonoBehaviour {
 
     public List<Tile> GetRandomTilesAroundCenter(Tile center, float distance)
     {
-       return  MyMath.GetObjectsInRangeAroundCenter(center, GetTileList().Cast<MonoBehaviour>().ToList(), distance).Cast<Tile>().ToList();
+       return  M_Math.GetObjectsInRangeAroundCenter(center, GetTileList().Cast<MonoBehaviour>().ToList(), distance).Cast<Tile>().ToList();
       
     }
 

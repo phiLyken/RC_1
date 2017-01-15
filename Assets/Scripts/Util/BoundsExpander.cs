@@ -4,7 +4,7 @@ using System;
 
 public class BoundsExpander : MonoBehaviour {
 
-    public MyMath.PositionLock Clamp;
+    public M_Math.PositionLock Clamp;
 
     public Vector3 Expansion;
     public Vector3 Offset;

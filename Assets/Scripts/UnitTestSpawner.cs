@@ -10,7 +10,7 @@ public class UnitTestSpawner : MonoBehaviour {
         if(Config != null)
         {
             UnitSpawner spawner = gameObject.AddComponent<UnitSpawner>();
-            spawner.SpawnUnit(Config, new MyMath.R_Range(1,5), 0, true);
+            spawner.SpawnUnit(Config, new M_Math.R_Range(1,5), 0, true);
         }
     }
 
@@ -18,7 +18,7 @@ public class UnitTestSpawner : MonoBehaviour {
     void OnDrawGizmos()
     {
         if(Config != null)
-          MyMath.SceneViewText(Config.ID, transform.position);
+          M_Math.SceneViewText(Config.ID, transform.position);
     }
 #endif
 }

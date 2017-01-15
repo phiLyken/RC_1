@@ -16,7 +16,7 @@ public class BulletEmitter   {
         float time = distance / Bullet.speed;
         Vector3 offset_target = Random.insideUnitSphere * Bullet.randomOffset;
         Transform new_target = new GameObject().transform;
-        MyMath.CopyTransform(target, new_target);
+        M_Math.CopyTransform(target, new_target);
 
         new_target.SetParent(target);
 

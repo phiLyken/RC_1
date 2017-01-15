@@ -27,7 +27,7 @@ public class UI_AnchoredList : MonoBehaviour {
     }
     void CreateAnchors(int num)
     {
-        anchors = MyMath.SpawnObjectsToTransform<RectTransform>(TurnListAnchorPrefab, parent_container, num);
+        anchors = M_Math.SpawnObjectsToTransform<RectTransform>(TurnListAnchorPrefab, parent_container, num);
 
         Canvas.ForceUpdateCanvases();
     }

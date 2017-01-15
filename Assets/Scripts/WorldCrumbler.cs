@@ -9,7 +9,7 @@ public class WorldCrumbler : MonoBehaviour, ITurn {
 
     //Speed: Rows per turn the crumble progresses
     //Every Row < than the crumble row will get 1 crumbleturn
-    public MyMath.R_Range TilesToCrumbleCount = new MyMath.R_Range(3, 5);
+    public M_Math.R_Range TilesToCrumbleCount = new M_Math.R_Range(3, 5);
     public static  WorldCrumbler Instance;
     public CrumbleEvent OnCrumble;
     public int CrumbleTurnCost;

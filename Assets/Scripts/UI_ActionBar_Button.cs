@@ -110,7 +110,7 @@ public class UI_ActionBar_Button : MonoBehaviour, IToolTip{
         if (s.StatType == StatType.adrenaline && m_action.GetRequirements().Select(si => si.StatType).ToList().Contains(s.StatType))
         {
       
-           MyMath.ExecuteDelayed(StatUpdateDelay,  SetBaseState);
+           M_Math.ExecuteDelayed(StatUpdateDelay,  SetBaseState);
         }
     }
 

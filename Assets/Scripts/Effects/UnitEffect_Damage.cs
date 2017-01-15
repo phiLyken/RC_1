@@ -14,7 +14,7 @@ public class UnitEffect_Damage : UnitEffect
     public StatType StatToUseMin;
     public StatType StatToUseMax;
 
-    public MyMath.R_Range DamageRange;
+    public M_Math.R_Range DamageRange;
 
     int baked_damage = -1;
 

@@ -46,7 +46,7 @@ public class CameraAction_Zoom : CameraAction {
             yield return null;
         }
 
-        StartCoroutine(MyMath.DelayForFrames(5));
+        StartCoroutine(M_Math.DelayForFrames(5));
         Active = false;
  
         //Debug.Log("!camera endzoom");
@@ -110,7 +110,7 @@ public class CameraAction_Zoom : CameraAction {
 
     float CameraDistanceToPlane()
     {
-        return (MyMath.GetPlaneIntersectionY(new Ray(transform.position, transform.forward)) - transform.position).magnitude;
+        return (M_Math.GetPlaneIntersectionY(new Ray(transform.position, transform.forward)) - transform.position).magnitude;
     }
 
     public override void Stop()
