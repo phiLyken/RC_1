@@ -7,12 +7,12 @@ public interface ITurn {
 	/// <summary>
 	/// This event should be called when the turnable wants to resort the turn list
 	/// </summary>
-	TurnableEventHandler TurnTimeUpdated{
+	Action<ITurn> TurnTimeUpdated{
 		get;
 		set;
 	}
 
-    event Action OnUpdateSprite;
+    event System.Action OnUpdateSprite;
     /// <summary>
     /// Each turn has a certain cost, that determines when the the next turn happens - the cost will be applied to the time
     /// </summary>

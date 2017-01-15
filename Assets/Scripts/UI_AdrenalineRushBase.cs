@@ -8,8 +8,8 @@ public class UI_AdrenalineRushBase : MonoBehaviour {
 
     protected  UnitStats Stats;
     public float EnableDelay;
-    public Action OnRushGain;
-    public Action OnRushFade;
+    public System.Action OnRushGain;
+    public System.Action OnRushFade;
     public bool HasRush;
     int old_adr;
 

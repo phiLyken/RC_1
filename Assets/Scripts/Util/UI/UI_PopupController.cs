@@ -8,11 +8,11 @@ public class UI_PopupController : MonoBehaviour {
     public bool WaitForClosed;
     public bool Active;
 
-    public Action OnClose;
-    public Action OnOpen;
+    public System.Action OnClose;
+    public System.Action OnOpen;
 
-    public Action OnCloseDone;
-    public Action OnOpenDone;
+    public System.Action OnCloseDone;
+    public System.Action OnOpenDone;
 
     public void Opened()
     {

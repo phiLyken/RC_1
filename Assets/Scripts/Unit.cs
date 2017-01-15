@@ -33,7 +33,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
   
     public UnitEventHandler OnActionSelectedInUnit;
 
-    public TurnableEventHandler OnUpdateTurnTime;
+    public Action<ITurn> OnUpdateTurnTime;
 
     public EnemyDropCategory Loot;
 
@@ -60,7 +60,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     bool _isDead;
     bool _isIdentified;
 
-    public event Action OnUpdateSprite;
+    public event System.Action OnUpdateSprite;
 
     public void SetSprite(Sprite face, Sprite unidentified)
     {
@@ -95,7 +95,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     void ActionChanged(UnitActionBase b)
     {
         if (OnUpdateTurnTime != null)
-            OnUpdateTurnTime(this);
+            OnUpdateTurnTime( this as ITurn);
     }
 
     public bool IsDead()
@@ -429,7 +429,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
         Actions.SkipTurn();
     }     
 
-    public TurnableEventHandler TurnTimeUpdated
+    public Action<ITurn> TurnTimeUpdated
     {
         get { return OnUpdateTurnTime; }
        set { OnUpdateTurnTime = value; }

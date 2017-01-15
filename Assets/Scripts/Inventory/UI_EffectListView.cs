@@ -21,7 +21,7 @@ public class UI_EffectListView : MonoBehaviour
     
         if(views == null)
           views = new ViewList<UnitEffect, UI_EffectItemView>();
-        views.Init(MakeNewView);
+        views.Init(MakeNewView,GetTransform, RemoveView, 10);
         UpdateViews(new_effects);
     }
 
@@ -34,14 +34,23 @@ public class UI_EffectListView : MonoBehaviour
         views.UpdateList(GetDisplayableEffects(effects));
     }
 
+    Transform GetTransform(UnitEffect _for)
+    {
+        return this.transform;
+    }
 
-    UI_EffectItemView MakeNewView(UnitEffect item)
+    UI_EffectItemView MakeNewView(UnitEffect item, Transform target)
     {
      //   Debug.Log(item.Unique_ID);
         UI_EffectItemView view1 = Instantiate(Prefab).GetComponent<UI_EffectItemView>();
         view1.SetEffect(item);
-        view1.transform.SetParent(this.transform, false);
+        view1.transform.SetParent(target, false);
         return view1;
 
+    }
+
+    void RemoveView(UI_EffectItemView view)
+    {
+        Destroy(view.gameObject);
     }
 }

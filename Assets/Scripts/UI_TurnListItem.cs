@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 using System;
+using DG.Tweening;
 
 public class UI_TurnListItem : MonoBehaviour, IToolTip {
 
@@ -20,7 +21,7 @@ public class UI_TurnListItem : MonoBehaviour, IToolTip {
     public GameObject ActiveTurnIndicator;
     public GameObject MouseOverIndicator;
 
-    public TurnableEventHandler OnSetTurnAble;
+    public Action<ITurn> OnSetTurnAble;
      
 
     public void SetTurnItem(ITurn turn)
@@ -54,5 +55,13 @@ public class UI_TurnListItem : MonoBehaviour, IToolTip {
     {
         return m_turn;
     }
- 
+    
+    public void Remove()
+    {
+        Sequence anim = DOTween.Sequence();
+        anim.Append(transform.DOMove((transform as RectTransform).position - Vector3.up * (transform as RectTransform).sizeDelta.y, 0.5f));
+        anim.Append(GetComponent<CanvasGroup>().DOFade(0, 0.5f));
+        anim.AppendCallback(() => { Destroy(this.gameObject); });
+        anim.Play();
+    }
 }

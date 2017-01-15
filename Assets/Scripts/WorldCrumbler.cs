@@ -169,7 +169,7 @@ public class WorldCrumbler : MonoBehaviour, ITurn {
         throw new NotImplementedException();
     }
 
-	public TurnableEventHandler TurnTimeUpdated 
+	public Action<ITurn> TurnTimeUpdated 
 	{
 		get { return null;}
 		set{}
@@ -196,5 +196,5 @@ public class WorldCrumbler : MonoBehaviour, ITurn {
 
     public List<List<Tile>> CrumbeGroups;
 
-    public event Action OnUpdateSprite;
+    public event System.Action OnUpdateSprite;
 }

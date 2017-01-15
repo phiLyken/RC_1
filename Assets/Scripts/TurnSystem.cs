@@ -3,17 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.UI;
+using System;
 
 
-public delegate void TurnableEventHandler(ITurn turn);
-public delegate void TurnListEventHandler(List<ITurn> turnables);
+
 
 public class TurnSystem : MonoBehaviour {
     public Text DebugOutPut;
     public static TurnSystem Instance;
     public IntEventHandler OnGlobalTurn;
-    public TurnListEventHandler OnListUpdated;
-    public TurnableEventHandler OnStartTurn;
+    public Action<List<ITurn>> OnListUpdated;
+    public Action<ITurn> OnStartTurn;
      
     int currentTurn;
     public List<ITurn> Turnables;
@@ -65,15 +65,10 @@ public class TurnSystem : MonoBehaviour {
         
         while ( Current != null )
         {
-            if (OnListUpdated != null) OnListUpdated(Turnables);
+            OnListUpdated.AttemptCall(Turnables);
             Current.TurnTimeUpdated +=OnTurnPreview;
-
-            Current.StartTurn();   
-                    
-            if(OnStartTurn != null)
-            {
-                OnStartTurn(Current);
-            }
+            Current.StartTurn();
+            OnStartTurn.AttemptCall(Current);            
 
             yield return StartCoroutine(WaitForTurn(Current));
 
@@ -156,7 +151,7 @@ public class TurnSystem : MonoBehaviour {
 	    Turnables = Turnables.OrderBy(o => o.GetTurnTime()+o.GetCurrentTurnCost()).ThenBy(o => o.StartOrderID).ToList();
         UpdateUnitListUI();
 
-        if (OnListUpdated != null) OnListUpdated(Turnables);
+        OnListUpdated.AttemptCall(Turnables);
     }
 
     void UpdateUnitListUI()
@@ -184,10 +179,8 @@ public class TurnSystem : MonoBehaviour {
             Debug.Log("^turnSystem TURNABLE: register " + new_turnable.GetID());
             Instance.Turnables.Add(new_turnable);
            // Instance.NormalizeList();
-            Instance.SortListByTime();
-
-            if (Instance.OnListUpdated != null)
-                Instance.OnListUpdated(Instance.Turnables);
+            Instance.SortListByTime();        
+            Instance.OnListUpdated.AttemptCall(Instance.Turnables);
 
 			return Instance.Turnables.Count;
         }
@@ -206,6 +199,8 @@ public class TurnSystem : MonoBehaviour {
         {
             Debug.Log("^turnSystem REMOVE " + turnable.GetID());        
             Instance.Turnables.Remove(turnable);
+            Instance.OnListUpdated.AttemptCall(Instance.Turnables);
+         
         }
     }
 

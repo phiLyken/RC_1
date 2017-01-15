@@ -22,15 +22,15 @@ public class TurnSystemMockData : MonoBehaviour {
     [System.Serializable]
     public class TurnSystemMock : ITurn
     {
-        TurnableEventHandler onUpdate;
+        Action<ITurn> onUpdate;
         public Color color;
         public float turnTime;
         public string ID;
         int _order;
 
-        public event Action OnUpdateSprite;
+        public event System.Action OnUpdateSprite;
 
-        public TurnableEventHandler TurnTimeUpdated
+        public Action<ITurn> TurnTimeUpdated
         {
             get { return onUpdate; }
             set { onUpdate = value; }

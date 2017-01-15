@@ -10,7 +10,7 @@ public class TurnTest : MonoBehaviour, ITurn {
 	int selectedAction = -1;
 
  
-	TurnableEventHandler UpdateCostPreview;
+	Action<ITurn> UpdateCostPreview;
 
 	float currentTurnTime;
 	int actionsMade;
@@ -51,7 +51,7 @@ public class TurnTest : MonoBehaviour, ITurn {
 
 	#region ITurn implementation
 
-	public TurnableEventHandler TurnTimeUpdated 
+	public Action<ITurn> TurnTimeUpdated 
 	{
 		get { return UpdateCostPreview;}
 		set { UpdateCostPreview = value;}
@@ -189,6 +189,6 @@ public class TurnTest : MonoBehaviour, ITurn {
 
     int starting_order;
 
-    public event Action OnUpdateSprite;
+    public event System.Action OnUpdateSprite;
     #endregion
 }

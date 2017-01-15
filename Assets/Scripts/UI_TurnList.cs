@@ -20,9 +20,9 @@ public class UI_TurnList : MonoBehaviour {
         AnchoredList.Init(TurnListEntries);
 
         views = new ViewList<ITurn, UI_TurnListItem>();
- 
-        views.Init(MakeItem);
-        
+
+        views.Init(MakeItem, getTarget, RemoveView, 99);
+              
         if(turn_system != null)
         {
             turn_system.OnListUpdated += OnListUpdate;
@@ -35,16 +35,24 @@ public class UI_TurnList : MonoBehaviour {
         ViewsUpdated(views.UpdateList(items));
     }
 
-    UI_TurnListItem MakeItem(ITurn u)
+    UI_TurnListItem MakeItem(ITurn u, Transform target)
     {     
         UI_TurnListItem new_item = Instantiate(TurnListItemPrefab.gameObject).GetComponent<UI_TurnListItem>();
-        new_item.transform.SetParent(this.transform,false); 
+        new_item.transform.SetParent(target, false); 
         new_item.SetTurnItem(u);
 
         return new_item;
     }
 
+    Transform getTarget(ITurn view)
+    {
+        return this.transform;
+    }
 
+    void RemoveView(UI_TurnListItem view)
+    {
+        view.Remove();
+    }
 
     void ViewsUpdated(Dictionary<ITurn, UI_TurnListItem> list)
     {

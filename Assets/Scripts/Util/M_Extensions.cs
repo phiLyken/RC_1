@@ -29,13 +29,13 @@ public static class M_Extensions
     }
 
 
-    public static void AttemptCall(this Action action)
+    public static void AttemptCall(this System.Action action)
     {
         if (action != null)
             action();
     }
 
-    public static void AttemptCall(this Action action, string debug)
+    public static void AttemptCall(this System.Action action, string debug)
     {
         Debug.Log(debug);
         AttemptCall(action);
@@ -291,7 +291,7 @@ public static class M_Extensions
         em.enabled = b;
     }
 
-    public static void ExecuteDelayed(this MonoBehaviour comp, float time, Action func)
+    public static void ExecuteDelayed(this MonoBehaviour comp, float time, System.Action func)
     {
         comp.StartCoroutine(M_Math.ExecuteDelayed(time, func));
     }

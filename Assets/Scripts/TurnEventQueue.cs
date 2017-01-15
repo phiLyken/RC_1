@@ -38,9 +38,9 @@ public class TurnEventQueue  {
     {
         public string EventID;
         protected object instigator;
-        protected Action callback;
+        protected System.Action callback;
     
-        public virtual void StartEvent(Action _callback)
+        public virtual void StartEvent(System.Action _callback)
         {
             callback = _callback;
             if (events == null)

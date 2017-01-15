@@ -39,9 +39,9 @@ public static class M_Math
 
 
 
-    public static Action AddTypedAction<T>(this Action action, T _object, Action<T> call)
+    public static Action AddTypedAction<T>(this System.Action action, T _object, Action<T> call)
     {
-        Action new_del = () => call(_object);
+        System.Action new_del = () => call(_object);
         action += new_del;
         return new_del;
 
@@ -94,7 +94,7 @@ public static class M_Math
 
         yield break;
     }
-    public static IEnumerator ExecuteDelayed(float time, Action func)
+    public static IEnumerator ExecuteDelayed(float time, System.Action func)
     {
         yield return new WaitForSeconds(time);
         func();
