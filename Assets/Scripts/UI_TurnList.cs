@@ -29,7 +29,7 @@ public class UI_TurnList : MonoBehaviour {
             OnListUpdate(turn_system.Turnables);
         }
     }
-    
+ 
     public void OnListUpdate(List<ITurn> items)
     {
         ViewsUpdated(views.UpdateList(items));

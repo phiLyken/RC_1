@@ -5,6 +5,7 @@ public class RC_Camera : StrategyCamera {
         
     void Awake()
     {
+        base.Awake();
         Unit.OnTurnStart += StartTurn;
     }
 

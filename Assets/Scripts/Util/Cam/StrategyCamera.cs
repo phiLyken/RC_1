@@ -34,7 +34,7 @@ public class StrategyCamera : MonoBehaviour
     {
         Actions.ForEach(action => action.SetBounds(tr));
     }
-    void Awake()
+    protected virtual void Awake()
     {
         Instance = this;
         Actions.Add(ActionRotate);

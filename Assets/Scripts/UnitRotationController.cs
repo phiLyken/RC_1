@@ -25,7 +25,7 @@ public class UnitRotationController : MonoBehaviour {
             StartCoroutine(TurnToFinalPosition(getRotationTarget()));
         };
 
- 
+        StartCoroutine(  TurnToFinalPosition(getRotationTarget()));
  
     }
 
@@ -37,6 +37,7 @@ public class UnitRotationController : MonoBehaviour {
     {
         StartCoroutine(TurnToTargetPositiom(target, callback));
     }
+     
 
     public  IEnumerator TurnToTargetPositiom(Transform _target, EventHandler callback)
     {

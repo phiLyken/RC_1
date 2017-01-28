@@ -1,18 +1,27 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using System.Collections.Generic;
 
 public class MissionSystem : ObjectiveController {
+
+    void Awake()
+    {
+        if (_instance == null)
+        {
+            getInstance();
+        }
+    }
 
     public static event Action<Objective> OnNewMission
     {
         add
         {
-            instance.OnNext += value;
+            Instance.OnNext += value;
         }
         remove
         {
-            instance.OnNext -= value;
+            Instance.OnNext -= value;
         }
     }
 
@@ -20,18 +29,18 @@ public class MissionSystem : ObjectiveController {
     {
         add
         {
-            instance.OnComplete += value;
+            Instance.OnComplete += value;
            
         }
         remove
         {
-            instance.OnComplete -= value;
+            Instance.OnComplete -= value;
         }
     }
 
     static MissionSystem _instance;
       
-    public static MissionSystem instance
+    public static MissionSystem Instance
     {
        get
         {
@@ -41,15 +50,30 @@ public class MissionSystem : ObjectiveController {
 
     static MissionSystem getInstance()
     {
-        _instance=  GameObject.FindObjectOfType<MissionSystem>();
-        if(_instance == null)
+        MissionSystem found =  GameObject.FindObjectOfType<MissionSystem>();
+        if(found == null)
         {
-            Debug.LogWarning("NO MISSION SYSTEM INSTANCE FOUND");           
+           // Debug.LogWarning("NO MISSION SYSTEM INSTANCE FOUND");           
+        } else if(_instance == null)
+        {
+           
+            found.Init();
         }
-        _instance.Init();
         return _instance;
     }
 
- 
+    public static bool HasCompletedGlobal(string id)
+    {
+        return getInstance() == null || _instance.HasCompleted(id);
+    }
+
+    public override void Init(List<ObjectiveConfig> _objectives)
+    {
+        if(_instance == null)
+        { 
+            _instance = this;
+            base.Init(_objectives);
+        }
+    }
 
 }

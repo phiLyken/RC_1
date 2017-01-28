@@ -9,11 +9,13 @@ public class ObjectiveConfig : ScriptableObject {
     public string Title;
     public string Description;
 
+    public string ID;
+
     public GameObject UI_Info;
 
     public ObjectiveCondition Condition;
 
-    public ObjectiveSetup Setup;
+    public List<ObjectiveSetup> Setup;
   
 
 

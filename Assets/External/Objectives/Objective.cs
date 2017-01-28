@@ -7,28 +7,31 @@ public class Objective : MonoBehaviour, ICompletable {
 
     public bool InitOnStart;
     public ObjectiveConfig Config;        
-    public event System.Action OnCancel;
-    public event System.Action OnComplete;
+    public event Action OnCancel;
+    public event Action OnComplete;
+
+    private int mIndex;
+    public List<ObjectiveConfig> OtherObjectivesToComplete;
 
     ObjectiveCondition Condition;  
      
-    ObjectiveSetup Setup;
-   
+    List<ObjectiveSetup> Setups;
+ 
+
     public bool GetComplete()
     {
         return Condition.GetComplete();
     }
 
-    public Objective Init (ObjectiveConfig config, Func<Objective, bool> canComplete)
+    public int GetIndex()
     {
+        return mIndex;
+    }
  
-        Config = config;
-
-        if(config.Setup != null)
-            Setup = config.Setup.Instantiate(null, false).GetComponent<ObjectiveSetup>().Init();
-   
-
-        Debug.Log(Config.Description+" - "+config.Condition.GetType());
+    public Objective Init (ObjectiveConfig config, Func<Objective, bool> canComplete, int index)
+    {
+        mIndex = index;
+        Config = config;       
 
         Condition = Instantiate(config.Condition).GetComponent<ObjectiveCondition>();
         Condition.Init( delegate
@@ -36,22 +39,39 @@ public class Objective : MonoBehaviour, ICompletable {
                 return canComplete(this);
             }
         );
-
+        
         Condition.OnComplete += Complete;
         Condition.OnCancel += Cancel;
+ 
         return this;
     }
 
+    public void SpawnSetups()
+    {
+        if (AllowedToComplete(this) && Setups ==null && !Config.Setup.IsNullOrEmpty())
+        {
+          
+            Debug.Log("SPAWN SETUP");
+            Setups = M_Math.SpawnFromList(Config.Setup);
+            Setups.ForEach(setup => setup.Init());
+        }
+    }
     void Cancel()
     {
         OnCancel.AttemptCall();
+        if(Setups!= null)
+        {
+            Setups.ForEach(setup => setup.Remove());
+        }
     }
 
     void Complete()
     {
         OnComplete.AttemptCall();
-        if(Setup != null)
-            Setup.Remove();
+        if (Setups != null)
+        {
+            Setups.ForEach(setup => setup.Remove());
+        }
     }
 
     public void Reset()
@@ -63,13 +83,38 @@ public class Objective : MonoBehaviour, ICompletable {
     {
         if (InitOnStart)
         {
-            Init(Config, CanComplete);
+            Init(Config, delegate
+            { return true; }, -1);
         }
     }
 
-        bool CanComplete(Objective obj){
-            return true;
-        }
+    bool AllowedToComplete(Objective obj){
+        return Condition.AllowedToComplete();
+    }
+
+
+
+    public bool GetShouldSave()
+    {
+        return Condition.GetShouldSave();
+    }
+
+    public string GetSaveID()
+    {
+        return Condition.GetSaveID();
+    }
+
+    public void SaveCompleted(bool b)
+    {
+        Condition.SaveCompleted(b);
+    }
+
+ 
+
+    public bool GetHasCompletedInSave()
+    {
+        return Condition.GetHasCompletedInSave();
+    }
 }
 
 

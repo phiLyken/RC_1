@@ -70,6 +70,7 @@ public class UnitFactory : MonoBehaviour
         InitIdentified(data, m_unit, hide_player);
 
        
+       
         return m_unit;
     }
 
@@ -127,7 +128,7 @@ public class UnitFactory : MonoBehaviour
             trigger.GetComponent<UnitTrigger>().SetTarget(unit);
             trigger.GetComponent<BoxCollider>().size = new Vector3(1 + 2 * data.TriggerRange, 1 + 2 * data.TriggerRange, 1 + 2 * data.TriggerRange);
 
-            unit.gameObject.AddComponent<UnitShowBlip>().Init(unit, data.Owner == 1);
+            unit.gameObject.AddComponent<UnitShowBlip>().Init(unit, data);
         }
     }
     private static UnitAI MakeAI(ScriptableUnitConfig data, int group, GameObject base_unit, Unit m_unit)

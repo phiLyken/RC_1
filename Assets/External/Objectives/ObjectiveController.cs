@@ -2,15 +2,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using System.Linq;
 
 public class ObjectiveController : MonoBehaviour {
 
+   
     public bool InitOnStart;
     public bool CompleteAny;
 
+    public bool ResetOnStart;
+
     public List<ObjectiveConfig> Configs;
 
-    CompletionStack<Objective> Objectives;
+    protected CompletionStack<Objective> Objectives;
     public event Action<Objective> OnComplete;
     public event Action<Objective> OnNext;
 
@@ -24,36 +28,53 @@ public class ObjectiveController : MonoBehaviour {
     {
         Init(Configs);
     }
-    public void Init(List<ObjectiveConfig> _objectives)
+
+    public void ResetSaves()
     {
+        Configs.ForEach(conf => conf.Condition.SaveCompleted(false));
+        
+       
+    }
+    public virtual void Init(List<ObjectiveConfig> _objectives)
+    {
+        if (ResetOnStart)
+            ResetSaves();
+
         List<Objective> objectives = new List<Objective>();
         GameObject newGO = new GameObject("objective ");
         newGO.transform.parent = this.transform;
+        int index = 0;
 
-        _objectives.ForEach(obj => {
-            Objective objective = newGO.AddComponent<Objective>();
-            objectives.Add(objective);
-            objective.Init(obj, CanComplete);
+        _objectives
+            .Where(obj => !obj.Condition.GetHasCompletedInSave()).ToList()
+            .ForEach(obj => {
+               
+                Objective objective = newGO.AddComponent<Objective>();
+                objectives.Add(objective);
+                objective.Init(obj, CanComplete, index);
+                index++;
+            });
 
-        });
-        Init(objectives);
-    }
+      
 
-    public void Init(List<Objective> _objectives)
-    {
-        Objectives = new CompletionStack<Objective>(_objectives, CompleteAny);
+        Objectives = new CompletionStack<Objective>(objectives, CompleteAny);
 
         if (CompleteAny)
         {
             Objectives.OnComplete += OnObjectiveComplete;
-        } else
+        }
+        else
         {
             Objectives.OnCurrentComplete += OnObjectiveComplete;
         }
 
-        Objectives.OnSetNew += OnSetNew;      
+        Objectives.OnSetNew += OnSetNew;
         Objectives.Init();
+
+        objectives.ForEach(objective => objective.SpawnSetups());
     }
+
+
 
     void OnObjectiveComplete(Objective obj)
     {
@@ -64,6 +85,7 @@ public class ObjectiveController : MonoBehaviour {
     void OnSetNew(Objective obj)
     {
         Debug.Log("Objective new " + obj.Config.Title +" "+obj.Config.Condition.name);
+        obj.SpawnSetups();
         OnNext.AttemptCall(obj);
     }
 
@@ -77,4 +99,17 @@ public class ObjectiveController : MonoBehaviour {
         return Objectives.CanComplete(obj);
     }
 
+    public virtual bool HasCompleted(string missionID)
+    {
+
+        foreach(var objective in Objectives.GetItems())
+        {
+            if(objective.Config.ID == missionID) 
+            {
+                return objective.GetHasCompletedInSave();
+            }
+        }
+
+        return true;
+    }
 }

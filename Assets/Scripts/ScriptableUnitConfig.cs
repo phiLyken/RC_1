@@ -29,8 +29,14 @@ public class ScriptableUnitConfig : ScriptableObject
 
     public bool IdentifyOnSpawn;
 
+    public BlipBehaviour BlipBehavior;
    // UnitInventoryConfig InventoryConfig;
 
+}
+
+public enum BlipBehaviour
+{
+    on_action, always, none
 }
 
 [System.Serializable]

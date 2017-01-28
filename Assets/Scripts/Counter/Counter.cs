@@ -18,13 +18,19 @@ public class Counter : MonoBehaviour {
     {
         if (newcount >= 0)
         {
-            for(int i = 0; i < Enabled_States.Length; i++)
+            for (int i = 0; i < Enabled_States.Length; i++)
             {
                 bool enabled = i < newcount;
-                Enabled_States[i].SetActive(enabled);
+
+                if (Enabled_States[i].activeSelf != enabled)
+                { 
+                      StartCoroutine(Enabled_States[i].Blink(0.25f, 0.25f, 10, 2, !enabled, enabled));
+                }
+
                 if (Disabled_States != null && Disabled_States.Length > 0)
                 {
                     Disabled_States[i].SetActive(!enabled);
+                    StartCoroutine(Disabled_States[i].Blink(0.25f, 0.25f, 10, 2, true, true));
                 }
             }
         }

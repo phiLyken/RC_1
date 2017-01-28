@@ -15,6 +15,23 @@ public delegate bool GetBool();
 public static class M_Extensions
 {
 
+
+
+    public static IEnumerator Blink(this GameObject obj, float time_1, float time_2, int blinks, int last_state, bool start, bool end)
+    {
+        bool show = start;
+
+        obj.SetActive(show);
+
+        for(int i = 0; i < blinks; i++)
+        {
+            yield return new WaitForSeconds(i % 2 == 0 ? time_1 : time_2);
+            show = !show;
+            obj.SetActive(show);
+        }
+
+        obj.SetActive(end);
+    }
     /// <summary>
     /// DestroyImmidiate on all children of the object
     /// </summary>
@@ -28,7 +45,15 @@ public static class M_Extensions
         }
     }
 
-
+    public static void SetUIAlpha(this GameObject _object, float alpha)
+    {
+        CanvasGroup c = _object.GetComponent<CanvasGroup>();
+        if(c == null)
+        {
+            c = _object.AddComponent<CanvasGroup>();
+        }
+        c.alpha = alpha;
+    }
     public static void AttemptCall(this System.Action action)
     {
         if (action != null)
@@ -533,4 +558,6 @@ public static class M_Extensions
         }
         return null;
     }
+
+   
 }

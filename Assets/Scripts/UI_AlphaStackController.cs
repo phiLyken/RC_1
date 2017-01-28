@@ -23,6 +23,9 @@ public class UI_AlphaStackController : MonoBehaviour {
             StopAllCoroutines();
             StartCoroutine(UpdateAlphaTo(f));
         });
+
+        CanvasGroup.alpha = stack.GetHighestAlpha();
+      
     }
 
 

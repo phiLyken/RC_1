@@ -10,7 +10,7 @@ public static class ObjectiveConfigCreators
         [MenuItem("Assets/Create/Objectives/ObjectiveConfig")]
         public static void CreateAsset()
         {
-           M_Math.ScriptableObjectUtility.CreateAsset<ObjectiveConfig>();
+           // ConfigCre.CreateAsset<ObjectiveConfig>();
         }
     }
 }

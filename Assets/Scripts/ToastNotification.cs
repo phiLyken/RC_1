@@ -30,13 +30,13 @@ public class ToastNotification : MonoBehaviour {
         BG.color = bgcolor;
         TF.color = textcolor;
 
-        StartCoroutine(ShowToast());
+        StartCoroutine(ShowToast(2+ text.Length * 0.05f));
     }
-    IEnumerator ShowToast()
+    IEnumerator ShowToast(float duration)
     {
         yield return new WaitForSeconds(0.15f);
         ToggleActive(true);
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(duration);
         ToggleActive(false);
     }
 

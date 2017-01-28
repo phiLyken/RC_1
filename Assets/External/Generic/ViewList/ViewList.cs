@@ -60,7 +60,8 @@ public class ViewList<Item, View> where View : Component
             views = new Dictionary<Item, View>();
         }
 
-        items = items.GetRange(0, Mathf.Min(items.Count, ViewItemsCount));
+        if(!items.IsNullOrEmpty())
+            items = items.GetRange(0, Mathf.Min(items.Count, ViewItemsCount));
 
         if (items != null && items.Count > 0)
         {

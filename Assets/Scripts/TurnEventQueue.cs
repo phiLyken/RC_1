@@ -77,9 +77,9 @@ public class TurnEventQueue  {
     {
         Vector3 position;
 
-        public override void StartEvent( )
+        public override void StartEvent(Action _callback )
         {
-            base.StartEvent( );
+            base.StartEvent(_callback);
             if(RC_Camera.Instance != null)
             {
                 RC_Camera.Instance.ActionPanToPos.GoToPos(position, EndEvent);
@@ -89,13 +89,17 @@ public class TurnEventQueue  {
             }
         }     
 
-        public CameraFocusEvent(Vector3 pos )
+        public CameraFocusEvent(Vector3 pos ) : this(pos,null)
+        {           
+        }
+
+        public CameraFocusEvent(Vector3 pos, Action callback)
         {
             EventID = "CAMERA FOCUS";
             position = pos;
-            StartEvent();
+            StartEvent(callback);
         }
-   
+
     }
 
     public class AIAggroEvent : TurnEvent

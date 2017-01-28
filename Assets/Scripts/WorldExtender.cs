@@ -10,7 +10,7 @@ public class WorldExtender : MonoBehaviour {
 
 
      //keep track of spawned
-    List<RegionConfig> spawned;
+    protected List<RegionConfig> spawned;
 
     public RegionConfigDataBase RegionBalance;
 
@@ -30,14 +30,16 @@ public class WorldExtender : MonoBehaviour {
     }
     void Start()
     {
-        CurrentStage = CurrentStageOverride;
-        TurnSystem.Instance.OnGlobalTurn += OnGlobalTurn;
-        spawned = new List<RegionConfig>();
+       
         SetupGame();
     }
 
-    void SetupGame()
+    protected virtual void SetupGame()
     {
+        CurrentStage = CurrentStageOverride;
+        TurnSystem.Instance.OnGlobalTurn += OnGlobalTurn;
+        spawned = new List<RegionConfig>();
+
         SpawnRegion(RegionLoader.GetStartRegion(RegionBalance), TileManager.Instance);
         SpawnNext();
     }
@@ -66,7 +68,7 @@ public class WorldExtender : MonoBehaviour {
     /// <summary>
     /// Decides what to spawn next (camp, or regular region) and starts the region spawning process
     /// </summary>
-    public void SpawnNext()
+    public virtual void SpawnNext()
     {
         RegionConfig region = null;       
 

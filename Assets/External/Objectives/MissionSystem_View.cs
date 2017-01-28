@@ -6,6 +6,6 @@ public class MissionSystem_View : ObjectiveController_View {
 	 
     void Start()
     {
-        Set(MissionSystem.instance);
+        Set(MissionSystem.Instance);
     }
 }

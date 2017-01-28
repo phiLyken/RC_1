@@ -9,7 +9,7 @@ public class TacticLoader : MonoBehaviour {
     {
         if(GameObject.FindGameObjectWithTag("UI") == null) { 
 
-        GameObject UI =      Instantiate(Resources.Load("tactic_ui")) as GameObject;
+            GameObject UI = Instantiate(Resources.Load("tactic_ui")) as GameObject;
 
             UI_TurnList turnlist = UI.GetComponentInChildren<UI_TurnList>();
             turnlist.Init(Turn);

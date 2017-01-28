@@ -3,23 +3,26 @@ using System.Collections;
 
 public class UnitShowBlip : MonoBehaviour {
 
-    public bool ShowDuringAbility;
 
+    public BlipBehaviour Behavior;
     GameObject Blip;
     Unit target;
 
 
-    public void Init(Unit _target, bool show_only_on_ability)
+    public void Init(Unit _target, ScriptableUnitConfig config)
     {
         target = _target;
-        ShowDuringAbility = show_only_on_ability;
+
+        Behavior = config.BlipBehavior;
         Blip = Resources.Load("Units/unit_blip").Instantiate(this.transform, true);
 
-        Blip.SetActive(!ShowDuringAbility);
+        Blip.SetActive(Behavior == BlipBehaviour.always);
 
-
-        target.Actions.OnActionStarted += CheckTurn;
-        target.Actions.OnActionComplete += CheckTurn;
+        if(Behavior == BlipBehaviour.on_action)
+        { 
+            target.Actions.OnActionStarted += CheckTurn;
+            target.Actions.OnActionComplete += CheckTurn;
+        }
 
         target.OnIdentify += OnIdentify;
     }
@@ -28,19 +31,22 @@ public class UnitShowBlip : MonoBehaviour {
     {
         Remove();
     }
+
     void Remove()
     {
-        target.Actions.OnActionStarted -= CheckTurn;
-        target.Actions.OnActionComplete -= CheckTurn;
+        if (Behavior == BlipBehaviour.on_action)
+        {
+            target.Actions.OnActionStarted -= CheckTurn;
+            target.Actions.OnActionComplete -= CheckTurn;
+        }
         target.OnIdentify -= OnIdentify;
 
-        Destroy(Blip);
-        
+        Destroy(Blip);        
     }
+
     void CheckTurn(UnitActionBase ability)
     {
-
-        if(ShowDuringAbility)
+        if(Behavior == BlipBehaviour.on_action)
         {
             Blip.SetActive(ability.ActionInProgress);
         }

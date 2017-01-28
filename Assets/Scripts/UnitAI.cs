@@ -129,7 +129,7 @@ public class UnitAI : MonoBehaviour, ITriggerable {
     
     public Vector3 GetLookRotation()
     {
-        return preferred_target != null ? preferred_target.transform.position : transform.position + transform.forward;
+        return preferred_target != null ? preferred_target.transform.position : (transform.position + new Vector3(0,0,-1));
     }
 
     IEnumerator Move(Tile t)
