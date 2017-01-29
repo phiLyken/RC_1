@@ -90,7 +90,7 @@ public class UI_ActionBar_Button : MonoBehaviour, IToolTip{
     }
 
 
-    bool ShowAdrenalineRush()
+    public bool ShowAdrenalineRush()
     {
         return m_action.GetRequirements().Select(req => req.StatType).ToList().Contains(StatType.adrenaline);
     }

@@ -16,7 +16,8 @@ public class ObjectiveCondition_SeeEnemy : ObjectiveCondition {
 
     void OnDestroy()
     {
-        Destroy(events.gameObject);
+        if(events != null)
+            Destroy(events.gameObject);
     }
 
     void Update()

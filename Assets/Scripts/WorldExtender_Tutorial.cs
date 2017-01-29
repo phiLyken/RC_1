@@ -5,6 +5,30 @@ using System.Linq;
 
 public class WorldExtender_Tutorial  : WorldExtender{
 
+    public void SetTutorialState()
+    {
+        MissionSystem.OnCompleteMission += OnComplete;
+
+
+        if (MissionSystem.HasCompletedGlobal("loot"))
+        {
+            SpawnNext();
+        }
+
+        if ( MissionSystem.HasCompletedGlobal("find_enemy"))
+        {
+            Unit.GetAllUnitsOfOwner(0, true)[0].Identify(null);
+        }
+
+        if (MissionSystem.HasCompletedGlobal("move_to"))
+        {
+            Unit.GetAllUnitsOfOwner(1, true)[0].Identify(Unit.GetAllUnitsOfOwner(0, true)[0]);
+            Tile close_to_enemy = TileManager.Instance.GetEdgeTiles(M_Math.GetListFromObject(Unit.GetAllUnitsOfOwner(1, true)[0].currentTile), 1, TileManager.Instance).First();
+            Unit.GetAllUnitsOfOwner(0, true)[0].SetTile(close_to_enemy, true);
+        }
+    }
+
+
 
     protected override void SetupGame()
     {
@@ -14,14 +38,24 @@ public class WorldExtender_Tutorial  : WorldExtender{
 
         SpawnRegion(RegionLoader.GetStartRegion(RegionBalance), TileManager.Instance);
         SpawnNext();
+
+
     }
 
+    public void OnComplete(Objective obj)
+    {
+        if(obj.GetSaveID() == "loot")
+        {
+            SpawnNext();
+        }
+    }
     public override void SpawnNext()
     {
-        if(CurrentStage < RegionBalance.AllPools.Count)
+        if(CurrentStage < RegionBalance.AllPools[0].Regions.Count)
         {
             RegionConfig region = RegionBalance.AllPools[0].Regions[CurrentStage].Region;
             SpawnRegion(region, TileManager.Instance);
+            
             CurrentStage++;
         }
     }

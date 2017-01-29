@@ -46,7 +46,8 @@ public class ObjectiveCondition : MonoBehaviour, ICompletable {
         AllowedToComplete = canComplete;
     }
     
-
+    public virtual void SetActive()
+    { }
 
 
     public bool GetHasCompletedInSave()

@@ -10,6 +10,8 @@ public class ObjectiveController : MonoBehaviour {
     public bool InitOnStart;
     public bool CompleteAny;
 
+    public int DebugStartAt;
+
     public bool ResetOnStart;
 
     public List<ObjectiveConfig> Configs;
@@ -29,8 +31,18 @@ public class ObjectiveController : MonoBehaviour {
         Init(Configs);
     }
 
+    public void SetSaves(int count)
+    {
+        count = Mathf.Min(count, Configs.Count - 1);
+
+        for (int i = 0; i < count; i++)
+        {
+            Configs[i].Condition.SaveCompleted(true);
+        }
+    }
     public void ResetSaves()
     {
+
         Configs.ForEach(conf => conf.Condition.SaveCompleted(false));
         
        
@@ -39,6 +51,8 @@ public class ObjectiveController : MonoBehaviour {
     {
         if (ResetOnStart)
             ResetSaves();
+
+        SetSaves(DebugStartAt);
 
         List<Objective> objectives = new List<Objective>();
         GameObject newGO = new GameObject("objective ");
@@ -71,7 +85,7 @@ public class ObjectiveController : MonoBehaviour {
         Objectives.OnSetNew += OnSetNew;
         Objectives.Init();
 
-        objectives.ForEach(objective => objective.SpawnSetups());
+       /// objectives.ForEach(objective => objective.SetActive());
     }
 
 
@@ -85,7 +99,7 @@ public class ObjectiveController : MonoBehaviour {
     void OnSetNew(Objective obj)
     {
         Debug.Log("Objective new " + obj.Config.Title +" "+obj.Config.Condition.name);
-        obj.SpawnSetups();
+        obj.SetActive();
         OnNext.AttemptCall(obj);
     }
 

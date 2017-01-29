@@ -46,7 +46,7 @@ public class Objective : MonoBehaviour, ICompletable {
         return this;
     }
 
-    public void SpawnSetups()
+    private void SpawnSetups()
     {
         if (AllowedToComplete(this) && Setups ==null && !Config.Setup.IsNullOrEmpty())
         {
@@ -109,7 +109,15 @@ public class Objective : MonoBehaviour, ICompletable {
         Condition.SaveCompleted(b);
     }
 
- 
+    public void SetActive()
+    {
+        Condition.SetActive();
+        SpawnSetups();
+        OnActivate();
+    }
+    
+    protected virtual void OnActivate()
+    { }
 
     public bool GetHasCompletedInSave()
     {

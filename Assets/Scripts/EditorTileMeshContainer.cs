@@ -42,7 +42,7 @@ public class EditorTileMeshContainer : MonoBehaviour {
             TileMesh mesh = _instance.map[t];
             if(mesh != null)
             {
-                DestroyImmediate(mesh.gameObject);
+                Destroy(mesh.gameObject);
             }
 
             _instance.map[t] = m;

@@ -5,7 +5,7 @@ using System.Linq;
 using System;
 
 public enum LootCategory { small, medium, large }
-public enum EnemyDropCategory { none, normal, boss }
+public enum EnemyDropCategory { none, normal, boss, tutorial_stim, tutorial_epi }
 public enum ItemTypes{  weapon, armor, rest_pack, stim_pack, int_charge, dust }
 
 [System.Serializable]

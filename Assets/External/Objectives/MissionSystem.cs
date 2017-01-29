@@ -5,13 +5,7 @@ using System.Collections.Generic;
 
 public class MissionSystem : ObjectiveController {
 
-    void Awake()
-    {
-        if (_instance == null)
-        {
-            getInstance();
-        }
-    }
+    public static event Action OnInit;
 
     public static event Action<Objective> OnNewMission
     {
@@ -70,9 +64,11 @@ public class MissionSystem : ObjectiveController {
     public override void Init(List<ObjectiveConfig> _objectives)
     {
         if(_instance == null)
-        { 
+        {
+           
             _instance = this;
             base.Init(_objectives);
+            OnInit.AttemptCall();
         }
     }
 

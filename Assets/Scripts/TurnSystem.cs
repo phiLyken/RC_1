@@ -14,7 +14,9 @@ public class TurnSystem : MonoBehaviour {
     public IntEventHandler OnGlobalTurn;
     public Action<List<ITurn>> OnListUpdated;
     public Action<ITurn> OnStartTurn;
-     
+
+    public bool InitOnStart;
+
     int currentTurn;
     public List<ITurn> Turnables;
 
@@ -43,11 +45,15 @@ public class TurnSystem : MonoBehaviour {
         Instance = this;
         TurnEventQueue.Reset();
     }
-
     void Start()
     {
-        StartCoroutine(RunTurns());
+        if (InitOnStart)
+            Init();
     }
+    public void Init()
+    {
+        StartCoroutine(RunTurns());
+    } 
 
     public void GlobalTurn(int t)
     {
