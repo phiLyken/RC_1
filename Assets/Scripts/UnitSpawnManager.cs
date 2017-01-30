@@ -30,8 +30,20 @@ public class UnitSpawnManager : MonoBehaviour {
         return ids;
 
     }
+    public List<UnitSpawner> GetSpawners(List<int> unique_ids, int for_id)
+    {
+        int id = for_id == 0 ? M_Math.GetRandomObject(unique_ids) : for_id;
+        unique_ids.Remove(id);
+        return GetSpawners(id);
+       
+    }
 
-    List<UnitSpawner> GetSpawnerForGroup(List<int> unique_ids, UnitSpawnGroupConfig group)
+    public List<UnitSpawner> GetSpawners(int for_id)
+    {
+        return Spawners.Where(sp => sp.SpawnerGroupID == for_id).ToList();
+    }
+
+    public List<UnitSpawner> GetSpawnerForGroup(List<int> unique_ids, UnitSpawnGroupConfig group)
     {
         //if there are no distinct spawner ids left, stop
         if (unique_ids.Count == 0)
@@ -39,15 +51,12 @@ public class UnitSpawnManager : MonoBehaviour {
             Debug.LogWarning("Not Enough SpawnGroups in Tileset for GroupCount");
             return null;
         }
-        int id = group.SpawnerGroup == 0 ? M_Math.GetRandomObject(unique_ids) : group.SpawnerGroup;
-        unique_ids.Remove(id);
 
-       return Spawners.Where(sp => sp.SpawnerGroupID == id).ToList();
+        return GetSpawners(unique_ids, group.SpawnerGroup);
     }
    
     public void SpawnGroups(List<UnitSpawnGroupConfig> groups)
     {
-
         //first spawn groups with fixed spawner ids
         // -> sort descending by spawner ID, hence "0" groups will be last
         // get a list of all spawnergroups for an id
@@ -61,38 +70,44 @@ public class UnitSpawnManager : MonoBehaviour {
 
        // Debug.Log("spawning groups " + groups.Count);
         foreach (UnitSpawnGroupConfig group in groups) {
-
-
-            globalGroupCounter++;
-
-            List<UnitSpawner> spawnersForGroup = GetSpawnerForGroup(spawnerIDs, group);
-            if(spawnersForGroup == null || spawnersForGroup.Count == 0)
-            {
-                Debug.Log("NO SPAWNERS FOR GROUP");
-                return;
-            }
-
-            List<WeightedUnit> unitConfigs = RegionLoader.GetUnitsForGroupPower(group);
-
-            if (unitConfigs.Count > spawnersForGroup.Count)
-            {
-                Debug.LogWarning("Not enough spawners for my group :(   spawners:" + spawnersForGroup.Count+"  units:"+ unitConfigs.Count);
-              //  return;
-            }
-
-           // Debug.Log(spawnersForGroup.Count+ "   "+unitConfigs.Count);
-            while(spawnersForGroup.Count > 0 && unitConfigs.Count > 0)
-            {
-               // Debug.Log("SPAWN");
-                WeightedUnit unit = unitConfigs[Random.Range(0, unitConfigs.Count)];
-                UnitSpawner spawner = spawnersForGroup[Random.Range(0, spawnersForGroup.Count)];
-
-                unitConfigs.Remove(unit);
-                spawnersForGroup.Remove(spawner);
-
-                spawner.SpawnUnit( unit.UnitConfig,  unit.TurnTimeOnSpawn , globalGroupCounter, unit.HidePlayerUnit);
-
-            }
+            SpawnGroup(group, spawnerIDs);
         }
     }
+
+    void SpawnGroup(UnitSpawnGroupConfig group, List<int> spawnerIDs)
+    {
+        globalGroupCounter++;
+
+        List<UnitSpawner> spawnersForGroup = GetSpawnerForGroup(spawnerIDs, group);
+
+        if (spawnersForGroup == null || spawnersForGroup.Count == 0)
+        {
+            Debug.LogWarning("NO SPAWNERS FOR GROUP");
+            return;
+        }
+
+        List<WeightedUnit> unitConfigs = RegionLoader.GetUnitsForGroupPower(group);
+
+        if (unitConfigs.Count > spawnersForGroup.Count)
+        {
+            Debug.LogWarning("Not enough spawners for my group :(   spawners:" + spawnersForGroup.Count + "  units:" + unitConfigs.Count);
+            //  return;
+        }
+
+        // Debug.Log(spawnersForGroup.Count+ "   "+unitConfigs.Count);
+        while (spawnersForGroup.Count > 0 && unitConfigs.Count > 0)
+        {
+            // Debug.Log("SPAWN");
+            WeightedUnit unit = unitConfigs.GetRandom();
+            UnitSpawner spawner = spawnersForGroup.GetRandom();
+
+            unitConfigs.Remove(unit);
+            spawnersForGroup.Remove(spawner);
+
+            spawner.SpawnUnit(unit.UnitConfig, unit.TurnTimeOnSpawn, globalGroupCounter, unit.HidePlayerUnit);
+
+        }
+    }
+
+ 
 }

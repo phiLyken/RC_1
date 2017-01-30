@@ -408,6 +408,33 @@ public static class M_Extensions
 
         return list[UnityEngine.Random.Range(0, list.Count)];
     }
+
+    public static T GetRandomRemove<T>(this List<T> list)
+    {
+        if (!list.HasItems())
+            return default(T);
+
+        T item = list[UnityEngine.Random.Range(0, list.Count)];
+        list.Remove(item);
+        return item;
+    }
+
+    public static List<T> GetRandomRemove<T>(this List<T> list, int count)
+    {
+        if (!list.HasItems())
+            return null;
+
+        List<T> selected = new List<T>();
+
+        while (list.HasItems() && selected.Count < count)
+        {
+            T item = list[UnityEngine.Random.Range(0, list.Count)];
+            list.Remove(item);
+            selected.Add(item);
+        }
+        
+        return selected;
+    }
     public static void CountToInt(this Text TF, int from, int to, float time)
     {
         TF.StartCoroutine(CountTo(from, to, Mathf.Max(0, time), counted => TF.text = counted.ToString()));

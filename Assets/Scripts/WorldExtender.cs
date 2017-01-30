@@ -19,6 +19,7 @@ public class WorldExtender : MonoBehaviour {
     public int CurrentStageOverride;
 
     static public int CurrentStage;
+    
     public int TilesUntilCamp;
 
     public static WorldExtender Instance;
@@ -52,14 +53,22 @@ public class WorldExtender : MonoBehaviour {
         }
     }
 
-    public static void SpawnRegion(RegionConfig region, TileManager target)
+    public static void SpawnRegion(RegionConfig region, TileManager target )
     {
         TileManager instance = Instantiate(region.TileSet).gameObject.GetComponent<TileManager>();
         target.AppendGrid(instance);
        
         //spawn the units and shit
         UnitSpawnManager spawner = instance.GetComponent<UnitSpawnManager>();
+
+      
         List<UnitSpawnGroupConfig> groups = RegionLoader.GetGroupsForPower(region);
+
+        if (region.SpawnSquad)
+        {
+            groups.Add(SquadManager.MakeSquadGroup());
+        }
+
        // Debug.Log("Spawn Groups " + groups.Count);
         spawner.SpawnGroups(groups);
     }

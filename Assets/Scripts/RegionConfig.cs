@@ -5,6 +5,7 @@ using System;
 
 public class RegionConfig : ScriptableObject {
 
+    public bool SpawnSquad;
     public TileManager TileSet;
 	public int RegionTotalEnemyPower;
 
@@ -37,7 +38,6 @@ public class UnitSpawnGroupConfig : IWeightable
 
 [System.Serializable]
 public class WeightedUnit : IWeightable {
-
  
     public bool ForceUnit;
 	public ScriptableUnitConfig UnitConfig;

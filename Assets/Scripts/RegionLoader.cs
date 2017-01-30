@@ -40,16 +40,7 @@ public static class RegionLoader  {
     }
 
 
-    public static RegionPool GetPoolConfi(RegionConfigDataBase regions, int index)
-    {
-        RegionConfigDataBase db = regions;
-
-        if (index >= db.AllPools.Count)
-            Debug.LogWarning("Not sufficient index for Region Pools " + index + " items in pool" + db.AllPools.Count);
-
-        return db.AllPools[Mathf.Min(index, db.AllPools.Count - 1)];
-
-    }
+ 
 
     public static List<WeightedUnit> GetUnitsForGroupPower(UnitSpawnGroupConfig group) { 
 
