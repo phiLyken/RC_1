@@ -11,6 +11,7 @@ public class CameraAction_PanToPosition : CameraAction
     Vector3 TargetPosition;
     public float Speed;
 
+    StoppableCoroutine PanRoutine;
 
     public void GoTo(Vector3 pos)
     {
@@ -22,16 +23,26 @@ public class CameraAction_PanToPosition : CameraAction
         StartPan(pos, Speed, cb);
     }
 
+    public IEnumerator GoToPos(Vector3 pos)
+    {
+        Stop();
+        PanRoutine = DoAction().MakeStoppable();
+        ResetCallback(this);
+        TargetPosition = pos;
+        yield return StartCoroutine(PanRoutine);
+    }
 
+   
     public void StartPan(Vector3 pos, float speed, EventHandler _cb)
     {
-        Callback();
+        Stop();
         event_callback = _cb;
         ResetCallback(this);
         TargetPosition = pos;
         Speed = speed;
 
-        StartCoroutine("DoAction");
+        PanRoutine = DoAction().MakeStoppable();
+        StartCoroutine(PanRoutine);
     }
 
      
@@ -52,12 +63,9 @@ public class CameraAction_PanToPosition : CameraAction
             if (delta.magnitude < DistanceSpeedFalloffStart)
             {
                 speed *= SpeedFalloff.Evaluate((DistanceSpeedFalloffStart  - delta.magnitude) / DistanceSpeedFalloffStart);
-            }
-         
+            }         
            
-            transform.Translate(Vector3.ClampMagnitude(delta.normalized * speed * Time.deltaTime, delta.magnitude), Space.World);
-
-           
+            transform.Translate(Vector3.ClampMagnitude(delta.normalized * speed * Time.deltaTime, delta.magnitude), Space.World);                
 
             Debug.DrawLine(M_Math.GetCameraCenter(), TargetPosition, Color.red);
            
@@ -80,8 +88,10 @@ public class CameraAction_PanToPosition : CameraAction
 
     public override void Stop()
     {
-       // Debug.Log("STOP PAN");
-        StopAllCoroutines();
+        // Debug.Log("STOP PAN");
+        if (PanRoutine != null)
+            PanRoutine.Stop();
+
         Callback();
         Active = false;
     }

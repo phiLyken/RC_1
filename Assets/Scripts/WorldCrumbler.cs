@@ -16,7 +16,7 @@ public class WorldCrumbler : MonoBehaviour, ITurn {
     public float TurnTime;
     public Sprite CrumbleSprite;
     int starting_order;
-    bool hasCrumbled;
+    protected bool hasCrumbled;
 
     public bool IsActive
     {
@@ -25,6 +25,7 @@ public class WorldCrumbler : MonoBehaviour, ITurn {
 
     public void Init(TurnSystem system)
     {
+ 
         Instance = this;
         TurnSystem.Instance.OnGlobalTurn += GlobalTurn;
         RegisterTurn();
@@ -65,11 +66,15 @@ public class WorldCrumbler : MonoBehaviour, ITurn {
         return hasCrumbled;
     }
 
-    public void StartTurn()
+    protected  virtual string GetCrumbleText()
+    {
+        return "The earth is sh4king...";
+    }
+    virtual public void StartTurn()
     {
         hasCrumbled = false;
-        Debug.Log("Start Crubmle Turn");
-        ToastNotification.SetToastMessage1("The earth is shaking...");  
+
+        ToastNotification.SetToastMessage1(GetCrumbleText());  
         
         if(RC_Camera.Instance != null)
         {
@@ -80,7 +85,7 @@ public class WorldCrumbler : MonoBehaviour, ITurn {
         }
     }
 
-    Vector3 GetCameraPosition()
+    protected Vector3 GetCameraPosition()
     {
         TilePos centertile = new TilePos( (int)TileManager.Instance.GridWidth / 2, 
             Mathf.Min(TileManager.Instance.GetLastActiveRow(), TileManager.Instance.GridHeight-1));
@@ -88,7 +93,7 @@ public class WorldCrumbler : MonoBehaviour, ITurn {
         return TileManager.Instance.Tiles[centertile.x, centertile.z].GetPosition();
     }
 
-    void CrumbleTurn()
+    protected void CrumbleTurn()
     {
         Debug.Log("Crumble");
         SetCrumbleInWeightedTiles();
@@ -129,18 +134,25 @@ public class WorldCrumbler : MonoBehaviour, ITurn {
             yield return new WaitForSeconds(0.1f);
         }
 
-        hasCrumbled = true;
+        PostMoveTiles();
 
     }
-
+    protected virtual void PostMoveTiles()
+    {
+        hasCrumbled = true;
+    }
+    protected virtual int GetCrumbleCount()
+    {
+        return (int) TilesToCrumbleCount.Value();
+    }
     void SetCrumbleInWeightedTiles()
     {
       
-        int count = (int) TilesToCrumbleCount.Value();
+     
       //  Debug.Log("count " + count);
 
        // Debug.Log("crumble. last row " + TileManager.Instance.GetLastActiveRow());    
-        TileWeighted.GetCrumbleTiles(count, TileManager.Instance).ForEach(t => t.StartCrumble() );
+        TileWeighted.GetCrumbleTiles(GetCrumbleCount(), TileManager.Instance).ForEach(t => t.StartCrumble() );
     }
 
     public void GlobalTurn(int turn)

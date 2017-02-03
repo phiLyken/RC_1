@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+using System.Linq;
 
 public enum ActionButtonID
 {
@@ -20,6 +20,11 @@ public class UI_ActionBar_ButtonAnchor : MonoBehaviour {
         newGO.transform.localPosition = Vector3.zero;
 
         return newGO.GetComponent<UI_ActionBar_Button>();
+    }
+
+    public static RectTransform GetAnchor(ActionButtonID id)
+    {
+        return FindObjectsOfType<UI_ActionBar_ButtonAnchor>().Where(btn => btn.ButtonID == id).First().transform as RectTransform;
     }
      
          

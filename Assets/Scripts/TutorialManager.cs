@@ -56,6 +56,8 @@ public class TutorialManager : MonoBehaviour {
             case "kill_enemy_1":
                 GameObject.FindObjectOfType<UI_TurnList>().gameObject.SetUIAlpha(1);
                 break; 
+
+            
         }       
     }
 
@@ -71,14 +73,37 @@ public class TutorialManager : MonoBehaviour {
 
     void ShowSpecialPrompt()
     {
-            UI_Prompt.MakePrompt(
-                           FindObjectsOfType<UI_ActionBar_ButtonAnchor>().Where( btn => btn.ButtonID == ActionButtonID.special_atk_1).First().transform as RectTransform,
-                           "Use the more powerful \"Special Attack\" to kill the target", 2,
-                           delegate {
-                               return !rush.HasRush;
-                           },
-                        true);
+        UI_Prompt.MakePrompt(UI_ActionBar_ButtonAnchor.GetAnchor(ActionButtonID.special_atk_1),"Use the more powerful \"Special Attack\" to kill the target", 2,
+                           delegate { return !rush.HasRush;   },                        true);
         
+    }
+
+    void ShowStimpackPrompt()
+    {
+        UI_Prompt.MakePrompt(UI_ActionBar_ButtonAnchor.GetAnchor(ActionButtonID.stim), "Use stimpacks to regain Oxygen. Units without oxygen, die.", 2, delegate
+        { return !CanShowStimpackPrompt(); }, true);
+    }
+
+    bool CanShowStimpackPrompt()
+    {
+        Debug.Log(m_Unit.Stats.GetStatAmount(StatType.oxygen) + " " + m_Unit.Inventory.GetItem(ItemTypes.rest_pack).GetCount());
+        return m_Unit.Stats.GetStatAmount(StatType.oxygen) <= 3 && m_Unit.Inventory.HasItem(ItemTypes.rest_pack, 1);
+    } 
+
+    void UpdatedStat(Stat updated)
+    {
+      if(updated.StatType == StatType.oxygen && CanShowStimpackPrompt()){
+            ShowStimpackPrompt();
+        }
+      
+    }
+
+    void UpdatedInventory(IInventoryItem item, int count)
+    {
+        if(item.GetItemType() == ItemTypes.rest_pack && count > 0 && CanShowStimpackPrompt())
+        {
+            ShowStimpackPrompt();
+        }
     }
 
     void Update()
@@ -93,6 +118,8 @@ public class TutorialManager : MonoBehaviour {
                 rush.OnRushGain += OnRush;
                 rush.EnableDelay = 3f;
 
+                m_Unit.Stats.OnStatUpdated += UpdatedStat;
+                m_Unit.Inventory.OnInventoryUpdated += UpdatedInventory;
             }
         }
     }

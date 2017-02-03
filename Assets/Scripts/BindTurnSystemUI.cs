@@ -11,7 +11,7 @@ public class BindTurnSystemUI : MonoBehaviour {
 	void Start () {
       
         if(WorldCrumbler.isActiveAndEnabled)
-        WorldCrumbler.Init(TurnSystem);
+                 WorldCrumbler.Init(TurnSystem);
 	}
 	
  

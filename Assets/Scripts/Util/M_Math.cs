@@ -183,6 +183,9 @@ public static class M_Math
         if (_value > _max)
             return 1;
 
+        if (_min == _max)
+            return 1;
+
         return (_value - _min) / (_max - _min);
 
     }

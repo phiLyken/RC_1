@@ -30,8 +30,10 @@ public class ObjectiveCondition_KillEnemy : ObjectiveCondition {
     public override void SetActive()
     {
         base.SetActive();
+        Unit _player = Unit.GetAllUnitsOfOwner(0, true).FirstOrDefault();
 
-        Unit.GetAllUnitsOfOwner(0, true).First().Actions.OnActionSelected += action =>
+        if(_player != null)
+           _player.Actions.OnActionSelected += action =>
         {
             if ((action as UnitAction_ApplyEffectFromWeapon) != null)
             {
