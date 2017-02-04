@@ -47,12 +47,19 @@ public class UI_Unit : MonoBehaviour
         return m_unit.transform.position + Vector3.up * 1.5f;
     }
 
+    private Vector3 last_ui_pos;
+
     public void UpdatePosition()
     {
         UI_WorldPos worldpos = GetComponent<UI_WorldPos>();
-
+       
         if(m_unit != null)
-             worldpos.SetWorldPosition(GetUnitToolTipPosition());
+        {
+            last_ui_pos = GetUnitToolTipPosition();
+          
+        }
+
+        worldpos.SetWorldPosition(last_ui_pos);
     }
 
     public void SetUnitInfo(Unit u)
@@ -75,7 +82,8 @@ public class UI_Unit : MonoBehaviour
 
         Unit.OnUnitHover += CheckHovered;
         Unit.OnUnitHoverEnd += CheckHoverEnd;
-        Unit.OnUnitKilled += CheckKilled;
+        Unit.OnUnitKilled += CheckRemoved;
+        Unit.OnEvacuated += CheckRemoved;
 
         m_unit.Actions.OnActionComplete += ActionComplete;
         UpdateAP();
@@ -83,13 +91,13 @@ public class UI_Unit : MonoBehaviour
     }
 
  
-    void CheckKilled(Unit u)
+    void CheckRemoved(Unit u)
     {
         
         if (u == m_unit)
         {
-            
-            Unit.OnUnitKilled -= CheckKilled;
+            Unit.OnEvacuated -= CheckRemoved;
+            Unit.OnUnitKilled -= CheckRemoved;
            
             Unit.OnUnitHover -= CheckHovered;
             Unit.OnUnitHoverEnd -= CheckHoverEnd;
@@ -99,7 +107,7 @@ public class UI_Unit : MonoBehaviour
 
             u.Stats.OnStatUpdated -= UpdateValuesDelayed;
 
-            if (gameObject.activeSelf)
+            if (gameObject.activeSelf && u.IsDead())
             {
                
                 StopAllCoroutines();
@@ -107,7 +115,7 @@ public class UI_Unit : MonoBehaviour
             }
             else
             {
-       
+                    
                 Destroy(this.gameObject);
             }
         }

@@ -55,17 +55,20 @@ public class ActionManager : MonoBehaviour {
     }
 
 
-    void CheckOwnerKilled(Unit u)
+    void CheckRemoved(Unit u)
     {
         if(u == m_Owner)
         {
             Reset();
-            Unit.OnUnitKilled -= CheckOwnerKilled;
+            Unit.OnUnitKilled -= CheckRemoved;
+            Unit.OnEvacuated -= CheckRemoved;
         }
     }
 	void Start(){
 
-        Unit.OnUnitKilled += CheckOwnerKilled;
+        Unit.OnUnitKilled += CheckRemoved;
+        Unit.OnEvacuated += CheckRemoved;
+
 		UnitActionBase[] raw_actions = GetComponentsInChildren<UnitActionBase>();
 		foreach (UnitActionBase action in raw_actions) action.SetOwner(m_Owner);
 
@@ -128,6 +131,14 @@ public class ActionManager : MonoBehaviour {
         Debug.Log("Skip");
         AP_Used = MaxAP;
         CurrentTurnCost = 5;
+    }
+
+    public void Evacuate()
+    {
+        Debug.Log("^unit EVAC");
+        if(!GetOwner().Evacuate()){
+            ToastNotification.SetToastMessage2("Must be in Evacuation zone");
+        }
     }
 
     void Update()

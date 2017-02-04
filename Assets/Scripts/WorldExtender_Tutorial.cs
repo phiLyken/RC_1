@@ -47,6 +47,7 @@ public class WorldExtender_Tutorial  : WorldExtender{
         if(obj.GetSaveID() == "loot")
         {
             SpawnNext();
+            SpawnNext();
         }
     }
     public override void SpawnNext()

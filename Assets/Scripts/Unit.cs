@@ -28,7 +28,8 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     public static UnitEventHandler OnUnitSelect;
     public static UnitEventHandler OnTurnStart;
     public static UnitEventHandler OnTurnEnded;
-        
+    public static UnitEventHandler OnEvacuated;
+
     public DamageEventHandler OnDamageReceived;
   
     public UnitEventHandler OnActionSelectedInUnit;
@@ -198,6 +199,19 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
         }
     }
 
+    public bool Evacuate()
+    {
+        if (!currentTile.isCamp)
+            return false;
+
+        Debug.Log("^unit EVAC " + this.ToString());
+
+        if (OnEvacuated != null)
+            OnEvacuated(this);
+
+        RemoveUnitFromGame();
+        return true;
+    }
     public void UnitSelected()
     {
         if(Input.GetKey(KeyCode.T))

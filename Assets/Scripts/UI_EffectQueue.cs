@@ -38,7 +38,15 @@ public class UI_EffectQueue : MonoBehaviour {
             {
                 RemoveListeners();
             };
-        };               
+        };
+
+        Unit.OnEvacuated += u =>
+        {
+            if (u == unit)
+            {
+                RemoveListeners();
+            };
+        };
     }
 
     IEnumerator HideWhenEmpty()

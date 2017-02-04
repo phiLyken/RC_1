@@ -19,11 +19,22 @@ public class UI_ActiveUnit : MonoBehaviour {
         Group = GetComponent<CanvasGroup>();
         Instance = this;
         Unit.OnTurnStart += SetActiveUnit;
+
     }
 
+    void Start()
+    {
+        TurnSystem.Instance.OnGlobalTurn += Hide;
+    }
+
+    void Hide(int i)
+    {
+        Group.alpha = 0;
+    }
     void OnDestroy()
     {
         Unit.OnTurnStart -= SetActiveUnit;
+        TurnSystem.Instance.OnGlobalTurn -= Hide;
     }
     public void SetActiveUnit(Unit unit)
     {

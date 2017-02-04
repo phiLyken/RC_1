@@ -152,7 +152,7 @@ public class UI_ActionBar_Button : MonoBehaviour, IToolTip{
 
     public void SetBaseState(UnitActionBase action)
     {
-        if (action == null)
+        if (action == null || action.GetOwner() == null)
             return;
        // Debug.Log("set base state " + action.ActionID);
         ActionIcon.sprite = action.GetImage();        

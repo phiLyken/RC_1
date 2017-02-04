@@ -32,6 +32,7 @@ public class UnitFactory : MonoBehaviour
         Unit m_unit                                     = base_unit.AddComponent<Unit>();
         GameObject mesh                                 = MakeMesh(data, m_unit);
         Unit_UnitDeath unit_death                       = base_unit.AddComponent<Unit_UnitDeath>();
+        Unit_UnitEvacuation unit_evac                   = base_unit.AddComponent<Unit_UnitEvacuation>();
         UnitAnimationController animations              = mesh.AddComponent<UnitAnimationController>();
         UnitRotationController rotator                  = base_unit.AddComponent<UnitRotationController>();
         SpeechMananger_Unit speech_mananger             = base_unit.AddComponent<SpeechMananger_Unit>();
@@ -39,6 +40,7 @@ public class UnitFactory : MonoBehaviour
 
         UI_Unit.CreateUnitUI(m_unit);
 
+        unit_evac.Init(m_unit);
         adr_particles.Init(stats);
         AddActiveTurnIndicator(m_unit, data.Owner == 0);
         GetName(data, base_unit);

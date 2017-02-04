@@ -29,6 +29,7 @@ public class TurnSystem : MonoBehaviour {
         if (Instance == null || Instance.Current == null || Instance.Current != t) return false;
         return true;
     }
+
     public int GetCurrentTurn()
     {
         return currentTurn;

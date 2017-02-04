@@ -107,6 +107,7 @@ public class UnitAI : MonoBehaviour, ITriggerable {
             yield return StartCoroutine( Move(patrolDest)) ;
         } else
         {
+            yield return new WaitForSeconds(1f);
             SkipTurn();
             yield break;
         }
@@ -123,6 +124,7 @@ public class UnitAI : MonoBehaviour, ITriggerable {
             yield return StartCoroutine(Move(randomDest));
         } else
         {
+            yield return new WaitForSeconds(1f);
             SkipTurn();
         }
     }
@@ -443,7 +445,7 @@ public class UnitAI : MonoBehaviour, ITriggerable {
             yield return StartCoroutine(MovePatrol());
         } else
         {
-           
+            yield return new WaitForSeconds(1f);
             SkipTurn();
             yield return null;
         }

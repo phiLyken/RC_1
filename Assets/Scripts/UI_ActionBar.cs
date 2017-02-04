@@ -11,6 +11,7 @@ public class UI_ActionBar : MonoBehaviour {
     public List<UI_ActionBar_ButtonAnchor> Anchors;
     public Dictionary<ActionButtonID, UI_ActionBar_Button> CurrentButtons;
 
+    public Image Evac_Button_Icon;
     static UI_ActionBar instance;
 
     void Awake()
@@ -35,6 +36,14 @@ public class UI_ActionBar : MonoBehaviour {
         if(m_manager != null &&  m_manager.GetOwnerID() == 0)
         {
             m_manager.SkipTurn();
+        }
+    }
+
+    public void Evacuate()
+    {
+        if (m_manager != null && m_manager.GetOwnerID() == 0)
+        {
+            m_manager.Evacuate();
         }
     }
     void _setActions(ActionManager manager)
@@ -96,7 +105,10 @@ public class UI_ActionBar : MonoBehaviour {
             }
         }
 
-   
+
+        Evac_Button_Icon.color = manager.GetOwner().currentTile.isCamp ? Color.white : new Color(0.3f, 0.3f, 0.3f, 1);
+
+
     }
 
 

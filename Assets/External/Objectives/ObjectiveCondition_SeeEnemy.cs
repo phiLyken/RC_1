@@ -5,13 +5,13 @@ using System;
 public class ObjectiveCondition_SeeEnemy : ObjectiveCondition {
 
     public GameObject Notifier;
-
+   
     ObjectOnScreenEvents events;
 
     public override void Init(Func<bool> canComplete)
     {
-        base.Init(canComplete);   
-
+        base.Init(canComplete);
+        GlobalUpdateDispatcher.OnUpdate += _update;
     }
 
     void OnDestroy()
@@ -20,7 +20,7 @@ public class ObjectiveCondition_SeeEnemy : ObjectiveCondition {
             Destroy(events.gameObject);
     }
 
-    void Update()
+    void _update(float f)
     {
         if(events == null && Unit.GetAllUnitsOfOwner(1, true).Count > 0)
         {            
@@ -37,6 +37,7 @@ public class ObjectiveCondition_SeeEnemy : ObjectiveCondition {
 
     void Found()
     {
+        GlobalUpdateDispatcher.OnUpdate -= _update;
         events.OnAppear -= Found;
         new TurnEventQueue.CameraFocusEvent(events.transform.position, PostPan);
        

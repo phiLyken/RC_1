@@ -8,6 +8,7 @@ public class GameEndListener : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         Unit.OnUnitKilled += CheckUnitsLeft;
+        Unit.OnEvacuated += CheckUnitsLeft;
 	}
 	
     void CheckUnitsLeft(Unit u)
@@ -22,6 +23,7 @@ public class GameEndListener : MonoBehaviour {
     void OnDestroy()
     {
         Unit.OnUnitKilled -= CheckUnitsLeft;
+        Unit.OnEvacuated -= CheckUnitsLeft;
     }
  
 }

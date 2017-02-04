@@ -8,7 +8,10 @@ public class SpeechManager_Global : MonoBehaviour {
     void Start()
     {
         Unit.OnUnitKilled += Killed;
-        WorldCrumbler.Instance.OnCrumble += Crumble;
+
+        if(WorldCrumbler.Instance != null)
+             WorldCrumbler.Instance.OnCrumble += Crumble;
+
         TurnSystem.Instance.OnGlobalTurn += Global;
     }
 
