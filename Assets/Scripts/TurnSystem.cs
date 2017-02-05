@@ -70,7 +70,7 @@ public class TurnSystem : MonoBehaviour {
 
         Current = GetNext();
         
-        while ( Current != null )
+        while ( Current != null && !GameEndListener.GameEnded )
         {
             OnListUpdated.AttemptCall(Turnables);
             Current.TurnTimeUpdated +=OnTurnPreview;
@@ -90,7 +90,7 @@ public class TurnSystem : MonoBehaviour {
                         
             GlobalTurn(currentTurn);
 
-            yield return new WaitForSeconds(0.25f);
+            yield return new WaitForSeconds(0.5f);
             NormalizeList();
             SortListByTime();
 
@@ -156,9 +156,9 @@ public class TurnSystem : MonoBehaviour {
     {
         if (Turnables == null) return;
 	    Turnables = Turnables.OrderBy(o => o.GetTurnTime()+o.GetCurrentTurnCost()).ThenBy(o => o.StartOrderID).ToList();
-        UpdateUnitListUI();
+       // UpdateUnitListUI();
 
-        OnListUpdated.AttemptCall(Turnables);
+       OnListUpdated.AttemptCall(Turnables);
     }
 
     void UpdateUnitListUI()

@@ -15,20 +15,38 @@ public class Inventory : MonoBehaviour {
     {
         return 9999;
     }
+
+    public virtual void AddItem(IInventoryItem item, bool use_saved)
+    {
+        if (Items == null)
+            Items = new List<ItemInInventory>();
+
+        if (!HasItem(item.GetItemType(), 0))
+        {
+            if (use_saved)
+            {
+                Items.Add(new ItemInInventory(item));
+            } else
+            {
+                Items.Add(new ItemInInventory(item, item.GetCount()));
+            }
+        }
+
+        
+    }
+
     public virtual void AddItem(IInventoryItem item, int count)
     {
         if (Items == null) Items = new List<ItemInInventory>();
 
         if (!HasItem(item.GetItemType(), 0))
         {
-            Items.Add(new ItemInInventory(item, 0));
-        }
-       
-        ModifyItem(item.GetItemType(), count);
-
-       
+            Items.Add(new ItemInInventory(item, count));
+        }     
+        
        
     }
+
 
     public bool HasItem(ItemTypes type, int Minimum)
     {
@@ -84,6 +102,10 @@ public class Inventory : MonoBehaviour {
     */
     public ItemInInventory GetItem(ItemTypes type)
     {
+        if(Items == null)
+        {
+            return null;
+        }
         return Items.Where(it => it.GetItem().GetItemType() == type).FirstOrDefault();
     }
 
@@ -104,13 +126,24 @@ public class ItemInInventory : IInventoryItem
         return m_item;
     }
 
-    public ItemInInventory(IInventoryItem _base, int startCount)
-    {
-        m_item = _base;
-        count = startCount;
-      
+    public ItemInInventory(IInventoryItem _base) : this(_base, PlayerPrefs.GetInt(_base.GetID(), 0))
+    {    
     }
 
+    public ItemInInventory(IInventoryItem _base, int startCount)
+    {
+        m_item = _base;  
+        count = startCount;       
+      
+    }
+    public int GetSavedValue()
+    {
+        return PlayerPrefs.GetInt(GetID());
+    }
+    public void SaveValue()
+    {
+        PlayerPrefs.SetInt(GetID(), count);
+    }
 
     public void AddToInventory(UnitInventory inv)
     {

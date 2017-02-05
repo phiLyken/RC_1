@@ -191,4 +191,6 @@ public class Constants : MonoBehaviour {
     public static float CRUMBLE_WEIGHT_STAGE_WEIGHT = 5;
     public static float CRUMBLE_WEIGHT_DISTANCE = 5;
     #endregion
+
+    public static string TUTORIAL_SAVE_ID;
 }

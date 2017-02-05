@@ -587,21 +587,25 @@ public class TileManager : MonoBehaviour {
         }
     }
 	
-
-    public List<Tile> GetRow(Tile t)
+    public List<Tile> GetRow(int rownum)
     {
-       
-        int rowNum = t.TilePos.z;
         List<Tile> tiles = new List<Tile>();
 
-        if (Tiles == null) Tiles = FetchTiles();
+        rownum = Mathf.Clamp(rownum, 0, GridHeight);
+        if (Tiles == null)
+            Tiles = FetchTiles();
 
         for (int i = 0; i < GridWidth; i++)
         {
-            tiles.Add(Tiles[i, rowNum]);
+            tiles.Add(Tiles[i, rownum]);
         }
 
-        return tiles    ;
+        return tiles;
+    }
+    public List<Tile> GetRow(Tile t)
+    {
+
+        return GetRow(t.TilePos.z);
     }
     public List<Tile> GetTilesAtHeight(int height)
     {

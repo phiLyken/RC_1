@@ -52,6 +52,7 @@ public class UnitFactory : MonoBehaviour
         animations.Init(m_unit, mesh);
        
         m_unit.OwnerID = data.Owner;
+        m_unit.Config = data;
 
         speech_mananger.Init(data.SpeechConfig, m_unit);
     

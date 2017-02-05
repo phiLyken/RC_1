@@ -15,6 +15,7 @@ public class TutorialManager : MonoBehaviour {
 
     void Awake()
     {
+        GameEndListener.OnGameEnded += GameEnd;
         startTurn = new TutorialStartTurn();
         startTurn.RegisterTurn();
 
@@ -28,6 +29,13 @@ public class TutorialManager : MonoBehaviour {
 
         UI_Popup_Global.ShowContent(Intro_PopupContent, true);
         UI_Popup_Global.Instance.OnCloseDone += StartMission;
+    }
+
+    void GameEnd()
+    {
+        GameEndListener.OnGameEnded -= GameEnd;
+        PlayerPrefs.SetInt(Constants.TUTORIAL_SAVE_ID, 1);
+       
     }
 
     float _patrol_chance;

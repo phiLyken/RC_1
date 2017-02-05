@@ -9,7 +9,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
 
     int starting_order;
     public int OwnerID;
-
+    public ScriptableUnitConfig Config;
     public UnitStats Stats;
     public ActionManager Actions;
  
@@ -60,6 +60,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     bool _isActive;
     bool _isDead;
     bool _isIdentified;
+    bool _isEvacuated;
 
     public event System.Action OnUpdateSprite;
 
@@ -102,6 +103,10 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     public bool IsDead()
     {
         return _isDead;
+    }
+    public bool IsEvacuated()
+    {
+        return _isEvacuated;
     }
 
     void ActivationCheck()
@@ -203,13 +208,14 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     {
         if (!currentTile.isCamp)
             return false;
-
+        _isEvacuated = true;
         Debug.Log("^unit EVAC " + this.ToString());
+
+        RemoveUnitFromGame();
 
         if (OnEvacuated != null)
             OnEvacuated(this);
-
-        RemoveUnitFromGame();
+        
         return true;
     }
     public void UnitSelected()
@@ -399,7 +405,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
         {
 
                                                                     
-            if (!u.IsDead() && (owner == -1 || u.OwnerID == owner) && ( include_units_in_basecamp  || !u.currentTile.isCamp) )
+            if ( !u.IsEvacuated() && !u.IsDead() && (owner == -1 || u.OwnerID == owner) && ( include_units_in_basecamp  || !u.currentTile.isCamp) )
             {
                 list.Add(u);
             }

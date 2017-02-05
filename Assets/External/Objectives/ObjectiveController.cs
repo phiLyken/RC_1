@@ -33,7 +33,7 @@ public class ObjectiveController : MonoBehaviour {
 
     public void SetSaves(int count)
     {
-        count = Mathf.Min(count, Configs.Count - 1);
+        count = Mathf.Min(count, Configs.Count);
 
         for (int i = 0; i < count; i++)
         {

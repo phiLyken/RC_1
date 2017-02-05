@@ -10,6 +10,8 @@ public class SquadManager : MonoBehaviour {
     public int SquadSize;
 
     public List<ScriptableUnitConfig> selected_units;
+    public List<ScriptableUnitConfig> evacuated;
+    public List<ScriptableUnitConfig> killed;
 
     public bool DebugUseForceSelected;
 
@@ -39,10 +41,16 @@ public class SquadManager : MonoBehaviour {
             return;
         }
 
+        evacuated = new List<ScriptableUnitConfig>();
+        killed = new List<ScriptableUnitConfig>();
+
         if(!DebugUseForceSelected)
             selected_units = new List<ScriptableUnitConfig>();
 
-         instance = this;
+        Unit.OnEvacuated += Evacuated;
+        Unit.OnUnitKilled += Killed;
+
+        instance = this;
     }
 
     void Awake()
@@ -50,7 +58,20 @@ public class SquadManager : MonoBehaviour {
         if(instance == null)
         {
             init();
+        } else
+        {
+            killed = new List<ScriptableUnitConfig>();
+            evacuated = new List<ScriptableUnitConfig>();
         }
+    }
+    void Killed(Unit u)
+    {
+        killed.Add(u.Config);
+    }
+
+    void Evacuated(Unit u)
+    {
+        evacuated.Add(u.Config);
     }
 
     public static void RemoveFromSquad(ScriptableUnitConfig conf)

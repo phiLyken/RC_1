@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 
 public class WorldExtender : MonoBehaviour {
+    public bool UseChoosenRegion;
+
     /// <summary>
     /// Tiles left in the grid under consideration of the crumble-row when a new region is spawned
     /// </summary>
@@ -37,6 +39,9 @@ public class WorldExtender : MonoBehaviour {
 
     protected virtual void SetupGame()
     {
+        if (UseChoosenRegion)
+            RegionBalance = GameManager.ChoosenRegion;
+
         CurrentStage = CurrentStageOverride;
         TurnSystem.Instance.OnGlobalTurn += OnGlobalTurn;
         spawned = new List<RegionConfig>();
