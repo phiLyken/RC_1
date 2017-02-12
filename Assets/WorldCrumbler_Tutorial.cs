@@ -48,15 +48,15 @@ public class WorldCrumbler_Tutorial : WorldCrumbler {
     IEnumerator FirstCrumbleSequence()
     {
         ToastNotification.SetToastMessage1("HQ: Commander! We've received reports of an explosion in one of our mines.");
-        yield return new WaitForSeconds(4f);
+        yield return new WaitForSeconds(0.5f);
         yield return StartCoroutine( RC_Camera.Instance.ActionPanToPos.GoToPos(GetCameraPosition()));
-        yield return new WaitForSeconds(4f);   
+        yield return new WaitForSeconds(0.5f);   
       
 
         CrumbleTurn();
         hasCrumbled = false;
         ToastNotification.SetToastMessage1("WHAT?! The planets' surface is collapsing.");
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(4f);
 
         ToastNotification.SetToastMessage1("Commander Evac! Immidiately!");
         yield return new WaitForSeconds(3f);

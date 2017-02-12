@@ -42,6 +42,7 @@ public class MissionSystem : ObjectiveController {
         }
     }
 
+     
     static MissionSystem getInstance()
     {
         MissionSystem found =  GameObject.FindObjectOfType<MissionSystem>();
@@ -70,6 +71,11 @@ public class MissionSystem : ObjectiveController {
             base.Init(_objectives);
             OnInit.AttemptCall();
         }
+    }
+
+    void OnDestroy()
+    {
+        OnInit = null;
     }
 
 }

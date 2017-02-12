@@ -9,7 +9,9 @@ public abstract class UI_ButtonGetSet<T> : GenericView<T> {
     /// Allows to set a default item in inspector
     /// </summary>
     public T Override;
-    Action<T> CallBack;  
+    Action<T> CallBack;
+
+    public Button TargetButton;
 
     void Awake()
     {
@@ -22,7 +24,13 @@ public abstract class UI_ButtonGetSet<T> : GenericView<T> {
         base.SetItem(item);
 
         CallBack = button_Callback;
-        GetComponent<Button>().onClick.AddListener(OnClick);
+        if(TargetButton != null)
+        { 
+             TargetButton.onClick.AddListener(OnClick);
+        }else
+        {
+            GetComponent<Button>().onClick.AddListener(OnClick);
+        }
     }
 
     public override void SetItem(T item) 
@@ -33,8 +41,8 @@ public abstract class UI_ButtonGetSet<T> : GenericView<T> {
     public void OnClick()
     {
         CallBack.AttemptCall(m_Item);
-    }
 
+    }
 
 
 }

@@ -34,7 +34,9 @@ public class TutorialManager : MonoBehaviour {
     void GameEnd()
     {
         GameEndListener.OnGameEnded -= GameEnd;
-        PlayerPrefs.SetInt(Constants.TUTORIAL_SAVE_ID, 1);
+
+        if(SquadManager.Instance.evacuated.Count > 0)
+            PlayerPrefs.SetInt(Constants.TUTORIAL_SAVE_ID, 1);
        
     }
 
@@ -52,6 +54,13 @@ public class TutorialManager : MonoBehaviour {
 
 
     }
+
+    void OnDestroy()
+    {
+        if(MissionSystem.Instance != null)
+            MissionSystem.OnCompleteMission -= OnObjectiveComplete;
+    }
+
     void OnObjectiveComplete(Objective complete)
     {
 

@@ -8,6 +8,10 @@ public class UnitSelecterButton : UI_ButtonGetSet<Unlockable<TieredUnit>> {
     public GameObject Selected;
     public GameObject Locked;
 
+    public GameObject InfoButtonTarget;
+
+    UI_ButtonGetSet<ScriptableUnitConfig> _InfoButton;
+
     public UI_UnitMiniView Portrait;
     public Text ClassNameTF;   
     
@@ -28,6 +32,7 @@ public class UnitSelecterButton : UI_ButtonGetSet<Unlockable<TieredUnit>> {
         Portrait.SetItem(item.Item.Tiers[0].Config);
 
         item.AddUnlockListener(Updated);
+        InfoButtonTarget.AddComponent<UI_ButtonGetSet_ScriptableUnitConfig>().SetItem(item.Item.Tiers[0].Config, SetUnitInfo);
     }
 
 
@@ -45,5 +50,10 @@ public class UnitSelecterButton : UI_ButtonGetSet<Unlockable<TieredUnit>> {
     protected override void OnSet(Unlockable<TieredUnit> item)
     {
         SetUnselected();
+    }
+
+    protected void SetUnitInfo(ScriptableUnitConfig info)
+    {
+        Debug.Log("SHOW INFO");
     }
 }

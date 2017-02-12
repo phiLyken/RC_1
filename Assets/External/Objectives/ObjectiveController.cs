@@ -26,6 +26,12 @@ public class ObjectiveController : MonoBehaviour {
              Init(Configs);
     }
 
+    void OnDestroy()
+    {
+        OnComplete = null;
+        OnNext = null;
+    }
+
     public void Init()
     {
         Init(Configs);
