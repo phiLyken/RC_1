@@ -13,8 +13,7 @@ public class UI_SquadSlotController : MonoBehaviour {
     void Awake()
     {
         MakeSlots();
-        SquadManager.Instance.OnSelectedUpdate += OnUpdate;
-        
+        SquadManager.Instance.OnSelectedUpdate += OnUpdate;        
 
         OnUpdate(SquadManager.Instance.selected_units); 
         

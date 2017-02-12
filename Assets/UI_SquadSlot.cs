@@ -5,9 +5,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 
 public class UI_SquadSlot : GenericView<Unlockable<SquadSizeConfig>> {
-
-  
-
+    
     ScriptableUnitConfig m_config;
 
     public GameObject Available;
@@ -50,12 +48,14 @@ public class UI_SquadSlot : GenericView<Unlockable<SquadSizeConfig>> {
         m_config = unit;
         setState();
     }
+    
     void setState( ) 
     {
 
         if(m_config != null)
         {
             States.Select(Filled);
+            Filled.GetComponent<UI_SquadSlot_Filled>().Set(m_config);
 
         } else if (m_Item.IsUnlocked())
         {
@@ -63,6 +63,7 @@ public class UI_SquadSlot : GenericView<Unlockable<SquadSizeConfig>> {
         } else
         {
             States.Select(Locked);
+            Locked.GetComponent<UI_SquadSlot_Locked>().SetLevel(m_Item.GetLevelRequirement());
         } 
     }
 
