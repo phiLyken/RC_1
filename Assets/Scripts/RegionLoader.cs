@@ -121,7 +121,13 @@ public static class RegionLoader  {
 
     public static RegionConfig GetCamp(RegionConfigDataBase region_balance, int level)
     {
+        if(region_balance.GetPool(level) == null)
+        {
+            return null;
+        }
+
         List<WeightedRegion> camps = region_balance.GetPool(level).Camps;
+
         if (camps.IsNullOrEmpty())
         {
             Debug.LogWarning("NO CAMP FOUND");
