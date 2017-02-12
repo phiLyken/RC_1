@@ -17,12 +17,12 @@ public class RegionSelecterButton : UI_ButtonGetSet<RegionConfigDataBase>
 
     public override void Updated()
     {
-        Debug.Log("set item");
+     //   Debug.Log("set item");
     }
     
     protected override void OnSet(RegionConfigDataBase item)
     {
-        Debug.Log("set item");
+    //    Debug.Log("set item");
          
         TF.text = item.Difficulty.ToString();
         Locked.SetActive(!item.IsUnlocked());

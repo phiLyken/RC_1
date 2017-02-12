@@ -71,8 +71,7 @@ public class UnitFactory : MonoBehaviour
         mesh.gameObject.GetComponentsInChildren<Renderer>().ToList().ForEach(rend => rend.enabled = false);
         //and then identify
         InitIdentified(data, m_unit, hide_player);
-
-       
+               
        
         return m_unit;
     }
@@ -163,7 +162,7 @@ public class UnitFactory : MonoBehaviour
 
         List<SkinnedMeshRenderer> suitobjects = suit.GetComponentsInChildren<SkinnedMeshRenderer>().ToList();
 
-        suitobjects.Add(head.GetComponentsInChildren<SkinnedMeshRenderer>().First());
+        suitobjects.AddRange(head.GetComponentsInChildren<SkinnedMeshRenderer>() );
 
         List<GameObject> skinned_objects = M_Math.InsantiateObjects(suitobjects.Select(skn => skn.gameObject).ToList());
 
