@@ -3,8 +3,18 @@ using UnityEditor;
 using System.IO;
 
 
+public class ScriptableRegionDataBaseConfigsCreator
+{
+    [MenuItem("Assets/Create/SelectibleRegionConfigDatabases")]
+    public static void CreateAsset()
+    {
+        M_Math.ScriptableObjectUtility.CreateAsset<ScriptableRegionDataBaseConfigs>();
+    }
+}
 public class ScriptableUnitTierCreator
 {
+
+     
     [MenuItem("Assets/Create/Unit Tier Config")]
     public static void CreateAsset()
     {

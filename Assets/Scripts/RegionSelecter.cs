@@ -8,13 +8,14 @@ public class RegionSelecter : MonoBehaviour
 {
     UniqueSelectionGroup<RegionConfigDataBase> selection;
 
-    public List<RegionConfigDataBase> Regions;
+    List<RegionConfigDataBase> Regions;
     public Transform Target;
 
     ViewList<RegionConfigDataBase, RegionSelecterButton> selecters;
        
     public void Awake()
     {
+        Regions = new List<RegionConfigDataBase>(Resources.Load<ScriptableRegionDataBaseConfigs>("Regions/selectablemissions_defaultbalancing").RegionConfigs);
         selecters = new ViewList<RegionConfigDataBase, RegionSelecterButton>().Init(MakeView, delegate
         { return Target; }, Regions, RemoveView, Regions.Count);
 
