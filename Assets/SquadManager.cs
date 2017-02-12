@@ -5,7 +5,8 @@ using System.Linq;
 using System;
 
 public class SquadManager {
-    
+
+    public event Action<List<TieredUnit>> OnSelectedUpdate;
        
     public List<TieredUnit> selected_units;
     public List<ScriptableUnitConfig> evacuated;
@@ -50,6 +51,7 @@ public class SquadManager {
         } else
         {            
             selected_units = new List<TieredUnit>( Tiers).GetRandomRemove(GetMaxSquadsize());
+            OnSelectedUpdate.AttemptCall(selected_units);
         }
 
         Unit.OnEvacuated += Evacuated;
@@ -86,6 +88,7 @@ public class SquadManager {
     {
         Debug.Log("REMOVING " + conf.Tiers[0].Config.ID);
         Instance.selected_units.Remove(conf);
+        Instance.OnSelectedUpdate.AttemptCall(Instance.selected_units);
     }
 
     public static bool AddToSquad(Unlockable<TieredUnit> conf)
@@ -94,6 +97,7 @@ public class SquadManager {
         {
             Debug.Log("ADDING " + conf.Item.Tiers[0].Config.ID);
             Instance.selected_units.Add(conf.Item);
+            Instance.OnSelectedUpdate.AttemptCall(Instance.selected_units);
             return true;
         }
 
@@ -111,7 +115,10 @@ public class SquadManager {
         return squadsizeunlocks.GetHighestUnlocked<SquadSizeConfig>().Size;
     }
 
-   
+    public List<Unlockable<SquadSizeConfig>> GetSquadSizeUnlockes()
+    {
+        return squadsizeunlocks;
+    }
     void StartGame(List<Unit> spawned)
     {
         spawnedUnits = spawned;

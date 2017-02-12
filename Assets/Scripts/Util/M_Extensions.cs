@@ -14,7 +14,7 @@ public delegate bool GetBool();
 
 public static class M_Extensions
 {
-
+ 
     public static T MakeMonoSingleton<T>(out T _save_to) where T : MonoBehaviour, IInit
     {
         {

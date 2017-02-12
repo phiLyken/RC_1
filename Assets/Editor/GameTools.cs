@@ -18,8 +18,8 @@ public class GameTools : EditorWindow   {
 
     void OnGUI()
     {
-
-       if(TurnSystem.Instance != null)
+        GUILayout.BeginHorizontal();
+        if (TurnSystem.Instance != null)
         {
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.LabelField(TurnSystem.Instance.GetCurrentTurn().ToString());
@@ -28,7 +28,7 @@ public class GameTools : EditorWindow   {
                 TurnSystem.Instance.NextTurn();
             }
         }
-
+        GUILayout.EndHorizontal();
         GUILayout.BeginHorizontal();
         GUILayout.Label("COLLECTED DUST");
         PlayerPrefs.SetInt(Constants.PROGRESS_SAVE_ID, CollectedDust = EditorGUILayout.IntField(CollectedDust));
