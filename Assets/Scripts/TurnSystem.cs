@@ -185,6 +185,9 @@ public class TurnSystem : MonoBehaviour {
 
     public static int Register(ITurn new_turnable)
     {
+        if (Instance == null)
+            return 0;
+
         if (Instance.Turnables == null)
         {
             Instance.Turnables = new List<ITurn>();

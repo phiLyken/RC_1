@@ -33,7 +33,10 @@ public class WorldExtender : MonoBehaviour {
         RegionBalance = Region;
         Instance = this;
         CurrentStage = CurrentStageOverride;
-        TurnSystem.Instance.OnGlobalTurn += OnGlobalTurn;
+
+        if(TurnSystem.Instance != null)
+            TurnSystem.Instance.OnGlobalTurn += OnGlobalTurn;
+
         spawned = new List<RegionConfig>();
 
         SpawnRegion(RegionLoader.GetStartRegion(RegionBalance), TileManager.Instance);

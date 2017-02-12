@@ -151,6 +151,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     void Start()
     {
         ActivationCheck();
+        if(TurnSystem.Instance != null)
         TurnSystem.Instance.OnGlobalTurn += GlobalTurn;        
     }    
 

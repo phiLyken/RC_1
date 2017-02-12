@@ -29,6 +29,8 @@ public class GameTools : EditorWindow   {
             }
         }
         GUILayout.EndHorizontal();
+
+
         GUILayout.BeginHorizontal();
         GUILayout.Label("COLLECTED DUST");
         PlayerPrefs.SetInt(Constants.PROGRESS_SAVE_ID, CollectedDust = EditorGUILayout.IntField(CollectedDust));
@@ -46,6 +48,16 @@ public class GameTools : EditorWindow   {
             TutorialComplete = 0;
             CollectedDust = 0;
             this.Repaint();
+        }
+
+        if (Application.isPlaying)
+        {
+        GUILayout.BeginHorizontal();
+            if (GUILayout.Button("Identify all units"))
+            {
+             Unit.AllUnits.ForEach(unit => unit.Identify(null));
+            }
+            GUILayout.EndHorizontal();
         }
     }
 }

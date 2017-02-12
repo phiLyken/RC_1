@@ -474,11 +474,14 @@ public class UnitAI : MonoBehaviour, ITriggerable {
         if (_triggered)
             return;
 
-        Debug.Log("^ai OnTrigger " + triggerer.name);
-        SetPreferredTarget(triggerer);
-        m_unit.GetComponent<UnitRotationController>().TurnToPosition(triggerer.transform);
-        m_unit.Activate();
-       
+        if(triggerer != null)
+        {
+            Debug.Log("^ai OnTrigger " + triggerer.name);
+            m_unit.GetComponent<UnitRotationController>().TurnToPosition(triggerer.transform);
+            SetPreferredTarget(triggerer);
+        }
+
+        m_unit.Activate();      
 
         m_unit.Identify(triggerer);
 

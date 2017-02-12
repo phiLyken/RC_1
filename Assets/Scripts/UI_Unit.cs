@@ -37,7 +37,8 @@ public class UI_Unit : MonoBehaviour
  
     void Update()
     {
-        UpdatePosition();
+       if(transform.parent != null)
+         UpdatePosition();
     }
 
     Vector3 GetUnitToolTipPosition()
