@@ -605,5 +605,26 @@ public static class M_Extensions
         return null;
     }
 
-   
+    public static T GetAndRemove<T>(this List<T> list, int index)
+    {
+        if (list.IsNullOrEmpty())
+        {
+            return default(T);
+        }
+
+        T retreived = list[Mathf.Clamp(index, 0, list.Count - 1)];
+        list.Remove(retreived);
+        return retreived;
+    }
+
+    public static T GetLastAndRemove<T>(this List<T> list)
+    {
+        if (list.IsNullOrEmpty())
+        {
+            return default(T);
+        }
+
+        return list.GetAndRemove(list.Count - 1);
+    }
+
 }

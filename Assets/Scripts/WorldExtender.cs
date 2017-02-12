@@ -17,32 +17,35 @@ public class WorldExtender : MonoBehaviour {
     protected RegionConfigDataBase RegionBalance;
 
     public int MinTilesLastUnit;
-
-    public int CurrentStageOverride;
-
-    static public int CurrentStage;
     
     public int TilesUntilCamp;
 
     public static WorldExtender Instance;
 
+    List<RegionConfig> configsToSpawn;
 
-
+    public int GetGetDifficulty()
+    {
+        return RegionBalance.Difficulty;
+    }
     public virtual void SetupGame(RegionConfigDataBase Region)
     {
         RegionBalance = Region;
         Instance = this;
-        CurrentStage = CurrentStageOverride;
 
         if(TurnSystem.Instance != null)
             TurnSystem.Instance.OnGlobalTurn += OnGlobalTurn;
 
         spawned = new List<RegionConfig>();
 
-        SpawnRegion(RegionLoader.GetStartRegion(RegionBalance), TileManager.Instance);
+        SetSpawnConfigs(Region);
         SpawnNext();
     }
 
+    protected void SetSpawnConfigs(RegionConfigDataBase Region)
+    {
+        configsToSpawn = RegionLoader.RegionsToSpawn(Region);
+    }
     void OnGlobalTurn(int crumble_row)
     {
         if (LastUnitCloseToEnd(TileManager.Instance.FirstUnitRow(0)))
@@ -53,6 +56,7 @@ public class WorldExtender : MonoBehaviour {
 
     public static void SpawnRegion(RegionConfig region, TileManager target )
     {
+       
         TileManager instance = Instantiate(region.TileSet).gameObject.GetComponent<TileManager>();
         target.AppendGrid(instance);
        
@@ -77,21 +81,19 @@ public class WorldExtender : MonoBehaviour {
     /// </summary>
     public virtual void SpawnNext()
     {
-        RegionConfig region = null;       
+        if (configsToSpawn.IsNullOrEmpty()) {
+            return;
+        }
+        
+        RegionConfig region = null;
 
-        if (TilesUntilCamp <= TileManager.Instance.GridHeight)
-        {
-            region = RegionLoader.GetCamp(RegionBalance, CurrentStage);
-            CurrentStage++;
-            TilesUntilCamp = GetNextCampSpawn();
-        }
-        else
-        {
-            region = RegionLoader.GetWeightedRegionForLevel(RegionBalance, CurrentStage, spawned);
-            if (region == null)
-                return;
-            spawned.Add(region);
-        }
+        region = configsToSpawn[0];
+        configsToSpawn.RemoveAt(0);
+
+        if (region == null)
+            return;
+        spawned.Add(region);
+        
 
       //  Debug.Log("spawning region " + region.name);
         SpawnRegion(region, TileManager.Instance);

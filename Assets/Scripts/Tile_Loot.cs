@@ -34,7 +34,7 @@ public class Tile_Loot : MonoBehaviour {
 
         if (content.Item.Type  == ItemTypes.dust)
         {
-            amount = Constants.GetDustForProgress(amount, WorldExtender.CurrentStage);
+            amount = Constants.GetDustForProgress(amount, WorldExtender.Instance.GetGetDifficulty());
         }
 
         item_lootable = new ItemInInventory(content.Item, amount);

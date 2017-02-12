@@ -5,7 +5,7 @@ using System.Collections.Generic;
 [System.Serializable]
 public class RegionConfigDataBase : ScriptableObject {
 
-  
+
     public WorldCrumbler CrumblerSetting;
 
     public bool IsTutorial;
@@ -15,6 +15,9 @@ public class RegionConfigDataBase : ScriptableObject {
  
 	[SerializeField]
 	public List<RegionPool> AllPools;
+
+    [SerializeField]
+    public List<WeightedRegion> Camps;
 
     public RegionConfig StartRegion;
 
@@ -46,6 +49,5 @@ public class RegionPool{
 	[SerializeField]
 	public List<WeightedRegion> Regions;
 
-    [SerializeField]
-    public List<WeightedRegion> Camps;
+ 
 }

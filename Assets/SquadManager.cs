@@ -126,23 +126,26 @@ public class SquadManager {
 
     public static UnitSpawnGroupConfig MakeSquadGroup()
     {
-        if (Instance.selected_units.IsNullOrEmpty())
-        {
-            Debug.LogWarning("NO UNITS SELECTED");
-            return null;
-
-        }
+        List<ScriptableUnitConfig> unit_configs = new List<ScriptableUnitConfig>();
         UnitSpawnGroupConfig conf = new UnitSpawnGroupConfig();
-
         conf.ForceGroup = true;
         conf.SpawnerGroup = 1;
         conf.SpawnableUnits = new List<WeightedUnit>();
 
-        List<ScriptableUnitConfig> unit_configs = new List<ScriptableUnitConfig>();
-        foreach(var _selected in Instance.selected_units)
+        if (Instance.selected_units.IsNullOrEmpty())
         {
-            unit_configs.Add(  TieredUnit.Unlocks(_selected.Tiers, PlayerLevel.Instance).GetHighestUnlocked().Config );
+            Debug.LogWarning("NO UNITS SELECTED");
+
+            Instance.unitunlocks.Select(unlock => unlock.Item).ToList().ForEach(unlock => unit_configs.Add(unlock.Tiers.GetRandom().Config));
+        } else
+        {
+            foreach (var _selected in Instance.selected_units)
+            {
+                unit_configs.Add(TieredUnit.Unlocks(_selected.Tiers, PlayerLevel.Instance).GetHighestUnlocked().Config);
+            }
         }
+        
+
         List<ScriptableUnitConfig> selected = unit_configs.GetRandomRemove(Instance.GetMaxSquadsize());
 
         foreach (ScriptableUnitConfig unit_config in selected)

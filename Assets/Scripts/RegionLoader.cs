@@ -5,40 +5,24 @@ using System.Linq;
 
 public static class RegionLoader  {
 
-    public static RegionConfig GetStartRegion(RegionConfigDataBase regions)
-    {
-        return regions.StartRegion;
-    }
+ 
 
-    public static RegionConfig GetWeightedRegionForLevel(RegionConfigDataBase regions, int level, List<RegionConfig> exclude)
-    {
 
-        RegionPool pool_level =  regions.GetPool(level);
-        if(pool_level == null)
+    public static List<RegionConfig> RegionsToSpawn(RegionConfigDataBase config)
+    {
+        List<RegionConfig> regions_to_spawn = new List<RegionConfig>();
+        regions_to_spawn.Add(config.StartRegion);
+
+        foreach (var pool in config.AllPools)
         {
-            Debug.LogWarning(" NO REGIONS LEFT for LEVEL " + level);
-            return null;
-        }
-        // get regions for level
-        List<WeightedRegion> configs = pool_level.Regions.Where( r =>  !exclude.Contains(r.Region ) ).ToList();
-        
-        if(configs.Count == 0)
-        {
-            Debug.LogWarning(" NO REGIONS LEFT for LEVEL " + level);
-            return null;
+            regions_to_spawn.Add(WeightableFactory.GetWeighted(pool.Regions).Region);
         }
 
-       //  Debug.Log(configs.Count);
-        // choose random region by weight
-        WeightedRegion wr = WeightableFactory.GetWeighted(configs);
+        regions_to_spawn.Add(WeightableFactory.GetWeighted(config.Camps).Region);
 
-        if (wr == null)
-            return null;
-        
-        return wr.Region;
-            
+        return regions_to_spawn;
+
     }
-
 
  
 
@@ -119,21 +103,5 @@ public static class RegionLoader  {
     }
 
 
-    public static RegionConfig GetCamp(RegionConfigDataBase region_balance, int level)
-    {
-        if(region_balance.GetPool(level) == null)
-        {
-            return null;
-        }
-
-        List<WeightedRegion> camps = region_balance.GetPool(level).Camps;
-
-        if (camps.IsNullOrEmpty())
-        {
-            Debug.LogWarning("NO CAMP FOUND");
-            return null;
-        }
-        return WeightableFactory.GetWeighted(camps).Region;
-       
-    }
+ 
 }

@@ -41,11 +41,10 @@ public class WorldExtender_Tutorial  : WorldExtender{
     public override void SetupGame(RegionConfigDataBase region)
     {
         Instance = this;
-        CurrentStage = 0;
+     
         RegionBalance = region;
         spawned = new List<RegionConfig>();
-
-        SpawnRegion(RegionLoader.GetStartRegion(RegionBalance), TileManager.Instance);
+        SetSpawnConfigs(region);
         SpawnNext();
 
 
@@ -59,15 +58,6 @@ public class WorldExtender_Tutorial  : WorldExtender{
             SpawnNext();
         }
     }
-    public override void SpawnNext()
-    {
-        if(CurrentStage < RegionBalance.AllPools[0].Regions.Count)
-        {
-            RegionConfig region = RegionBalance.AllPools[0].Regions[CurrentStage].Region;
-            SpawnRegion(region, TileManager.Instance);
-            
-            CurrentStage++;
-        }
-    }
+
 
 }
