@@ -41,7 +41,7 @@ public class ObjectiveController_View : GenericView<ObjectiveController> {
     Objective_View MakeView(Objective item, Transform target)
     {
         Objective_View view = Resources.Load("objective_view").Instantiate(target, true).GetComponent<Objective_View>();
-        view.Set(item);
+        view.SetItem(item);
         return view;
     }
    

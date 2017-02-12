@@ -4,7 +4,15 @@ using System.Collections.Generic;
 
 [System.Serializable]
 public class RegionConfigDataBase : ScriptableObject {
-	
+
+  
+    public WorldCrumbler CrumblerSetting;
+
+    public bool IsTutorial;
+ 
+
+    public int Difficulty;
+ 
 	[SerializeField]
 	public List<RegionPool> AllPools;
 
@@ -25,6 +33,11 @@ public class RegionConfigDataBase : ScriptableObject {
             return null;
         }
         return AllPools[i];
+    }
+
+    public bool IsUnlocked()
+    {
+        return IsTutorial || PlayerPrefs.GetInt(Constants.TUTORIAL_SAVE_ID) == 1;
     }
  }
 	

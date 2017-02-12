@@ -22,14 +22,24 @@ public class Levels {
 
     int currentProgress;
  
+    public int GetProgress()
+    {
+        return currentProgress;
+    }
 
-
+    public int GetMaxLevel()
+    {
+        return config.RequiredProgress.Count + 1;
+    }
     public float GetProgressInLevel()
     {
         return M_Math.GetPercentpointsOfValueInRange(currentProgress, config.GetProgressForLevel(cachedLevel), config.GetProgressForLevel(cachedLevel + 1));
   
     }
-
+    public int GetRequiredForLevel(int level)
+    {
+        return config.RequiredProgress[Mathf.Clamp(level-2, 0, config.RequiredProgress.Count - 1)];
+    }
     public void AddProgress(int amount)
     {        
         currentProgress += amount;

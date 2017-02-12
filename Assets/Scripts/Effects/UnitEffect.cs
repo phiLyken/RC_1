@@ -75,6 +75,7 @@ public class UnitEffect : MonoBehaviour
     public void OnDestroy()
     {
     //    Debug.Log("Removed Effect  -" + Unique_ID);
+    if(TurnSystem.Instance != null)
         TurnSystem.Instance.OnGlobalTurn -= OnGlobalTurn;
     }
 

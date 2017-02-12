@@ -21,6 +21,12 @@ public class ViewList<Item, View> where View : Component
     protected Dictionary<Item, View> views;
     public Action<View> RemoveViewCallback;
 
+    public View GetView(Item item)
+    {
+        View v = default(View);
+        views.TryGetValue(item, out v);
+        return v;
+    }
     public virtual ViewList<Item, View> Init(ViewBuilderDelegate view_builder, GetTransformForItem _getTarget, List<Item> list, Action<View> RemoveCallback, int _viewitemcount)
     {
         Init(view_builder, _getTarget, RemoveCallback, _viewitemcount);
@@ -44,7 +50,14 @@ public class ViewList<Item, View> where View : Component
         return this;
     }
 
-  
+    public List<View> GetViews()
+    {
+        return views.Select(view => view.Value).ToList();
+    }
+    public List<Item> GetItems()
+    {
+        return views.Select(view => view.Key).ToList();
+    }
 
     protected virtual void OnUpdated(Dictionary<Item, View> OnUpdate)
     { }

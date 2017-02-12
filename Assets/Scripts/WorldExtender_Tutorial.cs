@@ -38,10 +38,11 @@ public class WorldExtender_Tutorial  : WorldExtender{
 
 
 
-    protected override void SetupGame()
+    public override void SetupGame(RegionConfigDataBase region)
     {
+        Instance = this;
         CurrentStage = 0;
-       
+        RegionBalance = region;
         spawned = new List<RegionConfig>();
 
         SpawnRegion(RegionLoader.GetStartRegion(RegionBalance), TileManager.Instance);

@@ -15,7 +15,26 @@ public delegate bool GetBool();
 public static class M_Extensions
 {
 
+    public static T MakeMonoSingleton<T>(out T _save_to) where T : MonoBehaviour, IInit
+    {
+        {
+            T existing = GameObject.FindObjectOfType<T>();
 
+            if (existing != null)
+            {
+                _save_to = existing;
+            }
+            else
+            {
+                GameObject obj = GameObject.Instantiate(Resources.Load(GenericSingletonToPrefabMap.GetPrefab<T>())) as GameObject;
+                _save_to = obj.GetComponent<T>();
+            }
+            GameObject.DontDestroyOnLoad(_save_to);
+            _save_to.Init();
+            
+            return _save_to;
+        }
+    }
 
     public static IEnumerator Blink(this GameObject obj, float time_1, float time_2, int blinks, int last_state, bool start, bool end)
     {
@@ -482,7 +501,7 @@ public static class M_Extensions
             return null;
         }
         GameObject new_go = GameObject.Instantiate(prefab);
-        new_go.transform.SetParent(parent);
+        new_go.transform.SetParent(parent,!set_to_parent_position);
 
         if (set_to_parent_position)
         {

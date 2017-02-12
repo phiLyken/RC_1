@@ -20,7 +20,7 @@ public class ObjectiveController : MonoBehaviour {
     public event Action<Objective> OnComplete;
     public event Action<Objective> OnNext;
 
-    void Start()
+    void Awake()
     {
         if(InitOnStart)
              Init(Configs);

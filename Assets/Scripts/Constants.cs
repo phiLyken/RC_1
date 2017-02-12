@@ -26,6 +26,12 @@ public class Constants : MonoBehaviour {
     /// </summary>
     public static float UNIT_ACTIVATION_RANGE = 20;
 
+
+    /// <summary>
+    /// How close a player unit must come before the an enemy AI is activated and added to the turn system
+    /// </summary>
+    public static M_Math.R_Range PLAYER_SQUAD_START_INITIATIVE = new M_Math.R_Range(2, 10);
+
     /// <summary>
     /// For each point of will, intensity received is decreased by _x_ points
     /// </summary>
@@ -192,5 +198,6 @@ public class Constants : MonoBehaviour {
     public static float CRUMBLE_WEIGHT_DISTANCE = 5;
     #endregion
 
-    public static string TUTORIAL_SAVE_ID;
+    public static string TUTORIAL_SAVE_ID = "_tutorial_complete";
+    public static string PROGRESS_SAVE_ID = "_progress_saved";
 }

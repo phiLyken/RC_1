@@ -7,10 +7,14 @@ using System;
 
 
 
-
 public class TurnSystem : MonoBehaviour {
     public Text DebugOutPut;
-    public static TurnSystem Instance;
+    static TurnSystem _instance;
+    public static TurnSystem Instance
+    {
+        get { return _instance == null ? GetInstance() : _instance; }
+    }
+
     public IntEventHandler OnGlobalTurn;
     public Action<List<ITurn>> OnListUpdated;
     public Action<ITurn> OnStartTurn;
@@ -30,6 +34,11 @@ public class TurnSystem : MonoBehaviour {
         return true;
     }
 
+    static TurnSystem GetInstance()
+    {
+        _instance = GameObject.FindObjectOfType<TurnSystem>();
+        return _instance;
+    }
     public int GetCurrentTurn()
     {
         return currentTurn;
@@ -43,7 +52,7 @@ public class TurnSystem : MonoBehaviour {
 
     void Awake()
     {
-        Instance = this;
+        _instance = this;
         TurnEventQueue.Reset();
     }
     void Start()
@@ -116,7 +125,7 @@ public class TurnSystem : MonoBehaviour {
         while (!forceNext && ( (t!=null && !t.Equals(null)) && !t.HasEndedTurn() || TurnEventQueue.EventRunning  ))
         {
 
-            Debug.Log("^turnSystem " + t.GetID() + " Events:" + TurnEventQueue.EventRunning.ToString() + "  hasEnded" + t.HasEndedTurn() + "\n" + TurnEventQueue.ToString2());
+           // Debug.Log("^turnSystem " + t.GetID() + " Events:" + TurnEventQueue.EventRunning.ToString() + "  hasEnded" + t.HasEndedTurn() + "\n" + TurnEventQueue.ToString2());
             yield return null;
         }       
     }

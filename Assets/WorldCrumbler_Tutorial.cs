@@ -5,21 +5,28 @@ public class WorldCrumbler_Tutorial : WorldCrumbler {
     
     bool first = true;
     int _cachedCrumbleRange;
-    void Start()
+
+     public override void Init(TurnSystem system)
     {
+        Instance = this;
         _cachedCrumbleRange = Constants.CrumbleRange;
         Constants.CrumbleRange = 15;
         MissionSystem.OnCompleteMission += mission =>
         {
             if (mission.GetSaveID() == "loot")
             {
-                foreach (Tile t in FindObjectsOfType<Tile>())
-                {
-                    OnCrumble += t.OnCrumbleTurn;
-                }
-                Init(TurnSystem.Instance);
+                ActivateTurnSystem();
             }
         };
+    }
+    protected override void ActivateTurnSystem()
+    {
+        RegisterTurn();
+        foreach (Tile t in FindObjectsOfType<Tile>())
+        {
+            OnCrumble += t.OnCrumbleTurn;
+        }
+         
     }
     protected override int GetCrumbleCount()
     {

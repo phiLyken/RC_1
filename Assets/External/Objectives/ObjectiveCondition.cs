@@ -52,7 +52,7 @@ public class ObjectiveCondition : MonoBehaviour, ICompletable {
 
     public bool GetHasCompletedInSave()
     {
-        int f = PlayerPrefs.GetInt(GetSaveID());
+   
         return PlayerPrefs.HasKey(GetSaveID()) ? PlayerPrefs.GetInt(GetSaveID()) == 1 : false;
     }
 

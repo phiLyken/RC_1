@@ -11,7 +11,7 @@ public abstract class GenericView_Test <T> : MonoBehaviour {
     protected abstract GenericView<T> GetView();
     void Start()
     {
-        GetView().Set(Observed);
+        GetView().SetItem(Observed);
     }
 
 }

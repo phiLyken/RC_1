@@ -13,7 +13,7 @@ public class TutorialManager : MonoBehaviour {
     UI_AdrenalineRushBase rush;
     bool ADR_Prompt_Shown;
 
-    void Awake()
+    void Start()
     {
         GameEndListener.OnGameEnded += GameEnd;
         startTurn = new TutorialStartTurn();
@@ -46,7 +46,7 @@ public class TutorialManager : MonoBehaviour {
         MissionSystem.Instance.Init();
         GameObject.FindObjectOfType<UI_TurnList>().gameObject.SetUIAlpha(MissionSystem.HasCompletedGlobal("kill_enemy_1") ? 1 : 0);
         MissionSystem.OnCompleteMission += OnObjectiveComplete;
-        TurnSystem.Instance.Init();
+       // TurnSystem.Instance.Init();
 
         GameObject.FindObjectOfType<WorldExtender_Tutorial>().SetTutorialState();
 

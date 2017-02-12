@@ -30,7 +30,7 @@ public class Inventory : MonoBehaviour {
             {
                 Items.Add(new ItemInInventory(item, item.GetCount()));
             }
-        }
+        }  
 
         
     }

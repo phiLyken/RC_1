@@ -34,7 +34,9 @@ public class UI_ActiveUnit : MonoBehaviour {
     void OnDestroy()
     {
         Unit.OnTurnStart -= SetActiveUnit;
-        TurnSystem.Instance.OnGlobalTurn -= Hide;
+
+        if (TurnSystem.Instance!=null)
+         TurnSystem.Instance.OnGlobalTurn -= Hide;
     }
     public void SetActiveUnit(Unit unit)
     {

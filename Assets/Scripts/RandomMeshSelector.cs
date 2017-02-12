@@ -16,12 +16,8 @@ public class RandomMeshSelector : MonoBehaviour {
         foreach (GameObject target in targetObject)
 		{
 
-      //      headbone = target.transform.Find("humanoid/humanoid Pelvis/humanoid Spine/humanoid Spine1/humanoid Neck/humanoid Head").gameObject;
-
-
-
-
-            //GameObject newObject = Instantiate(randomObject[Random.Range(0, randomObject.Length)]) as GameObject;
+            //headbone = target.transform.Find("humanoid/humanoid Pelvis/humanoid Spine/humanoid Spine1/humanoid Neck/humanoid Head").gameObject;
+             //GameObject newObject = Instantiate(randomObject[Random.Range(0, randomObject.Length)]) as GameObject;
             GameObject blubb = Instantiate(randomObject[Random.Range(0, randomObject.Length)]) as GameObject;
 
             blubb.GetComponent<Transform>().position = headbone.GetComponent<Transform>().position;

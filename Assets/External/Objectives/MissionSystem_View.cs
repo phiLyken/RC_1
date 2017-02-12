@@ -4,11 +4,11 @@ using System.Collections;
 public class MissionSystem_View : ObjectiveController_View {
 
 	 
-    void Start()
+    void Awake()
     {
         MissionSystem.OnInit += () =>
         {
-            Set(MissionSystem.Instance);
+            SetItem(MissionSystem.Instance);
         };
     }
 }

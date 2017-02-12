@@ -52,6 +52,12 @@ public class UnitSpawnManager : MonoBehaviour {
             return null;
         }
 
+        if(group == null)
+        {
+            Debug.LogWarning("No Group");
+            return null;
+        }
+
         return GetSpawners(unique_ids, group.SpawnerGroup);
     }
    
@@ -76,6 +82,12 @@ public class UnitSpawnManager : MonoBehaviour {
 
     void SpawnGroup(UnitSpawnGroupConfig group, List<int> spawnerIDs)
     {
+        if(group == null)
+        {
+            Debug.LogWarning("No Group");
+            return;
+        }
+
         globalGroupCounter++;
 
         List<UnitSpawner> spawnersForGroup = GetSpawnerForGroup(spawnerIDs, group);

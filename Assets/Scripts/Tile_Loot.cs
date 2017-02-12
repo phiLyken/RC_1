@@ -108,7 +108,7 @@ public class Tile_Loot : MonoBehaviour {
         if(lootable_amount > 0)
         {        
             item_lootable.SetCount( item_lootable.GetCount() - lootable_amount);
-            GetInventory(_u).AddItem(item_lootable, lootable_amount);
+            GetInventory(_u).ModifyItem(item_lootable.GetItemType(), lootable_amount);
         }
 
         crate.GetComponent<Animator>().SetTrigger("bOpened");

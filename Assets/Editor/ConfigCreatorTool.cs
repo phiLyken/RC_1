@@ -2,6 +2,15 @@
 using UnityEditor;
 using System.IO;
 
+
+public class ScriptableUnitTierCreator
+{
+    [MenuItem("Assets/Create/Unit Tier Config")]
+    public static void CreateAsset()
+    {
+        M_Math.ScriptableObjectUtility.CreateAsset<ScriptableUnitTiers>();
+    }
+}
 public class CampConfigCreator
 {
     [MenuItem("Assets/Create/Camp Config")]
@@ -10,7 +19,14 @@ public class CampConfigCreator
         M_Math.ScriptableObjectUtility.CreateAsset<CampConfigDatabase>();
     }
 }
-
+public class LevelConfigCreator
+{
+    [MenuItem("Assets/Create/Level Config")]
+    public static void CreateAsset()
+    {
+        M_Math.ScriptableObjectUtility.CreateAsset<ScriptableLevelConfig>();
+    }
+}
 
 public class RegionConfigCreator
 {

@@ -23,14 +23,18 @@ public class WorldCrumbler : MonoBehaviour, ITurn {
         get{return true; } set { }
     }
 
-    public void Init(TurnSystem system)
+    public virtual void Init(TurnSystem system)
     {
  
         Instance = this;
+        ActivateTurnSystem();
+    }
+    
+    protected virtual void ActivateTurnSystem()
+    {
         TurnSystem.Instance.OnGlobalTurn += GlobalTurn;
         RegisterTurn();
     }
- 
     public void EndTurn()
     {
         SetNextTurnTime(CrumbleTurnCost);
@@ -90,7 +94,7 @@ public class WorldCrumbler : MonoBehaviour, ITurn {
         TilePos centertile = new TilePos( (int)TileManager.Instance.GridWidth / 2, 
             Mathf.Min(TileManager.Instance.GetLastActiveRow(), TileManager.Instance.GridHeight-1));
 
-        return TileManager.Instance.Tiles[centertile.x, centertile.z].GetPosition();
+        return TileManager.Instance.GetTileClamped(centertile.x, centertile.z).GetPosition();
     }
 
     protected void CrumbleTurn()

@@ -11,8 +11,15 @@ public abstract class GenericView<T> : MonoBehaviour
     public abstract void Remove();
 
     protected abstract void OnSet(T item);
-    public void Set(T item )
+
+    public virtual void SetItem(T item )
     {
+     
+        if (ReferenceEquals(item, default(T)))            
+        {
+            return;
+        }
+
         m_Item = item;
         OnSet(item);  
         Updated();

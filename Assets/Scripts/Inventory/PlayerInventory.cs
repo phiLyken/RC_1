@@ -2,29 +2,19 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class PlayerInventory : Inventory {
+public class PlayerInventory : Inventory, IInit {
 
-    public List<IInventoryItem> DefaultItems;
+    public List<Item_Generic> DefaultItems;
     
 
     public static PlayerInventory Instance
     {
-        get { return _instance == null ? _makeInstance() : _instance; }
+        get { return _instance == null ? M_Extensions.MakeMonoSingleton<PlayerInventory>(out _instance) : _instance; }
     }
 
     static PlayerInventory _instance;
 
-    static PlayerInventory _makeInstance()
-    {
-        GameObject obj = Instantiate(Resources.Load("player_inventory")) as GameObject;
-        _instance = obj.GetComponent<PlayerInventory>();
-
-        _instance.Init();
-
-        DontDestroyOnLoad(obj);
-
-        return _instance;
-    }
+   
 
     public override int GetMax(ItemTypes type)
     {

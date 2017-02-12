@@ -12,11 +12,12 @@ public class UniqueSelectionGroup<T>  {
 
     T current;
 
-    public void Init(List<T> _objects, Action<T> _onUnselect, Action<T> _onSelect)
+    public UniqueSelectionGroup<T> Init(List<T> _objects, Action<T> _onUnselect, Action<T> _onSelect)
     {
         objects = _objects;
         unselect = _onUnselect;
         onselect = _onSelect;
+        return this;
     }
 
     public void Select(T ob)

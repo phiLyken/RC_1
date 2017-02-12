@@ -2,19 +2,22 @@
 using System.Collections;
 using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviour {
+public class GameManager : MonoBehaviour, IInit {
 
-    public RegionConfigDataBase DefaultRegion;
+    public RegionConfigDataBase DefaultRegionConfig;
 
-    public static RegionConfigDataBase ChoosenRegion;
+    public RegionConfigDataBase ChoosenRegionConfig;
 
-    void Awake()
+    public void Init()
     {
-        SetRegion(DefaultRegion);
+        if(ChoosenRegionConfig == null)
+        {
+            SetRegion(DefaultRegionConfig);
+        }
     }
     public static void SetRegion(RegionConfigDataBase conf)
     {
-        ChoosenRegion = conf;
+     //   Instance.ChoosenRegion = conf;
     }
 
     public static void MissionEnded()
@@ -28,7 +31,7 @@ public class GameManager : MonoBehaviour {
 
     public static void StartMission()
     {
-        if(ChoosenRegion == null || SquadManager.Instance.selected_units.IsNullOrEmpty())
+        if(Instance.ChoosenRegionConfig == null || SquadManager.Instance.selected_units.IsNullOrEmpty())
         {
             Debug.Log("^game No Region or selected units");
             return;
@@ -36,5 +39,12 @@ public class GameManager : MonoBehaviour {
 
         SceneManager.LoadScene("_engine_test_game");
     }
+
+    public static GameManager Instance
+    {
+        get { return _instance == null ?  M_Extensions.MakeMonoSingleton<GameManager>(out _instance) : _instance; }
+    }
+
+    static GameManager _instance;
 
 }
