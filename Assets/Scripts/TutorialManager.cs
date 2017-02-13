@@ -15,7 +15,7 @@ public class TutorialManager : MonoBehaviour {
 
     void Start()
     {
-        GameEndListener.OnGameEnded += GameEnd;
+        GameEndListener.OnMissionEnded += GameEnd;
         startTurn = new TutorialStartTurn();
         startTurn.RegisterTurn();
 
@@ -33,7 +33,7 @@ public class TutorialManager : MonoBehaviour {
 
     void GameEnd()
     {
-        GameEndListener.OnGameEnded -= GameEnd;
+        GameEndListener.OnMissionEnded -= GameEnd;
 
         if(SquadManager.Instance.evacuated.Count > 0)
             PlayerPrefs.SetInt(Constants.TUTORIAL_SAVE_ID, 1);

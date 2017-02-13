@@ -29,12 +29,26 @@ public class PlayerInventory : Inventory, IInit {
         }
     }
 
+    public static void CheatDust(int amount)
+    {
+        Instance.ModifyItem(ItemTypes.dust, amount);
+    }
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Keypad0))
         {
-            Instance.ModifyItem(ItemTypes.dust, 100);
+            CheatDust(100);
         }
+    }
+    
+    void OnGameEnd()
+    {
+        
+    }
+
+    void HandleEndGameProgress()
+    {
+
     }
 }
 

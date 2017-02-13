@@ -9,8 +9,8 @@ public class UI_ShowGameOverScore : MonoBehaviour {
 
     void OnEnable()
     {
-        resource_view.SetCount(PlayerInventory.Instance.ItemCount(ItemTypes.dust));
-        TF.text = string.Format("Altough we regret the loss of Unit-{0}.We appreciate your efforts to secure precious supplies.", (Random.Range(0, 10) + Random.Range(0, 10)).ToString());
+        resource_view.SetCount(MissionOutcome.LastOutcome.SuppliesGainedFinal);
+       // TF.text = string.Format("Altough we regret the loss of Unit-{0}.We appreciate your efforts to secure precious supplies.", (Random.Range(0, 10) + Random.Range(0, 10)).ToString());
     }
 }
 

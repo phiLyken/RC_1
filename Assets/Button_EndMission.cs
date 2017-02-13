@@ -5,6 +5,6 @@ public class Button_EndMission : MonoBehaviour {
 
     public void EndMission()
     {
-        GameManager.MissionEnded();
+        GameManager.GoToSquad();
     }
 }

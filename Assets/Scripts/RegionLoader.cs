@@ -4,8 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 public static class RegionLoader  {
-
- 
+    
 
 
     public static List<RegionConfig> RegionsToSpawn(RegionConfigDataBase config)

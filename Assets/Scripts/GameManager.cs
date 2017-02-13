@@ -22,13 +22,15 @@ public class GameManager : MonoBehaviour, IInit {
 
     public static void MissionEnded()
     {
-        if(SquadManager.Instance.evacuated.Count > 0)
-        {
-            PlayerInventory.Instance.GetItem(ItemTypes.dust).SaveValue();
-        }
-        SceneManager.LoadScene("_squad_selection");
+
+       
     }
 
+    public static void GoToSquad()
+    {
+
+        SceneManager.LoadScene("_squad_selection");
+    }
     public static void StartMission()
     {
         if(Instance.ChoosenRegionConfig == null )
@@ -44,6 +46,7 @@ public class GameManager : MonoBehaviour, IInit {
         }
 
         SceneManager.LoadScene("_engine_test_game");
+
     }
 
     public static GameManager Instance

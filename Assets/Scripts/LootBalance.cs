@@ -6,7 +6,7 @@ using System;
 
 public enum LootCategory { small, medium, large }
 public enum EnemyDropCategory { none, normal, boss, tutorial_stim, tutorial_epi }
-public enum ItemTypes{  weapon, armor, rest_pack, stim_pack, int_charge, dust }
+public enum ItemTypes{  weapon, armor, rest_pack, stim_pack, int_charge, dust, saved_dust }
 
 [System.Serializable]
 public class LootBalance : MonoBehaviour {

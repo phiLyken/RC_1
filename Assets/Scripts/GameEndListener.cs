@@ -5,17 +5,20 @@ using System;
 public class GameEndListener : MonoBehaviour {
 
     public static bool GameEnded = false;
-    public static event Action OnGameEnded;
-
+    public static event Action OnMissionEnded;
+    public static event Action OnMissionStarted;
     void Awake()
     {
+
         GameEnded = false;
     }
     // Use this for initialization
     void Start () {
-       
+        
         Unit.OnUnitKilled += CheckUnitsLeft;
         Unit.OnEvacuated += CheckUnitsLeft;
+
+        OnMissionStarted.AttemptCall();
 	}
 	
     public static void ForceMissionEnd()
@@ -33,9 +36,11 @@ public class GameEndListener : MonoBehaviour {
     }
     static void EndMission()
     {
-        OnGameEnded.AttemptCall();
+        OnMissionEnded.AttemptCall();
         GameEnded = true;
+        MissionOutcome.MakeNew();
         ShowGameEndPopup();
+        MissionOutcome.Resolve();
     }
    static  void ShowGameEndPopup()
     {

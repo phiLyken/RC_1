@@ -24,5 +24,6 @@ public class UI_Popup_Global : UI_PopupController {
         Instance.CloseButton.GetComponent<UI_SetPopupState>().Linked = show_close_button;
     }
 
+   
     
 }

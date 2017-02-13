@@ -14,10 +14,16 @@ public class GameTools : EditorWindow   {
     {
 
         GetWindow(typeof(GameTools));
+
     }
+
+    int _cheatedDust;
+    int _enteredDust;
 
     void OnGUI()
     {
+        
+
         GUILayout.BeginHorizontal();
         if (TurnSystem.Instance != null)
         {
@@ -33,7 +39,17 @@ public class GameTools : EditorWindow   {
 
         GUILayout.BeginHorizontal();
         GUILayout.Label("COLLECTED DUST");
-        PlayerPrefs.SetInt(Constants.PROGRESS_SAVE_ID, CollectedDust = EditorGUILayout.IntField(CollectedDust));
+
+
+
+        _enteredDust =  EditorGUILayout.IntField(_enteredDust);
+
+        GUILayout.Label(" Current saved :" + PlayerPrefs.GetInt(Constants.PROGRESS_SAVE_ID));
+
+        if (GUILayout.Button("Set New Amount"))
+        {
+         PlayerPrefs.SetInt(Constants.PROGRESS_SAVE_ID, _enteredDust);
+        }
 
         GUILayout.EndHorizontal();
 
@@ -52,12 +68,23 @@ public class GameTools : EditorWindow   {
 
         if (Application.isPlaying)
         {
-        GUILayout.BeginHorizontal();
+            GUILayout.BeginHorizontal();
             if (GUILayout.Button("Identify all units"))
             {
-             Unit.AllUnits.ForEach(unit => unit.Identify(null));
+                Unit.AllUnits.ForEach(unit => unit.Identify(null));
+            }
+            GUILayout.EndHorizontal();
+
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("DUST Cheats");
+            _cheatedDust = EditorGUILayout.IntField(_cheatedDust);
+
+            if (GUILayout.Button("Cheat Dust"))
+            {
+                PlayerInventory.CheatDust(_cheatedDust);
             }
             GUILayout.EndHorizontal();
         }
-    }
+
+   }
 }

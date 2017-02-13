@@ -39,6 +39,10 @@ public class UnitSelecterButton : UI_ButtonGetSet<Unlockable<TieredUnit>> {
 
     public override void Updated()
     {
+        if(this == null || gameObject == null || !gameObject.activeSelf)
+        {
+            return;
+        }
         Locked.SetActive(!m_Item.IsUnlocked());
     }
 

@@ -456,7 +456,7 @@ public static class M_Extensions
     }
     public static void CountToInt(this Text TF, int from, int to, float time)
     {
-        TF.StartCoroutine(CountTo(from, to, Mathf.Max(0, time), counted => TF.text = counted.ToString()));
+        TF.StartCoroutine(CountTo(from, to, Mathf.Max(0, time), counted => { if (TF != null) TF.text = counted.ToString(); }));
     }
 
     public static IEnumerator CountTo(int from, int to, float time, Action<int> funct)

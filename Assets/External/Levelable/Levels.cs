@@ -31,10 +31,21 @@ public class Levels {
     {
         return config.RequiredProgress.Count + 1;
     }
+
+    public int GetProgressInLevelAbsolute()
+    {
+        return currentProgress - config.GetProgressForLevel(cachedLevel);
+    }
+
     public float GetProgressInLevel()
     {
-        return M_Math.GetPercentpointsOfValueInRange(currentProgress, config.GetProgressForLevel(cachedLevel), config.GetProgressForLevel(cachedLevel + 1));
-  
+        float f = M_Math.GetPercentpointsOfValueInRange(currentProgress, config.GetProgressForLevel(cachedLevel), config.GetProgressForLevel(cachedLevel + 1));
+        return f;
+    }
+
+    public int GetRequiredforNextLevel()
+    {
+        return GetRequiredForLevel(cachedLevel + 1) - GetRequiredForLevel(cachedLevel);
     }
     public int GetRequiredForLevel(int level)
     {

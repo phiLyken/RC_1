@@ -142,7 +142,9 @@ public class ItemInInventory : IInventoryItem
     }
     public void SaveValue()
     {
-        PlayerPrefs.SetInt(GetID(), count);
+
+        string ID = GetID();
+        PlayerPrefs.SetInt(ID, count);
     }
 
     public void AddToInventory(UnitInventory inv)

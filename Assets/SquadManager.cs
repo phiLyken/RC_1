@@ -76,7 +76,8 @@ public class SquadManager {
     }
     void Killed(Unit u)
     {
-        killed.Add(u.Config);
+        if(u.OwnerID == 0)
+            killed.Add(u.Config);
     }
 
     void Evacuated(Unit u)

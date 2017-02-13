@@ -48,7 +48,7 @@ public class Unlockable<T>  : IUnlockable
 
         if (IsUnlocked())
         {
-            _ononlock(Item);
+            _ononlock.AttemptCall(Item);
         }
     }
 
@@ -58,7 +58,7 @@ public class Unlockable<T>  : IUnlockable
 
         if (IsUnlocked())
         {
-            _ononlock();
+            _ononlock.AttemptCall();
         }
     }
 

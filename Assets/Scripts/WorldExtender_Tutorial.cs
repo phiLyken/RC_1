@@ -46,7 +46,7 @@ public class WorldExtender_Tutorial  : WorldExtender{
         spawned = new List<RegionConfig>();
         SetSpawnConfigs(region);
         SpawnNext();
-
+        SpawnNext();
 
     }
 
