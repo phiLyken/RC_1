@@ -32,7 +32,7 @@ public class PathDisplay : MonoBehaviour {
     List<Vector3> TilesToVectorList(List<Tile> tiles)
     {
         List<Vector3> m_list = new List<Vector3>();
-        foreach (Tile tile in tiles) m_list.Add(tile.GetPosition());
+        foreach (Tile tile in tiles) m_list.Add(tile.GetPosition()+ Vector3.up * 0.2f);
         return (m_list);
     }
 
