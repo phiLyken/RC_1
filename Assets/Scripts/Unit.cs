@@ -378,7 +378,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
 
     public Color GetColor()
     {
-        return OwnerID == 0 ? Color.blue : Color.red;
+        return OwnerID == 0 ? ("00A0FFFF").ParseHexToColor() : ("FF3A00FF").ParseHexToColor();
     }
     public int GetTurnControllerID()
     {

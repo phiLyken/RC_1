@@ -114,7 +114,7 @@ public class Constants : MonoBehaviour {
     /// <returns></returns>
     public static int GetDustForProgress(int base_amount, int checkpoints_reached)
     {
-        return base_amount * Mathf.Max(1, checkpoints_reached);
+        return base_amount;
     }
 
     /// <summary>

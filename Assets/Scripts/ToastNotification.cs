@@ -1,27 +1,31 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using System;
 
-public class ToastNotification : MonoBehaviour {
+public class ToastNotification : MonoBehaviour, IInit {
 
-
+    public Vector3 Position;
     public Text TF;
     public Image BG;
 
-   static ToastNotification Instance;
-
-    void Awake()
+    static ToastNotification _instance;
+    static ToastNotification Instance
     {
-        Instance = this;
+        get { return _instance == null ? M_Extensions.MakeMonoSingleton(out _instance, Resources.Load("UI/ui_toastnotification") as GameObject) : _instance; }  
+    }
+   
+    void Awake()
+    {       
         ToggleActive(false);
     }
-
     
     void ToggleActive(bool b)
     {
         TF.gameObject.SetActive(b);
         BG.gameObject.SetActive(b);
     }
+
     protected void ShowToastMessage( string text, Color bgcolor, Color textcolor)
     {
         StopToast();
@@ -52,7 +56,7 @@ public class ToastNotification : MonoBehaviour {
     protected static void SetToastMessageInInstance(string text, Color bgcolor, Color textcolor)
     {
         if(Instance != null)
-          Instance.ShowToastMessage(text, bgcolor, textcolor);      
+            Instance.ShowToastMessage(text, bgcolor, textcolor);      
     }
 
     public static void StopToast()
@@ -61,14 +65,13 @@ public class ToastNotification : MonoBehaviour {
         Instance.StopAllCoroutines();
         Instance.ToggleActive(false);
     }
-    static void GetInstance()
+
+
+
+    void IInit.Init()
     {
-        Instance = FindObjectOfType<ToastNotification>();
-        
-        if(Instance == null)
-        {
-            Debug.LogWarning("Toast Notifaction not found");
-        }
-        
+        GameObject ui = GameObject.FindGameObjectWithTag("UI");
+        this.transform.SetParent(ui.transform);
+       ( this.transform as RectTransform).anchoredPosition = Position;
     }
 }

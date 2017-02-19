@@ -33,10 +33,17 @@ public class UI_UnitMiniView : GenericView<ScriptableUnitConfig> {
     {
         GameObject obj = Instantiate( Resources.Load("UI/ui_unitminiview")) as GameObject;
         UI_UnitMiniView view = obj.GetComponent<UI_UnitMiniView>();
+        view.Init(config, col);
         view.transform.SetParent(tr);
-        view.frame_color = col;
+       
         view.transform.localScale = Vector3.one;
-        view.SetItem(config);
+        
         return view;
+    }
+
+    public void Init(ScriptableUnitConfig config, Color col)
+    {
+        frame_color = col;
+        SetItem(config);
     }
 }

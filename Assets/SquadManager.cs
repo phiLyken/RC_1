@@ -94,13 +94,14 @@ public class SquadManager {
 
     public static bool AddToSquad(Unlockable<TieredUnit> conf)
     {
-        if(conf.IsUnlocked() && !Instance.selected_units.Contains(conf.Item) && Instance.selected_units.Count <= Instance.GetMaxSquadsize())
+        if(conf.IsUnlocked() && !Instance.selected_units.Contains(conf.Item) && Instance.selected_units.Count < Instance.GetMaxSquadsize())
         {
             Debug.Log("ADDING " + conf.Item.Tiers[0].Config.ID);
             Instance.selected_units.Add(conf.Item);
             Instance.OnSelectedUpdate.AttemptCall(Instance.selected_units);
             return true;
         }
+        ToastNotification.SetToastMessage2("Squad is Full");
 
         return false;
     }

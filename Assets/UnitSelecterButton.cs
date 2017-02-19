@@ -29,7 +29,7 @@ public class UnitSelecterButton : UI_ButtonGetSet<Unlockable<TieredUnit>> {
        // Debug.Log("SetItem " + item.Item.Tiers[0].Config.ID);
         base.SetItem(item, button_Callback);
         ClassNameTF.text = item.Item.Tiers[0].Config.ID;
-        Portrait.SetItem(item.Item.Tiers[0].Config);
+        Portrait.Init(item.Item.Tiers[0].Config, Color.white);
 
         item.AddUnlockListener(Updated);
         InfoButtonTarget.AddComponent<UI_ButtonGetSet_ScriptableUnitConfig>().SetItem(item.Item.Tiers[0].Config, SetUnitInfo);

@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.UI;
 using System;
-
-
+using System.Text;
+ 
 public delegate void BoolEventHandler(bool b);
 public delegate void IntEventHandler(int _int);
 public delegate void FloatEventHandler(float f);
@@ -15,6 +15,23 @@ public delegate bool GetBool();
 public static class M_Extensions
 {
  
+    public static Color ParseHexToColor (this string to_parse)
+    {
+        if(string.IsNullOrEmpty(to_parse) || to_parse.Length != 8)
+        {
+            Debug.LogWarning("NO GOOD HEX STRING");
+            return Color.magenta;
+            
+        }
+
+        byte red =  Convert.ToByte(to_parse.Substring(0, 2), 16);
+        byte green = Convert.ToByte(to_parse.Substring(2, 2), 16);
+        byte blue = Convert.ToByte(to_parse.Substring(4, 2), 16);
+        byte alpha = Convert.ToByte(to_parse.Substring(6, 2), 16);
+
+        return new Color32(red, green, blue, alpha);
+     
+    }
     public static T MakeMonoSingleton<T>(out T _save_to) where T : MonoBehaviour, IInit
     {
         {
@@ -32,6 +49,27 @@ public static class M_Extensions
             GameObject.DontDestroyOnLoad(_save_to);
             _save_to.Init();
             
+            return _save_to;
+        }
+    }
+
+    public static T MakeMonoSingleton<T>(out T _save_to, GameObject prefab) where T : MonoBehaviour, IInit
+    {
+        {
+            T existing = GameObject.FindObjectOfType<T>();
+
+            if (existing != null)
+            {
+                _save_to = existing;
+            }
+            else
+            {
+                GameObject obj = GameObject.Instantiate(prefab) as GameObject;
+                _save_to = obj.GetComponent<T>();
+            }
+            GameObject.DontDestroyOnLoad(_save_to);
+            _save_to.Init();
+
             return _save_to;
         }
     }
