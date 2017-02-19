@@ -6,11 +6,10 @@ using UnityEngine.UI;
 public class UnitSelecterButton : UI_ButtonGetSet<Unlockable<TieredUnit>> {
 
     public GameObject Selected;
-    public GameObject Locked;
-
     public GameObject InfoButtonTarget;
 
     UI_ButtonGetSet<ScriptableUnitConfig> _InfoButton;
+    public UI_UnitTierLock_TierView UnitTiers;
 
     public UI_UnitMiniView Portrait;
     public Text ClassNameTF;   
@@ -27,12 +26,15 @@ public class UnitSelecterButton : UI_ButtonGetSet<Unlockable<TieredUnit>> {
 
     public override void SetItem(Unlockable<TieredUnit> item, Action<Unlockable<TieredUnit>> button_Callback)
     {
+       // Debug.Log("SetItem " + item.Item.Tiers[0].Config.ID);
         base.SetItem(item, button_Callback);
         ClassNameTF.text = item.Item.Tiers[0].Config.ID;
         Portrait.SetItem(item.Item.Tiers[0].Config);
 
         item.AddUnlockListener(Updated);
         InfoButtonTarget.AddComponent<UI_ButtonGetSet_ScriptableUnitConfig>().SetItem(item.Item.Tiers[0].Config, SetUnitInfo);
+
+        UnitTiers.Init(TieredUnit.Unlocks(item.Item.Tiers, PlayerLevel.Instance));
     }
 
 
@@ -43,7 +45,7 @@ public class UnitSelecterButton : UI_ButtonGetSet<Unlockable<TieredUnit>> {
         {
             return;
         }
-        Locked.SetActive(!m_Item.IsUnlocked());
+        TargetButton.interactable = m_Item.IsUnlocked();
     }
 
     public override void Remove()

@@ -40,7 +40,7 @@ public class GameEndListener : MonoBehaviour {
         GameEnded = true;
         MissionOutcome.MakeNew();
         ShowGameEndPopup();
-        MissionOutcome.Resolve();
+    
     }
    static  void ShowGameEndPopup()
     {

@@ -49,6 +49,11 @@ public class Levels {
     }
     public int GetRequiredForLevel(int level)
     {
+        if(level < 2)
+        {
+            return 0;
+        }
+
         return config.RequiredProgress[Mathf.Clamp(level-2, 0, config.RequiredProgress.Count - 1)];
     }
     public void AddProgress(int amount)

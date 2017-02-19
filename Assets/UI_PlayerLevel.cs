@@ -3,9 +3,12 @@ using System.Collections;
 
 public class UI_PlayerLevel : UI_Level {
 
-    void Start()
+    public bool InitOnEnable;
+
+    void OnEnable()
     {
-        Init(PlayerLevel.Instance);
+        if(InitOnEnable)
+            Init(PlayerLevel.Instance);
     }
 	    
 }

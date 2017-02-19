@@ -1,12 +1,27 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using System;
 
 public class GameManager : MonoBehaviour, IInit {
 
+    public event Action<RegionConfigDataBase> OnRegionSet;
+
     public RegionConfigDataBase DefaultRegionConfig;
 
-    public RegionConfigDataBase ChoosenRegionConfig;
+    private RegionConfigDataBase _choosenregion;
+    public RegionConfigDataBase ChoosenRegionConfig
+    {
+        get
+        {
+            return _choosenregion;
+        }
+        set
+        {
+            _choosenregion = value;
+            OnRegionSet.AttemptCall(_choosenregion);
+        }
+    }
 
     public void Init()
     {
@@ -20,6 +35,7 @@ public class GameManager : MonoBehaviour, IInit {
      //   Instance.ChoosenRegion = conf;
     }
 
+ 
     public static void MissionEnded()
     {
 

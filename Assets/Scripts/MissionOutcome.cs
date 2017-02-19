@@ -12,6 +12,9 @@ public class MissionOutcome  {
     public int SquadUnitsStart;
     public int RegionDifficulty;
 
+    public bool NewLevel;
+    public float ProgressBefore;
+
     public float Bonus;
 
     public static void MakeNew()
@@ -19,26 +22,35 @@ public class MissionOutcome  {
         LastOutcome = new MissionOutcome(SquadManager.Instance, PlayerLevel.Instance, PlayerInventory.Instance, GameManager.Instance);       
     }
     
-    public MissionOutcome(SquadManager manager, PlayerLevel level, PlayerInventory inventory, GameManager game_manager)
+    public MissionOutcome(SquadManager manager, PlayerLevel level, PlayerInventory inventory, GameManager game_manager) : 
+        this(manager.killed.Count, manager.evacuated.Count, inventory.GetItem(ItemTypes.dust).GetCount(), manager.selected_units.Count, game_manager.ChoosenRegionConfig.Difficulty, level.GetProgressInLevel(), level.GetCurrentLevel(), level.GetCurrentLevel())
     {
-        SquadUnitsKilled = manager.killed.Count;
-        SquadUnitsEvaced = manager.evacuated.Count;
-        SuppliesGainedRaw = inventory.GetItem(ItemTypes.dust).GetCount();
-        SquadUnitsStart = manager.selected_units.Count;
-        RegionDifficulty = game_manager.ChoosenRegionConfig.Difficulty;
-
-        Bonus = Constants.GetSupplyBonus(SquadUnitsStart, SquadUnitsEvaced, SquadUnitsKilled, RegionDifficulty);
-
-        SuppliesGainedFinal = (int) ( SuppliesGainedRaw * Bonus);
-    }
-
-    public static void Resolve()
-    {
+   
         PlayerInventory.Instance.ModifyItem(ItemTypes.saved_dust, LastOutcome.SuppliesGainedFinal);
         PlayerInventory.Instance.GetItem(ItemTypes.saved_dust).SaveValue();
-        PlayerLevel.Instance.AddProgress(LastOutcome.SuppliesGainedFinal);
-        PlayerInventory.Instance.ModifyItem(ItemTypes.dust, - PlayerInventory.Instance.GetItem(ItemTypes.dust).GetCount());
+        level.AddProgress(LastOutcome.SuppliesGainedFinal);
+        PlayerInventory.Instance.ModifyItem(ItemTypes.dust, -PlayerInventory.Instance.GetItem(ItemTypes.dust).GetCount());   
+       
        
     }
+
+    public MissionOutcome(int _killed, int _evac, int _gainedraw, int _units_start, int _difficulty, float _progress_before, int _old_level, int _new_level)
+    {
+    
+        
+        NewLevel = _old_level < _new_level;
+
+        SquadUnitsKilled = _killed;
+        SquadUnitsEvaced = _evac;
+        SuppliesGainedRaw = _gainedraw;
+        SquadUnitsStart = _units_start;
+        RegionDifficulty = _difficulty;
+        ProgressBefore = _progress_before;
+       
+        Bonus = Constants.GetSupplyBonus(SquadUnitsStart, SquadUnitsEvaced, SquadUnitsKilled, RegionDifficulty);
+        SuppliesGainedFinal = (int) (SuppliesGainedRaw * Bonus);    
+        LastOutcome = this;
+    }
+
 	
 }
