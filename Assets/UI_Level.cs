@@ -10,7 +10,13 @@ public class UI_Level : MonoBehaviour {
 
     Levels m_levels;
 
-    protected void Init(Levels levels)
+    void Awake()
+    {
+        Bar.gameObject.SetActive(false);
+        CurrentLevelTF.gameObject.SetActive(false);
+        CurrentProgressTF.gameObject.SetActive(false);
+    }
+    public void Init(Levels levels)
     {
         m_levels = levels;
         levels.OnProgress += total => UpdateProgress(levels.GetProgressInLevel());
@@ -23,9 +29,14 @@ public class UI_Level : MonoBehaviour {
         {
             return;
         }
+
+        Bar.gameObject.SetActive(true);
+        CurrentLevelTF.gameObject.SetActive(true);
+        CurrentProgressTF.gameObject.SetActive(true);
+
         Bar.SetProgress(m_levels.GetProgressInLevel());
         CurrentProgressTF.text = m_levels.GetProgressInLevelAbsolute().ToString() + "/" + m_levels.GetRequiredforNextLevel();
-        CurrentLevelTF.text = m_levels.GetCurrentLevel().ToString();
+        CurrentLevelTF.text = "Level "+ m_levels.GetCurrentLevel().ToString();
     }
 	    
 }

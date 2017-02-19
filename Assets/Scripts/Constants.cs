@@ -36,22 +36,7 @@ public class Constants : MonoBehaviour {
     /// For each point of will, intensity received is decreased by _x_ points
     /// </summary>
      // public static float WILL_TO_INT = 0.0f;
-
-    /// <summary>
-    /// Foreach point of damage a unit gets, it will receive some _x_ points of int
-    /// </summary>
-    public static float RCV_DMG_TO_INT = 1f;
-
-    /// <summary>
-    /// Amount of will restored per int when using rest ability
-    /// </summary>
-    public static float INT_TO_HEAL = 1f;
-
-    /// <summary>
-    /// Amount of Extra Damage Dealt per Point of Intensity
-    /// </summary>
-    public static int INT_TO_DMG = 1;
-
+ 
     /// <summary>
     /// How much the tile can crumble before it is removed
     /// </summary>

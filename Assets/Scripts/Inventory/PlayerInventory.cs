@@ -25,7 +25,7 @@ public class PlayerInventory : Inventory, IInit {
     {
         if (DefaultItems != null)
         {
-            DefaultItems.ForEach(item => _instance.AddItem(item,true));
+            DefaultItems.ForEach(item => AddItem(item,true));
         }
     }
 

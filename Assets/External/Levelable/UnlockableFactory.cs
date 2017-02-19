@@ -7,6 +7,20 @@ using System;
 public static class UnlockableFactory
 {
 
+    public static int GetUnlockedCount <T>(this List<Unlockable<T>> unlockables) {
+
+        int unlockedCount = 0;
+        for(int i = 0; i < unlockables.Count; i++)
+        {
+            if (unlockables[i].IsUnlocked())
+            {
+                unlockedCount++;
+            } 
+        }
+
+        return unlockedCount;
+    }
+
     public static T GetHighestUnlocked<T>(this List<Unlockable<T>> unlockables)
     {
         int last_lock = -1;

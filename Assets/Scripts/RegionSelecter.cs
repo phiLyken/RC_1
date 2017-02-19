@@ -15,7 +15,7 @@ public class RegionSelecter : MonoBehaviour
        
     public void Awake()
     {
-        Regions = new List<RegionConfigDataBase>(Resources.Load<ScriptableRegionDataBaseConfigs>("Regions/selectablemissions_defaultbalancing").RegionConfigs);
+        Regions = new List<RegionConfigDataBase>(Resources.Load<ScriptableRegionDataBaseConfigs>("Regions/RegionConfigs/selectablemissions_defaultbalancing").RegionConfigs);
         selecters = new ViewList<RegionConfigDataBase, RegionSelecterButton>().Init(MakeView, delegate
         { return Target; }, Regions, RemoveView, Regions.Count);
 
