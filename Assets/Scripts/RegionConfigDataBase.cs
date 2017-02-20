@@ -5,6 +5,8 @@ using System.Collections.Generic;
 [System.Serializable]
 public class RegionConfigDataBase : ScriptableObject {
 
+    [HideInInspector]
+    public string SelectionName;
 
     public WorldCrumbler CrumblerSetting;
 

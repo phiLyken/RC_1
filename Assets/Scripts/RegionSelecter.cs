@@ -29,6 +29,7 @@ public class RegionSelecter : MonoBehaviour
         obj.transform.SetParent(target);
         obj.transform.localScale = Vector3.one;
 
+        config.SelectionName = "Mission " +( target.childCount).ToString();
         obj.SetItem(config, OnSelect);
 
         return obj;

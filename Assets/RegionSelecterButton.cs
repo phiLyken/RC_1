@@ -9,6 +9,7 @@ public class RegionSelecterButton : UI_ButtonGetSet<RegionConfigDataBase>
     public Text TF;
     public GameObject Locked;
     public GameObject Selected;
+    public Counter DifficultyCounter;
 
     public override void Remove()
     {
@@ -22,11 +23,12 @@ public class RegionSelecterButton : UI_ButtonGetSet<RegionConfigDataBase>
     
     protected override void OnSet(RegionConfigDataBase item)
     {
-    //    Debug.Log("set item");
-         
-        TF.text = item.Difficulty.ToString();
+        //    Debug.Log("set item");
+        GetComponent<LayoutElement>().preferredWidth += item.AllPools.Count * 5;
+        TF.text = item.SelectionName;
         Locked.SetActive(!item.IsUnlocked());
         SetUnselected();
+        DifficultyCounter.SetNumber(item.Difficulty+1);
     }
 
     public void SetSelected()
