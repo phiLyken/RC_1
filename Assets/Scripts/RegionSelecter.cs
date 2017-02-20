@@ -21,12 +21,7 @@ public class RegionSelecter : MonoBehaviour
 
         selection = new UniqueSelectionGroup<RegionConfigDataBase>().Init(selecters.GetItems(), OnUnSelectedSetView, OnSelectedSetView);
     }
-
-   public void SetRegion(RegionConfigDataBase config)
-    {
-        GameManager.Instance.ChoosenRegionConfig = config;
-    }
-
+ 
     RegionSelecterButton MakeView(RegionConfigDataBase config, Transform target)
     {
         RegionSelecterButton obj =  Resources.Load("UI/ui_regionselectionbutton").Instantiate<RegionSelecterButton>(target, true);

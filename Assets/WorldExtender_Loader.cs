@@ -9,9 +9,11 @@ public class WorldExtender_Loader : MonoBehaviour {
 
         RegionConfigDataBase _config = null;
 
-        if(GameManager.Instance.ChoosenRegionConfig == null && Override)
+        if(GameManager.Instance.ChoosenRegionConfig == null && Override != null)
         {
             _config = Override;
+            GameManager.Instance.ChoosenRegionConfig = Override;
+ 
         } else if(GameManager.Instance.ChoosenRegionConfig != null)
         {
             _config = GameManager.Instance.ChoosenRegionConfig;
