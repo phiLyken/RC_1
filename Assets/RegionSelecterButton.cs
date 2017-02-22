@@ -9,7 +9,7 @@ public class RegionSelecterButton : UI_ButtonGetSet<RegionConfigDataBase>
     public Text TF;
     public GameObject Locked;
     public GameObject Selected;
-    public Counter DifficultyCounter;
+    public Image DifficultyImage;
 
     public override void Remove()
     {
@@ -28,7 +28,7 @@ public class RegionSelecterButton : UI_ButtonGetSet<RegionConfigDataBase>
         TF.text = item.SelectionName;
         Locked.SetActive(!item.IsUnlocked());
         SetUnselected();
-        DifficultyCounter.SetNumber(item.Difficulty+1);
+        DifficultyImage.sprite = item.DifficultySprite;
     }
 
     public void SetSelected()

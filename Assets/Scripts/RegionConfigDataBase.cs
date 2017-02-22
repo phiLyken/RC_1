@@ -5,6 +5,8 @@ using System.Collections.Generic;
 [System.Serializable]
 public class RegionConfigDataBase : ScriptableObject {
 
+    public Sprite DifficultySprite;
+
     [HideInInspector]
     public string SelectionName;
 
