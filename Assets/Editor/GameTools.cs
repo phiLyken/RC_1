@@ -19,6 +19,7 @@ public class GameTools : EditorWindow   {
 
     int _cheatedDust;
     int _enteredDust;
+ 
 
     void OnGUI()
     {
@@ -39,7 +40,7 @@ public class GameTools : EditorWindow   {
 
         GUILayout.BeginHorizontal();
         GUILayout.Label("COLLECTED DUST");
-
+ 
 
 
         _enteredDust =  EditorGUILayout.IntField(_enteredDust);
@@ -54,10 +55,26 @@ public class GameTools : EditorWindow   {
         GUILayout.EndHorizontal();
 
         GUILayout.BeginHorizontal();
-        GUILayout.Label("TUTORIAL COMPLETE");
-        PlayerPrefs.SetInt(Constants.TUTORIAL_SAVE_ID, TutorialComplete = EditorGUILayout.IntField(TutorialComplete));
+        GUILayout.Label("TUTORIAL= " +( ( PlayerPrefs.GetInt(Constants.TUTORIAL_SAVE_ID) == 0) ? "NOT COMPLETED" : "COMPLETE"));
+
+        if (PlayerPrefs.GetInt(Constants.TUTORIAL_SAVE_ID) == 0) {
+           if(  GUILayout.Button("SET TUTORIAL COMPLETE"))
+            {
+                PlayerPrefs.SetInt(Constants.TUTORIAL_SAVE_ID, 1);
+            }
+        } else
+        {
+            if (GUILayout.Button("SET TUTORIAL UN COMPLETE"))
+            {
+                PlayerPrefs.SetInt(Constants.TUTORIAL_SAVE_ID, 0);
+            }
+
+        }
+       // PlayerPrefs.SetInt(Constants.TUTORIAL_SAVE_ID, TutorialComplete = EditorGUILayout.IntField(TutorialComplete));
         GUILayout.EndHorizontal();
 
+
+        GUILayout.BeginHorizontal();
         if (GUILayout.Button("Reset PlayerPrefs"))
         {
             PlayerPrefs.DeleteAll();
@@ -65,7 +82,8 @@ public class GameTools : EditorWindow   {
             CollectedDust = 0;
             this.Repaint();
         }
-
+        GUILayout.EndHorizontal();
+        GUILayout.BeginHorizontal();
         if (Application.isPlaying)
         {
             GUILayout.BeginHorizontal();
@@ -85,6 +103,7 @@ public class GameTools : EditorWindow   {
             }
             GUILayout.EndHorizontal();
         }
+        GUILayout.EndHorizontal();
 
-   }
+    }
 }

@@ -31,6 +31,10 @@ public class MissionOutcome  {
         level.AddProgress(LastOutcome.SuppliesGainedFinal);
         PlayerInventory.Instance.ModifyItem(ItemTypes.dust, -PlayerInventory.Instance.GetItem(ItemTypes.dust).GetCount());   
        
+        if(manager.evacuated.Count > 0)
+        {
+            game_manager.ChoosenRegionConfig.CompleteInSave();
+        }
        
     }
 
