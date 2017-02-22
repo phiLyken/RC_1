@@ -18,8 +18,9 @@ public class UI_ShowUnitSummary : MonoBehaviour {
         Canvas.ForceUpdateCanvases();
         Loot.SetView(MissionOutcome.LastOutcome,0);
 
-        M_Extensions.ExecuteDelayed(this,5, () => Progress.SetView(MissionOutcome.LastOutcome));
-        M_Extensions.ExecuteDelayed(this, 5.25f, () => { BackButton.interactable = true; });
+        //disable delay if there are no rewards (delay is reserving time for loot view)
+        M_Extensions.ExecuteDelayed(this, MissionOutcome.LastOutcome.SquadUnitsEvaced == 0 ? 0 : 5, () => Progress.SetView(MissionOutcome.LastOutcome));
+        M_Extensions.ExecuteDelayed(this, MissionOutcome.LastOutcome.SquadUnitsEvaced == 0 ? 0 : 5.25f, () => { BackButton.interactable = true; });
        
        
     }

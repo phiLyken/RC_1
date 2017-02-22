@@ -11,6 +11,8 @@ public class UI_Anim_BlinkOnEnable : MonoBehaviour {
    
     public List<BlinkNode> Blinks;
     public bool StartEnabled;
+
+    public bool StartOnAwake;
     public float Delay;
     public bool Loop;
 
