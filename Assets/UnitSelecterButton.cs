@@ -60,6 +60,6 @@ public class UnitSelecterButton : UI_ButtonGetSet<Unlockable<TieredUnit>> {
 
     protected void SetUnitInfo(ScriptableUnitConfig info)
     {
-        Debug.Log("SHOW INFO");
+        GameObject.FindObjectOfType<UI_ShowClassInfo>().ShowUnit(info);
     }
 }

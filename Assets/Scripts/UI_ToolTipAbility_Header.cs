@@ -20,9 +20,17 @@ public class UI_ToolTipAbility_Header : MonoBehaviour
     
 
         EndsTurnIndicator.SetActive(ability.GetEndsTurn());
+
+        
     }
 
- 
+    public  void SetBehavior(WeaponBehavior behavior)
+    {
+        Icon.sprite = behavior.Icon;
+        EndsTurnIndicator.SetActive(behavior.EndTurn);
+        Name.text = behavior.ActionID;
+        Description.text = behavior.Description.Replace("<br>", "\n") ;
+    }
 
 
 }
