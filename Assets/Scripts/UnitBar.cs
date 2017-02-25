@@ -9,13 +9,17 @@ public class UnitBar : MonoBehaviour {
     public RectTransform AdrenalineRushPreview;
     public Image AdrenalineRushPreview_Adr;
     public Image[] AdrenalinePreviewBlips;
-    public List<Image> Bar_Steps;
+
+    public List<UI_UnitBarStep> Bar_Steps;
     public int Max;
     public Color IntColor;
-    public Color WillColor;
+    public Color WillColorFriendly;
+    public Color WillColorHostile;
     public Color EmptyColor;
+    public Color BorderColorFilled;
+    public Color BorderColorempty;
 
-    public Image BarStep;
+    public UI_UnitBarStep BarStepPrefab;
 
     void UpdateMax(int max)
     {
@@ -30,21 +34,22 @@ public class UnitBar : MonoBehaviour {
             }
         }
 
-        Bar_Steps = new List<Image>();
-        BarStep.gameObject.SetActive(true);
+        Bar_Steps = new List<UI_UnitBarStep>();
+       
         for (int i = 0; i < Max; i++)
         {
-            GameObject obj = (Instantiate(BarStep.gameObject) as GameObject);
+            GameObject obj = (Instantiate(BarStepPrefab.gameObject) as GameObject);
 
             obj.transform.SetParent(transform, false);
-            Bar_Steps.Add(obj.GetComponent<Image>());
+            Bar_Steps.Add(obj.GetComponent<UI_UnitBarStep>());
 		//	obj.GetComponent<RectTransform>().sizeDelta = new Vector2(10,10);
+            
         }
 
-        BarStep.gameObject.SetActive(false);
+
     }
 
-    public  void SetBarValues(int _will, int _intensity, int _max)
+    public  void SetBarValues(int _will, int _intensity, int _max, int owner)
     {
        // Debug.Log(_will + "  " + _intensity + " " + _max);
         if(_max != Max)
@@ -55,13 +60,14 @@ public class UnitBar : MonoBehaviour {
         for (int i = 0; i < Bar_Steps.Count; i++)
         {
             Color color = Color.magenta;
+            Color border_color = BorderColorFilled;
             if (_will == 0)
             {
                 color = Color.red;
             }
             else if (i < _will)
             {
-                color = WillColor;
+                color = owner == 0 ? WillColorFriendly : WillColorHostile;
             }
             else if (i < _intensity + _will)
             {
@@ -70,9 +76,10 @@ public class UnitBar : MonoBehaviour {
             else
             {
                 color = EmptyColor;
+                border_color = BorderColorempty;
             }
 
-            Bar_Steps[i].color = color;
+            Bar_Steps[i].SetStep(color, border_color);
 
         }
 
@@ -101,7 +108,7 @@ public class UnitBar : MonoBehaviour {
         {     
             if(Bar_Steps.Count > 0)
             {    
-                RectTransform target = Bar_Steps[at_nunmber].rectTransform;
+                RectTransform target = Bar_Steps[at_nunmber].transform as RectTransform;
                 StartCoroutine(UpdateAdrenalineEndOfFrame(target));    
             
                 for(int i = 0; i < AdrenalinePreviewBlips.Length; i++)

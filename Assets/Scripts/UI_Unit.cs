@@ -203,7 +203,8 @@ public class UI_Unit : MonoBehaviour
         StatBar.SetBarValues(
             (int) m_unit.Stats.GetStatAmount(StatType.oxygen),
             (int) m_unit.Stats.GetStatAmount(StatType.adrenaline),
-            (int) m_unit.Stats.GetStatAmount(StatType.vitality)
+            (int) m_unit.Stats.GetStatAmount(StatType.vitality),
+             m_unit.OwnerID
         );
        
     }

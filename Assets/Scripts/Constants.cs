@@ -167,6 +167,7 @@ public class Constants : MonoBehaviour {
 
     public static float GetSupplyBonus(int start_unit_count, int evacuated_count, int kia_count, int difficulty)
     {
+       
         return 0.5f + ((evacuated_count - kia_count) / Mathf.Max(1, start_unit_count)) * 0.5f + difficulty * 0.25f;
     }
 
