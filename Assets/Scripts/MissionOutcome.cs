@@ -46,7 +46,9 @@ public class MissionOutcome  {
 
         SquadUnitsKilled = _killed;
         SquadUnitsEvaced = _evac;
-        SuppliesGainedRaw = _gainedraw;
+     
+        SuppliesGainedRaw = (_evac > 0 ) ? _gainedraw : 0;
+
         SquadUnitsStart = _units_start;
         RegionDifficulty = _difficulty;
         ProgressBefore = _progress_before;
