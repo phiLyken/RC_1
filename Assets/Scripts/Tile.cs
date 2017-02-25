@@ -41,7 +41,7 @@ public class Tile : MonoBehaviour, IWayPoint
     [SerializeField]
     public bool isBlockingSight;
 
-    string MeshPath = "tile_mesh_states_ground_1";
+    public TileMesh Mesh;
 
     [SerializeField]
     public int currentHeightStep = 0;
@@ -387,7 +387,16 @@ public class Tile : MonoBehaviour, IWayPoint
     {
         float start = Time.realtimeSinceStartup;
 
-        GameObject prefab = Resources.Load("Tiles/Meshes/" + MeshPath) as GameObject;
+        GameObject prefab = null;
+       
+        if(Mesh == null)
+        {
+           prefab = Resources.Load("Tiles/Meshes/tile_mesh_states_ground_1") as GameObject;
+        } else
+        {
+            prefab = Mesh.gameObject;
+        }
+        
         GameObject new_mesh = Instantiate(prefab);
 
        // Debug.Log("[SPAWN 1] " + (Time.realtimeSinceStartup - start).ToString("0.0000000000"));
