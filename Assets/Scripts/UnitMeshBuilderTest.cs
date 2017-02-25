@@ -7,6 +7,8 @@ public class UnitMeshBuilderTest : MonoBehaviour {
     List<GameObject> current;
     public GameObject Target_Unit;
     public UnitMeshConfig MeshConfig;
+    public WeaponMesh Weapon;
+    UnitAnimation animator;
 
     void Start()
     {
@@ -24,8 +26,10 @@ public class UnitMeshBuilderTest : MonoBehaviour {
                 Destroy(rend.gameObject);             
             }          
         }
-
+        AnimationCallbackCaster caster = Target_Unit.GetComponent<AnimationCallbackCaster>();
         current = UnitFactory.SpawnSkinnedMeshToUnit(Target_Unit, MeshConfig.HeadConfig.GetHead().Mesh, MeshConfig.Suit);
+         var wpn =  UnitFactory.SpawnWeaponMeshToUnit(Target_Unit, Weapon);
+       var m_Animator = UnitFactory.MakeUnitAnimations(Target_Unit, wpn, wpn.WeaponIndex, caster, () => { return false; });
     }
 }
 

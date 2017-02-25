@@ -73,6 +73,7 @@ public class SquadManager {
     public void ClearSelected()
     {
         selected_units = new List<TieredUnit>();
+        
     }
     void Killed(Unit u)
     {
@@ -91,7 +92,10 @@ public class SquadManager {
         Instance.selected_units.Remove(conf);
         Instance.OnSelectedUpdate.AttemptCall(Instance.selected_units);
     }
-
+    ~SquadManager()  
+    {
+        Debug.Log("Dconstructor squadmanager");
+    }
     public static bool AddToSquad(Unlockable<TieredUnit> conf)
     {
         if(conf.IsUnlocked() && !Instance.selected_units.Contains(conf.Item) && Instance.selected_units.Count < Instance.GetMaxSquadsize())

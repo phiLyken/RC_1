@@ -26,25 +26,25 @@ public class Button_StartMission : MonoBehaviour {
 
     void OnEnable()
     {
-        SquadManager.Instance.OnSelectedUpdate += Instance_OnSelectedUpdate;
-        GameManager.Instance.OnRegionSet += Instance_OnRegionSet;
+        SquadManager.Instance.OnSelectedUpdate += OnSelectedUpdate;
+        GameManager.Instance.OnRegionSet += OnRegionSet;
         CheckEnabled();
     }
 
-    private void Instance_OnRegionSet(RegionConfigDataBase obj)
+    private void OnRegionSet(RegionConfigDataBase obj)
     {
         CheckEnabled();
     }
 
-    private void Instance_OnSelectedUpdate(List<TieredUnit> obj)
+    private void OnSelectedUpdate(List<TieredUnit> obj)
     {
         CheckEnabled();
     }
         
-    void OnDestroy()
+    void OnDisable()
     {
-        SquadManager.Instance.OnSelectedUpdate -= Instance_OnSelectedUpdate;
-        GameManager.Instance.OnRegionSet -= Instance_OnRegionSet;
+        SquadManager.Instance.OnSelectedUpdate -= OnSelectedUpdate;
+        GameManager.Instance.OnRegionSet -= OnRegionSet;
     }
     public void StartMission()
     {
