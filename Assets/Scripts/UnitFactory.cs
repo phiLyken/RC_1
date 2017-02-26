@@ -37,8 +37,11 @@ public class UnitFactory : MonoBehaviour
         UnitRotationController rotator                  = base_unit.AddComponent<UnitRotationController>();
         SpeechMananger_Unit speech_mananger             = base_unit.AddComponent<SpeechMananger_Unit>();
 
+        m_unit.OwnerID = data.Owner;
+        m_unit.Config = data;
 
         UI_Unit.CreateUnitUI(m_unit);
+
 
         unit_evac.Init(m_unit);
         adr_particles.Init(stats);
@@ -51,8 +54,7 @@ public class UnitFactory : MonoBehaviour
         effect_manager.SetUnit(m_unit);
         animations.Init(m_unit, mesh);
        
-        m_unit.OwnerID = data.Owner;
-        m_unit.Config = data;
+
 
         speech_mananger.Init(data.SpeechConfig, m_unit);
     
