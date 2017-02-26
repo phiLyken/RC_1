@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using DG.Tweening;
-
+using UnityEngine.UI;
 public class UI_Menu : MonoBehaviour {
 
     public GameObject SquadSelection;
@@ -17,6 +17,7 @@ public class UI_Menu : MonoBehaviour {
 
         Sequence move = DOTween.Sequence();
         Title.transform.DOMove(show ? TitleAnchorTop.transform.position : TitleAnchorBottom.transform.position, 0.3f);
+        Title.GetComponentInChildren<Text>().text = show ? "MISSION BRIEFING" : "REDCLIFF";
 
     }
 
