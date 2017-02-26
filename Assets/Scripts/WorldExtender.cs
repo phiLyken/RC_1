@@ -40,6 +40,8 @@ public class WorldExtender : MonoBehaviour {
 
         SetSpawnConfigs(Region);
         SpawnNext();
+        SpawnNext();
+
     }
 
     protected void SetSpawnConfigs(RegionConfigDataBase Region)
