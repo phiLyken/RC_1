@@ -49,6 +49,7 @@ public class UI_PopupController : MonoBehaviour {
 
     public void Open()
     {
+
         if (!Active)
         { 
             if (OnOpen != null)

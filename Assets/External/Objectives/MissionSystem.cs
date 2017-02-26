@@ -45,6 +45,7 @@ public class MissionSystem : ObjectiveController {
      
     static MissionSystem getInstance()
     {
+       
         MissionSystem found =  GameObject.FindObjectOfType<MissionSystem>();
         if(found == null)
         {
@@ -76,6 +77,7 @@ public class MissionSystem : ObjectiveController {
     void OnDestroy()
     {
         OnInit = null;
+        _instance = null;
     }
 
 }

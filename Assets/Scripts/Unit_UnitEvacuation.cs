@@ -9,7 +9,7 @@ public class Unit_UnitEvacuation : MonoBehaviour {
     {
         m_Unit = _m_unit;
         Unit.OnEvacuated += CheckEvac;
-
+        
     }
 
     void CheckEvac(Unit u)

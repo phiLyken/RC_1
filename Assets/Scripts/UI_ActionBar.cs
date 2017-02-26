@@ -7,6 +7,8 @@ using System.Linq;
 public class UI_ActionBar : MonoBehaviour {
 
     ActionManager m_manager;
+    
+
     public GameObject ButtonPrefab;
     public List<UI_ActionBar_ButtonAnchor> Anchors;
     public Dictionary<ActionButtonID, UI_ActionBar_Button> CurrentButtons;
@@ -19,7 +21,7 @@ public class UI_ActionBar : MonoBehaviour {
         instance = this;
         SpawnButtons();
         ActionManager.OnActionManagerActivated += SetActions;
-       
+      
     }
     void OnDestroy()
     {
@@ -62,6 +64,8 @@ public class UI_ActionBar : MonoBehaviour {
         {
             button.Value.SetBaseState();
         }
+
+        Evac_Button_Icon.color = m_manager.GetOwner().currentTile.isCamp ? Color.white : new Color(0.3f, 0.3f, 0.3f, 1);
     }
 
     void UnSelectAction(UnitActionBase action)
@@ -81,7 +85,7 @@ public class UI_ActionBar : MonoBehaviour {
         {
             m_manager.OnActionSelected -= OnSelectAction;
             m_manager.OnActionUnselected -= UnSelectAction;
-            
+            m_manager.GetActionOfType<UnitAction_Move>().OnActionComplete += action => 
             m_manager = null;
         }
 
