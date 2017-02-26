@@ -22,7 +22,7 @@ public class UI_ShowClassInfo : MonoBehaviour {
     public void ShowUnit(ScriptableUnitConfig conf)
     {
 
-        Debug.Log("Show");
+       
         if(m_config != null && conf == m_config)
         {
             InfoPopup.SetActive(false);

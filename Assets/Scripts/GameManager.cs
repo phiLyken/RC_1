@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-using UnityEngine.SceneManagement;
+
 using System;
 
 public class GameManager : MonoBehaviour, IInit {
@@ -46,7 +46,8 @@ public class GameManager : MonoBehaviour, IInit {
     {
         Instance.ChoosenRegionConfig = null;
         SquadManager.Instance.ClearSelected();
-        SceneManager.LoadScene("menu");
+
+        SceneLoader.LoadScene(1);
     }
     public static void StartMission()
     {
@@ -62,7 +63,7 @@ public class GameManager : MonoBehaviour, IInit {
             return;
         }
 
-        SceneManager.LoadScene("_engine_test_game");
+        SceneLoader.LoadScene(2);
 
     }
 
