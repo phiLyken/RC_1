@@ -10,6 +10,7 @@ public class UnitMeshBuilderTest : MonoBehaviour {
     public WeaponMesh Weapon;
     UnitAnimation animator;
 
+   
     void Start()
     {
         Init(MeshConfig);
@@ -30,7 +31,11 @@ public class UnitMeshBuilderTest : MonoBehaviour {
         current = UnitFactory.SpawnSkinnedMeshToUnit(Target_Unit, MeshConfig.HeadConfig.GetHead().Mesh, MeshConfig.Suit);
          var wpn =  UnitFactory.SpawnWeaponMeshToUnit(Target_Unit, Weapon);
        var m_Animator = UnitFactory.MakeUnitAnimations(Target_Unit, wpn, wpn.WeaponIndex, caster, () => { return false; });
+        
+        Target_Unit.GetComponent<Unit_EasterEgg>().Init(m_Animator);
     }
+
+ 
 }
 
 
