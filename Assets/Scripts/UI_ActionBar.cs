@@ -65,7 +65,10 @@ public class UI_ActionBar : MonoBehaviour {
             button.Value.SetBaseState();
         }
 
-        Evac_Button_Icon.color = m_manager.GetOwner().currentTile.isCamp ? Color.white : new Color(0.3f, 0.3f, 0.3f, 1);
+        if(m_manager != null && m_manager.GetOwner() != null)
+        {
+            Evac_Button_Icon.color = m_manager.GetOwner().currentTile.isCamp ? Color.white : new Color(0.3f, 0.3f, 0.3f, 1);
+        }
     }
 
     void UnSelectAction(UnitActionBase action)
