@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using System.Linq;
 
 public class UI_SquadSlotController : MonoBehaviour {
-    public Text SelectedNumberTF;
+  //  public Text SelectedNumberTF;
     public GameObject target;
 
     List<UI_SquadSlot> Slots;
@@ -69,8 +69,8 @@ public class UI_SquadSlotController : MonoBehaviour {
 
     void UpdateTF()
     {
-        string text = SquadManager.Instance.selected_units.Count +"/"+SquadManager.Instance.GetMaxSquadsize();
-        SelectedNumberTF.text = text;
+       // string text = SquadManager.Instance.selected_units.Count +"/"+SquadManager.Instance.GetMaxSquadsize();
+       /// SelectedNumberTF.text = text;
     }
     void OnRemove(UI_SquadSlot view)
     {
