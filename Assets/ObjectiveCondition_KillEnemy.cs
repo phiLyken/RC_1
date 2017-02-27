@@ -56,7 +56,10 @@ public class ObjectiveCondition_KillEnemy : ObjectiveCondition {
                        true);
 
     }
-
+    void OnDisable()
+    {
+        Unit.OnUnitKilled -= OnKilled;
+    }
     void StopTimer()
     {
         has_selected = true;

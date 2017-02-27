@@ -14,6 +14,7 @@ public class ObjectiveCondition_SeeEnemy : ObjectiveCondition {
         GlobalUpdateDispatcher.OnUpdate += _update;
     }
 
+    
     void OnDestroy()
     {
         if(events != null)

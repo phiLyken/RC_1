@@ -32,7 +32,10 @@ public class GlobalUpdateDispatcher : MonoBehaviour {
         return instance;
     }
     
-
+    void OnDisable()
+    {
+        on_update = null;
+    }
     void Update()
     {
         if (on_update != null)

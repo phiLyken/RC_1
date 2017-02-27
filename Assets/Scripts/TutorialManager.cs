@@ -103,8 +103,8 @@ public class TutorialManager : MonoBehaviour {
 
     bool CanShowStimpackPrompt()
     {
-        Debug.Log(m_Unit.Stats.GetStatAmount(StatType.oxygen) + " " + m_Unit.Inventory.GetItem(ItemTypes.rest_pack).GetCount());
-        return m_Unit.Stats.GetStatAmount(StatType.oxygen) <= 3 && m_Unit.Inventory.HasItem(ItemTypes.rest_pack, 1);
+        
+        return m_Unit != null && m_Unit.Stats.GetStatAmount(StatType.oxygen) <= 3 && m_Unit.Inventory.HasItem(ItemTypes.rest_pack, 1);
     } 
 
     void UpdatedStat(Stat updated)
