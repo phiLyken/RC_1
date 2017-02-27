@@ -62,7 +62,7 @@ public class ObjectiveCondition_MoveToEnemy : ObjectiveCondition
         yield return new WaitForSeconds(8f);
         UI_Prompt.MakePrompt(
                           FindObjectsOfType<UI_ActionBar_ButtonAnchor>().Where(btn => btn.ButtonID == ActionButtonID.move).First().transform as RectTransform,
-                          "Select the MOVE ability. Then click on a tile.", 2,
+                          "Select the MOVE ability.\nThen click on a tile.", 2,
                           delegate {
                               return has_selected;
                           },

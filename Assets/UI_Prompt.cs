@@ -39,7 +39,7 @@ public class UI_Prompt : MonoBehaviour {
     {
         GameObject obj = Instantiate(Resources.Load("UI/ui_prompt")) as GameObject;
 
-        obj.transform.SetParent(GameObject.FindGameObjectWithTag("UI_Overlay").transform);
+        obj.transform.SetParent(GameObject.FindGameObjectWithTag("UI_Overlay").transform, false);
 
         UI_Prompt prompt = obj.GetComponent<UI_Prompt>();
 
