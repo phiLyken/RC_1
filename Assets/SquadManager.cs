@@ -47,7 +47,7 @@ public class SquadManager {
 
         if (!DebugUseForceSelected)
         {
-            ClearSelected();
+            Reset();
         } else
         {            
             selected_units = new List<TieredUnit>( Tiers).GetRandomRemove(GetMaxSquadsize());
@@ -70,9 +70,11 @@ public class SquadManager {
     {   
     }
 
-    public void ClearSelected()
+    public void Reset()
     {
         selected_units = new List<TieredUnit>();
+        evacuated = new List<ScriptableUnitConfig>();
+        killed = new List<ScriptableUnitConfig>();
         
     }
     void Killed(Unit u)

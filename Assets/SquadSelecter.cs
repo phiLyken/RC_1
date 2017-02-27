@@ -13,7 +13,7 @@ public class SquadSelecter : MonoBehaviour {
     {
         selector_buttons = new ViewList<Unlockable<TieredUnit>, UnitSelecterButton>().Init(MakeView, delegate
         { return Target; }, SquadManager.Instance.GetSelectible(), OnRemove, 20);
-        SquadManager.Instance.ClearSelected();
+        SquadManager.Instance.Reset();
     }
     
 

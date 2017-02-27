@@ -45,7 +45,8 @@ public class GameManager : MonoBehaviour, IInit {
     public static void GoToSquad()
     {
         Instance.ChoosenRegionConfig = null;
-        SquadManager.Instance.ClearSelected();
+        SquadManager.Instance.Reset();
+      
 
         SceneLoader.LoadScene(1);
     }
