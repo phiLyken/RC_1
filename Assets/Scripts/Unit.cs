@@ -207,7 +207,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
 
     public bool Evacuate()
     {
-        if (!currentTile.isCamp)
+        if (!currentTile.isCamp )
             return false;
         _isEvacuated = true;
         Debug.Log("^unit EVAC " + this.ToString());

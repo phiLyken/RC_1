@@ -698,6 +698,6 @@ public class TileManager : MonoBehaviour {
 
     public Tile GetTileClamped(int x, int y)
     {
-        return Tiles[ Mathf.Clamp(x, 0, Tiles.GetLength(0)-1), Mathf.Clamp(y, GetLastActiveRow(), Tiles.GetLength(1)-1)];  
+        return Tiles[ Mathf.Clamp(x, 0, Tiles.GetLength(0)-1), Mathf.Clamp(Mathf.Max(0,y), GetLastActiveRow(), Tiles.GetLength(1)-1)];  
     }
  }

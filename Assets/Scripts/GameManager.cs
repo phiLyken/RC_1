@@ -29,6 +29,8 @@ public class GameManager : MonoBehaviour, IInit {
         {
             SetRegion(DefaultRegionConfig);
         }
+        //make a new squadmanager
+        SquadManager.Instance.GetMaxSquadsize();
     }
     public static void SetRegion(RegionConfigDataBase conf)
     {

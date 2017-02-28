@@ -36,6 +36,9 @@ public class GameEndListener : MonoBehaviour {
     }
     static void EndMission()
     {
+        if (GameEnded)
+            return;
+
         OnMissionEnded.AttemptCall();
         GameEnded = true;
         MissionOutcome.MakeNew();
