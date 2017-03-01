@@ -3,6 +3,7 @@ using System.Collections;
 using System;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(CanvasGroup))]
 public class UI_Prompt : MonoBehaviour {
 
     public Text tf;
@@ -32,10 +33,10 @@ public class UI_Prompt : MonoBehaviour {
         
         if(turn as Unit != null && (turn as Unit).OwnerID == 0)
         {
-            this.gameObject.SetActive(true);
+            GetComponent<CanvasGroup>().alpha = 1;
         } else
         {
-            this.gameObject.SetActive(false);
+            GetComponent<CanvasGroup>().alpha = 0;
         }
     }
 
