@@ -13,6 +13,7 @@ public class UI_Prompt : MonoBehaviour {
 
     public void Init(string Text, int ArrowPos,  Func<bool> canRemove, bool ShowButton)
     {
+        TurnSystem.Instance.OnStartTurn += OnTurnStart;
         CanRemove = canRemove;
         GetComponentInChildren<CompasGroup>().SelectIndex(ArrowPos);         
         GetComponentInChildren<Button>().gameObject.SetActive(ShowButton);
@@ -24,6 +25,18 @@ public class UI_Prompt : MonoBehaviour {
     {
         tf.text = text;
 
+    }
+
+    void OnTurnStart(ITurn turn)
+    {
+        
+        if(turn as Unit != null && (turn as Unit).OwnerID == 0)
+        {
+            this.gameObject.SetActive(true);
+        } else
+        {
+            this.gameObject.SetActive(false);
+        }
     }
 
     void Update()
@@ -49,6 +62,11 @@ public class UI_Prompt : MonoBehaviour {
         prompt.Init(Text, ArrowPos, canRemove, ShowButton);
 
         return prompt;
+    }
+
+    void OnDestroy()
+    {
+        TurnSystem.Instance.OnStartTurn -= OnTurnStart;
     }
 
 }

@@ -104,7 +104,7 @@ public class TutorialManager : MonoBehaviour {
     bool CanShowStimpackPrompt()
     {
         
-        return m_Unit != null && m_Unit.Stats.GetStatAmount(StatType.oxygen) <= 3 && m_Unit.Inventory.HasItem(ItemTypes.rest_pack, 1);
+        return m_Unit != null && m_Unit.Stats.GetStatAmount(StatType.oxygen) <= 4 && m_Unit.Inventory.HasItem(ItemTypes.rest_pack, 1) && TurnSystem.HasTurn(m_Unit);
     } 
 
     void UpdatedStat(Stat updated)
@@ -123,6 +123,13 @@ public class TutorialManager : MonoBehaviour {
         }
     }
 
+    void OnUnitStartTurn(Unit u)
+    {
+        if (u == m_Unit && CanShowStimpackPrompt())
+        {
+            ShowStimpackPrompt();
+        }
+    }
     void Update()
     {
         if(m_Unit == null)
@@ -137,6 +144,7 @@ public class TutorialManager : MonoBehaviour {
 
                 m_Unit.Stats.OnStatUpdated += UpdatedStat;
                 m_Unit.Inventory.OnInventoryUpdated += UpdatedInventory;
+                Unit.OnTurnStart += OnUnitStartTurn;
             }
         }
     }

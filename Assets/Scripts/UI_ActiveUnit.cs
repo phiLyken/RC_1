@@ -7,7 +7,7 @@ public class UI_ActiveUnit : MonoBehaviour {
 
     public UI_InventoryView inventory_view;
     public UI_EffectListView_Active effect_list_view;
-
+    public GameObject Blocker;
     CanvasGroup Group;
 
     public Text SelectedUnitTF;
@@ -30,6 +30,7 @@ public class UI_ActiveUnit : MonoBehaviour {
     void Hide(int i)
     {
         Group.alpha = 0;
+        Group.interactable = false;
     }
     void OnDestroy()
     {
@@ -47,10 +48,15 @@ public class UI_ActiveUnit : MonoBehaviour {
             SelectedUnitTF.text = unit.GetID();
             inventory_view.SetInventory(unit.GetComponent<UnitInventory>());
             _fade.Append(Group.DOFade(1, 0.5f));
+            Blocker.SetActive(false);
+            Group.interactable = true;
 
         } else
         {
+            Blocker.SetActive(true);
             _fade.Append(Group.DOFade(0, 0.5f));
+            Group.interactable = false;
+            
         }
       
    

@@ -49,7 +49,7 @@ public class ObjectiveCondition_KillEnemy : ObjectiveCondition {
         yield return new WaitForSeconds(8f);
         UI_Prompt.MakePrompt(
                           FindObjectsOfType<UI_ActionBar_ButtonAnchor>().Where(btn => btn.ButtonID == ActionButtonID.attack).First().transform as RectTransform,
-                          "Select the ATTACK ability. Then click on an enemy.", 2,
+                          "Select the ATTACK ability.\nThen click on an enemy.", 2,
                           delegate {
                               return has_selected;
                           },
