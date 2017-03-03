@@ -19,7 +19,7 @@ public class ObjectiveCondition_Evac : ObjectiveCondition {
 
     IEnumerator DelayedHint()
     {
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(6f);
         UI_Prompt.MakePrompt(
                           FindObjectsOfType<UI_ActionBar_ButtonAnchor>().Where(btn => btn.ButtonID == ActionButtonID.evac).First().transform as RectTransform,
                           "Evacuate Units and secure valuable Supplies", 2,

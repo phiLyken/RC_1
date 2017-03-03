@@ -80,7 +80,7 @@ public class TutorialManager : MonoBehaviour {
 
     void OnRush()
     {
-        if (!ADR_Prompt_Shown)
+        if (!ADR_Prompt_Shown && !MissionSystem.Instance.HasCompleted("kill_enemy_1")) 
         {
             ADR_Prompt_Shown = true;
             UI_Popup_Global.ShowContent(ADR_Tutorial_PopupContent, true);
