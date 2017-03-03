@@ -4,7 +4,7 @@ using System.Linq;
 
 public enum ActionButtonID
 {
-    attack, special_atk_1, special_atk_2, move, loot, stim, epipen
+    attack, special_atk_1, special_atk_2, move, loot, stim, epipen, skip, evac
 }
 public class UI_ActionBar_ButtonAnchor : MonoBehaviour {
 
@@ -25,7 +25,6 @@ public class UI_ActionBar_ButtonAnchor : MonoBehaviour {
     public static RectTransform GetAnchor(ActionButtonID id)
     {
         return FindObjectsOfType<UI_ActionBar_ButtonAnchor>().Where(btn => btn.ButtonID == id).First().transform as RectTransform;
-    }
-     
+    }     
          
 }

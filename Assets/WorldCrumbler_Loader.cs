@@ -3,13 +3,14 @@ using System.Collections;
 
 public class WorldCrumbler_Loader : MonoBehaviour {
 
+    public bool useOVerride;
    public WorldCrumbler Override;
 
     void Awake()
     {
         WorldCrumbler crumbler_prefab;
 
-        if (GameManager.Instance.ChoosenRegionConfig == null && Override != null)
+        if (useOVerride && Override != null)
         {
             crumbler_prefab = Override;
         } else if(GameManager.Instance.ChoosenRegionConfig != null)

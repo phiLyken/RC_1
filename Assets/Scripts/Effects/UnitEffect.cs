@@ -121,7 +121,7 @@ public class UnitEffect : MonoBehaviour
                 TurnSystem.Instance.OnGlobalTurn += copy.OnGlobalTurn;
 
                 if (VFX_Applied != null)
-                    VFX_Applied.Init(target.gameObject);
+                    VFX_Applied.Init(target.currentTile.gameObject);
                
 
                 if (TickOnApply)
@@ -188,7 +188,7 @@ public class UnitEffect : MonoBehaviour
         { 
             GlobalTurnTick();
             if (VFX_Tick != null)
-                VFX_Tick.Init(Effect_Host.gameObject);
+                VFX_Tick.Init(Effect_Host.currentTile.gameObject);
         }
     }
 

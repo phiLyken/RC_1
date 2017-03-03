@@ -88,8 +88,7 @@ public class UI_ActionBar : MonoBehaviour {
         {
             m_manager.OnActionSelected -= OnSelectAction;
             m_manager.OnActionUnselected -= UnSelectAction;
-            m_manager.GetActionOfType<UnitAction_Move>().OnActionComplete += action => 
-            m_manager = null;
+         //   m_manager.GetActionOfType<UnitAction_Move>().OnActionComplete += action => m_manager = null;
         }
 
         m_manager = manager;

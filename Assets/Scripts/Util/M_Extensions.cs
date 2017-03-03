@@ -294,6 +294,17 @@ public static class M_Extensions
         return b == null || position.IsInBounds(b.Bounds());
     }
 
+    public static Vector3 Center(this List<Transform> transforms)
+    {
+        Vector3 center = transforms[0].position;
+        for(int i = 1; i < transforms.Count; i++)
+        {
+            center += transforms[i].position;
+        }
+
+       return  center /= transforms.Count;
+     
+    }
     /// <summary>
     /// Returns the bounds of the transform and all of its 1st level children
     /// </summary>

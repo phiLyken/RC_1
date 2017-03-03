@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System;
 
-public enum LootCategory { small, medium, large }
+public enum LootCategory { small, medium, large, supplies_t1, supplies_t2, supplies_t3 }
 public enum EnemyDropCategory { none, normal, boss, tutorial_stim, tutorial_epi, tutorial_supplies }
 public enum ItemTypes{  weapon, armor, rest_pack, stim_pack, int_charge, dust, saved_dust }
 
