@@ -67,7 +67,8 @@ public class UI_Prompt : MonoBehaviour {
 
     void OnDestroy()
     {
-        TurnSystem.Instance.OnStartTurn -= OnTurnStart;
+        if(TurnSystem.Instance != null)
+            TurnSystem.Instance.OnStartTurn -= OnTurnStart;
     }
 
 }

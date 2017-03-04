@@ -55,7 +55,7 @@ public class ObjectiveCondition_SeeEnemy : ObjectiveCondition {
         Unit.GetAllUnitsOfOwner(0, true)[0].Identify(null);
         ToastNotification.SetToastMessage1("There he is!");
         yield return new WaitForSeconds(2f);
-        ToastNotification.SetToastMessage1("Commander, HQ has assigned you <UnitName> to support you solving the situation");
+        ToastNotification.SetToastMessage1("Commander, HQ has assigned you "+Unit.GetAllUnitsOfOwner(0, true)[0].name+" to support you solving the situation");
 
         //Complete will end the turn of the hacked in Tutorial Turn and then scroll to the next unit, which should be the previously identified
         this.ExecuteDelayed(3f, Complete);

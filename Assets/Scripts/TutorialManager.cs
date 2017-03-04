@@ -11,7 +11,7 @@ public class TutorialManager : MonoBehaviour {
     TutorialStartTurn startTurn;
     Unit m_Unit;
     UI_AdrenalineRushBase rush;
-    bool ADR_Prompt_Shown;
+    public bool ADR_Prompt_Shown;
 
     void Start()
     {
@@ -80,11 +80,14 @@ public class TutorialManager : MonoBehaviour {
 
     void OnRush()
     {
-        if (!ADR_Prompt_Shown)
+        if (!ADR_Prompt_Shown && !MissionSystem.Instance.HasCompleted("kill_enemy_1")) 
         {
             ADR_Prompt_Shown = true;
             UI_Popup_Global.ShowContent(ADR_Tutorial_PopupContent, true);
             UI_Popup_Global.Instance.OnCloseDone += ShowSpecialPrompt;
+        } else if(!Unit.GetAllUnitsOfOwner(1,true).IsNullOrEmpty())
+        {
+            ShowSpecialPrompt();
         }
     }
 
