@@ -117,12 +117,13 @@ public class TurnEventQueue  {
         public AIAggroEvent(UnitAI _ai, Unit _target)
         {
            
+            
             ai = _ai;
             target = _target;
             rotator = ai.GetComponentInChildren<UnitRotationController>();
             animator = ai.GetComponentInChildren<UnitAnimationController>();
             Debug.Log("Turnevent Queue start aggro");
-            rotator.TurnToPosition(target.transform);
+            rotator.TurnToPosition(target.transform, () => Execute(0));
         }
 
         void Execute(int i)

@@ -47,6 +47,10 @@ public class UnitAI : MonoBehaviour, ITriggerable {
 
     public  void SetPreferredTarget(Unit newTarget)
     {
+        if (m_unit.IsDead())
+        {
+            return;
+        }
         preferred_target = newTarget;
         OnPreferredTargetChange.AttemptCall(newTarget, "^ai set preffered target: "+newTarget.GetID() );
     }

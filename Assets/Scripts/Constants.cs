@@ -10,9 +10,7 @@ public class Constants : MonoBehaviour {
     /// </summary>
     public static int ADRENALINE_RUSH_THRESHOLD = 2;
 
-    /// <summary>
-    /// At WHAT number of Adrenaline will Adrenaline rush be triggered?
-    /// </summary>
+
     public static float GetAggroChance(Unit target, UnitEffect_Damage damage)
     {
         Unit instigator = (damage.Instigator as Unit);
