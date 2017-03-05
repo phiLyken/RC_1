@@ -1,0 +1,128 @@
+fileFormatVersion: 2
+guid: d45e2d1f33e14684fa1043b7edcc7915
+timeCreated: 1488677658
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: ship seat
+    100004: ship_body
+    100006: ship_doors
+    100008: ship_exhaust
+    100010: ship_fin
+    100012: ship_interior
+    100014: ship_doorL
+    100016: ship_doorR
+    100018: ship_glass
+    100020: ship_seatL
+    100022: ship_seatR
+    400000: //RootNode
+    400002: ship seat
+    400004: ship_body
+    400006: ship_doors
+    400008: ship_exhaust
+    400010: ship_fin
+    400012: ship_interior
+    400014: ship_doorL
+    400016: ship_doorR
+    400018: ship_glass
+    400020: ship_seatL
+    400022: ship_seatR
+    2300000: ship seat
+    2300002: ship_body
+    2300004: ship_doors
+    2300006: ship_exhaust
+    2300008: ship_fin
+    2300010: ship_interior
+    2300012: ship_doorL
+    2300014: ship_doorR
+    2300016: ship_glass
+    2300018: ship_seatL
+    2300020: ship_seatR
+    3300000: ship seat
+    3300002: ship_body
+    3300004: ship_doors
+    3300006: ship_exhaust
+    3300008: ship_fin
+    3300010: ship_interior
+    3300012: ship_doorL
+    3300014: ship_doorR
+    3300016: ship_glass
+    3300018: ship_seatL
+    3300020: ship_seatR
+    4300000: ship_body
+    4300002: ship_doors
+    4300004: ship_exhaust
+    4300006: ship seat
+    4300008: ship_fin
+    4300010: ship_interior
+    4300012: ship_doorL
+    4300014: ship_glass
+    4300016: ship_seatL
+    4300018: ship_doorR
+    4300020: ship_seatR
+  materials:
+    importMaterials: 0
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleRotations: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 0.1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
