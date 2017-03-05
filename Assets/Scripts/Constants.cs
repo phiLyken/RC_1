@@ -16,6 +16,7 @@ public class Constants : MonoBehaviour {
         Unit instigator = (damage.Instigator as Unit);
         UnitStats stats = instigator.Stats;
 
+
         return 1f;
     }
 
