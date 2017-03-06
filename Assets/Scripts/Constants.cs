@@ -25,6 +25,10 @@ public class Constants : MonoBehaviour {
     /// </summary>
     public static float UNIT_ACTIVATION_RANGE = 20;
 
+    /// <summary>
+    /// Turn time added to the unit when turn is skipped
+    /// </summary>
+    public static float SKIP_TURN_TIME = 5;
 
     /// <summary>
     /// How close a player unit must come before the an enemy AI is activated and added to the turn system

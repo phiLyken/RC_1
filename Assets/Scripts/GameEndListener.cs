@@ -19,6 +19,7 @@ public class GameEndListener : MonoBehaviour {
         Unit.OnEvacuated += CheckUnitsLeft;
 
         OnMissionStarted.AttemptCall();
+        TrackingManager.TrackingCall_LevelStart(GameManager.Instance.ChoosenRegionConfig, SquadManager.Instance, PlayerLevel.Instance);
 	}
 	
     public static void ForceMissionEnd()
@@ -42,6 +43,7 @@ public class GameEndListener : MonoBehaviour {
         OnMissionEnded.AttemptCall();
         GameEnded = true;
         MissionOutcome.MakeNew();
+        TrackingManager.TrackingCall_LevelComplete(GameManager.Instance.ChoosenRegionConfig, MissionOutcome.LastOutcome, PlayerLevel.Instance.GetCurrentLevel());
         ShowGameEndPopup();
     
     }

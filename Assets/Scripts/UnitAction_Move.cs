@@ -116,7 +116,7 @@ public class UnitAction_Move : UnitActionBase {
             List<Tile> sub_path = path.GetRange(0, i + 1);
             
             float length =   TilePathFinder.GetPathLengthForUnit(Owner, sub_path);
-            if(length <= GetMoveRange() && length > longest)
+            if(PathWalkable(sub_path) && length > longest)
             {
                 t = path[i];
                 longest = length;
