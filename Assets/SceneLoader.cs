@@ -45,6 +45,7 @@ public class SceneLoader : MonoBehaviour {
         }
 
         Loading.gameObject.SetActive(true);
+        Loading.alpha = 0;
         yield return StartCoroutine(M_Extensions.YieldT(f => Loading.alpha = f, 0.25f));
         // Start an asynchronous operation to load the scene that was passed to the LoadNewScene coroutine.
         AsyncOperation async = SceneManager.LoadSceneAsync(to_load, LoadSceneMode.Single);
@@ -57,8 +58,8 @@ public class SceneLoader : MonoBehaviour {
         }
 
        
-        yield return StartCoroutine(M_Extensions.YieldT(f => Loading.alpha = 1- f, 0.25f));
-        yield return new WaitForSeconds(0.25f);
+        yield return StartCoroutine(M_Extensions.YieldT(f => Loading.alpha = 1- f, 1f));
+        yield return new WaitForSeconds(0.5f);
        
        
         
