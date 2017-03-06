@@ -58,17 +58,17 @@ public class UnitAnimationController : MonoBehaviour
 
     public void PlayAnimation(UnitAnimationTypes anim)
     {
-         
+        UnitAnimator.SetExec(null);
         UnitAnimator.SetTrigger(anim.ToString());
     }
     
  
     public void PlayAnimation(UnitAnimationTypes anim, EventHandler on_exec)
-    {        
+    {
+        UnitAnimator.SetExec(on_exec);
         PlayAnimation(anim);
-        if (UnitAnimator.OnExec != null)
-            UnitAnimator.OnExec();
-        UnitAnimator.OnExec = on_exec;
+
+       
  
         
     }

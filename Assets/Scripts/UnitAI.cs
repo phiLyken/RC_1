@@ -271,7 +271,7 @@ public class UnitAI : MonoBehaviour, ITriggerable {
         yield return null;
         while ( !(m_unit).HasEndedTurn()  ){
             
-            if(! m_Actions.IsActionInProgress && m_Actions.HasAP(1))
+            if(! m_Actions.IsActionInProgress && m_Actions.HasAP(1) && !TurnEventQueue.EventRunning)
                 yield return StartCoroutine( Decide());
 
             yield return null;

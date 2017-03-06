@@ -17,9 +17,17 @@ public class UnitAnimation
 
     Transform AimTarget;
 
-    public  EventHandler OnExec;
+    EventHandler OnExec;
     bool WaitForExecution;
 
+    public void SetExec(EventHandler new_exec)
+    {
+        if(OnExec != null)
+        {
+            OnExec();
+        }
+        OnExec = new_exec;
+    }
     public UnitAnimation Init(Animator unit, WeaponAnimator right, WeaponAnimator left, float index, AnimationCallbackCaster callback, GetInt get_id, GetBool rs  )
     {
         GetIdle = get_id;
