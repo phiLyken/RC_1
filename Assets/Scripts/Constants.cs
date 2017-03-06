@@ -33,7 +33,7 @@ public class Constants : MonoBehaviour {
     /// <summary>
     /// How close a player unit must come before the an enemy AI is activated and added to the turn system
     /// </summary>
-    public static M_Math.R_Range PLAYER_SQUAD_START_INITIATIVE = new M_Math.R_Range(2, 10);
+    public static M_Math.R_Range PLAYER_SQUAD_START_INITIATIVE = new M_Math.R_Range(0, 2);
 
     /// <summary>
     /// For each point of will, intensity received is decreased by _x_ points
@@ -105,7 +105,7 @@ public class Constants : MonoBehaviour {
     /// </summary>
     public static float AI_PATROL_DISTANCE = 2f;
 
-  
+
 
     /// <summary>
     /// How much dust the player will get when looting 
@@ -113,11 +113,11 @@ public class Constants : MonoBehaviour {
     /// player level is the number of checkpoints reached (start counts as 1)
     /// </summary>
     /// <param name="base_amount"></param>
-    /// <param name="checkpoints_reached"></param>
+    /// <param name="regionDifficulty"></param>
     /// <returns></returns>
-    public static int GetDustForProgress(int base_amount, int checkpoints_reached)
+    public static int GetDustForProgress(int base_amount, int regionDifficulty)
     {
-        return base_amount;
+        return base_amount * regionDifficulty;
     }
 
     /// <summary>
