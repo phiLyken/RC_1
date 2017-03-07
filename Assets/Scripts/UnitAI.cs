@@ -161,7 +161,7 @@ public class UnitAI : MonoBehaviour, ITriggerable {
 
         Debug.Log("^aiSelect tile to for move ");
         TileSelecter.SelectTile(t);
-
+        t.OnHoverEnd();
         while (move.ActionInProgress)
             yield return null;
         

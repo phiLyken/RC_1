@@ -15,6 +15,16 @@ public class LootBalance : MonoBehaviour {
     public List<EnemyDropConfig> EnemyDropConfigs;
     public List<Item_Generic> DropAbleItems;
 
+    public static string GetPlayerFacingString(ItemTypes type)
+    {
+        switch (type)
+        {
+            case ItemTypes.dust: return "Supplies";
+            case ItemTypes.int_charge: return "Epi-Pen";
+            case ItemTypes.rest_pack: return "Stim Pack";
+            default: return type.ToString();
+        }
+    }
     public LootConfig GetLootConfig(LootCategory cat)
     {
         

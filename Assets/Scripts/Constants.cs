@@ -117,7 +117,7 @@ public class Constants : MonoBehaviour {
     /// <returns></returns>
     public static int GetDustForProgress(int base_amount, int regionDifficulty)
     {
-        return base_amount * regionDifficulty;
+        return  base_amount * Mathf.Clamp( regionDifficulty,1,10000);
     }
 
     /// <summary>

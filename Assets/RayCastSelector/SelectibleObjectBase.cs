@@ -22,9 +22,9 @@ public class SelectibleObjectBase : MonoBehaviour {
         if ( EventSystem.current.IsPointerOverGameObject())
             return;
 
-        if (!HumanInput()) return;
+        
       
-        if (!inFocus)
+        if (HumanInput() && !inFocus)
         {
           //  Debug.Log(gameObject.name + " focus");
             if (OnHover != null) OnHover();
@@ -51,12 +51,18 @@ public class SelectibleObjectBase : MonoBehaviour {
     void OnMouseExit()
     {
        
-        if (!HumanInput()) return;
-      
-        inFocus = false;
-      
+       
+        UnsetFocus();
+
+        if (!HumanInput())
+            return;
         if (OnHoverEnd != null) OnHoverEnd();
        
+    }
+
+    public void UnsetFocus()
+    {
+        inFocus = false;
     }
 
     bool HumanInput()

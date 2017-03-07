@@ -167,10 +167,10 @@ public class Tile : MonoBehaviour, IWayPoint
     }
     public void OnHover()
     {       
-            TileSelecter.HoverTile(this);
+         TileSelecter.HoverTile(this);
     }
 
-    void OnHoverEnd()
+    public void OnHoverEnd()
     {
         TileSelecter.UnhoverTile(this);
     }

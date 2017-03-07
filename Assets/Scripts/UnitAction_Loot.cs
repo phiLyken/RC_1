@@ -56,7 +56,7 @@ public class UnitAction_Loot : UnitActionBase
 
         if (loot.GetLootableAmount(Owner) == 0 )
         {
-            ToastNotification.SetToastMessage2("Unit has no space for item " + loot.GetLootType() + " " + loot.GetLootableAmount(Owner));
+            ToastNotification.SetToastMessage2("Unit has no space for " + loot.GetLootableAmount(Owner)+  "" + LootBalance.GetPlayerFacingString( loot.GetLootType()) + " " );
             return;
         }
 
