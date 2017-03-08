@@ -45,6 +45,8 @@ public class Unit_EasterEgg : MonoBehaviour {
         else if (count == 20)
         {
             m_animation.SetTrigger(UnitAnimationTypes.bDying.ToString());
+            StartCoroutine(WTF());
+
         }
         else if ( count == 3 || ( count > 3 && M_Math.Roll(0.1f)))
         {
@@ -58,4 +60,13 @@ public class Unit_EasterEgg : MonoBehaviour {
         return Vector3.zero;
     }
 
+    IEnumerator WTF()
+    {
+        yield return new WaitForSeconds(0.5f);
+        //ToastNotification.SetToastMessage1("OFFICER?");
+        yield return new WaitForSeconds(1f);
+       // ToastNotification.SetToastMessage1("OFFICER?!?!");
+        yield return new WaitForSeconds(1f);
+      //  ToastNotification.SetToastMessage1("OFFICEEEEEEEERRR!!!!");
+    }
 }

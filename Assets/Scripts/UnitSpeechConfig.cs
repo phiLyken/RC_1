@@ -12,6 +12,8 @@ public class UnitSpeechConfig :ScriptableObject
     public SpeechTriggerConfig GainAdrRush;
     public SpeechTriggerConfig ReceiveDamageSmall;
     public SpeechTriggerConfig ReceiveDamageBig;
+    public SpeechTriggerConfig Turn;
+    public SpeechTriggerConfig Identify;
 
     [Header("Configs no chance")]
     public SpeechTriggerConfig Crumble;

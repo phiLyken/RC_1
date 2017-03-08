@@ -35,7 +35,7 @@ public class UnitFactory : MonoBehaviour
         Unit_UnitEvacuation unit_evac                   = base_unit.AddComponent<Unit_UnitEvacuation>();
         UnitAnimationController animations              = mesh.AddComponent<UnitAnimationController>();
         UnitRotationController rotator                  = base_unit.AddComponent<UnitRotationController>();
-        SpeechMananger_Unit speech_mananger             = base_unit.AddComponent<SpeechMananger_Unit>();
+        SpeechManager_Unit speech_mananger             = base_unit.AddComponent<SpeechManager_Unit>();
 
         m_unit.OwnerID = data.Owner;
         m_unit.Config = data;

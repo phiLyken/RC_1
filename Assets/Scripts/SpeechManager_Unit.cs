@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 
-public class SpeechMananger_Unit : MonoBehaviour {
+public class SpeechManager_Unit : MonoBehaviour {
 
     public delegate void SpeechEvent(Unit unit, string[] lines, string arg);
 
@@ -49,9 +49,11 @@ public class SpeechMananger_Unit : MonoBehaviour {
 
         Unit.OnUnitKilled += CheckKilled;
         Unit.OnUnitSelect += CheckSelected;
+        Unit.OnTurnStart += CheckStart;
+        m_Unit.OnIdentify += Identify;
         m_Unit.OnDamageReceived += DmgReceived;
         m_Unit.Actions.OnActionStarted += ActionStarted;
-
+       
         m_Unit.GetComponent<Unit_EffectManager>().OnEffectAdded += ReceivedEffect;
         
         rush =  gameObject.AddComponent<UI_AdrenalineRushBase>();
@@ -67,12 +69,17 @@ public class SpeechMananger_Unit : MonoBehaviour {
         }
     }
 
+    
     void ResetCounter(int c)
     {
         selectCounter = 0;
     }
     
-
+    void Identify(Unit triggerer)
+    {
+        if(triggerer != null)
+            AttemptTrigger(Config.Identify);
+    }
     void ActionStarted(UnitActionBase action)
     {
         if(Config.UseAbility != null)
@@ -107,10 +114,19 @@ public class SpeechMananger_Unit : MonoBehaviour {
         } 
     }
 
+    void CheckStart(Unit u)
+    {
+        if(u == m_Unit)
+        {
+            AttemptTrigger(Config.Turn);
+        }
+    }
     void CheckSelected(Unit u)
     {
+
         if (u == m_Unit)
         {
+
             selectCounter++;
 
             if(selectCounter == 4)
@@ -148,8 +164,12 @@ public class SpeechMananger_Unit : MonoBehaviour {
 
     public void AttemptTrigger( SpeechTriggerConfig trigger)
     {
+        Debug.Log("asdsd");
         if (trigger != null && m_Unit.IsIdentified)
+        {
+            Debug.Log("asdsd");
             TriggerDelayed( trigger.GetSpeech(), trigger.Delay.Value());
+        }
 
     }
 

@@ -65,9 +65,11 @@ public class UI_Unit : MonoBehaviour
 
     public void SetUnitInfo(Unit u)
     {
-        GetComponent<UI_AdrenalineRushBase>().Init(u.Stats);      
+        GetComponent<UI_AdrenalineRushBase>().Init(u.Stats);
 
-        (Resources.Load("UI/unit_ui_speech") as GameObject).Instantiate(transform.parent, false).GetComponent<UI_ShowUnitSpeech>().Init(u);
+        GameObject Unit_speech = Instantiate(Resources.Load("UI/unit_ui_speech") as GameObject);
+        Unit_speech.transform.SetParent(transform.parent, false);
+        Unit_speech.GetComponent<UI_ShowUnitSpeech>().Init(u);
         Alphas = new AlphaStack();
         AlphaStackController.Init(Alphas);
         Alphas.AddItem(DefaultItem);

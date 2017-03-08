@@ -11,7 +11,7 @@ public class UI_ShowUnitSpeech : MonoBehaviour {
 
     public void Init(Unit unit)
     {
-        SpeechMananger_Unit.OnSpeech += CheckSpeech;
+        SpeechManager_Unit.OnSpeech += CheckSpeech;
         m_Unit = unit;
         UpdatePos();
         TextPlate.SetActive(false);
