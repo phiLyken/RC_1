@@ -20,7 +20,7 @@ public class DebugFoo : MonoBehaviour {
 
     void Update()
     {
-        if (hoveredUnit != null && Input.GetKeyDown(KeyCode.Alpha0))
+        if (Application.isEditor && hoveredUnit != null && Input.GetKeyDown(KeyCode.Alpha0))
         {
 
             hoveredUnit.ReceiveDamage(new UnitEffect_Damage(5));

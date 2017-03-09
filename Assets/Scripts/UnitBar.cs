@@ -63,7 +63,7 @@ public class UnitBar : MonoBehaviour {
             Color border_color = BorderColorFilled;
             if (_will == 0)
             {
-                color = Color.red;
+                color = Color.black;
             }
             else if (i < _will)
             {

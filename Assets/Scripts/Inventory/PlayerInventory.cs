@@ -35,7 +35,7 @@ public class PlayerInventory : Inventory, IInit {
     }
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Keypad0))
+        if (Application.isEditor && Input.GetKeyDown(KeyCode.Keypad0))
         {
             CheatDust(100);
         }

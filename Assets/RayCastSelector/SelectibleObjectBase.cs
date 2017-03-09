@@ -74,7 +74,7 @@ public class SelectibleObjectBase : MonoBehaviour {
     {
         if (Input.GetMouseButtonUp(0))
         {
-            if (Input.GetKeyUp(KeyCode.Alpha0))
+            if (Application.isEditor && Input.GetKeyUp(KeyCode.Alpha0))
             {
                 Cheat = !Cheat;
             }
