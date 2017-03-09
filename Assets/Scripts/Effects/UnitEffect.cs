@@ -152,7 +152,7 @@ public class UnitEffect : MonoBehaviour
     protected void Ticked()
     {
         if (OnEffectTick != null) OnEffectTick(this);
-        Debug.Log("^effects"+GetToolTipText() + " TICKED");
+        Debug.Log("^effects"+GetToolTipText() + " Ticked");
 
 
 

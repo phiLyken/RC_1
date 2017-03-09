@@ -6,7 +6,9 @@ using System;
 public class UnitEffect_BuffStats : UnitEffect {
 
     public StatBuff  Buff ;
-    
+    public bool ShowAsPercent;
+ 
+
     public override string GetToolTipText()
     {
         return   GetShortHandle();
@@ -14,7 +16,8 @@ public class UnitEffect_BuffStats : UnitEffect {
 
     public override string GetShortHandle()
     {
-        return GetModifier().ToString("+#;-#;0") + " " + UnitStats.StatToString(Buff.Type) ;
+
+        return GetModifier().ToString(ShowAsPercent ? "+#%;-#%;0%" : "+#;-#;0") + " " + UnitStats.StatToString(Buff.Type) ;
        
     }
 
