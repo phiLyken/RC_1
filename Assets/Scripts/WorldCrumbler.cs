@@ -72,7 +72,7 @@ public class WorldCrumbler : MonoBehaviour, ITurn {
 
     protected  virtual string GetCrumbleText()
     {
-        return "The earth is sh4king...";
+        return "The earth is shaking...";
     }
     virtual public void StartTurn()
     {

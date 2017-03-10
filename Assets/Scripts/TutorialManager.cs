@@ -11,7 +11,7 @@ public class TutorialManager : MonoBehaviour {
     TutorialStartTurn startTurn;
     Unit m_Unit;
     UI_AdrenalineRushBase rush;
-    public bool ADR_Prompt_Shown;
+    public int ADR_Prompt_Shown;
 
     void Start()
     {
@@ -80,12 +80,12 @@ public class TutorialManager : MonoBehaviour {
 
     void OnRush()
     {
-        if (!ADR_Prompt_Shown && !MissionSystem.Instance.HasCompleted("kill_enemy_1")) 
+        if (ADR_Prompt_Shown == 0 && !MissionSystem.Instance.HasCompleted("kill_enemy_1")) 
         {
-            ADR_Prompt_Shown = true;
+         
             UI_Popup_Global.ShowContent(ADR_Tutorial_PopupContent, true);
             UI_Popup_Global.Instance.OnCloseDone += ShowSpecialPrompt;
-        } else if(!Unit.GetAllUnitsOfOwner(1,true).IsNullOrEmpty())
+        } else if(ADR_Prompt_Shown< 2)
         {
             ShowSpecialPrompt();
         }
@@ -93,6 +93,7 @@ public class TutorialManager : MonoBehaviour {
 
     void ShowSpecialPrompt()
     {
+        ADR_Prompt_Shown++;
         UI_Prompt.MakePrompt(UI_ActionBar_ButtonAnchor.GetAnchor(ActionButtonID.special_atk_1),"Use the more powerful \"Special Attack\" to kill the target", 2,
                            delegate { return !rush.HasRush;   },                        true);
         
