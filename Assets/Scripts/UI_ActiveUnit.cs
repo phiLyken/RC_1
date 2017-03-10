@@ -5,7 +5,7 @@ using DG.Tweening;
 
 public class UI_ActiveUnit : MonoBehaviour {
 
-    public UI_InventoryView inventory_view;
+    public Image Portrait;
     public UI_EffectListView_Active effect_list_view;
     public GameObject Blocker;
     CanvasGroup Group;
@@ -46,10 +46,11 @@ public class UI_ActiveUnit : MonoBehaviour {
         if(unit.OwnerID == 0)
         {
             SelectedUnitTF.text = unit.GetID();
-            inventory_view.SetInventory(unit.GetComponent<UnitInventory>());
+            //rank.sprite = unit.Config.
             _fade.Append(Group.DOFade(1, 0.5f));
             Blocker.SetActive(false);
             Group.interactable = true;
+            Portrait.sprite = unit.GetIcon();
 
         } else
         {

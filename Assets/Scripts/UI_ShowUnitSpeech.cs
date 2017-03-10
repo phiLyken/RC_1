@@ -44,12 +44,12 @@ public class UI_ShowUnitSpeech : MonoBehaviour {
             StopAllCoroutines();
             TF.text = string.Format(texts[0], arg);
             TextPlate.SetActive(true);
-            StartCoroutine(M_Math.ExecuteDelayed(texts.Length * 0.5f + 1f, () => TextPlate.SetActive(false)));
+            StartCoroutine(M_Math.ExecuteDelayed(texts.Length * 0.5f + 2.5f, () => TextPlate.SetActive(false)));
         }
     }
 
     Vector3 GetSpeechPosition()
     {
-        return Unit.GetHeadPos(m_Unit) + Vector3.up * 0.25f;
+        return Unit.GetHeadPos(m_Unit);
     }
 }
