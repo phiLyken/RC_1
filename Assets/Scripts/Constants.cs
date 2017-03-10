@@ -16,14 +16,13 @@ public class Constants : MonoBehaviour {
         Unit instigator = (damage.Instigator as Unit);
         UnitStats stats = instigator.Stats;
 
-
         return 1f;
     }
 
     /// <summary>
     /// How close a player unit must come before the an enemy AI is activated and added to the turn system
     /// </summary>
-    public static float UNIT_ACTIVATION_RANGE = 20;
+    public static float UNIT_ACTIVATION_RANGE = 15;
 
     /// <summary>
     /// Turn time added to the unit when turn is skipped
@@ -170,7 +169,6 @@ public class Constants : MonoBehaviour {
 
     public static float GetSupplyBonus(int start_unit_count, int evacuated_count, int kia_count, int difficulty)
     {
-       
         return 0.5f + ((evacuated_count - kia_count) / Mathf.Max(1, start_unit_count)) * 0.5f + difficulty * 0.25f;
     }
 
