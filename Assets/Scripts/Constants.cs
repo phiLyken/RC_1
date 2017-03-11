@@ -17,9 +17,10 @@ public class Constants : MonoBehaviour {
      
         float distance = (target.currentTile.GetPosition() - instigator.currentTile.GetPosition()).magnitude;
         int damage = _damage.GetDamage();
+        float aggroChance = Mathf.Clamp(0.5f + damage * 0.1f - distance * 0.05f, 0.1f, 1f);
 
-
-        return 1f;
+        Debug.Log("^units AggroChance: " + aggroChance);
+        return aggroChance;  
     }
 
     /// <summary>
