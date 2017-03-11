@@ -39,14 +39,20 @@ public class BulletEmitter   {
         emit.AppendCallback(() =>
           {
               // Debug.Log("start kaputt");
-              bullet.transform.GetComponentsInChildren<ParticleSystem>().ToList().ForEach(b => b.StopAll());
-              bullet.transform.GetComponentsInChildren<ParticleSystem>().ToList().ForEach(b => b.RemoveAllParticlesWhenInactive());
-              bullet.transform.DetachChildren();
-              GameObject.Destroy(new_target.gameObject);
-              GameObject.Destroy(bullet);
+              bullet.transform.Translate(new_target.position - bullet.transform.position);
+            
 
         
           });
+        emit.AppendInterval(0.1f);
+        emit.AppendCallback(() =>
+       {
+           bullet.transform.GetComponentsInChildren<ParticleSystem>().ToList().ForEach(b => b.StopAll());
+           bullet.transform.GetComponentsInChildren<ParticleSystem>().ToList().ForEach(b => b.RemoveAllParticlesWhenInactive());
+           bullet.transform.DetachChildren();
+           GameObject.Destroy(new_target.gameObject);
+           GameObject.Destroy(bullet);
+       });
         return emit;
         ;
 
