@@ -3,8 +3,8 @@ using System.Collections;
 using System;
 
 public class CameraAction_Zoom : CameraAction {
-    
 
+    public float MaxZoomStep;
     public float ScrollSpeed;
     float current_distance;
     public float ZoomSensitivity;
@@ -31,7 +31,7 @@ public class CameraAction_Zoom : CameraAction {
         {
             if (Input.GetAxis("Mouse ScrollWheel") != 0)
             {
-                CurrentTouchDistance = Input.GetAxis("Mouse ScrollWheel") * ZoomSensitivity / Time.deltaTime;
+                CurrentTouchDistance = Mathf.Clamp( Input.GetAxis("Mouse ScrollWheel") * ZoomSensitivity / Time.deltaTime,-MaxZoomStep, MaxZoomStep);
             }
             else
             {

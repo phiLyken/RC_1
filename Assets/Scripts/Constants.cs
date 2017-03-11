@@ -11,10 +11,13 @@ public class Constants : MonoBehaviour {
     public static int ADRENALINE_RUSH_THRESHOLD = 2;
 
 
-    public static float GetAggroChance(Unit target, UnitEffect_Damage damage)
+    public static float GetAggroChance(Unit target, UnitEffect_Damage _damage)
     {
-        Unit instigator = (damage.Instigator as Unit);
-        UnitStats stats = instigator.Stats;
+        Unit instigator = (_damage.Instigator as Unit);
+     
+        float distance = (target.currentTile.GetPosition() - instigator.currentTile.GetPosition()).magnitude;
+        int damage = _damage.GetDamage();
+
 
         return 1f;
     }

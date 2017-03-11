@@ -31,7 +31,10 @@ public class UnitEffect : MonoBehaviour
     public int TickFrequency;
     public int MaxDuration;
     public bool ReplaceEffect;
-
+    public void SetDurationAlive(int _new)
+    {
+        _durationActive = _new;
+    }
     [HideInInspector]
     public float EffectBonus = 1;
 
@@ -56,7 +59,10 @@ public class UnitEffect : MonoBehaviour
 
  
     }
-
+    public int GetTicksAlive()
+    {
+        return _durationActive;
+    }
 
     public virtual UnitEffect MakeCopy(UnitEffect origin, Unit host)
     {

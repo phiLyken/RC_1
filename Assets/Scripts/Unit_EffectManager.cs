@@ -21,6 +21,7 @@ public class Unit_EffectManager : MonoBehaviour {
             ActiveEffects = new List<UnitEffect>();
         }
 
+      
         if (!ActiveEffects.Contains(new_effect))
         {
             if (new_effect.ReplaceEffect)
@@ -28,11 +29,15 @@ public class Unit_EffectManager : MonoBehaviour {
                 UnitEffect duplicate_on_unit = GetEffect(new_effect.Unique_ID);
                 if(duplicate_on_unit != null)
                 {
-                    Debug.Log("^effects Removing Duplicate " + duplicate_on_unit.ToString());
+                    int duplicate_duration = duplicate_on_unit.GetTicksAlive();
+                    new_effect.SetDurationAlive(duplicate_duration);
+                    new_effect.MaxDuration = duplicate_duration + new_effect.GetMaxDuration();
+
+;                    Debug.Log("^effects Removing Duplicate " + duplicate_on_unit.ToString());
                     ActiveEffects.Remove(duplicate_on_unit);
                     Destroy(duplicate_on_unit);                    
                 }                
-            }
+            }  
 
             ActiveEffects.Add(new_effect);
             Debug.Log("^effects Added Effect to " + m_Unit.GetID()+" \n" + new_effect.ToString());
