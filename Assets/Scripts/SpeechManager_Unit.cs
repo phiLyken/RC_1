@@ -164,10 +164,10 @@ public class SpeechManager_Unit : MonoBehaviour {
 
     public void AttemptTrigger( SpeechTriggerConfig trigger)
     {
-        Debug.Log("asdsd");
+       
         if (trigger != null && m_Unit.IsIdentified)
         {
-            Debug.Log("asdsd");
+            
             TriggerDelayed( trigger.GetSpeech(), trigger.Delay.Value());
         }
 

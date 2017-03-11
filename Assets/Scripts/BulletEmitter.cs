@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using DG.Tweening;
-
+using System.Linq;
 
 public class BulletEmitter   {
 
@@ -38,9 +38,9 @@ public class BulletEmitter   {
       //  Debug.Log("start move "+emit.Duration());
         emit.AppendCallback(() =>
           {
-             // Debug.Log("start kaputt");
-              bullet.transform.GetComponentInChildren<ParticleSystem>().StopAll();
-              bullet.transform.GetComponentInChildren<ParticleSystem>().RemoveAllParticlesWhenInactive();
+              // Debug.Log("start kaputt");
+              bullet.transform.GetComponentsInChildren<ParticleSystem>().ToList().ForEach(b => b.StopAll());
+              bullet.transform.GetComponentsInChildren<ParticleSystem>().ToList().ForEach(b => b.RemoveAllParticlesWhenInactive());
               bullet.transform.DetachChildren();
               GameObject.Destroy(new_target.gameObject);
               GameObject.Destroy(bullet);

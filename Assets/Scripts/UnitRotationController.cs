@@ -79,6 +79,6 @@ public class UnitRotationController : MonoBehaviour {
 
     void OnDisable()
     {
-        Debug.Log("Foo");
+       // Debug.Log("Foo");
     }
 }
