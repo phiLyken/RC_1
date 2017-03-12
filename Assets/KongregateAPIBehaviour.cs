@@ -38,8 +38,8 @@ public class KongregateAPIBehaviour : MonoBehaviour
         );
 
 
-    
- 
+       
+
     }
 
     public void OnKongregateAPILoaded(string userInfoString)
@@ -58,7 +58,7 @@ public class KongregateAPIBehaviour : MonoBehaviour
         Unit.OnUnitKilled += OnKill;
         PlayerLevel.Instance.OnLevelUp += OnLevelUp;
         MissionOutcome.OnMissionOutcomeSet += OnOutcome;
-       
+        Application.ExternalCall("kongregate.stats.submit", "initialized", 1);
     }
     
     void OnOutcome(MissionOutcome outcome)
