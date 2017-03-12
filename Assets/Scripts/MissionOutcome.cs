@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class MissionOutcome  {
 
     public static MissionOutcome LastOutcome;
-
+    public static Action<MissionOutcome> OnMissionOutcomeSet;
     public int SuppliesGainedRaw;
     public int SuppliesGainedFinal;
     public int SquadUnitsKilled;
@@ -12,6 +13,7 @@ public class MissionOutcome  {
     public int SquadUnitsStart;
     public int RegionDifficulty;
 
+   
     public bool NewLevel;
     public float ProgressBefore;
 
@@ -35,7 +37,8 @@ public class MissionOutcome  {
         {
             game_manager.ChoosenRegionConfig.CompleteInSave();
         }
-       
+
+        OnMissionOutcomeSet.AttemptCall(this);
     }
 
     public MissionOutcome(int _killed, int _evac, int _gainedraw, int _units_start, int _difficulty, float _progress_before, int _old_level, int _new_level)

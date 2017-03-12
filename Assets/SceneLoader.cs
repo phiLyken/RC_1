@@ -30,7 +30,7 @@ public class SceneLoader : MonoBehaviour {
     IEnumerator LoadNewScene()
     {
         Splash.gameObject.SetActive(showsplash);
-         
+        yield return new WaitForSeconds(0.1f);
         if (showsplash)
         {
             Loading.gameObject.SetActive(false);
