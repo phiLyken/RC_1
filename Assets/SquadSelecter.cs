@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class SquadSelecter : MonoBehaviour {
 
+    public ScrollRect Scroll;
     public Transform Target;
 
     ViewList<Unlockable<TieredUnit>, UnitSelecterButton> selector_buttons;
@@ -14,6 +16,9 @@ public class SquadSelecter : MonoBehaviour {
         selector_buttons = new ViewList<Unlockable<TieredUnit>, UnitSelecterButton>().Init(MakeView, delegate
         { return Target; }, SquadManager.Instance.GetSelectible(), OnRemove, 20);
         SquadManager.Instance.Reset();
+
+      Scroll.horizontalNormalizedPosition = 0;
+
     }
     
 
