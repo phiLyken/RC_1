@@ -29,6 +29,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     public static UnitEventHandler OnTurnStart;
     public static UnitEventHandler OnTurnEnded;
     public static UnitEventHandler OnEvacuated;
+    public static UnitEventHandler OnIdentifiedGlobal;
 
     public DamageEventHandler OnDamageReceived;
   
@@ -139,6 +140,10 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
         if (OnIdentify != null)
             OnIdentify(identifier);
 
+        if(OnIdentifiedGlobal != null)
+        {
+            OnIdentifiedGlobal(this);
+        }
         OnUpdateSprite.AttemptCall();
         GetComponent<Collider>().enabled = true;
     }

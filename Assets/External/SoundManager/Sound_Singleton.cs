@@ -39,8 +39,12 @@ public class Sound_Singleton : Sound_Play {
     }
     public override void Play(AudioClip clip)
     {
+        if(currentClip != clip)
+        {
+            base.Play(clip);
+        }
         currentClip = clip;
-        base.Play(clip);
+       
     }
 
     protected virtual void PlaySoundForScene(string current_scene)

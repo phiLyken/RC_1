@@ -19,8 +19,10 @@ public class Sound_MusicManager : Sound_Singleton {
         if(current_scene == "_engine_test_game")
         {
             GetSource().Stop();
-            Unit.OnUnitKilled += OnUnitKilled;
+            Unit.OnUnitKilled += OnUnitCountUpdated;
+            Unit.OnIdentifiedGlobal += OnUnitCountUpdated;
             GameEndListener.OnMissionEnded += GameEndListener_OnMissionEnded;
+            Play(GameManager.Instance.ChoosenRegionConfig.DefaultMusic);
 
         } else
         {
@@ -36,22 +38,24 @@ public class Sound_MusicManager : Sound_Singleton {
      
     }
 
-    void OnUnitKilled(Unit u)
+    void OnUnitCountUpdated(Unit u)
     {
-        if(Unit.GetAllUnitsOfOwner(1,true).Count > 0)
+        if(Unit.GetAllUnitsOfOwner(1,true).Count > 1 && GameManager.Instance.ChoosenRegionConfig.ActionMusic1 != null)
         {
-            MDebug.Log("Play Music 1");
-        } else
+            Play(GameManager.Instance.ChoosenRegionConfig.ActionMusic1);
+        } else if(GameManager.Instance.ChoosenRegionConfig.DefaultMusic != null)
         {
-            MDebug.Log("Play Music 2");
+            Play(GameManager.Instance.ChoosenRegionConfig.DefaultMusic);
         }
     }
-
+ 
     void OnDisable()
     {
         if (current == "_engine_test_game")
         {
-            Unit.OnUnitKilled -= OnUnitKilled;
+            Unit.OnUnitKilled -= OnUnitCountUpdated;
+            Unit.OnIdentifiedGlobal -= OnUnitCountUpdated;
+           
             GameEndListener.OnMissionEnded -= GameEndListener_OnMissionEnded;
         }
     }

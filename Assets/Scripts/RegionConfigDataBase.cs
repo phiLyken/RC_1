@@ -5,6 +5,9 @@ using System.Collections.Generic;
 [System.Serializable]
 public class RegionConfigDataBase : ScriptableObject {
 
+    public AudioClip DefaultMusic;
+    public AudioClip ActionMusic1;
+
     public string SAVEID;
     public Sprite DifficultySprite;
 
