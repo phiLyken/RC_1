@@ -18,7 +18,7 @@ public class Unit_UnitDeath : MonoBehaviour {
         if(u == m_unit)
         {
             Unit.OnUnitKilled -= KilledUnitSequence;
-           //  Debug.Log(" death " + u.GetID());
+           //  MDebug.Log(" death " + u.GetID());
              new DeathEvent(u);
              new TurnEventQueue.CameraFocusEvent(u.currentTile.GetPosition());
         }

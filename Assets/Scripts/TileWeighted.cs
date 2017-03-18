@@ -11,7 +11,7 @@ public class TileWeighted : IWeightable {
     public static List<Tile> GetCrumbleTiles(int count, TileManager region)
     {
         return (from wt 
-                in WeightableFactory.GetWeighted( GetWeightedTiles(region).Cast<IWeightable>().ToList() , count)
+                in M_Weightable.GetWeighted( GetWeightedTiles(region).Cast<IWeightable>().ToList() , count)
                 select region.Tiles[ (wt as TileWeighted).tilePos.x, (wt as TileWeighted).tilePos.z]).ToList();
 
     }

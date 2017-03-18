@@ -39,8 +39,8 @@ public class UnlockableTest
     {
         Levels levels = MockLevels();
         List<Unlockable<BlaConfig>>  Unlockables = UnlockableFactory.MakeUnlockables(MockConfigs(), levels, getunlock, getid, OnUnlock);
-        levels.OnProgress += p => Debug.Log("PROGRESS " + p + " " + levels.GetProgressInLevel());
-        levels.OnLevelUp += l => Debug.Log("LEVELUP " + l);
+        levels.OnProgress += p => MDebug.Log("PROGRESS " + p + " " + levels.GetProgressInLevel());
+        levels.OnLevelUp += l => MDebug.Log("LEVELUP " + l);
 
         //GetComponent<UnlockableViewTest>().SetUnlockable(Unlockables.GetRandom());
         levels.AddProgress(0);
@@ -77,7 +77,7 @@ public class UnlockableTest
     void OnUnlock(BlaConfig onUnlock)
     {
         onUnlock._CALLED++;
-        Debug.Log("Unlocked "+onUnlock.foo.FOO+" " + onUnlock._CALLED);
+        MDebug.Log("Unlocked "+onUnlock.foo.FOO+" " + onUnlock._CALLED);
     }
 
     Levels MockLevels()

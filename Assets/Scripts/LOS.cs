@@ -96,7 +96,7 @@ public class LOS : MonoBehaviour
         int max_z = TileManager.Instance.Tiles.GetLength(1)-1;
         x = Mathf.Clamp(x, 0, max_x);
         z = Mathf.Clamp(z, 0, max_z);
-      //  Debug.Log(x + " " + z+ "  max "+max_x+" "+max_z);
+      //  MDebug.Log(x + " " + z+ "  max "+max_x+" "+max_z);
         return !TileManager.Instance.Tiles[x, z].IsFree;
          
     }
@@ -107,7 +107,7 @@ public class LOS : MonoBehaviour
         int max_z = TileManager.Instance.Tiles.GetLength(1) - 1;
         x = Mathf.Clamp(x, 0, max_x);
         z = Mathf.Clamp(z, 0, max_z);
-       // Debug.Log(x + " " + z + "  max " + max_x + " " + max_z);
+       // MDebug.Log(x + " " + z + "  max " + max_x + " " + max_z);
 
         TileManager.Instance.Tiles[x, z].SetVisualState( new VisualState("visible_test_false"));
     }

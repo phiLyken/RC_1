@@ -56,13 +56,13 @@ public class GameManager : MonoBehaviour, IInit {
     {
         if(Instance.ChoosenRegionConfig == null )
         {
-            Debug.Log("^game Region selected");
+            MDebug.Log("^game Region selected");
             return;
         }
 
         if(SquadManager.Instance.selected_units.IsNullOrEmpty() && !Instance.ChoosenRegionConfig.IsTutorial)
         {
-            Debug.Log("^game No Units Selected");
+            MDebug.Log("^game No Units Selected");
             return;
         }
 

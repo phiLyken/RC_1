@@ -80,7 +80,7 @@ public class PropertyWatcher_Transform : PropertyWatcher<Transform>
         Transform tr = GetValue();
         if (tr == null || _lastValue == null) return true;
 
-        //Debug.Log("same?");
+        //MDebug.Log("same?");
         if(lastpos != tr.position || lastsize != tr.localScale || lastrot != tr.rotation)
         {
             lastpos = tr.position;

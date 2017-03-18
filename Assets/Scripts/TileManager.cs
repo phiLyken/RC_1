@@ -116,7 +116,7 @@ public class TileManager : MonoBehaviour {
 	public Tile GetClosestTile(List<Tile> _tiles, Vector3 pos){
 		
 		Tile bestTile = null;
-      //  Debug.Log(_tiles.Count);
+      //  MDebug.Log(_tiles.Count);
 		foreach(Tile t in _tiles){
 			if(bestTile == null){
 				bestTile = t;
@@ -238,11 +238,11 @@ public class TileManager : MonoBehaviour {
        
 
         Groups.AddRange(manager.MakeGroups());
-        //Debug.Log("[GROUPS] APPEND _TIME = " + (Time.realtimeSinceStartup - start).ToString("0.000000000000"));
+        //MDebug.Log("[GROUPS] APPEND _TIME = " + (Time.realtimeSinceStartup - start).ToString("0.000000000000"));
 
         AppendGrid(manager.FetchTiles());
 
-      //  Debug.Log("[APPENDED] APPEND _TIME = " + (Time.realtimeSinceStartup - start).ToString("0.000000000000"));
+      //  MDebug.Log("[APPENDED] APPEND _TIME = " + (Time.realtimeSinceStartup - start).ToString("0.000000000000"));
        
     }
 
@@ -257,19 +257,19 @@ public class TileManager : MonoBehaviour {
         TilePos offset = new TilePos(0, GridHeight);
 
         AdjustGrid(newTiles.GetLength(0), newTiles.GetLength(1));
-       //// Debug.Log("[ADJUSTED] APPEND _TIME = " + (Time.realtimeSinceStartup - start).ToString("0.000000000000"));
+       //// MDebug.Log("[ADJUSTED] APPEND _TIME = " + (Time.realtimeSinceStartup - start).ToString("0.000000000000"));
 
         OffsetTilePositions(newTiles, offset);
-      //  Debug.Log("[OFFSET] APPEND _TIME = " + (Time.realtimeSinceStartup - start).ToString("0.000000000000"));
+      //  MDebug.Log("[OFFSET] APPEND _TIME = " + (Time.realtimeSinceStartup - start).ToString("0.000000000000"));
         SetTilesToGridPosition(newTiles);
 
-       //// Debug.Log("[TO POSITION] APPEND _TIME = " + (Time.realtimeSinceStartup - start).ToString("0.000000000000"));
+       //// MDebug.Log("[TO POSITION] APPEND _TIME = " + (Time.realtimeSinceStartup - start).ToString("0.000000000000"));
 
         SetTiles(FetchTiles());
-       // Debug.Log("[SET TILES] APPEND _TIME = " + (Time.realtimeSinceStartup - start).ToString("0.000000000000"));
+       // MDebug.Log("[SET TILES] APPEND _TIME = " + (Time.realtimeSinceStartup - start).ToString("0.000000000000"));
 
         SpawnMeshes();
-       // Debug.Log("[SPAWNED] APPEND _TIME = " + (Time.realtimeSinceStartup - start).ToString("0.000000000000"));
+       // MDebug.Log("[SPAWNED] APPEND _TIME = " + (Time.realtimeSinceStartup - start).ToString("0.000000000000"));
 
     }
 
@@ -329,7 +329,7 @@ public class TileManager : MonoBehaviour {
         GridHeight += z;
         Tiles = new Tile[GridWidth, GridHeight];
 
-       // Debug.Log("Appending Grid: New Grid Size: " + GridWidth + "|" + GridHeight);
+       // MDebug.Log("Appending Grid: New Grid Size: " + GridWidth + "|" + GridHeight);
     }
 
     /// <summary>
@@ -391,12 +391,12 @@ public class TileManager : MonoBehaviour {
         foreach ( Tile t in children)
         {
 
-         //   Debug.Log(gameObject.name);
-         //   Debug.Log(gameObject.name + "_"+t.name);
+         //   MDebug.Log(gameObject.name);
+         //   MDebug.Log(gameObject.name + "_"+t.name);
             tiles[t.TilePos.x, t.TilePos.z] = t;
            
         }
-       // Debug.Log("[FETCH] " +  (Time.realtimeSinceStartup - start).ToString("0.0000000000000000000"));
+       // MDebug.Log("[FETCH] " +  (Time.realtimeSinceStartup - start).ToString("0.0000000000000000000"));
         return tiles;
     }
     
@@ -429,7 +429,7 @@ public class TileManager : MonoBehaviour {
 		List<Tile> surrounding = new List<Tile>();
 		List<Tile> additional = new List<Tile>();
 		
-//		Debug.Log("Select tiles in range "+tiles.Count+"   r:"+range);
+//		MDebug.Log("Select tiles in range "+tiles.Count+"   r:"+range);
 		
 		
 		foreach(Tile t in tiles){
@@ -492,7 +492,7 @@ public class TileManager : MonoBehaviour {
 		if(region.TileInField(x+1, z-1, region)){
 			surrounding.Add(region.Tiles[x+1, z-1]);	
 		}
-		//		Debug.Log(surrounding.Count);
+		//		MDebug.Log(surrounding.Count);
 		
 		return surrounding;
 		

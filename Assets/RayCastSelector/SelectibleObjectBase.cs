@@ -26,7 +26,7 @@ public class SelectibleObjectBase : MonoBehaviour {
       
         if (HumanInput() && !inFocus)
         {
-          //  Debug.Log(gameObject.name + " focus");
+          //  MDebug.Log(gameObject.name + " focus");
             if (OnHover != null) OnHover();
         }
     
@@ -91,7 +91,7 @@ public class SelectibleObjectBase : MonoBehaviour {
     public void OnPointerClick(PointerEventData eventData)
     {
 
-        Debug.Log(gameObject.name+" focus "+inFocus);
+        MDebug.Log(gameObject.name+" focus "+inFocus);
         if (Input.GetKeyUp(KeyCode.Alpha0))
         {
             Cheat = !Cheat;
@@ -103,7 +103,7 @@ public class SelectibleObjectBase : MonoBehaviour {
             Select();
         } else
         {
-            Debug.Log("asdsd");
+            MDebug.Log("asdsd");
         }
     }
 }

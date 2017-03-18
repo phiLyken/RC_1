@@ -98,13 +98,13 @@ public class ObjectiveController : MonoBehaviour {
 
     void OnObjectiveComplete(Objective obj)
     {
-        Debug.Log("Objective complete " + obj.Config.Title);
+        MDebug.Log("Objective complete " + obj.Config.Title);
         OnComplete.AttemptCall(obj);
     }
 
     void OnSetNew(Objective obj)
     {
-        Debug.Log("Objective new " + obj.Config.Title +" "+obj.Config.Condition.name);
+        MDebug.Log("Objective new " + obj.Config.Title +" "+obj.Config.Condition.name);
         obj.SetActive();
         OnNext.AttemptCall(obj);
     }

@@ -98,7 +98,7 @@ public class ConsoleProRemoteServer : MonoBehaviour
 			return;
 		}
 		
-		Debug.Log("Starting Console Pro Server on port : " + port);
+		MDebug.Log("Starting Console Pro Server on port : " + port);
 
 		_started = true;
 		listener = new HttpListener();
@@ -114,7 +114,7 @@ public class ConsoleProRemoteServer : MonoBehaviour
 			return;
 		}
 		
-		Debug.Log("Stopping Console Pro Server on port : " + port);
+		MDebug.Log("Stopping Console Pro Server on port : " + port);
 		
 		_started = false;
 		listener.Close();

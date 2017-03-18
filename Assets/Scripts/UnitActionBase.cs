@@ -101,7 +101,7 @@ public class UnitActionBase : MonoBehaviour {
     {
         bool r = !UsableInBaseCamp && Owner.currentTile.isCamp;
        
-        if (r) Debug.Log("^abilityCan not use in camp");
+        if (r) MDebug.Log("^abilityCan not use in camp");
         return r;
     }
 
@@ -118,7 +118,7 @@ public class UnitActionBase : MonoBehaviour {
             {
               if (displayToast)
                 {
-                        Debug.Log("^abilityNot enough  " + UnitStats.StatToString(s.StatType));
+                        MDebug.Log("^abilityNot enough  " + UnitStats.StatToString(s.StatType));
                         ToastNotification.SetToastMessage2("Not enough " + UnitStats.StatToString(s.StatType));
                 }
                 return false;
@@ -152,7 +152,7 @@ public class UnitActionBase : MonoBehaviour {
             if (OnActionStart != null)
                 OnActionStart(this);
 
-           // Debug.Log("executing " + gameObject.name);
+           // MDebug.Log("executing " + gameObject.name);
             
             if(action_sequence != null)
             { 
@@ -164,7 +164,7 @@ public class UnitActionBase : MonoBehaviour {
 
         } else
         {
-             Debug.Log("Coudlnt execute "+ActionID +" ap cost:"+AP_Cost+" / "+Owner.Actions.GetAPLeft()  );
+             MDebug.Log("Coudlnt execute "+ActionID +" ap cost:"+AP_Cost+" / "+Owner.Actions.GetAPLeft()  );
         }
     }
 

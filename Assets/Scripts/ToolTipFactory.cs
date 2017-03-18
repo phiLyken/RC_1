@@ -13,7 +13,7 @@ public static class ToolTipFactory
     {
         _make_generic = false;
         text = "";
-        //  Debug.Log(_obj.ToString());
+        //  MDebug.Log(_obj.ToString());
         switch (type)
         {
             case TooltipTypes.ability_generic:
@@ -73,7 +73,7 @@ public static class ToolTipFactory
 
     static GameObject LoadFromSource(string _suffix)
     {
-        // Debug.Log("load " + PATH + _suffix);
+        // MDebug.Log("load " + PATH + _suffix);
         return Resources.Load(PATH + _suffix) as GameObject;
     }
 }

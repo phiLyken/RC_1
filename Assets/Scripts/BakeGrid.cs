@@ -8,7 +8,7 @@ public class BakeGrid  {
     
     public static List<List<Tile>> Bake(TileManager region)
     {
-        Debug.Log("--- Baking ----");
+        MDebug.Log("--- Baking ----");
         Dictionary<Tile, List<GameObject>> map = new Dictionary<Tile, List<GameObject>>();
        
         //Get all the objects for a tile and add it to the map
@@ -17,7 +17,7 @@ public class BakeGrid  {
         {
             map.Add(tile, RaysFromTiles.GetPropsForTile(tile));
         }
-        Debug.Log("Generated Map for " + map.Count + " tiles");
+        MDebug.Log("Generated Map for " + map.Count + " tiles");
         ApplyTagsToTiles(map);
         region.InvalidateGroups();
         return  MakeGroups(map);
@@ -74,7 +74,7 @@ public class BakeGrid  {
            }
         }
 
-        Debug.Log(" Props Identified: " + tiles_for_prop.Count);
+        MDebug.Log(" Props Identified: " + tiles_for_prop.Count);
 
         //fill prop map (props now know what tiles they occupy)
         foreach(var pair in tile_map)
@@ -82,13 +82,13 @@ public class BakeGrid  {
             pair.Value.ForEach(prop => {
                 if (!tiles_for_prop[prop].Contains(pair.Key)){
                     tiles_for_prop[prop].Add(pair.Key);
-                    Debug.Log("Added tile to a prop" + prop.name);
+                    MDebug.Log("Added tile to a prop" + prop.name);
                 }
             });
         }
 
         List<Tile> tiles_without_group = tile_map.Keys.ToList();
-        Debug.Log(" .." + tiles_without_group.Count);
+        MDebug.Log(" .." + tiles_without_group.Count);
         List<Tile> tiles_assigned = new List<Tile>();
 
         List<List<Tile>> groups = new List<List<Tile>>();

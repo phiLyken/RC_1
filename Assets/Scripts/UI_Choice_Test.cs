@@ -15,7 +15,7 @@ public class UI_Choice_Test : MonoBehaviour {
 	
     void Choice(int i)
     {
-        Debug.Log("Loot choice test :"+i);
+        MDebug.Log("Loot choice test :"+i);
     }
 
 

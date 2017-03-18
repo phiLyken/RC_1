@@ -14,7 +14,7 @@ public class SpeechTriggerConfigSimple : ScriptableObject
     public virtual Speech GetSpeech()
     {
       
-            return WeightableFactory.GetWeighted(Speeches);
+            return M_Weightable.GetWeighted(Speeches);
 
     }
 

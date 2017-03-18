@@ -51,7 +51,7 @@ public class Objective : MonoBehaviour, ICompletable {
         if (AllowedToComplete(this) && Setups ==null && !Config.Setup.IsNullOrEmpty())
         {
           
-            Debug.Log("SPAWN SETUP");
+            MDebug.Log("SPAWN SETUP");
             Setups = M_Math.SpawnFromList(Config.Setup);
             Setups.ForEach(setup => setup.Init());
         }

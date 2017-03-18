@@ -22,7 +22,7 @@ public class UnitAction_Move : UnitActionBase {
     {       
         base.SelectAction();
 
-        Debug.Log("^ability SELECT MOVE");
+        MDebug.Log("^ability SELECT MOVE");
         if (Owner.GetComponent<WaypointMover>().Moving) return;
 
         TileSelecter.SetUnitColliders(false);
@@ -44,12 +44,12 @@ public class UnitAction_Move : UnitActionBase {
     {
         if (!Owner.GetComponent<WaypointMover>().Moving && currentTargetTile != null && currentPath != null)
         {
-         // Debug.Log("set movement tile");
+         // MDebug.Log("set movement tile");
             AttemptAction(t);
         } else
         {
 
-          //  Debug.Log(" tile:" + currentTargetTile);
+          //  MDebug.Log(" tile:" + currentTargetTile);
             Debug.LogWarning("Something prevented the move ability to execute ");
         }
     }
@@ -72,7 +72,7 @@ public class UnitAction_Move : UnitActionBase {
     }
     void SetPreviewTile(Tile t)
     {
-       // Debug.Log("setpreview tile");
+       // MDebug.Log("setpreview tile");
 		//TODO: Send a filter list custom to the unit e.g. Enemies should walk on camp tiles, Tiles need properties as components
         List<Tile> pathToTile = TileManager.Instance.FindPath(Owner.currentTile, t, Owner);      
 

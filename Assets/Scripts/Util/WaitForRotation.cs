@@ -23,7 +23,7 @@ public class WaitForRotation : CustomYieldInstruction
         totalTime = time;
         endTime = Time.time + time;
 
-      //  Debug.Log(totalTime + " " + endTime);
+      //  MDebug.Log(totalTime + " " + endTime);
     }
 
     float GetT()
@@ -35,7 +35,7 @@ public class WaitForRotation : CustomYieldInstruction
         get {
             
             Tr.rotation = Quaternion.Slerp(From, To, GetT());
-         //   Debug.Log(_instance + " "+GetT());
+         //   MDebug.Log(_instance + " "+GetT());
             if (GetT() == 1)
             {
                 Tr.rotation = To;

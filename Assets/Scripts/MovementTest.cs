@@ -39,7 +39,7 @@ public class MovementTest : MonoBehaviour {
     }
     void LogPos(IWayPoint wp)
     {
-        Debug.Log(wp.GetPosition());
+        MDebug.Log(wp.GetPosition().ToString());
     }
     void Update()
     {

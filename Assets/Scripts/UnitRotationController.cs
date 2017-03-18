@@ -13,10 +13,10 @@ public class UnitRotationController : MonoBehaviour {
     {
         handlers = new List<EventHandler>();
         m_rotated = move.transform;
-     //   Debug.Log(" target");
+     //   MDebug.Log(" target");
         move.OnMoveToWayPoint += wp =>
         {
-       //     Debug.Log(" Start");
+       //     MDebug.Log(" Start");
             StopAllCoroutines();
             handlers.ForEach(h => h());
             handlers = new List<EventHandler>();
@@ -26,7 +26,7 @@ public class UnitRotationController : MonoBehaviour {
 
         move.OnMovementEnd += wp =>
         {
-        //    Debug.Log("  stop");
+        //    MDebug.Log("  stop");
             StopAllCoroutines();
             handlers.ForEach(h => h());
             handlers = new List<EventHandler>();
@@ -54,9 +54,9 @@ public class UnitRotationController : MonoBehaviour {
         {
             handlers.Add(callback);
         }
-     //   Debug.Log("Turn to");
+     //   MDebug.Log("Turn to");
         yield return new WaitForRotation(m_rotated.transform, M_Math.RotateToYSnapped(m_rotated.transform.position, _target.transform.position, 45), 0.35f);
-      //  Debug.Log("Rotated");
+      //  MDebug.Log("Rotated");
         if (callback != null)
         {
             callback();
@@ -66,19 +66,19 @@ public class UnitRotationController : MonoBehaviour {
     }
     IEnumerator TurnToFinalPosition(Vector3 target)
     {
-       // Debug.Log("Turn to");
+       // MDebug.Log("Turn to");
         yield return new WaitForRotation(m_rotated.transform, M_Math.RotateToYSnapped(m_rotated.transform.position, (target), 45), 0.35f);
-      //  Debug.Log("Rotated");
+      //  MDebug.Log("Rotated");
     }
     IEnumerator TurnToWaypoint(IWayPoint wp)
     {
-      //  Debug.Log("Turn to");
+      //  MDebug.Log("Turn to");
         yield return new WaitForRotation(m_rotated.transform, M_Math.RotateToYFlat(m_rotated.transform.position, wp.GetPosition()), 0.35f);
-      //  Debug.Log("Rotated");
+      //  MDebug.Log("Rotated");
     }
 
     void OnDisable()
     {
-       // Debug.Log("Foo");
+       // MDebug.Log("Foo");
     }
 }

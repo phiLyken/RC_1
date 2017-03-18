@@ -49,7 +49,7 @@ public class MeshMaterialView : MonoBehaviour {
     {
         if (states == null) states = new List<VisualState>();
 
-       // Debug.Log("add "+_state.material.name);
+       // MDebug.Log("add "+_state.material.name);
         _state.OnRemoveState += s => RemoveState(s);
         states.Add(_state);
         SetTopState();

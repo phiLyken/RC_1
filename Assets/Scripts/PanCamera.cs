@@ -56,7 +56,7 @@ public class PanCamera : MonoBehaviour {
 	}
 	public IEnumerator CamInputControl(){
 		
-		//		Debug.Log(" Cam Input Start");
+		//		MDebug.Log(" Cam Input Start");
 		inputEnabled = true;
 		startDragPos =  M_Math.GetInputPos();
 		
@@ -85,7 +85,7 @@ public class PanCamera : MonoBehaviour {
 	IEnumerator Zooming(){
 		
 		zooming = true;
-		//Debug.Log("startZoom");
+		//MDebug.Log("startZoom");
 		float StartTouchDistance = Input.GetAxis("Mouse ScrollWheel") != 0 ? 0 : (Input.touches[0].position - Input.touches[1].position).magnitude;
 		float LastTouchDistance = StartTouchDistance;
 		float CurrentDeltaDistance = 0;
@@ -170,7 +170,7 @@ public class PanCamera : MonoBehaviour {
 
 	IEnumerator PanToWorldPos(Vector3 pos, float speed, EventHandler _cb)
     {
-        Debug.Log("Start Pan");
+        MDebug.Log("Start Pan");
         pos.y = 0;
         drag = true;
         event_callback = _cb;

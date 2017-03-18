@@ -13,10 +13,10 @@ public class CompletableTest : MonoBehaviour {
     void Start()
     {
         Stack = new CompletionStack<Completable>(new List<Completable>(Completables),true);
-        Stack.OnCancel += c => Debug.Log("cancelled "+c);
-        Stack.OnComplete += c => Debug.Log("complete " +c+ "   "+ c.press_to_complete);
-        Stack.OnCurrentComplete += c => Debug.Log("current complete " + c);
-        Stack.OnSetNew += c => Debug.Log("set new " + c + "   "+ c.press_to_complete);
+        Stack.OnCancel += c => MDebug.Log("cancelled "+c);
+        Stack.OnComplete += c => MDebug.Log("complete " +c+ "   "+ c.press_to_complete);
+        Stack.OnCurrentComplete += c => MDebug.Log("current complete " + c);
+        Stack.OnSetNew += c => MDebug.Log("set new " + c + "   "+ c.press_to_complete);
         Stack.Init();
 
        

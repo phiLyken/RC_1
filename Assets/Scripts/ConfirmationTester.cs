@@ -22,6 +22,6 @@ public class ConfirmationTester : MonoBehaviour {
 		
 		yield return StartCoroutine( Test.WaitForConfirmation( 	result ));
 		
-		Debug.Log("CONFIRMED: "+result.Success);
+		MDebug.Log("CONFIRMED: "+result.Success);
 	}
 }

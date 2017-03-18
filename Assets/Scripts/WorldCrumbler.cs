@@ -61,7 +61,7 @@ public class WorldCrumbler : MonoBehaviour, ITurn {
 
     public void SetNextTurnTime(float turns)
     {
-		//Debug.Log("set turns: "+turns);
+		//MDebug.Log("set turns: "+turns);
         TurnTime += turns;
     }
 
@@ -99,7 +99,7 @@ public class WorldCrumbler : MonoBehaviour, ITurn {
 
     protected void CrumbleTurn()
     {
-        Debug.Log("Crumble");
+        MDebug.Log("Crumble");
         SetCrumbleInWeightedTiles();
 
         if (OnCrumble != null)
@@ -134,7 +134,7 @@ public class WorldCrumbler : MonoBehaviour, ITurn {
 
         while (TilesMoving())
         {
-           // Debug.Log("waiting,..");
+           // MDebug.Log("waiting,..");
             yield return new WaitForSeconds(0.1f);
         }
 
@@ -153,9 +153,9 @@ public class WorldCrumbler : MonoBehaviour, ITurn {
     {
       
      
-      //  Debug.Log("count " + count);
+      //  MDebug.Log("count " + count);
 
-       // Debug.Log("crumble. last row " + TileManager.Instance.GetLastActiveRow());    
+       // MDebug.Log("crumble. last row " + TileManager.Instance.GetLastActiveRow());    
         TileWeighted.GetCrumbleTiles(GetCrumbleCount(), TileManager.Instance).ForEach(t => t.StartCrumble() );
     }
 

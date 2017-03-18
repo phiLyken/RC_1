@@ -19,7 +19,7 @@ public class CameraAction_Zoom : CameraAction {
      protected  IEnumerator DoAction()
     {
         
-        // Debug.Log("!camera startZoom");
+        // MDebug.Log("!camera startZoom");
         float StartTouchDistance = Input.GetAxis("Mouse ScrollWheel") != 0 ? 0 : (Input.touches[0].position - Input.touches[1].position).magnitude;
         float LastTouchDistance = StartTouchDistance;
         float CurrentDeltaDistance = 0;
@@ -49,7 +49,7 @@ public class CameraAction_Zoom : CameraAction {
         StartCoroutine(M_Math.DelayForFrames(5));
         Active = false;
  
-        //Debug.Log("!camera endzoom");
+        //MDebug.Log("!camera endzoom");
       
        
         yield break;

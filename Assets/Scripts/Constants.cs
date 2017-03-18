@@ -19,7 +19,7 @@ public class Constants : MonoBehaviour {
         int damage = _damage.GetDamage();
         float aggroChance = Mathf.Clamp(0.5f + damage * 0.1f - distance * 0.05f, 0.1f, 1f);
 
-        Debug.Log("^units AggroChance: " + aggroChance);
+        MDebug.Log("^units AggroChance: " + aggroChance);
         return aggroChance;  
     }
 
@@ -179,7 +179,7 @@ public class Constants : MonoBehaviour {
     public static int GetAttackTimeDelay(float base_delay_from_stats, float delay_from_weapon)
     {
         int time_cost = (int) (base_delay_from_stats + delay_from_weapon);
-        //Debug.Log(" Attack Cost Calculation :" + time_cost);
+        //MDebug.Log(" Attack Cost Calculation :" + time_cost);
         return time_cost;
     }
 

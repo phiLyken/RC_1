@@ -45,7 +45,7 @@ public class FPSCounter : MonoBehaviour
         {
             for (int i = 0; i < 200; i++)
             {
-               // Debug.Log("#fps# fps");
+               // MDebug.Log("#fps# fps");
             }
             // Capture frame-per-second
             int lastFrameCount = Time.frameCount;

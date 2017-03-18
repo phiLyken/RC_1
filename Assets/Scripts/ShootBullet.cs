@@ -12,7 +12,7 @@ public class ShootBullet : MonoBehaviour
     
     public Sequence Shoot(Transform target)
     {
-       // Debug.Log("Shoot");
+       // MDebug.Log("Shoot");
         return ShootBullets(target);
     }
 
@@ -38,7 +38,7 @@ public class ShootBullet : MonoBehaviour
             }
         }
 
-      //  Debug.Log(ret);
+      //  MDebug.Log(ret);
         return ret;
     }
 
@@ -56,7 +56,7 @@ public class ShootBullet : MonoBehaviour
 
         Sequence seq = DOTween.Sequence().Append(BulletEmitter.SpawnBullet(Bullet, gameObject.transform, target));
 
-      //  Debug.Log(seq.Duration());
+      //  MDebug.Log(seq.Duration());
         seq.AppendCallback(() => SpawnHitEffect(target));
       
 
@@ -74,7 +74,7 @@ public class EffectSpawner{
 
     public void Init(GameObject target)
     {
-       // Debug.Log("Init effect ");
+       // MDebug.Log("Init effect ");
         if(Sound != null)
         {
 
@@ -118,7 +118,7 @@ public class LightFlash
         FlashSequence.AppendCallback(() => GameObject.Destroy(new_go));
 
         FlashSequence.Play();
-       // Debug.Log(FlashSequence.Duration() );
+       // MDebug.Log(FlashSequence.Duration() );
 
         l.color = flash.startColor;
         l.DOColor(flash.endColor, flash.duration);

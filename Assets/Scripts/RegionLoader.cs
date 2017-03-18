@@ -14,10 +14,10 @@ public static class RegionLoader  {
 
         foreach (var pool in config.AllPools)
         {
-            regions_to_spawn.Add(WeightableFactory.GetWeighted(pool.Regions).Region);
+            regions_to_spawn.Add(M_Weightable.GetWeighted(pool.Regions).Region);
         }
 
-        regions_to_spawn.Add(WeightableFactory.GetWeighted(config.Camps).Region);
+        regions_to_spawn.Add(M_Weightable.GetWeighted(config.Camps).Region);
 
         return regions_to_spawn;
 
@@ -36,7 +36,7 @@ public static class RegionLoader  {
 
         while(validUnits.Count > 0)
         {
-            WeightedUnit choosen =  WeightableFactory.GetWeighted(validUnits) ;        
+            WeightedUnit choosen =  M_Weightable.GetWeighted(validUnits) ;        
             choosenUnits.Add(choosen);
             int unitPower = choosen.UnitConfig.UnitPower;
             if(unitPower <= 0)
@@ -55,7 +55,7 @@ public static class RegionLoader  {
 
     public static List<UnitSpawnGroupConfig> GetGroupsForPower(RegionConfig region)
     {
-       // Debug.Log("Get groups for " + region);
+       // MDebug.Log("Get groups for " + region);
         //Add all forced groups to choosen ones
         List<UnitSpawnGroupConfig> choosenGroups = region.Groups.Where(gr => gr.ForceGroup).ToList() ;
 
@@ -68,7 +68,7 @@ public static class RegionLoader  {
 
         while (validgroups.Count > 0)
         {
-            UnitSpawnGroupConfig choosen = WeightableFactory.GetWeighted(validgroups);
+            UnitSpawnGroupConfig choosen = M_Weightable.GetWeighted(validgroups);
             choosenGroups.Add(choosen);
             groupsCopy.Remove(choosen);
             int groupPower = choosen.GroupPower;

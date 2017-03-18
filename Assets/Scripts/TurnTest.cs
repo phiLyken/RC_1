@@ -73,18 +73,18 @@ public class TurnTest : MonoBehaviour, ITurn {
     }
 	void SelectAction	(int id){
 		
-		Debug.Log("attempt select "+id  +" length"+ActionCost.Length);
+		MDebug.Log("attempt select "+id  +" length"+ActionCost.Length);
 
 		if(id == -1){
-			Debug.Log("select "+id);
+			MDebug.Log("select "+id);
 			selectedAction = -1;
 		} else if(id < ActionCost.Length && id >= 0){
-			Debug.Log("asdasd");
+			MDebug.Log("asdasd");
 			 if (selectedAction == id){
 				currentTurnCost += ActionCost[id];
 				actionsMade ++;
 				selectedAction = -1;
-				Debug.Log("execte "+id+"   actions:"+actionsMade);
+				MDebug.Log("execte "+id+"   actions:"+actionsMade);
 			} else {
 				selectedAction = id;
 			}
@@ -116,7 +116,7 @@ public class TurnTest : MonoBehaviour, ITurn {
 	public void StartTurn ()
 	{
          
-		Debug.Log("Start Turn "+GetID());
+		MDebug.Log("Start Turn "+GetID());
 		selectedAction = -1;
 		actionsMade = 0;
 		currentTurnCost = 0;

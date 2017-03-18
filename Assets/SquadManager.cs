@@ -90,23 +90,24 @@ public class SquadManager {
 
     public static void RemoveFromSquad(TieredUnit conf)
     {
-        Debug.Log("REMOVING " + conf.Tiers[0].Config.ID);
+        MDebug.Log("REMOVING " + conf.Tiers[0].Config.ID);
         Instance.selected_units.Remove(conf);
         Instance.OnSelectedUpdate.AttemptCall(Instance.selected_units);
     }
     ~SquadManager()  
     {
-        Debug.Log("Dconstructor squadmanager");
+        MDebug.Log("Dconstructor squadmanager");
     }
     public static bool AddToSquad(Unlockable<TieredUnit> conf)
     {
         if(conf.IsUnlocked() && !Instance.selected_units.Contains(conf.Item) && Instance.selected_units.Count < Instance.GetMaxSquadsize())
         {
-            Debug.Log("ADDING " + conf.Item.Tiers[0].Config.ID);
+            MDebug.Log("ADDING " + conf.Item.Tiers[0].Config.ID);
             Instance.selected_units.Add(conf.Item);
             Instance.OnSelectedUpdate.AttemptCall(Instance.selected_units);
             return true;
         }
+        SoundManager.PlayAtSourceTag("SoundSFXSource", "sfx_"+SoundManager.Presets.error);
         ToastNotification.SetToastMessage2("Squad is Full");
 
         return false;

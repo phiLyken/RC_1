@@ -142,7 +142,7 @@ public class SpeechManager_Unit : MonoBehaviour {
     {
         /// can be executed delayed so check if null
 
-        Debug.Log(" Trigger "+u.GetID());
+        MDebug.Log(" Trigger "+u.GetID());
         if(u != null)
         {
             if (OnSpeech != null)
@@ -154,7 +154,7 @@ public class SpeechManager_Unit : MonoBehaviour {
     {
         /// can be executed delayed so check if null
 
-        Debug.Log(" Trigger " + u.GetID());
+        MDebug.Log(" Trigger " + u.GetID());
         if (u != null)
         {
             if (OnSpeech != null)
@@ -184,7 +184,7 @@ public class SpeechManager_Unit : MonoBehaviour {
     {
         if (trigger != null && m_Unit.IsIdentified)
         { 
-            Debug.Log("Attempt trigger speech: " + trigger.ToString());
+            MDebug.Log("Attempt trigger speech: " + trigger.ToString());
             TriggerDelayed(trigger.GetSpeech(ID), 0.1f);
         }
 

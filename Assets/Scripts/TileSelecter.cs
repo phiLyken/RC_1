@@ -36,10 +36,10 @@ public class TileSelecter : MonoBehaviour {
     }
     public static void SelectTile(Tile t)
     { 
-      // Debug.Log("select tile");
+      // MDebug.Log("select tile");
 
         SelectedTile = t;
-       // Debug.Log("selected tile");
+       // MDebug.Log("selected tile");
         if (OnTileSelect != null) OnTileSelect(t);
     }
 

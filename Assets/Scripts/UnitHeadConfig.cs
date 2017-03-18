@@ -11,7 +11,7 @@ public class UnitHeadConfig  {
 
     public HeadData GetHead()
     {
-        return WeightableFactory.GetWeighted(Heads);
+        return M_Weightable.GetWeighted(Heads);
     }   
 }
 [System.Serializable]

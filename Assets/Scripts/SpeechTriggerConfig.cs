@@ -13,7 +13,7 @@ public class SpeechTriggerConfig : SpeechTriggerConfigSimple
     {
         if (M_Math.Roll(Chance))
         {
-            return WeightableFactory.GetWeighted(Speeches);
+            return M_Weightable.GetWeighted(Speeches);
         }
 
 

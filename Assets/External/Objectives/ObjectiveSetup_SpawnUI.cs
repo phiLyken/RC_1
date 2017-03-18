@@ -17,7 +17,7 @@ public class ObjectiveSetup_SpawnUI : ObjectiveSetup
 
     public override void Remove()
     {
-        Debug.Log(gameObject.name);
+        MDebug.Log(gameObject.name);
         Destroy(gameObject);
     }
 }

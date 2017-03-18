@@ -4,7 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System;
 
-public static class WeightableFactory {
+public static class M_Weightable {
+
+    public static T GetWeighted<T> (this List<GenericWeightable<T>> weightables)
+    {
+        return weightables.GetWeighted();
+    }
     public class WeightAble <T> : IWeightable
     {
         T weightable;
@@ -76,16 +81,16 @@ public static class WeightableFactory {
     }
 
     public static void UnitTest(List<IWeightable> WeightableObjects){
-		Debug.Log("test: "+WeightableObjects.Count);
+		MDebug.Log("test: "+WeightableObjects.Count);
 		List<IWeightable> Result = new List<IWeightable>();
 
 		for(int i = 0; i< 100; i++) Result.Add(GetWeighted(WeightableObjects ));
 	
 		int count = 0;
 		for(int i = 0; i < WeightableObjects.Count; i++){
-			//	Debug.Log( (WeightableObjects[i]).WeightableID+" checking");
+			//	MDebug.Log( (WeightableObjects[i]).WeightableID+" checking");
 			foreach(IWeightable w in Result)if(WeightableObjects[i] == w) count++;
-			//Debug.Log( (WeightableObjects[i]).WeightableID+" : "+count);
+			//MDebug.Log( (WeightableObjects[i]).WeightableID+" : "+count);
 			count = 0;
 		}
 	}

@@ -43,7 +43,7 @@ public class PathDisplay : MonoBehaviour {
 
     public void UpdatePositions(List<Vector3> v3list)
     {
-        //Debug.Log(v3list.Count);
+        //MDebug.Log(v3list.Count);
         points = v3list;
         if (Line == null) Line = GetComponent<LineRenderer>();
 

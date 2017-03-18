@@ -54,7 +54,7 @@ public class CameraAction_PanToPosition : CameraAction
 
         Vector3 delta = TargetPosition - M_Math.GetCameraCenter();
 
-        Debug.Log("^cameraStart Panning "+TargetPosition.ToString());
+        MDebug.Log("^cameraStart Panning "+TargetPosition.ToString());
         while (delta.magnitude > 0.1f)
         {
             delta = TargetPosition - M_Math.GetCameraCenter();
@@ -71,7 +71,7 @@ public class CameraAction_PanToPosition : CameraAction
            
             yield return null;
         }
-        Debug.Log("^cameraEndPanning " + TargetPosition.ToString());
+        MDebug.Log("^cameraEndPanning " + TargetPosition.ToString());
         Active = false;
         Callback();
  
@@ -88,7 +88,7 @@ public class CameraAction_PanToPosition : CameraAction
 
     public override void Stop()
     {
-        // Debug.Log("STOP PAN");
+        // MDebug.Log("STOP PAN");
         if (PanRoutine != null)
             PanRoutine.Stop();
 

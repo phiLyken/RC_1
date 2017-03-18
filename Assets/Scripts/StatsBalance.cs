@@ -43,7 +43,7 @@ public class StatsBalance : MonoBehaviour {
 
             if (root_type == type)
             {
-                Debug.Log("perk value " + type);
+                MDebug.Log("perk value " + type);
                 return stats.GetStatAmount(type);
             }
 

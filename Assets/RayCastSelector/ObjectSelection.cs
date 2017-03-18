@@ -38,7 +38,7 @@ public class ObjectSelection : MonoBehaviour {
 	}
 	
 	public void StartSelection(){
-		Debug.Log("Start Selection Mode");
+		MDebug.Log("Start Selection Mode");
 	
 		StartCoroutine(SelectionThread());	
 	}
@@ -63,9 +63,9 @@ public class ObjectSelection : MonoBehaviour {
 		
 		if(RC_Camera.HasBlockingAction()) yield break;
 		
-		Debug.Log("Selection Thread End");
+		MDebug.Log("Selection Thread End");
 		if(ActiveObject != null ){
-			Debug.Log("Send Touchup to "+ActiveObject.name);
+			MDebug.Log("Send Touchup to "+ActiveObject.name);
 			ActiveObject.SendMessage ("TouchUp", SendMessageOptions.DontRequireReceiver);
 		} else {
 				UnselectCurrent();	

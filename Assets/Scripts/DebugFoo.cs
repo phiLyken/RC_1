@@ -14,7 +14,7 @@ public class DebugFoo : MonoBehaviour {
 	
     void SetHovered(Unit u)
     {
-    //s    Debug.Log("hovered");
+    //s    MDebug.Log("hovered");
         hoveredUnit = u;
     }
 

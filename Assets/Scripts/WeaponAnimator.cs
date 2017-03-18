@@ -36,7 +36,7 @@ public class WeaponAnimator
 	        }
 		} else
         {
-           // Debug.Log("no weapon part");
+           // MDebug.Log("no weapon part");
         }
     }
 
@@ -64,7 +64,7 @@ public class WeaponAnimator
 
         if(Target != null)
         {
-            //Debug.Log("Play Shoot " +part + " "+Target.name);
+            //MDebug.Log("Play Shoot " +part + " "+Target.name);
         
 
             if(fx == null){
@@ -74,7 +74,7 @@ public class WeaponAnimator
                 ShootEffectsPlaying = true;
                 Sequence shooting =    fx.Shoot(Target).Play();
                 shooting.AppendCallback(() => {
-                 //   Debug.Log("shooting done playing");
+                 //   MDebug.Log("shooting done playing");
                     ShootEffectsPlaying = false;
                     if (callback != null)
                         callback();

@@ -41,7 +41,7 @@ public class UI_ActionBar_Button : MonoBehaviour, IToolTip{
        
         if (m_action != null)
         {
-            Debug.Log("^ui Button Unset Action " + m_action.ActionID);
+            MDebug.Log("^ui Button Unset Action " + m_action.ActionID);
             m_action.OnSelectAction -= OnActionSelect;
             m_action.OnUnselectAction -= OnActionUnselect;
 
@@ -64,7 +64,7 @@ public class UI_ActionBar_Button : MonoBehaviour, IToolTip{
 
         if (m_action != null)
         {
-            Debug.Log("^ui Button Set Action " + m_action.ActionID);
+            MDebug.Log("^ui Button Set Action " + m_action.ActionID);
             //so we can test it also without owner
             if (action.GetOwner() != null)
             {
@@ -128,7 +128,7 @@ public class UI_ActionBar_Button : MonoBehaviour, IToolTip{
 
     public void OnActionUnselect(UnitActionBase action)
     {
-      //  Debug.Log("Action unselect "+action.ActionID);
+      //  MDebug.Log("Action unselect "+action.ActionID);
         SetBaseState(action);
        
     }
@@ -154,7 +154,7 @@ public class UI_ActionBar_Button : MonoBehaviour, IToolTip{
     {
         if (action == null || action.GetOwner() == null)
             return;
-       // Debug.Log("set base state " + action.ActionID);
+       // MDebug.Log("set base state " + action.ActionID);
         ActionIcon.sprite = action.GetImage();        
         
         ApplyColorSetting(GetBaseColorSetting(action));

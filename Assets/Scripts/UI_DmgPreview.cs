@@ -28,7 +28,7 @@ public class UI_DmgPreview : MonoBehaviour {
     }
     public void SetDamage(Unit instigator, Unit target, UnitEffect effect)
     {
-      //  Debug.Log("assad");
+      //  MDebug.Log("assad");
         gameObject.SetActive(true);
 
         effect.SetPreview(this, target);

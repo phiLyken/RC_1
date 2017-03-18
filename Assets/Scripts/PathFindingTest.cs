@@ -19,12 +19,12 @@ public class PathFindingTest : MonoBehaviour {
 	
     public void CalculatePath()
     { 
-      //  Debug.Log("calc path");
+      //  MDebug.Log("calc path");
         if( startTile != null && endTile !=null)
         {
             CurrentPath = TileManager.FindPath(GetComponent<TileManager>(),startTile, endTile, null);
 
-          //  Debug.Log("waypoints " + CurrentPath.Count);
+          //  MDebug.Log("waypoints " + CurrentPath.Count);
             foo = CurrentPath.Count; 
         }
     }

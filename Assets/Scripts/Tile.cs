@@ -96,7 +96,7 @@ public class Tile : MonoBehaviour, IWayPoint
             WorldCrumbler.Instance.OnCrumble += OnCrumbleTurn;            
         } else
         {
-           // Debug.Log("Möp");
+           // MDebug.Log("Möp");
         }
         SelectibleObjectBase b = GetComponent<SelectibleObjectBase>();
         if (b == null)
@@ -177,7 +177,7 @@ public class Tile : MonoBehaviour, IWayPoint
 
     void DeactivateTile()
     {
-       //Debug.Log("REMOVE " + gameObject.name);
+       //MDebug.Log("REMOVE " + gameObject.name);
       
         StartCoroutine(DeactivateWhenReady());
     }
@@ -201,7 +201,7 @@ public class Tile : MonoBehaviour, IWayPoint
         isEnabled = false;
 
         SetBaseState();
-      //  Debug.Log("removed");
+      //  MDebug.Log("removed");
 
         if (OnTileRemoved != null) OnTileRemoved(this);
 
@@ -399,7 +399,7 @@ public class Tile : MonoBehaviour, IWayPoint
         
         GameObject new_mesh = Instantiate(prefab);
 
-       // Debug.Log("[SPAWN 1] " + (Time.realtimeSinceStartup - start).ToString("0.0000000000"));
+       // MDebug.Log("[SPAWN 1] " + (Time.realtimeSinceStartup - start).ToString("0.0000000000"));
         return SpawnMesh(new_mesh.GetComponent<TileMesh>());
        
     }
@@ -409,7 +409,7 @@ public class Tile : MonoBehaviour, IWayPoint
         float start = Time.realtimeSinceStartup;
         child.SetTile(this);
         EditorTileMeshContainer.AddPair(this, child);
-        //Debug.Log("[SPAWN 1.1] " + (Time.realtimeSinceStartup - start).ToString("0.0000000000"));
+        //MDebug.Log("[SPAWN 1.1] " + (Time.realtimeSinceStartup - start).ToString("0.0000000000"));
         return child.gameObject;
 
 

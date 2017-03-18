@@ -81,7 +81,7 @@ public class UnitStats : MonoBehaviour
         Stat stat = GetStat(type);
         if(stat == null)
         {
-           // Debug.Log("Stat not foudn " + type);
+           // MDebug.Log("Stat not foudn " + type);
             return 0;
         }
 
@@ -153,7 +153,7 @@ public class UnitStats : MonoBehaviour
         int dmg_received = (-(dmg.GetDamage()));
         int int_received = Constants.GetGainedAdrenaline( this, Mathf.Abs( dmg_received ));
 
-        Debug.Log("^effects "+this.name + " rcv damge " + dmg_received + "  rcvd multiplier:" + "WTF" + "  +int=" + int_received);
+        MDebug.Log("^effects "+this.name + " rcv damge " + dmg_received + "  rcvd multiplier:" + "WTF" + "  +int=" + int_received);
 
         AddOxygen(dmg_received, true);
 
@@ -225,7 +225,7 @@ public class UnitStats : MonoBehaviour
     }
     public void Rest()
     {
-        Debug.Log(" rest");
+        MDebug.Log(" rest");
         SetStatAmount(StatType.adrenaline, 0);
         SetStatAmount(StatType.oxygen,(int) GetStatAmount(StatType.vitality));
     }

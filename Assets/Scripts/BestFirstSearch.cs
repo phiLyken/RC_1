@@ -113,7 +113,7 @@ public class BestFirstSearch : MonoBehaviour
 			m_open[i] = new List<Node>();
 		
 		CurrentPath = new List<Node>();
-		Debug.Log("Find path :"+startx+"|"+starty+"  -> "+goalx+"|"+goaly);
+		MDebug.Log("Find path :"+startx+"|"+starty+"  -> "+goalx+"|"+goaly);
 		if(TestWidthBounds(startx) == false)
 			return false;
 		if(TestHeightBounds(starty) == false)
@@ -151,25 +151,25 @@ public class BestFirstSearch : MonoBehaviour
 			bool bottom = 	Visit(n, n.x,		n.y - 1);
 			bool left = Visit(n, n.x - 1,	n.y);
 				
-			Debug.Log( top+"  "+right+"  "+bottom+" "+left);
+			MDebug.Log( top+"  "+right+"  "+bottom+" "+left);
 			
 			if(top && right){	
-				Debug.Log("Check Diagonal");
+				MDebug.Log("Check Diagonal");
 				Visit(n, n.x + 1,	n.y + 1);
 			}
 			
 			if(right && bottom){
-				Debug.Log("Check Diagonal");
+				MDebug.Log("Check Diagonal");
 				Visit(n, n.x + 1,	n.y - 1);
 			}
 			
 			if(bottom && left){
-				Debug.Log("Check Diagonal");
+				MDebug.Log("Check Diagonal");
 				Visit(n, n.x - 1,	n.y - 1);
 			}
 		
 			if(left && top){
-				Debug.Log("Check Diagonal");
+				MDebug.Log("Check Diagonal");
 				Visit(n, n.x - 1,	n.y + 1);
 			}
 			
@@ -183,16 +183,16 @@ public class BestFirstSearch : MonoBehaviour
 		}
 		
 		int nodes = 0;
-	//	Debug.Log("The following path was found:");
+	//	MDebug.Log("The following path was found:");
 		while(n != null)
 		{
 			string coord = string.Format("{0}, {1}", n.x, n.y);
-			Debug.Log(coord);
+			MDebug.Log(coord);
 			CurrentPath.Add(n);
 			n = n.parent;
 			nodes++;
 		}
-		Debug.Log(nodes);
+		//MDebug.Log(nodes);
 		return true;
 	}
 	

@@ -14,7 +14,28 @@ public delegate bool GetBool();
 
 public static class M_Extensions
 {
- 
+    public static T GetOrAddComponent<T> (this GameObject _gameObject) where T : Component
+    {
+        T comp = _gameObject.GetComponent<T>();
+
+        if( ReferenceEquals( default(T), comp))
+        {
+            comp = _gameObject.AddComponent<T>();
+        }
+
+        return comp;
+    }
+    public static Dictionary<Key, Value> MakeDictionairy<Key, Value, FromItem>(this List<FromItem> items, Func<FromItem, Key> getKey, Func<FromItem, Value> getValue)
+    {
+        Dictionary<Key, Value> dict = new Dictionary<Key, Value>();
+        foreach (var item in items)
+        {
+            dict.Add(getKey(item), getValue(item));
+        }
+
+        return dict;
+    }
+
     public static Color ParseHexToColor (this string to_parse)
     {
         if(string.IsNullOrEmpty(to_parse) || to_parse.Length != 8)
@@ -32,7 +53,7 @@ public static class M_Extensions
         return new Color32(red, green, blue, alpha);
      
     }
-    public static T MakeMonoSingleton<T>(out T _save_to) where T : MonoBehaviour, IInit
+    public static T MakeMonoSingletonFromPrefab<T>(out T _save_to) where T : MonoBehaviour, IInit
     {
         {
             T existing = GameObject.FindObjectOfType<T>();
@@ -48,7 +69,7 @@ public static class M_Extensions
             }
             GameObject.DontDestroyOnLoad(_save_to);
             _save_to.Init();
-            
+
             return _save_to;
         }
     }
@@ -74,6 +95,24 @@ public static class M_Extensions
         }
     }
 
+    public static T MakeMonoSingleton<T>(out T _save_to) where T : MonoBehaviour, IInit
+    {
+        T existing = GameObject.FindObjectOfType<T>();
+
+        if (existing != null)
+        {
+            _save_to = existing;
+        }
+        else
+        {
+            GameObject obj = new GameObject("_SINGLETON_" + typeof(T).ToString());
+            _save_to = obj.AddComponent<T>();
+        }
+        GameObject.DontDestroyOnLoad(_save_to);
+        _save_to.Init();
+
+        return _save_to;
+    }
     public static IEnumerator Blink(this GameObject obj, float time_1, float time_2, int blinks, int last_state, bool start, bool end)
     {
         bool show = start;
@@ -119,7 +158,7 @@ public static class M_Extensions
 
     public static void AttemptCall(this System.Action action, string debug)
     {
-        Debug.Log(debug);
+        MDebug.Log(debug);
         AttemptCall(action);
     }
     public static void AddOrUpdate<T, V>(this Dictionary<T, V> dictionairy, T newKey, V newValue)
@@ -156,7 +195,7 @@ public static class M_Extensions
 
     public static void AttemptCall<T>(this Action<T> action, T value, string debug)
     {
-        Debug.Log(debug);
+        MDebug.Log(debug);
         AttemptCall(action, value);
     }
 
@@ -188,7 +227,7 @@ public static class M_Extensions
         foreach (Transform transform in tr)
         {
             _children.Add(transform);
-            //  Debug.Log("detach " + transform.gameObject.name);
+            //  MDebug.Log("detach " + transform.gameObject.name);
         }
 
         _children.ForEach(child => child.SetParent(tr));
@@ -240,7 +279,7 @@ public static class M_Extensions
         //StartCoroutine(M_Math.ExecuteDelayed(0.05f, () => Debug.Break()));
         Debug.DrawRay(reference, move, Color.yellow);
 
-        //   Debug.Log(move);
+        //   MDebug.Log(move);
         transform.Translate(move, Space.World);
 
     }
@@ -330,7 +369,7 @@ public static class M_Extensions
         {
             bounds.Encapsulate(new Bounds(child.transform.position, child.transform.localScale));
         }
-        //  Debug.Log(bounds.extents+ " " + bounds.size.ToString());
+        //  MDebug.Log(bounds.extents+ " " + bounds.size.ToString());
         return bounds;
     }
 

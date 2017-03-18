@@ -18,7 +18,7 @@ public class UI_UnitTierLock_TierView : MonoBehaviour {
         for(int i = 0; i < Ranks.Count;i++)
         {
             bool active = i == tier;
-         //   Debug.Log(Ranks[i].gameObject.name + " " + active);
+         //   MDebug.Log(Ranks[i].gameObject.name + " " + active);
             Ranks[i].SetActive(active);
          
         }

@@ -11,7 +11,7 @@ public class BulletEmitter   {
         if (Bullet.projectile == null)
             return DOTween.Sequence();
 
-       // Debug.Log("spawn bullet");
+       // MDebug.Log("spawn bullet");
         float distance = (start.position - target.position).magnitude;
         float time = distance / Bullet.speed;
         Vector3 offset_target = Random.insideUnitSphere * Bullet.randomOffset;
@@ -35,10 +35,10 @@ public class BulletEmitter   {
       
         Sequence emit = DOTween.Sequence();
         emit.Append(    bullet.transform.DOMove(new_target.position, time).SetEase(Bullet.Animation_Curve));
-      //  Debug.Log("start move "+emit.Duration());
+      //  MDebug.Log("start move "+emit.Duration());
         emit.AppendCallback(() =>
           {
-              // Debug.Log("start kaputt");
+              // MDebug.Log("start kaputt");
               bullet.transform.Translate(new_target.position - bullet.transform.position);
             
 

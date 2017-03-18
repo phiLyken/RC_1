@@ -30,7 +30,7 @@ public class UI_SetPopupContent : MonoBehaviour {
  
     void SetContent()
     {
-        Debug.Log("POPUP setting content");
+        MDebug.Log("POPUP setting content");
         if(Content != null)
         {
             Destroy(Content);
