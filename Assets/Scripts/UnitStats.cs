@@ -19,6 +19,10 @@ public class UnitStats : MonoBehaviour
     {
         switch (t)
         {
+            case StatType.move_range:
+                return "Move Range";
+            case StatType.move_time_delay:
+                return "Move Time Cost";
             case StatType.adrenaline:
                 return "Adrenaline";
             case StatType.oxygen:
@@ -31,7 +35,7 @@ public class UnitStats : MonoBehaviour
             case StatType.adrenaline_conversion_min:
                 return "Adr. Conversion";
             case StatType.current_turn_time:
-                return "Next Turn Time";
+                return "Turn Delay";
             case StatType.attack_normal_delay:
                 return "Attack Time Cost";
             default:
