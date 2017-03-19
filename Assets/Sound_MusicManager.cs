@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using System.Linq;
 
 public class Sound_MusicManager : Sound_Singleton {
 
@@ -40,7 +41,7 @@ public class Sound_MusicManager : Sound_Singleton {
 
     void OnUnitCountUpdated(Unit u)
     {
-        if(Unit.GetAllUnitsOfOwner(1,true).Count > 1 && GameManager.Instance.ChoosenRegionConfig.ActionMusic1 != null)
+        if(Unit.GetAllUnitsOfOwner(1,true).Count( unit => unit.IsIdentified) > 0 && GameManager.Instance.ChoosenRegionConfig.ActionMusic1 != null)
         {
             Play(GameManager.Instance.ChoosenRegionConfig.ActionMusic1);
         } else if(GameManager.Instance.ChoosenRegionConfig.DefaultMusic != null)

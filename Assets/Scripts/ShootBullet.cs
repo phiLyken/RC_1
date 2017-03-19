@@ -77,7 +77,7 @@ public class EffectSpawner{
        // MDebug.Log("Init effect ");
         if(Sound != null)
         {
-
+            SoundManager.PlaySFX(Sound, target.transform);
         }
 
         if(Particle != null)

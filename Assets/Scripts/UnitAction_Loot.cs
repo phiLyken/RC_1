@@ -93,11 +93,9 @@ public class UnitAction_Loot : UnitActionBase
 
 
     protected override void ActionExecuted(Component target)
-    {   
- 
+    {        
         Tile_Loot l = target.GetComponent<Tile_Loot>();
         l.OnLoot(Owner);
-
         StartCoroutine(DelayedCompletion(1f));
 
     }

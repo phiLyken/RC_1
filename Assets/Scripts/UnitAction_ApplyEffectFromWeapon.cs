@@ -127,6 +127,10 @@ public class UnitAction_ApplyEffectFromWeapon : UnitAction_ApplyEffect {
         return GetBehavior().ExecAnimation;
     }
 
+    public override AudioClip GetExecSound()
+    {
+        return GetBehavior().ExecSound;
+    }
     public override string GetDescription()
     {
         return GetBehavior().Description;

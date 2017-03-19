@@ -30,7 +30,9 @@ public class ScriptableUnitConfig : ScriptableObject
     public bool IdentifyOnSpawn;
 
     public BlipBehaviour BlipBehavior;
-   // UnitInventoryConfig InventoryConfig;
+    // UnitInventoryConfig InventoryConfig;
+
+    public AudioClip GetHitSound;
 
 }
 

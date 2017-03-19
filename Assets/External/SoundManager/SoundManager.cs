@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using DG.Tweening;
 
 public class SoundManager : MonoBehaviour, IInit
 {
@@ -93,5 +94,24 @@ public class SoundManager : MonoBehaviour, IInit
 
         Instance.OnMusicVolumeChanged = null;
         Instance.OnSfxVolumeChanged = null;
+    }
+
+    public static Sound_Play PlaySFX(AudioClip clip, Transform target)
+    {
+
+        GameObject oneshot_source = GameObject.Instantiate(Resources.Load("Sounds/sfx_oneshot")) as GameObject;
+        Sound_Play play = oneshot_source.GetComponent<Sound_Play>();
+
+        oneshot_source.transform.position = target.transform.position;        
+
+        Sequence seq = DOTween.Sequence();
+      
+        seq.AppendInterval(clip.length);
+        seq.AppendCallback(() => GameObject.Destroy(oneshot_source));
+
+        play.Play(clip);
+        return play;
+
+        
     }
 }

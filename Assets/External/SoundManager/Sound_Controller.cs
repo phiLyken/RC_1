@@ -107,8 +107,7 @@ public class Sound_Controller : MonoBehaviour {
     void OnDestroy()
     {
         if (Music)
-        {
-            
+        {            
             SoundManager.Instance.OnMusicVolumeChanged -= OnVolumeChanged;
         }
         if (SFX)

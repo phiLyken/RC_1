@@ -12,12 +12,12 @@ public class ActionSequence : MonoBehaviour {
 
         m_Unit = unit;
     }
-    public void StartSequence(UnitAnimationTypes anim, Unit caster, Transform target, EventHandler callback_execute)
+    public void StartSequence(UnitAnimationTypes anim, AudioClip exec_audio, Unit caster, Transform target, EventHandler callback_execute)
     {
-        StartCoroutine(Sequence(anim, caster,  target, callback_execute));
+        StartCoroutine(Sequence(anim, exec_audio, caster,  target, callback_execute));
     }
 
-    IEnumerator Sequence(UnitAnimationTypes anim, Unit caster,  Transform target, EventHandler callback_execute)
+    IEnumerator Sequence(UnitAnimationTypes anim, AudioClip exec_audio, Unit caster,  Transform target, EventHandler callback_execute)
     {
         UnitAnimationController anim_controller = m_Unit.GetComponentInChildren<UnitAnimationController>();
         UnitRotationController rotation_controller = m_Unit.GetComponentInChildren<UnitRotationController>();
@@ -33,6 +33,10 @@ public class ActionSequence : MonoBehaviour {
         if(anim_controller != null)
             anim_controller.PlayAnimation(anim, callback_execute);
 
+        if(exec_audio != null)
+        {
+            SoundManager.PlaySFX(exec_audio, caster.transform);
+        }
         OnExected(caster, target);
     }      
 

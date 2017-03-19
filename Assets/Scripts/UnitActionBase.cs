@@ -7,6 +7,7 @@ public delegate void TargetListEvent(List<GameObject> targets);
 
 public class UnitActionBase : MonoBehaviour {
 
+    public AudioClip ExecSound;
     public UnitAnimationTypes ExecAnimation;
     public string TileViewState;
 
@@ -155,8 +156,8 @@ public class UnitActionBase : MonoBehaviour {
            // MDebug.Log("executing " + gameObject.name);
             
             if(action_sequence != null)
-            { 
-                action_sequence.StartSequence(GetExecAnimation(), Owner, target.transform, ()=> ActionExecuted(target))  ;
+            {
+                action_sequence.StartSequence(GetExecAnimation(), GetExecSound(), Owner, target.transform, ()=> ActionExecuted(target))  ;
             } else
             {
                 ActionExecuted(target);
@@ -231,5 +232,10 @@ public class UnitActionBase : MonoBehaviour {
     public virtual string GetDescription()
     {
         return Descr;
+    }
+
+    public virtual AudioClip GetExecSound()
+    {
+        return ExecSound;
     }
 }

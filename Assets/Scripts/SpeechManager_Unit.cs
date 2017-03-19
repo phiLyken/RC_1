@@ -197,7 +197,7 @@ public class SpeechManager_Unit : MonoBehaviour {
             StartCoroutine(M_Math.ExecuteDelayed(delay, () => TriggerSpeech(m_Unit, speech.Lines)));
         } else
         {
-            Debug.LogWarning("speech not found");
+            MDebug.LogWarning("speech not found");
         }
     }
     

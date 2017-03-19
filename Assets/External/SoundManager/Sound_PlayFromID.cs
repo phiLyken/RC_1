@@ -10,8 +10,9 @@ public class Sound_PlayFromID : Sound_Play {
     
     IDList<AudioClip> id_clips;
 
-    void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         id_clips = new IDList<AudioClip>(configs.Cast<IDConfig<AudioClip>>().ToList());
     }
     // Use this for initialization

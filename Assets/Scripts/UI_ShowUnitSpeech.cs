@@ -27,7 +27,7 @@ public class UI_ShowUnitSpeech : MonoBehaviour {
 
     void UpdatePos()
     {
-        if(m_Unit != null)
+        if(m_Unit != null && TextPlate.activeSelf)
         {
             UI_WorldPos worldPos = GetComponent<UI_WorldPos>();
             worldPos.SetWorldPosition(GetSpeechPosition());

@@ -34,8 +34,9 @@ public class UnitFactory : MonoBehaviour
         Unit_UnitDeath unit_death                       = base_unit.AddComponent<Unit_UnitDeath>();
         Unit_UnitEvacuation unit_evac                   = base_unit.AddComponent<Unit_UnitEvacuation>();
         UnitAnimationController animations              = mesh.AddComponent<UnitAnimationController>();
+        Unit_SoundController sound                      = base_unit.AddComponent<Unit_SoundController>();
         UnitRotationController rotator                  = base_unit.AddComponent<UnitRotationController>();
-        SpeechManager_Unit speech_mananger             = base_unit.AddComponent<SpeechManager_Unit>();
+        SpeechManager_Unit speech_mananger              = base_unit.AddComponent<SpeechManager_Unit>();
 
         m_unit.OwnerID = data.Owner;
         m_unit.Config = data;
@@ -43,6 +44,7 @@ public class UnitFactory : MonoBehaviour
         UI_Unit.CreateUnitUI(m_unit);
 
 
+        sound.Init(m_unit);
         unit_evac.Init(m_unit);
         adr_particles.Init(stats);
         AddActiveTurnIndicator(m_unit, data.Owner == 0);

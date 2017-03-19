@@ -7,6 +7,7 @@ public class WeaponBehavior :   MonoBehaviour {
 
 
     public UnitAnimationTypes ExecAnimation;
+    public AudioClip ExecSound;
 
     public string ActionID;
     public string Description;
