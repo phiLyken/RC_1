@@ -13,9 +13,11 @@ public class Sound_MusicManager : Sound_Singleton {
 
     protected override void PlaySoundForScene(string current_scene)
     {
+ 
+
         current = current_scene;
 
-       
+        GetSource().loop = true;
 
         if(current_scene == "_engine_test_game")
         {
@@ -34,15 +36,26 @@ public class Sound_MusicManager : Sound_Singleton {
 
     private void GameEndListener_OnMissionEnded()
     {
-     
+        if (current == "_engine_test_game")
+        {
+            Unit.OnUnitKilled -= OnUnitCountUpdated;
+            Unit.OnIdentifiedGlobal -= OnUnitCountUpdated;
+
+
+        }
+
+        GameEndListener.OnMissionEnded -= GameEndListener_OnMissionEnded;
+        GetSource().loop = false;
         Play(MissionOutcome.LastOutcome.SquadUnitsEvaced > 0 ? WinMusic : FailedMusic);
      
     }
 
     void OnUnitCountUpdated(Unit u)
     {
+      
         if(Unit.GetAllUnitsOfOwner(1,true).Count( unit => unit.IsIdentified) > 0 && GameManager.Instance.ChoosenRegionConfig.ActionMusic1 != null)
         {
+
             Play(GameManager.Instance.ChoosenRegionConfig.ActionMusic1);
         } else if(GameManager.Instance.ChoosenRegionConfig.DefaultMusic != null)
         {
@@ -50,15 +63,6 @@ public class Sound_MusicManager : Sound_Singleton {
         }
     }
  
-    void OnDisable()
-    {
-        if (current == "_engine_test_game")
-        {
-            Unit.OnUnitKilled -= OnUnitCountUpdated;
-            Unit.OnIdentifiedGlobal -= OnUnitCountUpdated;
-           
-            GameEndListener.OnMissionEnded -= GameEndListener_OnMissionEnded;
-        }
-    }
+
 
 }
