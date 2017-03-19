@@ -35,7 +35,14 @@ public class UI_SetPopupContent : MonoBehaviour {
         {
             Destroy(Content);
         }
+
         Content = ContentPrefab.Instantiate(this.transform, true);
+
+        UI_Popup_BindToClose bind = GetComponentInChildren<UI_Popup_BindToClose>();
+        if (bind != null)
+        {
+            bind.SetClose(Popup.Close);
+        }
         Content.SetActive(true);
     }
 }

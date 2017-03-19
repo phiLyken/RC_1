@@ -178,14 +178,14 @@ ModelImporter:
       events:
       - time: 0.37990198
         functionName: SoundCallback
-        data: foostep
+        data: footstep
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
       - time: 0.8602941
         functionName: SoundCallback
-        data: foostep
+        data: footstep
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0

@@ -9,6 +9,7 @@ public class Unit_SoundController : MonoBehaviour {
     {
         m_unit = unit;
         unit.OnDamageReceived += DamageReceived;
+        Unit.OnEvacuated += CheckEvac;
 
     }
 
@@ -19,4 +20,16 @@ public class Unit_SoundController : MonoBehaviour {
     }
 
    
+    void CheckEvac(Unit u)
+    {
+        if(u == m_unit)
+        {
+            SoundManager.PlaySFX(Resources.Load("Sounds/sfx_evacuate") as AudioClip, m_unit.transform);
+        }
+    }
+
+    void OnDestroy()
+    {
+        Unit.OnEvacuated -= CheckEvac;
+    }
 }

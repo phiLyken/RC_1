@@ -22,7 +22,7 @@ public class Sound_Toggle : MonoBehaviour {
         if (SFX)
         {
             Toggle.isOn = SoundManager.GetSFXVolume() > 0;
-         SoundManager.Instance.OnSfxVolumeChanged += CheckSFX;
+            SoundManager.Instance.OnSfxVolumeChanged += CheckSFX;
         }
     }
 
@@ -54,4 +54,19 @@ public class Sound_Toggle : MonoBehaviour {
         }
     }
 
+    void OnDestroy()
+    {
+        if (Music)
+        {
+            SoundManager.Instance.OnMusicVolumeChanged -= CheckMusic;
+        
+
+        }
+
+        if (SFX)
+        {
+         
+            SoundManager.Instance.OnSfxVolumeChanged -= CheckSFX;
+        }
+    }
 }

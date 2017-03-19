@@ -70,11 +70,13 @@ public class SoundManager : MonoBehaviour, IInit
     {
 
         Instance.Volume_Music = value;
+        Instance.music_enabled = value > 0;
         Instance.OnMusicVolumeChanged.AttemptCall(value);
     }
     public static void SetSFX(float value)
     {
         Instance.Volume_SFX = value;
+        Instance.sfx_enabled = value > 0;
         Instance.OnSfxVolumeChanged.AttemptCall(value);
     }
     public static float GetSFXVolume()
