@@ -2,17 +2,18 @@
 using System.Collections;
 
 public class Sound_Play : MonoBehaviour {
+
     public AudioSource Source;
     public bool PlayOneShot;
     public bool UseTaggedSource;
     public string SourceTag;
 
-    public bool UseListenerSource;
+    public bool CreateListenerSource;
 
 
    protected virtual void Awake()
     {
-        if (UseListenerSource)
+        if (CreateListenerSource)
         {
             AudioListener listner = GameObject.FindObjectOfType<AudioListener>();
             if (listner == null)
@@ -58,4 +59,6 @@ public class Sound_Play : MonoBehaviour {
         }
         return Source;
     }
+
+    
 }

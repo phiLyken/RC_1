@@ -7,6 +7,7 @@ public class RegionConfigDataBase : ScriptableObject {
 
     public AudioClip DefaultMusic;
     public AudioClip ActionMusic1;
+    public AudioClip AmbientSound;
 
     public string SAVEID;
     public Sprite DifficultySprite;

@@ -30,6 +30,7 @@ public class WorldExtender : MonoBehaviour {
     }
     public virtual void SetupGame(RegionConfigDataBase Region)
     {
+
         RegionBalance = Region;
         Instance = this;
 
@@ -41,9 +42,17 @@ public class WorldExtender : MonoBehaviour {
         SetSpawnConfigs(Region);
         SpawnNext();
         SpawnNext();
+        PlayAmbient();
 
     }
-
+    protected void PlayAmbient()
+    {
+        if (RegionBalance.AmbientSound != null)
+        {
+            Sound_Play ambient = Instantiate(Resources.Load("Sounds/sound_ambient") as GameObject).GetComponent<Sound_Play>();
+            ambient.Play(RegionBalance.AmbientSound);
+        }
+    }
     protected void SetSpawnConfigs(RegionConfigDataBase Region)
     {
         configsToSpawn = RegionLoader.RegionsToSpawn(Region);
