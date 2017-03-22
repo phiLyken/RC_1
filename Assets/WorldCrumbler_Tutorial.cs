@@ -9,6 +9,8 @@ public class WorldCrumbler_Tutorial : WorldCrumbler {
      public override void Init(TurnSystem system)
     {
         Instance = this;
+        sound = (Instantiate(Resources.Load("Sounds/sound_crumble")) as GameObject).GetComponent<Sound_Play>();
+       
         _cachedCrumbleRange = Constants.CrumbleRange;
         Constants.CrumbleRange = 15;
         MissionSystem.OnCompleteMission += mission =>

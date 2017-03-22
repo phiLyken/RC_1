@@ -9,7 +9,7 @@ public class WorldCrumbler : MonoBehaviour, ITurn {
 
     public AudioClip CrumbleSound;
 
-    Sound_Play sound;
+    protected Sound_Play sound;
     //Speed: Rows per turn the crumble progresses
     //Every Row < than the crumble row will get 1 crumbleturn
     public M_Math.R_Range TilesToCrumbleCount = new M_Math.R_Range(3, 5);

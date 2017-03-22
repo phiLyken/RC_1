@@ -27,6 +27,10 @@ public class TargetInfo
     /// <returns></returns>
     public static bool CanTarget(TargetInfo targetRules, Unit targeter, Unit target, Tile fromTile)
     {
+        if (target.IsDead())
+        {
+            return false;
+        }
         if (target == targeter && !targetRules.TargetSelf)
             return false;
         if (!targetRules.TargetSelf && (!targetRules.TargetFriendly && target.OwnerID == targeter.OwnerID))
