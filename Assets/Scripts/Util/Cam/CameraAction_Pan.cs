@@ -22,7 +22,7 @@ public class CameraAction_Pan : CameraAction
     {
         Active = true;
         Vector3 startDragPos = M_Math.GetInputPos();
-        Debug.Log("^cameraDOPAN");
+        MDebug.Log("^cameraDOPAN");
         while (CanStartInput())
         {
             Vector3 mousePos = M_Math.GetInputPos();
@@ -53,7 +53,7 @@ public class CameraAction_Pan : CameraAction
         _waitingForInput = true;
         Vector3 startDragPos = M_Math.GetInputPos();
 
-       // Debug.Log("Wait for input");
+       // MDebug.Log("Wait for input");
 
         while(CanStartInput() && (startDragPos - M_Math.GetInputPos()).magnitude < PanThreshold)
         {

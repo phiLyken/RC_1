@@ -7,6 +7,7 @@ public delegate void TargetListEvent(List<GameObject> targets);
 
 public class UnitActionBase : MonoBehaviour {
 
+    public AudioClip ExecSound;
     public UnitAnimationTypes ExecAnimation;
     public string TileViewState;
 
@@ -101,7 +102,7 @@ public class UnitActionBase : MonoBehaviour {
     {
         bool r = !UsableInBaseCamp && Owner.currentTile.isCamp;
        
-        if (r) Debug.Log("^abilityCan not use in camp");
+        if (r) MDebug.Log("^abilityCan not use in camp");
         return r;
     }
 
@@ -118,7 +119,7 @@ public class UnitActionBase : MonoBehaviour {
             {
               if (displayToast)
                 {
-                        Debug.Log("^abilityNot enough  " + UnitStats.StatToString(s.StatType));
+                        MDebug.Log("^abilityNot enough  " + UnitStats.StatToString(s.StatType));
                         ToastNotification.SetToastMessage2("Not enough " + UnitStats.StatToString(s.StatType));
                 }
                 return false;
@@ -152,11 +153,11 @@ public class UnitActionBase : MonoBehaviour {
             if (OnActionStart != null)
                 OnActionStart(this);
 
-           // Debug.Log("executing " + gameObject.name);
+           // MDebug.Log("executing " + gameObject.name);
             
             if(action_sequence != null)
-            { 
-                action_sequence.StartSequence(GetExecAnimation(), Owner, target.transform, ()=> ActionExecuted(target))  ;
+            {
+                action_sequence.StartSequence(GetExecAnimation(), GetExecSound(), Owner, target.transform, ()=> ActionExecuted(target))  ;
             } else
             {
                 ActionExecuted(target);
@@ -164,7 +165,7 @@ public class UnitActionBase : MonoBehaviour {
 
         } else
         {
-             Debug.Log("Coudlnt execute "+ActionID +" ap cost:"+AP_Cost+" / "+Owner.Actions.GetAPLeft()  );
+             MDebug.Log("Coudlnt execute "+ActionID +" ap cost:"+AP_Cost+" / "+Owner.Actions.GetAPLeft()  );
         }
     }
 
@@ -231,5 +232,10 @@ public class UnitActionBase : MonoBehaviour {
     public virtual string GetDescription()
     {
         return Descr;
+    }
+
+    public virtual AudioClip GetExecSound()
+    {
+        return ExecSound;
     }
 }

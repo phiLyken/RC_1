@@ -25,7 +25,7 @@ public class UI_Menu : MonoBehaviour {
         {
             SquadSelection = Instantiate(SquadSelectionPrefab) as GameObject;       
         }
-        Debug.Log("FOO");
+        MDebug.Log("FOO");
         SquadSelection.SetActive(show);
         Sequence move = DOTween.Sequence();
         Title.transform.DOMove(show ? TitleAnchorTop.transform.position : TitleAnchorBottom.transform.position, 0.3f);

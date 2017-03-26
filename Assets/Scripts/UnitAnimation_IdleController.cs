@@ -14,7 +14,7 @@ public class UnitAnimation_IdleController : MonoBehaviour {
     {
         List<IdleConfig> list = raged ? IdleRush : IdleRegular;
  
-        return WeightableFactory.GetWeighted(list).Index;
+        return M_Weightable.GetWeighted(list).Index;
     }
 }
 

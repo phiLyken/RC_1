@@ -23,7 +23,7 @@ public class Objective_View : GenericView<Objective>
 
         if(RemoveOnComplete)
             m_Item.OnComplete += Remove;
-        // Debug.Log("Set Objective in View");
+        // MDebug.Log("Set Objective in View");
 
         Show();
     }

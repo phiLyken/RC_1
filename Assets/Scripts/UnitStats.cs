@@ -19,6 +19,10 @@ public class UnitStats : MonoBehaviour
     {
         switch (t)
         {
+            case StatType.move_range:
+                return "Move Range";
+            case StatType.move_time_delay:
+                return "Move Time Cost";
             case StatType.adrenaline:
                 return "Adrenaline";
             case StatType.oxygen:
@@ -31,7 +35,7 @@ public class UnitStats : MonoBehaviour
             case StatType.adrenaline_conversion_min:
                 return "Adr. Conversion";
             case StatType.current_turn_time:
-                return "Next Turn Time";
+                return "Turn Delay";
             case StatType.attack_normal_delay:
                 return "Attack Time Cost";
             default:
@@ -81,7 +85,7 @@ public class UnitStats : MonoBehaviour
         Stat stat = GetStat(type);
         if(stat == null)
         {
-           // Debug.Log("Stat not foudn " + type);
+           // MDebug.Log("Stat not foudn " + type);
             return 0;
         }
 
@@ -153,7 +157,7 @@ public class UnitStats : MonoBehaviour
         int dmg_received = (-(dmg.GetDamage()));
         int int_received = Constants.GetGainedAdrenaline( this, Mathf.Abs( dmg_received ));
 
-        Debug.Log("^effects "+this.name + " rcv damge " + dmg_received + "  rcvd multiplier:" + "WTF" + "  +int=" + int_received);
+        MDebug.Log("^effects "+this.name + " rcv damge " + dmg_received + "  rcvd multiplier:" + "WTF" + "  +int=" + int_received);
 
         AddOxygen(dmg_received, true);
 
@@ -225,7 +229,7 @@ public class UnitStats : MonoBehaviour
     }
     public void Rest()
     {
-        Debug.Log(" rest");
+        MDebug.Log(" rest");
         SetStatAmount(StatType.adrenaline, 0);
         SetStatAmount(StatType.oxygen,(int) GetStatAmount(StatType.vitality));
     }

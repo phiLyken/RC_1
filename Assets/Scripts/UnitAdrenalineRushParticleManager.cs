@@ -4,7 +4,8 @@ using System.Collections;
 public class UnitAdrenalineRushParticleManager : UI_AdrenalineRushBase {
 
     public float ActiveParticleDelay;
-    
+
+    public AudioClip GainSound;
 
     public GameObject RushGainParticle;
     public GameObject RushActiveParticle;
@@ -20,6 +21,7 @@ public class UnitAdrenalineRushParticleManager : UI_AdrenalineRushBase {
 
     protected override void RushGain()
     {
+        SoundManager.PlaySFX(GainSound, this.transform);
         EnableRushParticles();
     }
 

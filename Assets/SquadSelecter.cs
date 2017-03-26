@@ -30,7 +30,7 @@ public class SquadSelecter : MonoBehaviour {
     void OnSelect(Unlockable<TieredUnit> tier)
     {
 
-        Debug.Log("SQUAD SELECTER SELECT TIER "+ tier.Item.Tiers[0].Config.ID);
+        MDebug.Log("SQUAD SELECTER SELECT TIER "+ tier.Item.Tiers[0].Config.ID);
         if (SquadManager.Instance.selected_units.Contains(tier.Item))
         {
             selector_buttons.GetView(tier).SetUnselected();

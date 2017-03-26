@@ -29,7 +29,7 @@ public class TurnSystem : MonoBehaviour {
     public ITurn Current;
     public static bool HasTurn(ITurn t)
     {
-     //   Debug.Log("t " + t.GetID() + "  current" + Instance.Current.GetID());
+     //   MDebug.Log("t " + t.GetID() + "  current" + Instance.Current.GetID());
         if (Instance == null || Instance.Current == null || Instance.Current != t) return false;
         return true;
     }
@@ -110,7 +110,7 @@ public class TurnSystem : MonoBehaviour {
         }
     }
 	void OnTurnPreview(ITurn t){
-		//Debug.Log("Resorting list for preview");
+		//MDebug.Log("Resorting list for preview");
 		SortListByTime();
 	}
     ITurn GetNext()    {     
@@ -125,7 +125,7 @@ public class TurnSystem : MonoBehaviour {
         while (!forceNext && ( (t!=null && !t.Equals(null)) && !t.HasEndedTurn() || TurnEventQueue.EventRunning  ))
         {
 
-           // Debug.Log("^turnSystem " + t.GetID() + " Events:" + TurnEventQueue.EventRunning.ToString() + "  hasEnded" + t.HasEndedTurn() + "\n" + TurnEventQueue.ToString2());
+           // MDebug.Log("^turnSystem " + t.GetID() + " Events:" + TurnEventQueue.EventRunning.ToString() + "  hasEnded" + t.HasEndedTurn() + "\n" + TurnEventQueue.ToString2());
             yield return null;
         }       
     }
@@ -144,7 +144,7 @@ public class TurnSystem : MonoBehaviour {
                 lowest = t.GetTurnTime();
             }
         }
-      //  Debug.Log("lowest " + lowest);
+      //  MDebug.Log("lowest " + lowest);
         return lowest;
     }
 
@@ -154,7 +154,7 @@ public class TurnSystem : MonoBehaviour {
     void NormalizeList()
     {
         float lowest = GetLowestTurnTime();
-       //  Debug.Log("normalizing list lowest time " + lowest);
+       //  MDebug.Log("normalizing list lowest time " + lowest);
         foreach(ITurn t in Turnables)
         {
             t.SetNextTurnTime(-lowest);
@@ -195,7 +195,7 @@ public class TurnSystem : MonoBehaviour {
 
         if (!Instance.Turnables.Contains(new_turnable))
         {
-            Debug.Log("^turnSystem TURNABLE: register " + new_turnable.GetID());
+            MDebug.Log("^turnSystem TURNABLE: register " + new_turnable.GetID());
             Instance.Turnables.Add(new_turnable);
            // Instance.NormalizeList();
             Instance.SortListByTime();        
@@ -216,7 +216,7 @@ public class TurnSystem : MonoBehaviour {
         }
         if (Instance.Turnables.Contains(turnable))
         {
-            Debug.Log("^turnSystem REMOVE " + turnable.GetID());        
+            MDebug.Log("^turnSystem REMOVE " + turnable.GetID());        
             Instance.Turnables.Remove(turnable);
             Instance.OnListUpdated.AttemptCall(Instance.Turnables);
          

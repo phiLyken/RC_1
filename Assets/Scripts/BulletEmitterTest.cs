@@ -24,12 +24,12 @@ public class BulletEmitterTest : MonoBehaviour {
             Sequence sq = DOTween.Sequence().Append(d(1))
             ;
             sq.AppendInterval(1);
-            sq.AppendCallback(() => { Debug.Log(1); });
+            sq.AppendCallback(() => { MDebug.Log("1"); });
         
-            sq.AppendCallback(() => { Debug.Log(2); });
+            sq.AppendCallback(() => { MDebug.Log("1"); });
             sq.Append(d(2));
             sq.Append(d(3));
-            sq.AppendCallback(() => { Debug.Log(5); });
+            sq.AppendCallback(() => { MDebug.Log("1"); });
      //       sq.Play();
 
         }
@@ -40,11 +40,11 @@ public class BulletEmitterTest : MonoBehaviour {
         Sequence s = DOTween.Sequence();
        
         s.AppendInterval(1);
-        s.AppendCallback(() => { Debug.Log(" -"+id); });
+        s.AppendCallback(() => { MDebug.Log(" -"+id); });
 
         Sequence r = DOTween.Sequence();
         r.AppendInterval(5);
-        r.AppendCallback(() => { Debug.Log("     -" + id); });
+        r.AppendCallback(() => { MDebug.Log("     -" + id); });
         return s;
         ;
     }

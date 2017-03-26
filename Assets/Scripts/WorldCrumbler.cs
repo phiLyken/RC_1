@@ -7,6 +7,9 @@ using System.Linq;
 public delegate void CrumbleEvent(int row);
 public class WorldCrumbler : MonoBehaviour, ITurn {
 
+    public AudioClip CrumbleSound;
+
+    protected Sound_Play sound;
     //Speed: Rows per turn the crumble progresses
     //Every Row < than the crumble row will get 1 crumbleturn
     public M_Math.R_Range TilesToCrumbleCount = new M_Math.R_Range(3, 5);
@@ -25,7 +28,8 @@ public class WorldCrumbler : MonoBehaviour, ITurn {
 
     public virtual void Init(TurnSystem system)
     {
- 
+
+        sound = (Instantiate(Resources.Load("Sounds/sound_crumble")) as GameObject).GetComponent<Sound_Play>();
         Instance = this;
         ActivateTurnSystem();
     }
@@ -61,7 +65,7 @@ public class WorldCrumbler : MonoBehaviour, ITurn {
 
     public void SetNextTurnTime(float turns)
     {
-		//Debug.Log("set turns: "+turns);
+		//MDebug.Log("set turns: "+turns);
         TurnTime += turns;
     }
 
@@ -99,8 +103,11 @@ public class WorldCrumbler : MonoBehaviour, ITurn {
 
     protected void CrumbleTurn()
     {
-        Debug.Log("Crumble");
+        MDebug.Log("Crumble");
         SetCrumbleInWeightedTiles();
+
+        if(CrumbleSound != null)
+            sound.Play(CrumbleSound);
 
         if (OnCrumble != null)
         {
@@ -134,7 +141,7 @@ public class WorldCrumbler : MonoBehaviour, ITurn {
 
         while (TilesMoving())
         {
-           // Debug.Log("waiting,..");
+           // MDebug.Log("waiting,..");
             yield return new WaitForSeconds(0.1f);
         }
 
@@ -153,9 +160,9 @@ public class WorldCrumbler : MonoBehaviour, ITurn {
     {
       
      
-      //  Debug.Log("count " + count);
+      //  MDebug.Log("count " + count);
 
-       // Debug.Log("crumble. last row " + TileManager.Instance.GetLastActiveRow());    
+       // MDebug.Log("crumble. last row " + TileManager.Instance.GetLastActiveRow());    
         TileWeighted.GetCrumbleTiles(GetCrumbleCount(), TileManager.Instance).ForEach(t => t.StartCrumble() );
     }
 

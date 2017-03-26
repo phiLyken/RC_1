@@ -9,7 +9,7 @@ public class PlayerInventory : Inventory, IInit {
 
     public static PlayerInventory Instance
     {
-        get { return _instance == null ? M_Extensions.MakeMonoSingleton<PlayerInventory>(out _instance) : _instance; }
+        get { return _instance == null ? M_Extensions.MakeMonoSingletonFromPrefab<PlayerInventory>(out _instance) : _instance; }
     }
 
     static PlayerInventory _instance;

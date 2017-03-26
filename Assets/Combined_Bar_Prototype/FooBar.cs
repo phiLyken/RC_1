@@ -39,7 +39,7 @@ public class FooBar : MonoBehaviour {
 
     public void AddInt(int amount, bool consumeWill)
     {
-        Debug.Log(amount);
+      
         int truncated = amount;
         if (!consumeWill)
         {

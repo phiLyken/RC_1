@@ -17,7 +17,7 @@ public class Example : MonoBehaviour
         StartCoroutine(routine);
 
         var routine2 = RoutineWithParam("OMG", delegate
-        { return !Input.GetKey(KeyCode.A); }).MakeStoppable(() => Debug.Log("HAAHHA"));
+        { return !Input.GetKey(KeyCode.A); }).MakeStoppable(() => MDebug.Log("HAAHHA"));
 
         StartCoroutine(routine2);
 
@@ -36,7 +36,7 @@ public class Example : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(1f);
-            Debug.Log("running...");
+            MDebug.Log("running...");
         }
     }
 
@@ -44,10 +44,10 @@ public class Example : MonoBehaviour
     {
         while (canExecute != null && canExecute() )
         {
-            Debug.Log("running too");
+            MDebug.Log("running too");
             yield return null;
         }
 
-        Debug.Log(foo);
+        MDebug.Log(foo);
     }
 }

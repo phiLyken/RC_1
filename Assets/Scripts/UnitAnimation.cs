@@ -48,13 +48,13 @@ public class UnitAnimation
 
     public void SetWeaponIndex(float f)
     {
-       Debug.Log("set weapon index " + f);
+       MDebug.Log("set weapon index " + f);
         unit_animator.SetFloat("WeaponIndex", (int) f);
     }
 
     public void SetAimTarget(Transform tr)
     {
-       // Debug.Log("set aim target  "+tr.gameObject.name);
+       // MDebug.Log("set aim target  "+tr.gameObject.name);
         AimTarget = tr.FindDeepChild("humanoid");
 
     }
@@ -83,7 +83,7 @@ public class UnitAnimation
             OnExec = null;
         }
 
-      //  Debug.Log("attempted to callback");
+      //  MDebug.Log("attempted to callback");
     }
     public void AbilityCallback(string id)
     {   
@@ -109,21 +109,21 @@ public class UnitAnimation
  
     public void WeaponHide()
     {
-        Debug.Log("^animationCALL BACK Weapon Hide");
+        MDebug.Log("^animationCALL BACK Weapon Hide");
         WeaponAnimator_Left.HideWeapon();
         WeaponAnimator_Right.HideWeapon();
     }
 
     public void WeaponShow()
     {
-        Debug.Log("^animationCALL BACK* Weapon Show");
+        MDebug.Log("^animationCALL BACK* Weapon Show");
         WeaponAnimator_Left.ShowWeapon();
         WeaponAnimator_Right.ShowWeapon();
     }
 
     public void SetTrigger(string id)
     {
-      //  Debug.Log(id);
+      //  MDebug.Log(id);
         unit_animator.SetTrigger(id);
     }
 }

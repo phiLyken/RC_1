@@ -40,12 +40,13 @@ public class GameEndListener : MonoBehaviour {
         if (GameEnded)
             return;
 
-        OnMissionEnded.AttemptCall();
+      
         GameEnded = true;
         MissionOutcome.MakeNew();
         TrackingManager.TrackingCall_LevelComplete(GameManager.Instance.ChoosenRegionConfig, MissionOutcome.LastOutcome, PlayerLevel.Instance.GetCurrentLevel());
         ShowGameEndPopup();
-    
+        OnMissionEnded.AttemptCall();
+
     }
    static  void ShowGameEndPopup()
     {

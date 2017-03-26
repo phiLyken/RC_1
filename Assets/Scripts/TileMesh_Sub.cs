@@ -26,13 +26,13 @@ public class TileMesh_Sub : MonoBehaviour {
             }          
         }
         */
-       // Debug.Log("enable submesh");
+       // MDebug.Log("enable submesh");
     }
     
  
     public void DisableSub()
     {
-       // Debug.Log("disable sub mesh");
+       // MDebug.Log("disable sub mesh");
         gameObject.SetActive(false);
     }
 }

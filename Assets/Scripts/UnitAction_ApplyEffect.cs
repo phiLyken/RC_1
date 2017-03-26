@@ -61,7 +61,7 @@ public class UnitAction_ApplyEffect : UnitActionBase
     {
         if(GetTargetableUnits().Contains(u) && OnTargetHover != null)
         {
-          //  Debug.Log("Hovered unit on select");
+          //  MDebug.Log("Hovered unit on select");
             OnTargetHover(u);
         }
     }
@@ -79,6 +79,10 @@ public class UnitAction_ApplyEffect : UnitActionBase
         if ( !GetTargetableUnits().Contains(u))
         {
             ToastNotification.SetToastMessage1("Can't target this unit.");
+            if(Owner.OwnerID == 0)
+            {
+                SoundManager.PlayAtSourceTag("SoundSFXSource", "sfx_" + SoundManager.Presets.error);
+            }
             return;
         }
         AttemptAction(u);
@@ -96,7 +100,7 @@ public class UnitAction_ApplyEffect : UnitActionBase
 
     protected override void ActionExecuted (Component target)
     {    
-        
+       
        StartCoroutine( ApplyEffects( Owner, ( target  as Unit) ) );
        target = null;
         
@@ -108,7 +112,7 @@ public class UnitAction_ApplyEffect : UnitActionBase
         ActionInProgress = true;
         List<UnitEffect> Effects = GetEffects();
 
-        Debug.Log("^effects Applying " + Effects.Count + "effects   to " + target.GetID() );
+        MDebug.Log("^effects Applying " + Effects.Count + "effects   to " + target.GetID() );
         
  
  

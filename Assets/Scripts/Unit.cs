@@ -29,6 +29,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     public static UnitEventHandler OnTurnStart;
     public static UnitEventHandler OnTurnEnded;
     public static UnitEventHandler OnEvacuated;
+    public static UnitEventHandler OnIdentifiedGlobal;
 
     public DamageEventHandler OnDamageReceived;
   
@@ -132,13 +133,17 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
         if (IsIdentified)
             return;
 
-        Debug.Log("^unit IDENTIFIED");
+        MDebug.Log("^unit IDENTIFIED");
         _isIdentified = true;
         gameObject.transform.FindDeepChild("playermodel").gameObject.GetComponentsInChildren<Renderer>().ToList().ForEach(rend => rend.enabled = true);
 
         if (OnIdentify != null)
             OnIdentify(identifier);
 
+        if(OnIdentifiedGlobal != null)
+        {
+            OnIdentifiedGlobal(this);
+        }
         OnUpdateSprite.AttemptCall();
         GetComponent<Collider>().enabled = true;
     }
@@ -210,7 +215,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
         if (!currentTile.isCamp )
             return false;
         _isEvacuated = true;
-        Debug.Log("^unit EVAC " + this.ToString());
+        MDebug.Log("^unit EVAC " + this.ToString());
 
         RemoveUnitFromGame();
 
@@ -250,7 +255,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     {
         if (!_isDead)
         {
-            Debug.Log("^unit " + GetID());
+            MDebug.Log("^unit " + GetID());
             Stats.OnHPDepleted -= KillUnit;
             _isDead = true;
 
@@ -294,7 +299,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
 
     public float GetTurnTime()
     {
-       // Debug.Log(Stats.GetStatAmount(StatType.current_turn_time));
+       // MDebug.Log(Stats.GetStatAmount(StatType.current_turn_time));
         return  Stats.GetStatAmount(StatType.current_turn_time);
     }
    
@@ -309,7 +314,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     {
         SetNextTurnTime(GetCurrentTurnCost());
         Actions.Reset();
-        Debug.Log("^turnSystem ENDED:" + GetID());
+        MDebug.Log("^turnSystem ENDED:" + GetID());
 
         if (OnTurnEnded != null) OnTurnEnded(this);
     }
@@ -318,7 +323,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
     {
         starting_order++;
 
-        Debug.Log("^turnSystem NEW TURN:" + GetID());         
+        MDebug.Log("^turnSystem NEW TURN:" + GetID());         
 
         UnSelectCurrent();
 
@@ -427,7 +432,7 @@ public class Unit : MonoBehaviour, ITurn, IDamageable {
 
         int firstPlayerUnit = firstPlayer.currentTile.TilePos.z;
         int enemyPos = enemyUnit.currentTile.TilePos.z;
-      //  Debug.Log(firstPlayerUnit+ " - "+enemyPos);
+      //  MDebug.Log(firstPlayerUnit+ " - "+enemyPos);
         return Mathf.Abs(firstPlayerUnit - enemyPos) <= Constants.UNIT_ACTIVATION_RANGE;
     }
 

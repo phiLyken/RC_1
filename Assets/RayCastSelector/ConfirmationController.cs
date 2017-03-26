@@ -18,7 +18,7 @@ public class ConfirmationController : MonoBehaviour {
 	}
 	bool cancelled;
 	public void CancelConfirmation(){
-		Debug.Log("Cancelconfirmation");
+		MDebug.Log("Cancelconfirmation");
 		StopCoroutine("WaitForConfirmation");
 		HideDialouge();
 		cancelled = true;

@@ -11,7 +11,7 @@ public class ObjectiveCondition_PressButton : ObjectiveCondition
     {
 
         base.Init(canComplete);
-        Debug.Log("Condition Pressbutton");
+        MDebug.Log("Condition Pressbutton");
        
        // key = config.key;
         

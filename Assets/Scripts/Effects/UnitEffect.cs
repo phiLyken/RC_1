@@ -80,7 +80,7 @@ public class UnitEffect : MonoBehaviour
 
     public void OnDestroy()
     {
-    //    Debug.Log("Removed Effect  -" + Unique_ID);
+    //    MDebug.Log("Removed Effect  -" + Unique_ID);
     if(TurnSystem.Instance != null)
         TurnSystem.Instance.OnGlobalTurn -= OnGlobalTurn;
     }
@@ -91,7 +91,7 @@ public class UnitEffect : MonoBehaviour
         target = GetTarget(target, Instigator as Unit );
         
         if (FocusOnCaster && RC_Camera.Instance != null) {
-            Debug.Log("^effects go to to " +(Instigator as Unit));
+            MDebug.Log("^effects go to to " +(Instigator as Unit));
             RC_Camera.Instance.ActionPanToPos.GoTo((Instigator as Unit).currentTile.GetPosition());
             yield return new WaitForSeconds(0.5f);
         }
@@ -99,7 +99,7 @@ public class UnitEffect : MonoBehaviour
          
 
         if (FocusOnTarget && RC_Camera.Instance != null) {
-            Debug.Log("^effects to to " + target.GetID());
+            MDebug.Log("^effects to to " + target.GetID());
             RC_Camera.Instance.ActionPanToPos.GoTo(target.currentTile.GetPosition());
             yield return new WaitForSeconds(0.5f);
         }       
@@ -119,7 +119,7 @@ public class UnitEffect : MonoBehaviour
     {
         //Make copy
         UnitEffect copy = MakeCopy(effect, target);
-        Debug.Log("^effectsAttempt Apply \n" + copy.ToString()+"  by "+ copy.Instigator);
+        MDebug.Log("^effectsAttempt Apply \n" + copy.ToString()+"  by "+ copy.Instigator);
 
         if (CanApplyEffect(target, copy) && target.GetComponent<Unit_EffectManager>().ApplyEffect(copy))
         {
@@ -158,7 +158,7 @@ public class UnitEffect : MonoBehaviour
     protected void Ticked()
     {
         if (OnEffectTick != null) OnEffectTick(this);
-        Debug.Log("^effects"+GetToolTipText() + " Ticked");
+        MDebug.Log("^effects"+GetToolTipText() + " Ticked");
 
 
 
@@ -169,7 +169,7 @@ public class UnitEffect : MonoBehaviour
         if (OnEffectExpired != null)
             OnEffectExpired(this);
 
-        Debug.Log("^effectsGlobal remove " + Effect_Host.GetID() + "  -" + Unique_ID);
+        MDebug.Log("^effectsGlobal remove " + Effect_Host.GetID() + "  -" + Unique_ID);
 
         TurnSystem.Instance.OnGlobalTurn -= OnGlobalTurn;
  

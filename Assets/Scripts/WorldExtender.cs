@@ -30,6 +30,7 @@ public class WorldExtender : MonoBehaviour {
     }
     public virtual void SetupGame(RegionConfigDataBase Region)
     {
+
         RegionBalance = Region;
         Instance = this;
 
@@ -41,9 +42,17 @@ public class WorldExtender : MonoBehaviour {
         SetSpawnConfigs(Region);
         SpawnNext();
         SpawnNext();
+        PlayAmbient();
 
     }
-
+    protected void PlayAmbient()
+    {
+        if (RegionBalance.AmbientSound != null)
+        {
+            Sound_Play ambient = Instantiate(Resources.Load("Sounds/sound_ambient") as GameObject).GetComponent<Sound_Play>();
+            ambient.Play(RegionBalance.AmbientSound);
+        }
+    }
     protected void SetSpawnConfigs(RegionConfigDataBase Region)
     {
         configsToSpawn = RegionLoader.RegionsToSpawn(Region);
@@ -73,7 +82,7 @@ public class WorldExtender : MonoBehaviour {
             groups.Add(SquadManager.MakeSquadGroup());
         }
         
-       // Debug.Log("Spawn Groups " + groups.Count);
+       // MDebug.Log("Spawn Groups " + groups.Count);
         spawner.SpawnGroups(groups);
     }
 
@@ -97,13 +106,13 @@ public class WorldExtender : MonoBehaviour {
         spawned.Add(region);
         
 
-      //  Debug.Log("spawning region " + region.name);
+      //  MDebug.Log("spawning region " + region.name);
         SpawnRegion(region, TileManager.Instance);
     }
 
     bool LastUnitCloseToEnd(int last_unit_row)
     {
-       //Debug.Log("last unit unit " + last_unit_row + "  height:" + TileManager.Instance.GridHeight);
+       //MDebug.Log("last unit unit " + last_unit_row + "  height:" + TileManager.Instance.GridHeight);
         return (TileManager.Instance.GridHeight - last_unit_row) < MinTilesLastUnit;
     }
 

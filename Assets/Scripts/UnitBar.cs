@@ -24,7 +24,7 @@ public class UnitBar : MonoBehaviour {
     void UpdateMax(int max)
     {
         Max = max;
-       // Debug.Log("Update max " + max);
+       // MDebug.Log("Update max " + max);
         if (Bar_Steps != null)
         {
             for (int i = Bar_Steps.Count - 1; i >= 0; i--)
@@ -51,12 +51,12 @@ public class UnitBar : MonoBehaviour {
 
     public  void SetBarValues(int _will, int _intensity, int _max, int owner)
     {
-       // Debug.Log(_will + "  " + _intensity + " " + _max);
+       // MDebug.Log(_will + "  " + _intensity + " " + _max);
         if(_max != Max)
         {
             UpdateMax(_max);
         }
-		//Debug.Log(Bar_Steps.Count);
+		//MDebug.Log(Bar_Steps.Count);
         for (int i = 0; i < Bar_Steps.Count; i++)
         {
             Color color = Color.magenta;
@@ -97,7 +97,7 @@ public class UnitBar : MonoBehaviour {
     }
     void SetAdrenalineRushPreview(int at_nunmber, int adrenaline_count)
     {
-        // Debug.Log(at_nunmber + " " + adrenaline_count);
+        // MDebug.Log(at_nunmber + " " + adrenaline_count);
              
         if(adrenaline_count >= Constants.ADRENALINE_RUSH_THRESHOLD)
         {

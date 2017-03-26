@@ -28,11 +28,13 @@ public class AnimationCallbackCaster : MonoBehaviour {
 
     public void AbilityCallback(string id)
     {
-      //  Debug.Log("Callback " + id);
+      //  MDebug.Log("Callback " + id);
         if (OnAbilityTrigger != null)
         {
             OnAbilityTrigger(id);
         }
       
     }
+
+
 }

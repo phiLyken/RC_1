@@ -75,7 +75,7 @@ public class UI_AnchoredList : MonoBehaviour {
 
     Vector3 GetTargetSlotPos(int pos)
     {
-        //  Debug.Log(pos +" "+anchors.Count);
+        //  MDebug.Log(pos +" "+anchors.Count);
         return anchors[pos].position;
     }
 

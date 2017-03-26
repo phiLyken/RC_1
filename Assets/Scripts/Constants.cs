@@ -19,19 +19,19 @@ public class Constants : MonoBehaviour {
         int damage = _damage.GetDamage();
         float aggroChance = Mathf.Clamp(0.5f + damage * 0.1f - distance * 0.05f, 0.1f, 1f);
 
-        Debug.Log("^units AggroChance: " + aggroChance);
+        MDebug.Log("^units AggroChance: " + aggroChance);
         return aggroChance;  
     }
 
     /// <summary>
     /// How close a player unit must come before the an enemy AI is activated and added to the turn system
     /// </summary>
-    public static float UNIT_ACTIVATION_RANGE = 15;
+    public static float UNIT_ACTIVATION_RANGE = 12;
 
     /// <summary>
     /// Turn time added to the unit when turn is skipped
     /// </summary>
-    public static float SKIP_TURN_TIME = 5;
+    public static float SKIP_TURN_TIME = 4;
 
     /// <summary>
     /// How close a player unit must come before the an enemy AI is activated and added to the turn system
@@ -81,7 +81,7 @@ public class Constants : MonoBehaviour {
     /// <summary>
     /// The range in tiles that the world crumble has (counted from the last not crumbling row)
     /// </summary>
-    public static int CrumbleRange = 10;
+    public static int CrumbleRange = 8;
 
     /// <summary>
     /// How high is the chance that an AI will switch preferred target to a different (attackable) target 
@@ -106,22 +106,8 @@ public class Constants : MonoBehaviour {
     /// <summary>
     /// How far can an AI patrol around its start tile?
     /// </summary>
-    public static float AI_PATROL_DISTANCE = 2f;
+    public static float AI_PATROL_DISTANCE = 3f;
 
-
-
-    /// <summary>
-    /// How much dust the player will get when looting 
-    /// base amount is determined randomly upon looting and depends on the loot category
-    /// player level is the number of checkpoints reached (start counts as 1)
-    /// </summary>
-    /// <param name="base_amount"></param>
-    /// <param name="regionDifficulty"></param>
-    /// <returns></returns>
-    public static int GetDustForProgress(int base_amount, int regionDifficulty)
-    {
-        return base_amount * (int)Mathf.Pow(2,regionDifficulty-1);
-    }
 
     /// <summary>
     /// return the Adrenalinebonus used for increasing damage / effect-impacts based on adrenaline
@@ -171,15 +157,32 @@ public class Constants : MonoBehaviour {
         return GetGainedAdrenaline(unit.Stats, rolls);
     }
 
+    /// <summary>
+    /// How much dust the player will get when looting 
+    /// base amount is determined randomly upon looting and depends on the loot category
+    /// player level is the number of checkpoints reached (start counts as 1)
+    /// </summary>
+    /// <param name="base_amount"></param>
+    /// <param name="regionDifficulty"></param>
+    /// <returns></returns>
+    public static int GetDustForProgress(int base_amount, int regionDifficulty)
+    {
+        return base_amount * (int)Mathf.Pow(2, regionDifficulty - 1);
+    }
+
+
     public static float GetSupplyBonus(int start_unit_count, int evacuated_count, int kia_count, int difficulty)
     {
-        return 0.5f + ((evacuated_count - kia_count) / Mathf.Max(1, start_unit_count)) * 0.5f + difficulty * 0.25f;
+
+        return 0.5f + ((((difficulty - 1f) * 0.25f) + 1f) * (evacuated_count / Mathf.Max(1f, start_unit_count)));
+        /// old function
+        /// return 0.5f + ((evacuated_count - kia_count) / Mathf.Max(1, start_unit_count)) * 0.5f + difficulty * 0.25f;
     }
 
     public static int GetAttackTimeDelay(float base_delay_from_stats, float delay_from_weapon)
     {
         int time_cost = (int) (base_delay_from_stats + delay_from_weapon);
-        //Debug.Log(" Attack Cost Calculation :" + time_cost);
+        //MDebug.Log(" Attack Cost Calculation :" + time_cost);
         return time_cost;
     }
 

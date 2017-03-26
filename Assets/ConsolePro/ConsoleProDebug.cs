@@ -17,7 +17,7 @@ public static class ConsoleProDebug
 	// Ex: ConsoleProDebug.LogToFilter("Hi", "CustomFilter");
 	public static void LogToFilter(string inLog, string inFilterName)
 	{
-		Debug.Log(inLog + "\nCPAPI:{\"cmd\":\"Filter\" \"name\":\"" + inFilterName + "\"}");
+		MDebug.Log(inLog + "\nCPAPI:{\"cmd\":\"Filter\" \"name\":\"" + inFilterName + "\"}");
 	}
 
 	// Watch a variable. This will only produce one log entry regardless of how many times it is logged, allowing you to track variables without spam.
@@ -27,7 +27,7 @@ public static class ConsoleProDebug
 	// }
 	public static void Watch(string inName, string inValue)
 	{
-		Debug.Log(inName + " : " + inValue + "\nCPAPI:{\"cmd\":\"Watch\" \"name\":\"" + inName + "\"}");
+		MDebug.Log(inName + " : " + inValue + "\nCPAPI:{\"cmd\":\"Watch\" \"name\":\"" + inName + "\"}");
 	}
 
 	// Reflection calls to access Console Pro from runtime

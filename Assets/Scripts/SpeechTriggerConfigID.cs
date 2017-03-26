@@ -13,7 +13,7 @@ public class SpeechTriggerConfigID : ScriptableObject
 
         if (_speech != null && M_Math.Roll(_speech.Chance))
         {
-            return WeightableFactory.GetWeighted(_speech.Speeches);
+            return M_Weightable.GetWeighted(_speech.Speeches);
         }
 
         return null;

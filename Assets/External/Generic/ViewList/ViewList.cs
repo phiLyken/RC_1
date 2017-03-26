@@ -40,7 +40,7 @@ public class ViewList<Item, View> where View : Component
         {
             foreach (var pair in views)
                 GameObject.Destroy(pair.Value.gameObject);
-            //  Debug.Log("clear view list");
+            //  MDebug.Log("clear view list");
             views = null;
         }
         RemoveViewCallback = _removeCallback;
@@ -78,7 +78,7 @@ public class ViewList<Item, View> where View : Component
 
         if (items != null && items.Count > 0)
         {
-            //Debug.Log(items.Count + " " +views.Count);
+            //MDebug.Log(items.Count + " " +views.Count);
             if (views.Count > 0)
             {
                 to_create = items.Where(item => !views.ContainsKey(item)).ToList();
@@ -114,7 +114,7 @@ public class ViewList<Item, View> where View : Component
         else
         {
             viewstoDelete = views.Select(pair => pair.Value).ToList();
-            Debug.Log("views to delete " + viewstoDelete.Count);
+            MDebug.Log("views to delete " + viewstoDelete.Count);
         }
 
         viewstoDelete.ForEach(item => {

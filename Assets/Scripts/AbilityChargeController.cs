@@ -59,7 +59,7 @@ public class AbilityChargeController
     {
         bool r = !useCharges || GetChargesForType() > 0;
        /* if (!r)
-            Debug.Log("No Charges");*/
+            MDebug.Log("No Charges");*/
         return r;
     }
 

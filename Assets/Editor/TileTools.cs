@@ -160,7 +160,7 @@ class TileTools : EditorWindow
    
             TileWeighted.GetCrumbleTiles(20,Grid).ForEach(t =>t.StartCrumble());
 
-            //  Debug.Log(Grid.GetLastActiveRow());
+            //  MDebug.Log(Grid.GetLastActiveRow());
            
             Grid.GetTileList().ForEach(t => t.OnCrumbleTurn(0));
             SceneView.RepaintAll();
@@ -240,7 +240,7 @@ class TileTools : EditorWindow
             if (GUILayout.Button("Select Row"))
             {
 
-                Debug.Log(Grid.GetRow(selectedTile));
+                MDebug.Log(Grid.GetRow(selectedTile).ToString());
 
                 CurrentTileSelection.AddRange(Grid.GetRow(selectedTile));
                 SelectCurrentTilesInEditor();               
@@ -275,10 +275,10 @@ class TileTools : EditorWindow
     
     void OnSelectionChange()
     {
-        //Debug.Log("selected "+Selection.objects.Length);
+        //MDebug.Log("selected "+Selection.objects.Length);
         List<Tile> editorTiles = GetTilesInEditorSelection();
 
-        //Debug.Log("tiles selected:" + editorTiles.Count) ;
+        //MDebug.Log("tiles selected:" + editorTiles.Count) ;
        
 
         //remove tiles that are not selected anymore
@@ -304,7 +304,7 @@ class TileTools : EditorWindow
                 {
                     if (!CurrentTileSelection.Contains(t))
                     {
-                      //  Debug.Log("add tile to selected");
+                      //  MDebug.Log("add tile to selected");
                         CurrentTileSelection.Add(t);
                     }
                 }

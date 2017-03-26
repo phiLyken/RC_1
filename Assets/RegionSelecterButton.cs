@@ -21,12 +21,12 @@ public class RegionSelecterButton : UI_ButtonGetSet<RegionConfigDataBase>
 
     public override void Updated()
     {
-     //   Debug.Log("set item");
+     //   MDebug.Log("set item");
     }
     
     protected override void OnSet(RegionConfigDataBase item)
     {
-        //    Debug.Log("set item");
+        //    MDebug.Log("set item");
         GetComponent<LayoutElement>().preferredWidth += item.AllPools.Count * 5;
         TF.text = item.SelectionName;
         Locked.SetActive(!item.IsUnlocked());

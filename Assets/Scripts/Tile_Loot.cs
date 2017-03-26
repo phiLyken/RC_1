@@ -27,7 +27,7 @@ public class Tile_Loot : MonoBehaviour {
         Tile t = gameObject.GetComponent<Tile>();
         crate.transform.position = t.GetPosition();
         crate.transform.SetParent(t.transform, true);
-        LootContentConfig content = WeightableFactory.GetWeighted(loot.Drops);
+        LootContentConfig content = M_Weightable.GetWeighted(loot.Drops);
         
 
         int amount = (int) content.BaseAmount.Value();
@@ -96,7 +96,7 @@ public class Tile_Loot : MonoBehaviour {
         int lootable_amount = Mathf.Min(inv.GetMax(item_lootable.GetItemType()) - inv.ItemCount(item_lootable.GetItemType()), amount);
         
 
-        Debug.Log("loot amount =" + amount + " lootable =" + lootable_amount + " max=" + inv.GetMax(item_lootable.GetItemType()));
+        MDebug.Log("loot amount =" + amount + " lootable =" + lootable_amount + " max=" + inv.GetMax(item_lootable.GetItemType()));
 
         return lootable_amount;
     }
@@ -116,7 +116,7 @@ public class Tile_Loot : MonoBehaviour {
         if (item_lootable.GetCount() == 0)
         {
             StartCoroutine(M_Math.ExecuteDelayed(2f, RemoveLoot));
-           // Debug.Log("^loot removing loot soon");
+           // MDebug.Log("^loot removing loot soon");
         }
 
     }

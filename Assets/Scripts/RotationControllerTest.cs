@@ -15,7 +15,7 @@ public class RotationControllerTest : MonoBehaviour {
    
     void CB()
     {
-        Debug.Log(" turned");
+        MDebug.Log(" turned");
     }
 
    

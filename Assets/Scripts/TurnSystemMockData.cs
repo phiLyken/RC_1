@@ -88,12 +88,12 @@ public class TurnSystemMockData : MonoBehaviour {
 
         public void StartTurn()
         {
-            Debug.Log("Start Turn");
+            MDebug.Log("Start Turn");
         }
 
         public void EndTurn()
         {
-            Debug.Log("End Turn");
+            MDebug.Log("End Turn");
         }
 
         public void GlobalTurn(int turn)

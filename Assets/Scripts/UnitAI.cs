@@ -62,7 +62,7 @@ public class UnitAI : MonoBehaviour, ITriggerable {
 
         if (!_triggered)
         {
-            Debug.Log(dmg.Instigator);
+            MDebug.Log(dmg.Instigator.ToString());
             Trigger(dmg.Instigator as Unit);
         } else
         {
@@ -80,12 +80,12 @@ public class UnitAI : MonoBehaviour, ITriggerable {
 
     IEnumerator Attack(Unit target)
     {
-       // Debug.Log("ai: attack");
+       // MDebug.Log("ai: attack");
        
         yield return null;
-        //   Debug.Log(m_unit.GetID() + " Selecting atk");
+        //   MDebug.Log(m_unit.GetID() + " Selecting atk");
         UnitAction_ApplyEffectFromWeapon Attack = getAttack();
-       // Debug.Log(target);
+       // MDebug.Log(target);
         if (Attack  == null || !Attack.HasRequirements(true))
         {
           
@@ -105,7 +105,7 @@ public class UnitAI : MonoBehaviour, ITriggerable {
     IEnumerator MovePatrol()
     {
         Tile patrolDest = GetPatrolTile(m_unit.currentTile);
-        Debug.Log("^aiPatrol");
+        MDebug.Log("^aiPatrol");
         if(patrolDest != null)
         {
             yield return StartCoroutine( Move(patrolDest)) ;
@@ -119,7 +119,7 @@ public class UnitAI : MonoBehaviour, ITriggerable {
 
     IEnumerator MoveRandom()
     {
-        Debug.Log("^ai: random");
+        MDebug.Log("^ai: random");
         UnitAction_Move move = getMove();
       
         Tile randomDest = GetRandomWalkableTile(move);
@@ -140,26 +140,26 @@ public class UnitAI : MonoBehaviour, ITriggerable {
 
     IEnumerator Move(Tile t)
     {
-        Debug.Log("^aiMOVE");
+        MDebug.Log("^aiMOVE");
         yield return null;
-      //  Debug.Log(m_unit.GetID()+ "Selecting move");
+      //  MDebug.Log(m_unit.GetID()+ "Selecting move");
         UnitAction_Move move = getMove();
         m_Actions.SelectAbility(move);
 
         if (move == null || !move.HasRequirements(true))
         {
-            Debug.Log("^ai no move, no requirements");
+            MDebug.Log("^ai no move, no requirements");
             yield break;
 
         }
 
         yield return new WaitForSeconds(0.5f);
-        Debug.Log("^aihover tile to for move ");
+        MDebug.Log("^aihover tile to for move ");
 
         t.OnHover();
         yield return new WaitForSeconds(0.5f);
 
-        Debug.Log("^aiSelect tile to for move ");
+        MDebug.Log("^aiSelect tile to for move ");
         TileSelecter.SelectTile(t);
         t.OnHoverEnd();
         while (move.ActionInProgress)
@@ -255,7 +255,7 @@ public class UnitAI : MonoBehaviour, ITriggerable {
     Tile GetPatrolTile(Tile start)
     {
         List<Tile> tiles_in_range = TileManager.Instance.GetRandomTilesAroundCenter(start, Constants.AI_PATROL_DISTANCE);
-      //  Debug.Log("PATROL query tiles in range = " + tiles_in_range.Count);
+      //  MDebug.Log("PATROL query tiles in range = " + tiles_in_range.Count);
         tiles_in_range.RemoveAll(t => !t.isAccessible || !t.isEnabled || t.isCamp || t.isCrumbling);
 
         return M_Math.GetRandomObject(tiles_in_range);
@@ -276,7 +276,7 @@ public class UnitAI : MonoBehaviour, ITriggerable {
 
             yield return null;
         }
-       // Debug.Log("Ai ended");
+       // MDebug.Log("Ai ended");
 
     }
  
@@ -295,7 +295,7 @@ public class UnitAI : MonoBehaviour, ITriggerable {
             weight /= Mathf.Max(1, t.CrumbleStage * 5);
 
             weighted_tiles.Add(new GenericWeightable<Tile>(weight,t));
-            //Debug.Log(weight);
+            //MDebug.Log(weight);
         }
 
         if(weighted_tiles.Count == 0)
@@ -310,16 +310,16 @@ public class UnitAI : MonoBehaviour, ITriggerable {
 
     IEnumerator AttackOrMove()
     {
-        Debug.Log("What to do..`?");
+        MDebug.Log("What to do..`?");
 
         UnitAction_ApplyEffectFromWeapon attack = getAttack();
         UnitAction_Move move = getMove();
 
         //dictionary of all units and the paths by which they are attackable
         Dictionary<Unit, List<List<Tile>>> attack_map = GetPathMapForTargets();
-        Debug.Log("^aiAttack Map Count:" + attack_map.Count);
+        MDebug.Log("^aiAttack Map Count:" + attack_map.Count);
         List<Unit> units_attackable = Unit.GetAllUnitsOfOwner(0, false).Where(unit => attack.CanTarget(unit)).ToList();
-        Debug.Log("^aiAttackable " + units_attackable.Count);
+        MDebug.Log("^aiAttackable " + units_attackable.Count);
         List<Unit> units_move_attackable = attack_map.Where(kvp => CanFinishPathInMoves(1, kvp.Value)).Select(kvp => kvp.Key).ToList();
         List<Unit> units_movable = attack_map.Where(kvp => !units_move_attackable.Contains(kvp.Key)).Select(kvp => kvp.Key).ToList();
               
@@ -337,7 +337,7 @@ public class UnitAI : MonoBehaviour, ITriggerable {
            
         if (!units_attackable.Contains(preferred_target) && (!units_attackable.IsNullOrEmpty() && ( !attack_map.ContainsKey(preferred_target) || M_Math.Roll( Constants.AI_TARGET_SWITCH_WHEN_OUT_OF_ATTACK_RANGE))))
         {
-            Debug.Log("^ainew Prefferred  from" + units_attackable.Count);
+            MDebug.Log("^ainew Prefferred  from" + units_attackable.Count);
             preferred_target = M_Math.GetRandomObject(units_attackable );
            
         }
@@ -445,7 +445,7 @@ public class UnitAI : MonoBehaviour, ITriggerable {
            
         } else if(m_Actions.HasAP(2) && M_Math.Roll( Constants.AI_PATROL_CHANCE ) && m_unit.Stats.GetStatAmount(StatType.move_range) > 0)
         {
-            Debug.Log("^aiPATROL");
+            MDebug.Log("^aiPATROL");
             yield return StartCoroutine(MovePatrol());
         } else
         {
@@ -459,7 +459,7 @@ public class UnitAI : MonoBehaviour, ITriggerable {
 
     void SkipTurn()
     {
-        Debug.Log("^ai skip turn");
+        MDebug.Log("^ai skip turn");
         m_unit.SkipTurn();
     }
 
@@ -480,7 +480,7 @@ public class UnitAI : MonoBehaviour, ITriggerable {
 
         if(triggerer != null)
         {
-            Debug.Log("^ai OnTrigger " + triggerer.name);
+            MDebug.Log("^ai OnTrigger " + triggerer.name);
             m_unit.GetComponent<UnitRotationController>().TurnToPosition(triggerer.transform);
             SetPreferredTarget(triggerer);
         }

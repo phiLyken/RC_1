@@ -48,7 +48,7 @@ public class TilePathFinder
             return;
         } else
         {
-         //   Debug.Log(_manager.name);
+         //   MDebug.Log(_manager.name);
         }
         //	m_collisiongrid = new bool[width,height];
         manager = _manager;
@@ -61,7 +61,7 @@ public class TilePathFinder
 		for(int i = 0; i < width + height; i++)
 			m_open[i] = new List<Node>();
 
-       // Debug.Log("new path finder " + width + " " + height);
+       // MDebug.Log("new path finder " + width + " " + height);
 	}
 	
 
@@ -123,22 +123,22 @@ public class TilePathFinder
 			
            
 			if(top && right){	
-				//Debug.Log("Check Diagonal");
+				//MDebug.Log("Check Diagonal");
 				Visit(n, n.x + 1,	n.y + 1, u);
 			}
 			
 			if(right && bottom){
-			//	Debug.Log("Check Diagonal");
+			//	MDebug.Log("Check Diagonal");
 				Visit(n, n.x + 1,	n.y - 1, u);
 			}
 			
 			if(bottom && left){
-			//	Debug.Log("Check Diagonal");
+			//	MDebug.Log("Check Diagonal");
 				Visit(n, n.x - 1,	n.y - 1, u);
 			}
 			
 			if(left && top){
-			//	Debug.Log("Check Diagonal");
+			//	MDebug.Log("Check Diagonal");
 				Visit(n, n.x - 1,	n.y + 1, u);
 			}
 						

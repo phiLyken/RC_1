@@ -101,13 +101,13 @@ public class ActionManager : MonoBehaviour {
 
     public int GetAPLeft()
     {
-       // Debug.Log((MaxAP - AP_Used).ToString());
+       // MDebug.Log((MaxAP - AP_Used).ToString());
         return (MaxAP - AP_Used);
     }
 
     public void Reset()
     {
-       //hello world Debug.Log("Resetting action manager");
+       //hello world MDebug.Log("Resetting action manager");
         UnsetCurrentAction();
        
         CurrentTurnCost = 0;
@@ -121,21 +121,21 @@ public class ActionManager : MonoBehaviour {
         bool r = GetAPLeft() >= ap;
         if (!r)
         {
-          //  Debug.Log("not enough AP");
+          //  MDebug.Log("not enough AP");
         }
         return r;
     }
 
     public void SkipTurn()
     {       
-        Debug.Log("Skip");
+        MDebug.Log("Skip");
         AP_Used = MaxAP;
         CurrentTurnCost = 5;
     }
 
     public void Evacuate()
     {
-        Debug.Log("^unit EVAC");
+        MDebug.Log("^unit EVAC");
         if(!GetOwner().Evacuate()){
             ToastNotification.SetToastMessage2("Must be in Evacuation zone");
         }
@@ -158,6 +158,8 @@ public class ActionManager : MonoBehaviour {
 
         if (Input.GetMouseButtonDown(1))
         {
+            if(currentAction != null &&  GetOwnerID() == 0)
+                SoundManager.PlayAtSourceTag("SoundSFXSource", "sfx_" + SoundManager.Presets.ability_cancel.ToString());
             UnsetCurrentAction();
         }
        
@@ -169,11 +171,13 @@ public class ActionManager : MonoBehaviour {
 
         if (Unit.SelectedUnit != m_Owner || !HasAP() || IsAnimationPlaying() || m_Owner.IsDead())
         {
-            Debug.Log("^abilityCould not select ability " + ability.GetActionID());
+            MDebug.Log("^abilityCould not select ability " + ability.GetActionID());
             return null;
         }
         if (currentAction != null && currentAction == ability)
         {
+            if (GetOwnerID() == 0)
+                SoundManager.PlayAtSourceTag("SoundSFXSource", "sfx_" + SoundManager.Presets.ability_cancel.ToString());
             UnsetCurrentAction();
             return null;
         }
@@ -182,7 +186,9 @@ public class ActionManager : MonoBehaviour {
         UnsetCurrentAction();
         if (!ability.CanExecAction(true))
         {
-            Debug.Log("^abilitycan not execute ability " + ability.GetActionID());
+            MDebug.Log("^abilitycan not execute ability " + ability.GetActionID());
+            if (GetOwnerID() == 0)
+                SoundManager.PlayAtSourceTag("SoundSFXSource", "sfx_" + SoundManager.Presets.error.ToString());
             return null;
         }
         ToastNotification.StopToast();
@@ -192,7 +198,8 @@ public class ActionManager : MonoBehaviour {
         currentAction.OnActionComplete += onComplete;
         currentAction.OnTarget += TargetedAction;
         currentAction.SelectAction();
-       
+        if(GetOwnerID() == 0)
+            SoundManager.PlayAtSourceTag("SoundSFXSource", "sfx_" + SoundManager.Presets.ability_select.ToString());
 
         if (OnActionSelected != null) OnActionSelected(currentAction);
         return currentAction;
@@ -207,8 +214,8 @@ public class ActionManager : MonoBehaviour {
         currentAction.OnActionStart -= OnActionUsed;
         
         currentAction.OnTarget -= TargetedAction;
-        currentAction = null;    
-
+        currentAction = null;
+       
         if (OnActionUnselected != null) OnActionUnselected(currentAction);
    
 
@@ -234,16 +241,21 @@ public class ActionManager : MonoBehaviour {
         UnsetCurrentAction();
         if (OnActionStarted != null) OnActionStarted(action);
 
-        // Debug.Log(Owner.GetID() + " Action used" + action.ActionID);
+        // MDebug.Log(Owner.GetID() + " Action used" + action.ActionID);
        
     }
 
     void TargetedAction(UnitActionBase b, Transform tgt)
     {
-       // Debug.Log("targeted action");
+       // MDebug.Log("targeted action");
         if(OnTargetAction != null)
         {
             OnTargetAction(b, tgt);
+        }
+
+        if(GetOwnerID() == 0)
+        {
+            SoundManager.PlayAtSourceTag("SoundSFXSource", "sfx_" + SoundManager.Presets.ability_confirm);
         }
     }
 

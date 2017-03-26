@@ -69,7 +69,7 @@ public class WaypointMover : MonoBehaviour {
 	IEnumerator PatrolWaypoints(List<WaypointInfo> CurrentMoveWaypoints)
     {
 
-       // Debug.Log(CurrentMoveWaypoints.Count);
+       // MDebug.Log(CurrentMoveWaypoints.Count);
 		int currentIndex = 0;
         Moving = true;
         while (currentIndex < CurrentMoveWaypoints.Count) {

@@ -47,6 +47,7 @@ public class WorldExtender_Tutorial  : WorldExtender{
         SetSpawnConfigs(region);
         SpawnNext();
         SpawnNext();
+        PlayAmbient();
 
     }
 

@@ -19,7 +19,7 @@ public class  UnitAction_TargetPreview <T>: UnitAction_TargetPreviewBase where T
 
         highlights = new Dictionary<T, TargetHighLight>();
 
-       // Debug.Log("Preview " + objects.Count + " ");
+       // MDebug.Log("Preview " + objects.Count + " ");
         foreach (T obj in targetables)
         {
             TargetHighLight highlight = Instantiate(highlight_prefab).GetComponent<TargetHighLight>();

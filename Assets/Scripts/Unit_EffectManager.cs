@@ -33,27 +33,27 @@ public class Unit_EffectManager : MonoBehaviour {
                     new_effect.SetDurationAlive(duplicate_duration);
                     new_effect.MaxDuration = duplicate_duration + new_effect.GetMaxDuration();
 
-;                    Debug.Log("^effects Removing Duplicate " + duplicate_on_unit.ToString());
+;                    MDebug.Log("^effects Removing Duplicate " + duplicate_on_unit.ToString());
                     ActiveEffects.Remove(duplicate_on_unit);
                     Destroy(duplicate_on_unit);                    
                 }                
             }  
 
             ActiveEffects.Add(new_effect);
-            Debug.Log("^effects Added Effect to " + m_Unit.GetID()+" \n" + new_effect.ToString());
+            MDebug.Log("^effects Added Effect to " + m_Unit.GetID()+" \n" + new_effect.ToString());
             new_effect.OnEffectTick += OnEffectTick;
 
-            //Debug.Log(" EFFECT_ADDED " + new_effect.GetShortHandle());
+            //MDebug.Log(" EFFECT_ADDED " + new_effect.GetShortHandle());
             new_effect.OnEffectExpired += OnEffectExpired;
 
             if (OnEffectAdded != null) OnEffectAdded(new_effect);
             return true;
         } else
         {
-            Debug.Log("^effects Already has this effect");
+            MDebug.Log("^effects Already has this effect");
         }
 
-        Debug.Log("^effects COULD NOT ADD EFFECT " + new_effect.ToString());
+        MDebug.Log("^effects COULD NOT ADD EFFECT " + new_effect.ToString());
         return false;
     }
 
@@ -83,7 +83,7 @@ public class Unit_EffectManager : MonoBehaviour {
         effect.OnEffectExpired -= OnEffectRemoved;
         effect.OnEffectTick -= OnEffectTick;
         effect.OnEffectExpired -= OnEffectExpired;
-        Debug.Log("^effects EFFECT EXPIRED " + effect.ToString());
+        MDebug.Log("^effects EFFECT EXPIRED " + effect.ToString());
         ActiveEffects.Remove(effect);
 
     }

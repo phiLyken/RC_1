@@ -46,7 +46,7 @@ public class TurnEventQueue  {
             if (events == null)
                 events = new List<TurnEvent>();
 
-            //Debug.Log("Event Started");
+            //MDebug.Log("Event Started");
             events.Add(this);
         }
         public virtual void StartEvent()
@@ -58,7 +58,7 @@ public class TurnEventQueue  {
         {
            
             events.Remove(this);
-            //Debug.Log("Event Ended  remaining   "+events.Count);
+            //MDebug.Log("Event Ended  remaining   "+events.Count);
  
             if(callback != null)
                 callback();
@@ -122,7 +122,7 @@ public class TurnEventQueue  {
             target = _target;
             rotator = ai.GetComponentInChildren<UnitRotationController>();
             animator = ai.GetComponentInChildren<UnitAnimationController>();
-            Debug.Log("Turnevent Queue start aggro");
+            MDebug.Log("Turnevent Queue start aggro");
             Execute(0);
         }
 
@@ -130,7 +130,7 @@ public class TurnEventQueue  {
         {
             base.StartEvent();
             rotator.TurnToPosition(target.transform, () => animator.PlayAnimation(UnitAnimationTypes.bAggro, EndEvent));
-            Debug.Log("Turnevent Queue execute aggro");
+            MDebug.Log("Turnevent Queue execute aggro");
             
 
         }

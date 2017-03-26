@@ -144,7 +144,7 @@ public class CompletionStack  <T>  where T : ICompletable{
     }
     public void Add(T completable, int index)
     {
-       // Debug.Log(completable);
+       // MDebug.Log(completable);
         completable.OnComplete += complete_callbacks.Add(completable);
         completable.OnCancel += cancel_callbacks.Add(completable);
 

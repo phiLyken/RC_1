@@ -12,7 +12,7 @@ public class GlobalUpdateDispater_Test : MonoBehaviour {
 
     void OnUpdate(float f)
     {
-       // Debug.Log(f);
+       // MDebug.Log(f);
     }
 
 

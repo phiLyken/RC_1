@@ -53,7 +53,7 @@ public class SceneLoader : MonoBehaviour {
         // While the asynchronous operation to load the new scene is not yet complete, continue waiting until it's done.
         while (!async.isDone)
         {
-            Debug.Log(async.progress+ " "+Time.time);
+            MDebug.Log(async.progress+ " "+Time.time);
             yield return null;
         }
 

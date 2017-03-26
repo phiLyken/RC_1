@@ -26,7 +26,7 @@ public class UnitSelecterButton : UI_ButtonGetSet<Unlockable<TieredUnit>> {
 
     public override void SetItem(Unlockable<TieredUnit> item, Action<Unlockable<TieredUnit>> button_Callback)
     {
-       // Debug.Log("SetItem " + item.Item.Tiers[0].Config.ID);
+       // MDebug.Log("SetItem " + item.Item.Tiers[0].Config.ID);
         base.SetItem(item, button_Callback);
         ClassNameTF.text = item.Item.Tiers[0].Config.ID;
         Portrait.Init(item.Item.Tiers[0].Config, Color.white);

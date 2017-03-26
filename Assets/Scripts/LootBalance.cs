@@ -51,7 +51,7 @@ public class LootBalance : MonoBehaviour {
         
         if(edc != null && edc.DropChance >= UnityEngine.Random.value)
         { 
-            return WeightableFactory.GetWeighted(edc.Configs).config;
+            return M_Weightable.GetWeighted(edc.Configs).config;
         } else
         {
             Debug.LogWarning("Could not find enemy drop config for " + drop+ " configs="+EnemyDropConfigs.Count);

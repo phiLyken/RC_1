@@ -13,9 +13,10 @@ public interface IWeightable  {
 	
 }
 
+[System.Serializable]
 public class GenericWeightable<T> : IWeightable
 {
-    float weight;
+    public float weight;
     public T Value;
 
     float IWeightable.Weight
@@ -37,5 +38,9 @@ public class GenericWeightable<T> : IWeightable
         Value = obj;
     }
 
+    public GenericWeightable()
+    {
+
+    }
    
 }
