@@ -31,7 +31,7 @@ public class Constants : MonoBehaviour {
     /// <summary>
     /// Turn time added to the unit when turn is skipped
     /// </summary>
-    public static float SKIP_TURN_TIME = 5;
+    public static float SKIP_TURN_TIME = 4;
 
     /// <summary>
     /// How close a player unit must come before the an enemy AI is activated and added to the turn system
@@ -106,7 +106,7 @@ public class Constants : MonoBehaviour {
     /// <summary>
     /// How far can an AI patrol around its start tile?
     /// </summary>
-    public static float AI_PATROL_DISTANCE = 2f;
+    public static float AI_PATROL_DISTANCE = 3f;
 
 
     /// <summary>
@@ -174,7 +174,7 @@ public class Constants : MonoBehaviour {
     public static float GetSupplyBonus(int start_unit_count, int evacuated_count, int kia_count, int difficulty)
     {
 
-        return 0.5f + ((((difficulty - 1) * 0.25f) + 1) * (evacuated_count / Mathf.Max(1, start_unit_count)));
+        return 0.5f + ((((difficulty - 1f) * 0.25f) + 1f) * (evacuated_count / Mathf.Max(1f, start_unit_count)));
         /// old function
         /// return 0.5f + ((evacuated_count - kia_count) / Mathf.Max(1, start_unit_count)) * 0.5f + difficulty * 0.25f;
     }
