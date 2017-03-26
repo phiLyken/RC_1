@@ -38,5 +38,12 @@ public class TrackingManager  {
         Analytics.CustomEvent("mission_start_" + region.name, call);
     }
 
+    public static void TrackingCall_EasterEgg(string sub, int level)
+    {
+        Dictionary<string, object> call = new Dictionary<string, object>();
+
+        call["player_level"] = level;
+        Analytics.CustomEvent("easter_egg_" + sub, call);
+    }
     
 }
